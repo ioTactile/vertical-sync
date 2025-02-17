@@ -9,10 +9,7 @@ import {
 } from "@/modules/core/model/Article";
 
 export interface IArticleGateway {
-  getArticles: (
-    userId: string | undefined,
-    page?: number
-  ) => Promise<GetArticlesResponse>;
+  getArticles: (userId?: string, page?: number) => Promise<GetArticlesResponse>;
   getArticleBySlug: (slug: string) => Promise<GetArticleResponse>;
   getArticleById: (id: string) => Promise<GetArticleResponse>;
   createArticle: (article: CreateArticleDto) => Promise<{

@@ -7,9 +7,9 @@ import { columns } from "@/modules/react/sections/admin/articles/_components/col
 import { getFormatedDate } from "@/modules/core/utils/date";
 
 const Articles = () => {
-  const { data: articles } = useArticles();
+  const { data } = useArticles();
 
-  const articlesFormated = articles?.map((article) => ({
+  const articlesFormated = data?.articles.map((article) => ({
     ...article,
     createdAt: getFormatedDate(article.createdAt),
     updatedAt: getFormatedDate(article.updatedAt),

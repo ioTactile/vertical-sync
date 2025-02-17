@@ -5,7 +5,7 @@ import { usePaginationStore, useUserStore } from "@/modules/core/store/store";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useQueryState } from "nuqs";
 import { useCallback, useEffect, useMemo } from "react";
-import useArticles from "@/modules/core/hooks/use-articles";
+import useArticles from "@/modules/core/hooks/use-articles-page";
 
 const Pagination = () => {
   const { user } = useUserStore();

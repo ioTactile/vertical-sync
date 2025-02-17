@@ -37,7 +37,7 @@ type ArticleWithRelations = {
 
 export type GetArticlesResponse = {
   articles: ArticleWithRelations[];
-  total: number;
+  total?: number;
 };
 
 // One Article

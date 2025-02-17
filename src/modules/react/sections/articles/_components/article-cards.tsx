@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import useArticles from "@/modules/core/hooks/use-articles";
+import useArticles from "@/modules/core/hooks/use-articles-page";
 import ArticleCard from "@/modules/react/sections/articles/_components/article-card";
 
 import { usePaginationStore, useUserStore } from "@/modules/core/store/store";

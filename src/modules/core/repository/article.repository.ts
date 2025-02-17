@@ -12,10 +12,7 @@ import {
 } from "@/modules/core/model/Article";
 
 export interface IArticleRepository {
-  findMany(
-    userId: string | undefined,
-    page: number
-  ): Promise<GetArticlesResponse>;
+  findMany(userId?: string, page?: number): Promise<GetArticlesResponse>;
   findBySlug(slug: string): Promise<GetArticleResponse | null>;
   findById(id: string): Promise<GetArticleResponse | null>;
   create(data: CreateArticleDto): Promise<void>;
@@ -29,10 +26,7 @@ export interface IArticleRepository {
 }
 
 export class PrismaArticleRepository implements IArticleRepository {
-  async findMany(
-    userId: string | undefined,
-    page: number
-  ): Promise<GetArticlesResponse> {
+  async findMany(userId?: string, page?: number): Promise<GetArticlesResponse> {
     const articlesPromise = prisma.article.findMany({
       include: {
         author: true,
@@ -65,19 +59,28 @@ export class PrismaArticleRepository implements IArticleRepository {
       orderBy: {
         createdAt: "desc",
       },
-      skip: (page - 1) * 10,
-      take: 10,
+      skip: page ? (page - 1) * 10 : 0,
+      take: page ? 10 : undefined,
     });
-    const totalPromise = prisma.article.count();
 
-    const [articles, total] = await Promise.all([
-      articlesPromise,
-      totalPromise,
-    ]);
+    if (page) {
+      const totalPromise = prisma.article.count();
+
+      const [articles, total] = await Promise.all([
+        articlesPromise,
+        totalPromise,
+      ]);
+
+      return {
+        articles,
+        total,
+      };
+    }
+
+    const articles = await articlesPromise;
 
     return {
       articles,
-      total,
     };
   }
 

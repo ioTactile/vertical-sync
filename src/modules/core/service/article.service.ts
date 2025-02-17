@@ -19,8 +19,8 @@ export class ArticleService {
     userId,
     page,
   }: {
-    userId: string | undefined;
-    page: number;
+    userId?: string;
+    page?: number;
   }): Promise<GetArticlesResponse> {
     return await this.articleRepository.findMany(userId, page);
   }

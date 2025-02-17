@@ -12,14 +12,26 @@ import { axiosInstance } from "@/lib/globals";
 
 export class ApiArticleGateway implements IArticleGateway {
   async getArticles(
-    userId: string | undefined,
+    userId?: string,
     page?: number
   ): Promise<GetArticlesResponse> {
-    const response = await axiosInstance.get<GetArticlesResponse>("/api/blog", {
-      params: {
+    let params = {};
+
+    if (userId) {
+      params = {
         userId,
-        page: page ?? 1,
-      },
+      };
+    }
+
+    if (page) {
+      params = {
+        ...params,
+        page,
+      };
+    }
+
+    const response = await axiosInstance.get<GetArticlesResponse>("/api/blog", {
+      params,
     });
     return response.data;
   }

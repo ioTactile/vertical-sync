@@ -17,7 +17,7 @@ export class ArticleService {
 
   async getArticles({
     userId,
-    page = 1,
+    page,
   }: {
     userId: string | undefined;
     page: number;

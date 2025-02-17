@@ -13,12 +13,12 @@ import { axiosInstance } from "@/lib/globals";
 export class ApiArticleGateway implements IArticleGateway {
   async getArticles(
     userId: string | undefined,
-    page: number = 1
+    page?: number
   ): Promise<GetArticlesResponse> {
     const response = await axiosInstance.get<GetArticlesResponse>("/api/blog", {
       params: {
         userId,
-        page,
+        page: page ?? 1,
       },
     });
     return response.data;

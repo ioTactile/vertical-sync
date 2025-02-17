@@ -1,10 +1,11 @@
 import getArticles from "@/modules/core/queries/get-articles";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, keepPreviousData } from "@tanstack/react-query";
 
-const useArticles = (userId?: string) => {
+const useArticles = (userId?: string, page: number = 1) => {
   return useQuery({
-    queryKey: ["articles"],
-    queryFn: () => getArticles(userId),
+    queryKey: ["articles", { page }],
+    queryFn: () => getArticles(userId, page),
+    placeholderData: keepPreviousData,
   });
 };
 

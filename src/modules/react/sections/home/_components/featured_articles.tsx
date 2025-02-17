@@ -6,7 +6,7 @@ const FeaturedArticles = async () => {
       <h2 className="text-2xl md:text-3xl font-bold text-center mb-4">
         Articles récents
       </h2>
-      <ArticleCards />
+      <ArticleCards nbArticlesShown={3} />
     </div>
   );
 };

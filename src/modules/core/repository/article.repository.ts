@@ -33,7 +33,7 @@ export class PrismaArticleRepository implements IArticleRepository {
     userId: string | undefined,
     page: number
   ): Promise<GetArticlesResponse> {
-    return await prisma.article.findMany({
+    const articlesPromise = prisma.article.findMany({
       include: {
         author: true,
         articleTags: {
@@ -68,6 +68,17 @@ export class PrismaArticleRepository implements IArticleRepository {
       skip: (page - 1) * 10,
       take: 10,
     });
+    const totalPromise = prisma.article.count();
+
+    const [articles, total] = await Promise.all([
+      articlesPromise,
+      totalPromise,
+    ]);
+
+    return {
+      articles,
+      total,
+    };
   }
 
   async findBySlug(slug: string): Promise<GetArticleResponse | null> {

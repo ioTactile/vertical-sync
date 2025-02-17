@@ -11,7 +11,7 @@ import {
 export interface IArticleGateway {
   getArticles: (
     userId: string | undefined,
-    page: number
+    page?: number
   ) => Promise<GetArticlesResponse>;
   getArticleBySlug: (slug: string) => Promise<GetArticleResponse>;
   getArticleById: (id: string) => Promise<GetArticleResponse>;

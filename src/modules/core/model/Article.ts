@@ -35,7 +35,10 @@ type ArticleWithRelations = {
   };
 } & Article;
 
-export type GetArticlesResponse = ArticleWithRelations[];
+export type GetArticlesResponse = {
+  articles: ArticleWithRelations[];
+  total: number;
+};
 
 // One Article
 

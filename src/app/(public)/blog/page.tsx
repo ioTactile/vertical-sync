@@ -11,11 +11,12 @@ import {
 export default async function Articles({ searchParams }: PageProps) {
   const queryClient = new QueryClient();
   const user = await currentUser();
-  const page = ((await searchParams).page as string) ?? "1";
+
+  const page = parseInt((await searchParams).page as string) || 1;
 
   await queryClient.prefetchQuery({
-    queryKey: ["articles", { page: page }],
-    queryFn: () => getArticles(user?.id, parseInt(page)),
+    queryKey: ["articles", { page }],
+    queryFn: () => getArticles(user?.id, page),
   });
 
   return (

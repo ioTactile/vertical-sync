@@ -11,7 +11,7 @@ const footerLinks: FooterLink[] = [
     title: "Navigation",
     links: [
       { title: "Discussions", url: "/talks", icon: MessageSquareText },
-      { title: "Blog", url: "/blog", icon: Library },
+      { title: "Blog", url: "/blog?page=1", icon: Library },
     ],
   },
   {

@@ -28,7 +28,7 @@ import { useUserStore } from "@/modules/core/store/store";
 
 const mainMenuItems: NavigationItem<string>[] = [
   { title: "Discussions", url: "/talks", icon: MessageSquareText },
-  { title: "Blog", url: "/blog", icon: Library },
+  { title: "Blog", url: "/blog?page=1", icon: Library },
 ];
 
 const Header = () => {

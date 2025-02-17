@@ -3,7 +3,6 @@ import { articleGateway } from "@/modules/core/gateway-infra/api.article-gateway
 import { axiosInstance } from "@/lib/globals";
 import {
   mockArticle,
-  mockArticleComment,
   mockCreateArticleCommentDto,
   mockArticleDto,
   mockArticleLike,
@@ -13,6 +12,7 @@ import {
   mockDeleteArticleCommentDto,
 } from "@/__tests__/fixtures/article.fixture";
 import { beforeEach } from "node:test";
+import { mockUser } from "@/__tests__/fixtures/user.fixture";
 
 vi.mock("@/lib/globals", () => ({
   axiosInstance: {
@@ -34,9 +34,14 @@ describe("ArticleGateway", () => {
       data: mockArticles,
     });
 
-    const result = await articleGateway.getArticles();
+    const result = await articleGateway.getArticles(mockUser.id, 1);
     expect(result).toEqual(mockArticles);
-    expect(axiosInstance.get).toHaveBeenCalledWith("/api/blog");
+    expect(axiosInstance.get).toHaveBeenCalledWith("/api/blog", {
+      params: {
+        userId: mockUser.id,
+        page: 1,
+      },
+    });
   });
 
   it("devrait récupérer un article par son id", async () => {
@@ -126,11 +131,11 @@ describe("ArticleGateway", () => {
     });
 
     const result = await articleGateway.createArticleComment(
-      mockArticleComment
+      mockCreateArticleCommentDto
     );
     expect(result).toEqual(mockResponse);
     expect(axiosInstance.post).toHaveBeenCalledWith(
-      `/api/blog/${mockArticleComment.articleId}/comment`,
+      `/api/blog/${mockCreateArticleCommentDto.articleId}/comment`,
       mockCreateArticleCommentDto
     );
   });
@@ -168,10 +173,10 @@ describe("ArticleGateway", () => {
       data: mockResponse,
     });
 
-    const result = await articleGateway.createArticleLike(mockArticleLike);
+    const result = await articleGateway.createArticleLike(mockArticleLikeDto);
     expect(result).toEqual(mockResponse);
     expect(axiosInstance.post).toHaveBeenCalledWith(
-      `/api/blog/${mockArticleLike.articleId}/like`,
+      `/api/blog/${mockArticleLikeDto.articleId}/like`,
       mockArticleLikeDto
     );
   });

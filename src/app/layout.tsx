@@ -12,7 +12,7 @@ import { SITE_META_DESRIPTION, SITE_NAME } from "@/app/_constants/seo";
 import { cn } from "@/lib/utils";
 import NextTopLoader from "nextjs-toploader";
 import StoreInitializer from "@/app/_providers/store-initializer";
-
+import Footer from "@/app/_components/core/footer";
 export const metadata: Metadata = {
   title: SITE_NAME,
   description: SITE_META_DESRIPTION,
@@ -54,6 +54,8 @@ export default async function RootLayout({
               <Header />
 
               <main>{children}</main>
+
+              <Footer />
 
               <Toaster />
             </ThemeProvider>

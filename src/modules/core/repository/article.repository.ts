@@ -12,7 +12,10 @@ import {
 } from "@/modules/core/model/Article";
 
 export interface IArticleRepository {
-  findMany(userId?: string): Promise<GetArticlesResponse>;
+  findMany(
+    userId: string | undefined,
+    page: number
+  ): Promise<GetArticlesResponse>;
   findBySlug(slug: string): Promise<GetArticleResponse | null>;
   findById(id: string): Promise<GetArticleResponse | null>;
   create(data: CreateArticleDto): Promise<void>;
@@ -26,7 +29,10 @@ export interface IArticleRepository {
 }
 
 export class PrismaArticleRepository implements IArticleRepository {
-  async findMany(userId?: string): Promise<GetArticlesResponse> {
+  async findMany(
+    userId: string | undefined,
+    page: number
+  ): Promise<GetArticlesResponse> {
     return await prisma.article.findMany({
       include: {
         author: true,
@@ -59,6 +65,8 @@ export class PrismaArticleRepository implements IArticleRepository {
       orderBy: {
         createdAt: "desc",
       },
+      skip: (page - 1) * 10,
+      take: 10,
     });
   }
 

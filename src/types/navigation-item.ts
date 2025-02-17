@@ -7,3 +7,8 @@ export type NavigationItem<T extends string> = {
   url: Route<T> | URL;
   icon?: ComponentType<LucideProps>;
 };
+
+export type FooterLink = {
+  title: string;
+  links: NavigationItem<string>[];
+};

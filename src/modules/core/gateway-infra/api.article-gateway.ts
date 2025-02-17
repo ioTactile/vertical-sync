@@ -11,10 +11,14 @@ import { CreateArticleCommentDto } from "@/modules/core/model/Article";
 import { axiosInstance } from "@/lib/globals";
 
 export class ApiArticleGateway implements IArticleGateway {
-  async getArticles(userId?: string): Promise<GetArticlesResponse> {
+  async getArticles(
+    userId: string | undefined,
+    page: number = 1
+  ): Promise<GetArticlesResponse> {
     const response = await axiosInstance.get<GetArticlesResponse>("/api/blog", {
       params: {
         userId,
+        page,
       },
     });
     return response.data;

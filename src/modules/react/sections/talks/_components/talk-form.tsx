@@ -19,8 +19,11 @@ import {
   FormMessage,
 } from "@/app/_components/ui/form";
 import { useAuthAction } from "@/app/_hooks/use-auth-action";
+import { useRouter } from "next/navigation";
 
 const TalkForm = () => {
+  const router = useRouter();
+
   const form = useForm<CreateTalkInputs>({
     resolver: zodResolver(createTalkSchema),
     defaultValues: {
@@ -53,6 +56,7 @@ const TalkForm = () => {
       createTalkMutation.mutate(talk, {
         onSuccess: () => {
           reset();
+          router.push(`/talks`);
         },
       });
     });

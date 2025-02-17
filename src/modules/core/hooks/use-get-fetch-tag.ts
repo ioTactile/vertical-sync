@@ -11,9 +11,9 @@ export const useGetFetchQuery = (id?: string) => {
     enabled: !!id,
     initialData: () => {
       // Essayer de récupérer le tag depuis la liste complète des tags
-      const tags = queryClient.getQueryData<GetTagsResponse>(["tags"]);
-      if (tags) {
-        return tags.find((tag) => tag.id === id);
+      const cachedTags = queryClient.getQueryData<GetTagsResponse>(["tags"]);
+      if (cachedTags) {
+        return cachedTags.find((tag) => tag.id === id);
       }
 
       // Sinon, essayer de récupérer directement le tag individuel

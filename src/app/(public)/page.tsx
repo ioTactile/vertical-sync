@@ -1,5 +1,5 @@
 import getArticles from "@/modules/core/queries/get-articles";
-import ArticlesPage from "@/modules/react/pages/ArticlesPage";
+import HomePage from "@/modules/react/pages/HomePage";
 import { currentUser } from "@clerk/nextjs/server";
 import {
   dehydrate,
@@ -7,7 +7,7 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 
-export default async function Articles() {
+export default async function Home() {
   const queryClient = new QueryClient();
   const user = await currentUser();
 
@@ -18,7 +18,7 @@ export default async function Articles() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <ArticlesPage />
+      <HomePage />
     </HydrationBoundary>
   );
 }

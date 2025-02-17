@@ -12,6 +12,8 @@ import { SITE_META_DESRIPTION, SITE_NAME } from "@/app/_constants/seo";
 import { cn } from "@/lib/utils";
 import NextTopLoader from "nextjs-toploader";
 import StoreInitializer from "@/app/_providers/store-initializer";
+import Footer from "@/app/_components/core/footer";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 export const metadata: Metadata = {
   title: SITE_NAME,
@@ -43,20 +45,24 @@ export default async function RootLayout({
 
         <ClerkProvider signInUrl="/auth/sign-in" signUpUrl="/auth/sign-up">
           <ReactQueryClientProvider>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="system"
-              enableSystem
-              disableTransitionOnChange
-            >
-              <StoreInitializer />
+            <NuqsAdapter>
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+                disableTransitionOnChange
+              >
+                <StoreInitializer />
 
-              <Header />
+                <Header />
 
-              <main>{children}</main>
+                <main className="min-h-screen-minus-header">{children}</main>
 
-              <Toaster />
-            </ThemeProvider>
+                <Footer />
+
+                <Toaster />
+              </ThemeProvider>
+            </NuqsAdapter>
           </ReactQueryClientProvider>
         </ClerkProvider>
       </body>

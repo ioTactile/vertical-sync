@@ -1,21 +1,30 @@
 "use client";
 
 import * as React from "react";
-import useArticles from "@/modules/core/hooks/use-articles";
+import useArticles from "@/modules/core/hooks/use-articles-page";
 import ArticleCard from "@/modules/react/sections/articles/_components/article-card";
-import { Separator } from "@/app/_components/ui/separator";
-import { useUserStore } from "@/modules/core/store/store";
 
-const ArticleCards = () => {
+import { usePaginationStore, useUserStore } from "@/modules/core/store/store";
+import ArticleCardsSkeleton from "@/modules/react/sections/articles/_components/article-cards-skeleton";
+
+interface ArticleCardsProps {
+  nbArticlesShown?: number;
+}
+
+const ArticleCards = ({ nbArticlesShown = 10 }: ArticleCardsProps) => {
   const { user } = useUserStore();
-  const { data: articles } = useArticles(user?.id);
+  const { page } = usePaginationStore();
+  const { data, isPending } = useArticles(user?.id, page);
+
+  if (isPending) {
+    return <ArticleCardsSkeleton />;
+  }
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {articles?.map((article, index) => (
-        <React.Fragment key={article.slug}>
+      {data?.articles.slice(0, nbArticlesShown).map((article, index) => (
+        <React.Fragment key={index}>
           <ArticleCard article={article} />
-          {index < articles.length - 1 && <Separator />}
         </React.Fragment>
       ))}
     </div>

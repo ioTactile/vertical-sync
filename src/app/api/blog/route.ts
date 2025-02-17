@@ -5,7 +5,11 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get("userId") ?? undefined;
-    const articles = await articleService.getArticles(userId);
+    const page = searchParams.get("page") as string;
+    const articles = await articleService.getArticles({
+      userId: userId,
+      page: parseInt(page),
+    });
     return NextResponse.json(articles, { status: 200 });
   } catch (error) {
     return NextResponse.json(

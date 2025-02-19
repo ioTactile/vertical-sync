@@ -60,6 +60,12 @@ const TalkActionButton = ({ talkId, talkAuthorId }: TalkActionButtonProps) => {
     React.useState<boolean>(false);
   const [isMenuOpen, setIsMenuOpen] = React.useState<boolean>(false);
 
+  const handleStopPropagation = (
+    e: React.MouseEvent<HTMLDivElement | HTMLButtonElement>
+  ) => {
+    e.stopPropagation();
+  };
+
   const handleDelete = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     e.preventDefault();
@@ -88,17 +94,21 @@ const TalkActionButton = ({ talkId, talkAuthorId }: TalkActionButtonProps) => {
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
-          className="rounded-full h-8 w-8 p-0 ml-auto z-10"
+          className="absolute right-4 top-1 rounded-full h-6 w-6 p-0 ml-auto z-10"
+          onClick={handleStopPropagation}
         >
           <span className="sr-only">Ouvrir le menu</span>
           <MoreHorizontal className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent align="end" onClick={handleStopPropagation}>
         {user?.id !== talkAuthorId && (
           <Dialog open={isReportModalOpen} onOpenChange={setIsReportModalOpen}>
             <DialogTrigger asChild>
-              <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+              <DropdownMenuItem
+                onSelect={(e) => e.preventDefault()}
+                onClick={handleStopPropagation}
+              >
                 <Flag className="h-4 w-4 mr-2" />
                 Signaler le contenu
               </DropdownMenuItem>

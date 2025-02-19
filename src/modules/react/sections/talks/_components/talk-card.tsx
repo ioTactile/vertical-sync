@@ -19,9 +19,11 @@ const TalkCard = ({ talk }: TalkCardProps) => {
 
   return (
     <div
-      className="flex flex-col gap-3 bg-card rounded-xl text-card-foreground px-4 py-1 my-1 cursor-pointer hover:bg-accent/20 transition-all duration-300"
+      className="relative flex flex-col gap-3 bg-card rounded-xl text-card-foreground px-4 py-1 my-1 cursor-pointer hover:bg-accent/20 transition-all duration-300"
       onClick={() => router.push(`/talks/${talk.id}/${talk.title}`)}
     >
+      <TalkActionButton talkId={talk.id} talkAuthorId={talk.author.clerkId} />
+
       <div className="flex items-center gap-2 text-xs">
         <Avatar
           alt={talk.author.name}
@@ -38,8 +40,6 @@ const TalkCard = ({ talk }: TalkCardProps) => {
         <span className="text-muted-foreground">
           il y a {getTimeBetweenDateAndNow(talk.updatedAt)}
         </span>
-
-        <TalkActionButton talkId={talk.id} talkAuthorId={talk.author.clerkId} />
       </div>
 
       <h2 className="text-lg font-semibold">{talk.title}</h2>

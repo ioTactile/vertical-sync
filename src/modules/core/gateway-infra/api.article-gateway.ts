@@ -9,30 +9,27 @@ import {
 } from "@/modules/core/model/Article";
 import { CreateArticleCommentDto } from "@/modules/core/model/Article";
 import { axiosInstance } from "@/lib/globals";
+import { ArticleFilters } from "@/modules/core/repository/article.repository";
 
 export class ApiArticleGateway implements IArticleGateway {
-  async getArticles(
-    userId?: string,
-    page?: number
+  async getPublicArticles(
+    filters: Omit<ArticleFilters, "publishedOnly">
   ): Promise<GetArticlesResponse> {
-    let params = {};
-
-    if (userId) {
-      params = {
-        userId,
-      };
-    }
-
-    if (page) {
-      params = {
-        ...params,
-        page,
-      };
-    }
+    const params = {
+      ...(filters.userId && { userId: filters.userId }),
+      ...(filters.page && { page: filters.page }),
+    };
 
     const response = await axiosInstance.get<GetArticlesResponse>("/api/blog", {
       params,
     });
+    return response.data;
+  }
+
+  async getAdminArticles(): Promise<GetArticlesResponse> {
+    const response = await axiosInstance.get<GetArticlesResponse>(
+      "/api/admin/blog"
+    );
     return response.data;
   }
 
@@ -71,6 +68,19 @@ export class ApiArticleGateway implements IArticleGateway {
       `/api/blog/${article.id}`,
       article
     );
+    return response.data;
+  }
+
+  async updateArticlePublishStatus(
+    id: string,
+    published: boolean
+  ): Promise<{
+    message: string;
+  }> {
+    const response = await axiosInstance.patch(`/api/blog/${id}/publish`, {
+      id,
+      published,
+    });
     return response.data;
   }
 

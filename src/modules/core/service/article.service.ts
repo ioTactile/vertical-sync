@@ -1,4 +1,5 @@
 import {
+  ArticleFilters,
   articleRepository,
   IArticleRepository,
 } from "@/modules/core/repository/article.repository";
@@ -15,14 +16,20 @@ import {
 export class ArticleService {
   constructor(private readonly articleRepository: IArticleRepository) {}
 
-  async getArticles({
+  async getPublicArticles({
     userId,
     page,
-  }: {
-    userId?: string;
-    page?: number;
-  }): Promise<GetArticlesResponse> {
-    return await this.articleRepository.findMany(userId, page);
+  }: Omit<ArticleFilters, "publishedOnly">): Promise<GetArticlesResponse> {
+    return await this.articleRepository.findMany({
+      userId,
+      page,
+    });
+  }
+
+  async getAdminArticles(): Promise<GetArticlesResponse> {
+    return await this.articleRepository.findMany({
+      publishedOnly: false,
+    });
   }
 
   async getArticleById(id: string): Promise<GetArticleResponse | null> {
@@ -39,6 +46,13 @@ export class ArticleService {
 
   async updateArticle(data: UpdateArticleDto): Promise<void> {
     return await this.articleRepository.update(data);
+  }
+
+  async updateArticlePublishStatus(
+    id: string,
+    published: boolean
+  ): Promise<void> {
+    return await this.articleRepository.updatePublishStatus(id, published);
   }
 
   async deleteArticle(id: string): Promise<void> {

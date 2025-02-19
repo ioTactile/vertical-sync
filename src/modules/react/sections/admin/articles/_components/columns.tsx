@@ -11,6 +11,7 @@ import {
 } from "@/app/_components/ui/dropdown-menu";
 import Link from "next/link";
 import { useDeleteArticle } from "@/modules/core/mutations/useDeleteArticle";
+import { useUpdateArticlePublish } from "@/modules/core/mutations/useUpdateArticlePublish";
 
 export type Article = {
   id: string;
@@ -51,6 +52,7 @@ export const columns: ColumnDef<Article>[] = [
 
 const ActionCell = ({ article }: { article: Article }) => {
   const deleteArticleMutation = useDeleteArticle();
+  const updateArticlePublishMutation = useUpdateArticlePublish();
 
   return (
     <DropdownMenu>
@@ -76,6 +78,23 @@ const ActionCell = ({ article }: { article: Article }) => {
           <Link href={`/admin/articles/update?id=${article.id}`}>
             Mettre à jour
           </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <DropdownMenuItem
+            className={`${
+              article.published
+                ? "text-red-500 focus:bg-red-500 focus:text-white"
+                : ""
+            }`}
+            onClick={() =>
+              updateArticlePublishMutation.mutate({
+                id: article.id,
+                published: !article.published,
+              })
+            }
+          >
+            {article.published ? "Dépublier" : "Publier"}
+          </DropdownMenuItem>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem

@@ -1,4 +1,4 @@
-import getArticles from "@/modules/core/queries/get-articles";
+import getPublicArticles from "@/modules/core/queries/get-public-articles";
 import ArticlesPage from "@/modules/react/pages/ArticlesPage";
 import { PageProps } from "@/types/pages-props";
 import { currentUser } from "@clerk/nextjs/server";
@@ -16,7 +16,7 @@ export default async function Articles({ searchParams }: PageProps) {
 
   await queryClient.prefetchQuery({
     queryKey: ["articles", { page }],
-    queryFn: () => getArticles(user?.id, page),
+    queryFn: () => getPublicArticles(user?.id, page),
   });
 
   return (

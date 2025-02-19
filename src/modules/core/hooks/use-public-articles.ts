@@ -1,10 +1,10 @@
-import getArticles from "@/modules/core/queries/get-articles";
+import getPublicArticles from "@/modules/core/queries/get-public-articles";
 import { useQuery } from "@tanstack/react-query";
 
 const useArticles = (userId?: string) => {
   return useQuery({
     queryKey: ["articles"],
-    queryFn: () => getArticles(userId),
+    queryFn: () => getPublicArticles(userId),
   });
 };
 

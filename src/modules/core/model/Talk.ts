@@ -1,8 +1,9 @@
-import { Talk, TalkComment, User } from "@prisma/client";
+import { Talk, TalkComment } from "@prisma/client";
 import { CreateTalkInputs } from "@/modules/react/sections/talks/_schemas/create-talk";
 import { UpdateTalkInputs } from "@/modules/react/sections/talks/_schemas/update-talk";
 import { CreateTalkCommentInputs } from "@/modules/react/sections/talks/_schemas/create-talk-comment";
 import { DeleteTalkCommentInputs } from "@/modules/react/sections/talks/_schemas/delete-talk-comment";
+import { Author } from "@/modules/core/model/User";
 
 // Create Talk
 export type CreateTalkDto = {
@@ -17,7 +18,7 @@ export type UpdateTalkDto = {
 
 // Many Talks
 export type TalkWithRelations = {
-  author: User;
+  author: Author;
   _count: {
     talkComments: number;
   };
@@ -27,16 +28,16 @@ export type GetTalksResponse = TalkWithRelations[];
 
 // One Talk
 export type TalkCommentWithRelations = {
-  author: User;
-  replyToUser: User | null;
+  author: Author;
+  replyToUser: Author | null;
   replies?: (Omit<TalkComment, "replies"> & {
-    author: User;
-    replyToUser: User | null;
+    author: Author;
+    replyToUser: Author | null;
   })[];
 } & TalkComment;
 
 export type GetTalkResponse = {
-  author: User;
+  author: Author;
   talkComments: TalkCommentWithRelations[];
 } & Talk;
 

@@ -1,13 +1,13 @@
 "use client";
 
-import useArticles from "@/modules/core/hooks/use-articles";
+import useAdminArticles from "@/modules/core/hooks/use-admin-articles";
 import ArticlesHeader from "@/modules/react/sections/admin/articles/_components/articles-header";
 import { DataTable } from "@/modules/react/sections/_components/data-table";
 import { columns } from "@/modules/react/sections/admin/articles/_components/columns";
 import { getFormatedDate } from "@/modules/core/utils/date";
 
 const Articles = () => {
-  const { data } = useArticles();
+  const { data } = useAdminArticles();
 
   const articlesFormated = data?.articles.map((article) => ({
     ...article,

@@ -1,9 +1,10 @@
-import { Article, ArticleComment, ArticleTag, User } from "@prisma/client";
+import { Article, ArticleComment, ArticleTag } from "@prisma/client";
 import { CreateArticleInputs } from "@/modules/react/sections/admin/articles/_schemas/create-article";
 import { UpdateArticleInputs } from "@/modules/react/sections/admin/articles/_schemas/update-article";
 import { CreateArticleCommentInputs } from "@/modules/react/sections/articles/_schemas/create-article-comment";
 import { CreateArticleLikeInputs } from "@/modules/react/sections/articles/_schemas/create-article-like";
 import { DeleteArticleCommentInputs } from "@/modules/react/sections/articles/_schemas/delete-article-comment";
+import { Author } from "@/modules/core/model/User";
 
 // Create Article
 export type CreateArticleDto = {
@@ -20,7 +21,7 @@ export type UpdateArticleDto = {
 // Many Articles
 
 type ArticleWithRelations = {
-  author: User;
+  author: Author;
   articleTags: (ArticleTag & {
     tag: {
       name: string;
@@ -56,12 +57,12 @@ export type CreateArticleCommentDto = {
 // Article Comments
 
 type ArticleCommentWithRelations = {
-  author: User;
+  author: Author;
   replies?: (Omit<ArticleComment, "replies"> & {
-    author: User;
-    replyToUser: User | null;
+    author: Author;
+    replyToUser: Author | null;
   })[];
-  replyToUser: User | null;
+  replyToUser: Author | null;
 } & ArticleComment;
 
 export type GetArticleCommentsResponse = ArticleCommentWithRelations[];

@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { redirect, useParams } from "next/navigation";
 import { Button } from "@/app/_components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { getTimeBetweenDateAndNow } from "@/modules/core/utils/date";
@@ -14,7 +14,11 @@ import useTalkWithComments from "@/modules/core/hooks/use-talk-with-comments";
 const Talk = () => {
   const { id } = useParams();
 
-  const { data: talkWithComments } = useTalkWithComments(id as string);
+  const { data: talkWithComments, isError } = useTalkWithComments(id as string);
+
+  if (!talkWithComments && isError) {
+    redirect("/talks");
+  }
 
   if (!talkWithComments) return null;
 

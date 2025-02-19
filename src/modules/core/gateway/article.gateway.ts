@@ -7,16 +7,25 @@ import {
   CreateArticleCommentDto,
   CreateArticleLikeDto,
 } from "@/modules/core/model/Article";
+import { ArticleFilters } from "@/modules/core/repository/article.repository";
 
 export interface IArticleGateway {
-  getArticles: (userId?: string, page?: number) => Promise<GetArticlesResponse>;
+  getPublicArticles: (
+    filters: Omit<ArticleFilters, "publishedOnly">
+  ) => Promise<GetArticlesResponse>;
+  getAdminArticles: () => Promise<GetArticlesResponse>;
   getArticleBySlug: (slug: string) => Promise<GetArticleResponse>;
   getArticleById: (id: string) => Promise<GetArticleResponse>;
   createArticle: (article: CreateArticleDto) => Promise<{
     message: string;
   }>;
-
   updateArticle: (article: UpdateArticleDto) => Promise<{
+    message: string;
+  }>;
+  updateArticlePublishStatus: (
+    id: string,
+    published: boolean
+  ) => Promise<{
     message: string;
   }>;
   deleteArticle: (id: string) => Promise<{

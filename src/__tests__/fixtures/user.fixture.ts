@@ -1,3 +1,4 @@
+import { Author } from "@/modules/core/model/User";
 import { User } from "@prisma/client";
 
 export const mockUser: User = {
@@ -8,4 +9,10 @@ export const mockUser: User = {
   imageUrl: "https://test.com/image.png",
   createdAt: new Date(),
   updatedAt: new Date(),
+};
+
+export const mockAuthor: Author = {
+  id: "user_1",
+  name: "John Doe",
+  imageUrl: "https://test.com/image.png",
 };

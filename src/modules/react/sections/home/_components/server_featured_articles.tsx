@@ -1,4 +1,4 @@
-import getArticles from "@/modules/core/queries/get-articles";
+import getArticles from "@/modules/core/queries/get-public-articles";
 import FeaturedArticles from "@/modules/react/sections/home/_components/featured_articles";
 import { currentUser } from "@clerk/nextjs/server";
 import {

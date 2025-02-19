@@ -20,6 +20,7 @@ import {
 } from "@/app/_components/ui/form";
 import { useAuthAction } from "@/app/_hooks/use-auth-action";
 import { useRouter } from "next/navigation";
+import { CreateTalkDto } from "@/modules/core/model/Talk";
 
 const TalkForm = () => {
   const router = useRouter();
@@ -47,7 +48,7 @@ const TalkForm = () => {
 
   const handleCreateTalkSubmit: SubmitHandler<CreateTalkInputs> = (data) => {
     handleAuthAction((user) => {
-      const talk = {
+      const talk: CreateTalkDto = {
         title: data.title,
         content: data.content || null,
         authorId: user.id,

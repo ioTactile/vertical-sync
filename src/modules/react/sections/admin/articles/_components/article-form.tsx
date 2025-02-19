@@ -47,7 +47,6 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
       imageName: null,
       excerpt: null,
       articleTags: [],
-      published: false,
     },
     mode: "onChange",
   });
@@ -75,7 +74,6 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
           name: tag.tag.name,
         }))
       );
-      setValue("published", initialData.published);
     }
   }, [initialData, setValue]);
 
@@ -96,7 +94,6 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
         imageUrl: data.imageUrl || null,
         imageName: data.imageName || null,
         excerpt: data.excerpt || null,
-        published: data.published,
         articleTags: data.articleTags,
       };
 

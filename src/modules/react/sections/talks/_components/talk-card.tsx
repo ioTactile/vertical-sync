@@ -6,6 +6,7 @@ import Avatar from "@/modules/react/sections/_components/avatar";
 import { Button } from "@/app/_components/ui/button";
 import { MessageCircle, Share2 } from "lucide-react";
 import { useShare } from "@/app/_hooks/use-share";
+import TalkActionButton from "@/modules/react/sections/talks/_components/talk-action-button";
 
 interface TalkCardProps {
   talk: TalkWithRelations;
@@ -18,9 +19,11 @@ const TalkCard = ({ talk }: TalkCardProps) => {
 
   return (
     <div
-      className="flex flex-col gap-3 bg-card rounded-xl text-card-foreground px-4 py-1 my-1 cursor-pointer hover:bg-accent/20 transition-all duration-300"
+      className="relative flex flex-col gap-3 bg-card rounded-xl text-card-foreground px-4 py-1 my-1 cursor-pointer hover:bg-accent/20 transition-all duration-300"
       onClick={() => router.push(`/talks/${talk.id}/${talk.title}`)}
     >
+      <TalkActionButton talkId={talk.id} talkAuthorId={talk.author.clerkId} />
+
       <div className="flex items-center gap-2 text-xs">
         <Avatar
           alt={talk.author.name}

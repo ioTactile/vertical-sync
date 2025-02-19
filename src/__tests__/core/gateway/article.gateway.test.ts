@@ -13,6 +13,7 @@ import {
 } from "@/__tests__/fixtures/article.fixture";
 import { beforeEach } from "node:test";
 import { mockUser } from "@/__tests__/fixtures/user.fixture";
+import { ArticleFilters } from "@/modules/core/repository/article.repository";
 
 vi.mock("@/lib/globals", () => ({
   axiosInstance: {
@@ -34,7 +35,12 @@ describe("ArticleGateway", () => {
       data: mockArticles,
     });
 
-    const result = await articleGateway.getArticles(mockUser.id, 1);
+    const filters: ArticleFilters = {
+      userId: mockUser.id,
+      page: 1,
+    };
+
+    const result = await articleGateway.getPublicArticles(filters);
     expect(result).toEqual(mockArticles);
     expect(axiosInstance.get).toHaveBeenCalledWith("/api/blog", {
       params: {

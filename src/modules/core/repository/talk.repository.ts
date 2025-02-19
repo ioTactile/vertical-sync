@@ -23,7 +23,14 @@ export class PrismaTalkRepository implements ITalkRepository {
   async findMany(): Promise<GetTalksResponse> {
     return await prisma.talk.findMany({
       include: {
-        author: true,
+        author: {
+          select: {
+            id: true,
+            clerkId: true,
+            name: true,
+            imageUrl: true,
+          },
+        },
         _count: {
           select: {
             talkComments: true,
@@ -40,15 +47,50 @@ export class PrismaTalkRepository implements ITalkRepository {
     return await prisma.talk.findUnique({
       where: { id },
       include: {
-        author: true,
+        author: {
+          select: {
+            id: true,
+            clerkId: true,
+            name: true,
+            imageUrl: true,
+          },
+        },
         talkComments: {
           include: {
-            author: true,
-            replyToUser: true,
+            author: {
+              select: {
+                id: true,
+                clerkId: true,
+                name: true,
+                imageUrl: true,
+              },
+            },
+            replyToUser: {
+              select: {
+                id: true,
+                clerkId: true,
+                name: true,
+                imageUrl: true,
+              },
+            },
             replies: {
               include: {
-                author: true,
-                replyToUser: true,
+                author: {
+                  select: {
+                    id: true,
+                    clerkId: true,
+                    name: true,
+                    imageUrl: true,
+                  },
+                },
+                replyToUser: {
+                  select: {
+                    id: true,
+                    clerkId: true,
+                    name: true,
+                    imageUrl: true,
+                  },
+                },
               },
             },
           },
@@ -87,12 +129,40 @@ export class PrismaTalkRepository implements ITalkRepository {
     return await prisma.talkComment.findMany({
       where: { talkId },
       include: {
-        author: true,
-        replyToUser: true,
+        author: {
+          select: {
+            id: true,
+            clerkId: true,
+            name: true,
+            imageUrl: true,
+          },
+        },
+        replyToUser: {
+          select: {
+            id: true,
+            clerkId: true,
+            name: true,
+            imageUrl: true,
+          },
+        },
         replies: {
           include: {
-            author: true,
-            replyToUser: true,
+            author: {
+              select: {
+                id: true,
+                clerkId: true,
+                name: true,
+                imageUrl: true,
+              },
+            },
+            replyToUser: {
+              select: {
+                id: true,
+                clerkId: true,
+                name: true,
+                imageUrl: true,
+              },
+            },
           },
         },
       },

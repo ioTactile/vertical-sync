@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import useArticles from "@/modules/core/hooks/use-articles-page";
+import useArticles from "@/modules/core/hooks/use-public-articles-page";
 import ArticleCard from "@/modules/react/sections/articles/_components/article-card";
 
 import { usePaginationStore, useUserStore } from "@/modules/core/store/store";
@@ -19,6 +19,8 @@ const ArticleCards = ({ nbArticlesShown = 10 }: ArticleCardsProps) => {
   if (isPending) {
     return <ArticleCardsSkeleton />;
   }
+
+  if (!data?.articles.length) return null;
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

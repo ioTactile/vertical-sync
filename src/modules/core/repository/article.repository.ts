@@ -11,12 +11,19 @@ import {
   CreateArticleCommentDto,
 } from "@/modules/core/model/Article";
 
+export interface ArticleFilters {
+  userId?: string;
+  page?: number;
+  publishedOnly?: boolean;
+}
+
 export interface IArticleRepository {
-  findMany(userId?: string, page?: number): Promise<GetArticlesResponse>;
+  findMany(filters: ArticleFilters): Promise<GetArticlesResponse>;
   findBySlug(slug: string): Promise<GetArticleResponse | null>;
   findById(id: string): Promise<GetArticleResponse | null>;
   create(data: CreateArticleDto): Promise<void>;
   update(data: UpdateArticleDto): Promise<void>;
+  updatePublishStatus(id: string, published: boolean): Promise<void>;
   delete(id: string): Promise<void>;
   getArticleComments(articleId: string): Promise<GetArticleCommentsResponse>;
   createArticleComment(data: CreateArticleCommentDto): Promise<void>;
@@ -26,10 +33,19 @@ export interface IArticleRepository {
 }
 
 export class PrismaArticleRepository implements IArticleRepository {
-  async findMany(userId?: string, page?: number): Promise<GetArticlesResponse> {
+  async findMany(filters: ArticleFilters): Promise<GetArticlesResponse> {
+    const { userId, page, publishedOnly = true } = filters;
+
     const articlesPromise = prisma.article.findMany({
       include: {
-        author: true,
+        author: {
+          select: {
+            id: true,
+            clerkId: true,
+            name: true,
+            imageUrl: true,
+          },
+        },
         articleTags: {
           include: {
             tag: {
@@ -59,6 +75,9 @@ export class PrismaArticleRepository implements IArticleRepository {
       orderBy: {
         createdAt: "desc",
       },
+      where: {
+        ...(publishedOnly && { published: true }),
+      },
       skip: page ? (page - 1) * 10 : 0,
       take: page ? 10 : undefined,
     });
@@ -86,9 +105,16 @@ export class PrismaArticleRepository implements IArticleRepository {
 
   async findBySlug(slug: string): Promise<GetArticleResponse | null> {
     return await prisma.article.findUnique({
-      where: { slug: slug },
+      where: { slug: slug, published: true },
       include: {
-        author: true,
+        author: {
+          select: {
+            id: true,
+            clerkId: true,
+            name: true,
+            imageUrl: true,
+          },
+        },
         articleTags: {
           include: {
             tag: {
@@ -115,9 +141,16 @@ export class PrismaArticleRepository implements IArticleRepository {
 
   async findById(id: string): Promise<GetArticleResponse | null> {
     return await prisma.article.findUnique({
-      where: { id },
+      where: { id, published: true },
       include: {
-        author: true,
+        author: {
+          select: {
+            id: true,
+            clerkId: true,
+            name: true,
+            imageUrl: true,
+          },
+        },
         articleTags: {
           include: {
             tag: {
@@ -190,6 +223,7 @@ export class PrismaArticleRepository implements IArticleRepository {
             tagId: tag.id,
           })),
         },
+        updatedAt: data.updatedAt,
       },
       include: {
         articleTags: {
@@ -198,6 +232,13 @@ export class PrismaArticleRepository implements IArticleRepository {
           },
         },
       },
+    });
+  }
+
+  async updatePublishStatus(id: string, published: boolean): Promise<void> {
+    await prisma.article.update({
+      where: { id },
+      data: { published },
     });
   }
 
@@ -213,12 +254,40 @@ export class PrismaArticleRepository implements IArticleRepository {
     return await prisma.articleComment.findMany({
       where: { articleId },
       include: {
-        author: true,
-        replyToUser: true,
+        author: {
+          select: {
+            id: true,
+            clerkId: true,
+            name: true,
+            imageUrl: true,
+          },
+        },
+        replyToUser: {
+          select: {
+            id: true,
+            clerkId: true,
+            name: true,
+            imageUrl: true,
+          },
+        },
         replies: {
           include: {
-            author: true,
-            replyToUser: true,
+            author: {
+              select: {
+                id: true,
+                clerkId: true,
+                name: true,
+                imageUrl: true,
+              },
+            },
+            replyToUser: {
+              select: {
+                id: true,
+                clerkId: true,
+                name: true,
+                imageUrl: true,
+              },
+            },
           },
         },
       },

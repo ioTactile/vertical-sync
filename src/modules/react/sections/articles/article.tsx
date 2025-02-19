@@ -1,13 +1,17 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { redirect, useParams } from "next/navigation";
 import useArticleBySlug from "@/modules/core/hooks/use-article-by-slug";
 import Tags from "@/modules/react/sections/_components/tags";
 
 const Article = () => {
   const { slug } = useParams();
 
-  const { data: article } = useArticleBySlug(slug as string);
+  const { data: article, isError } = useArticleBySlug(slug as string);
+
+  if (!article && isError) {
+    redirect("/blog");
+  }
 
   if (!article) return null;
 

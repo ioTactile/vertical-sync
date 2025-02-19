@@ -10,6 +10,7 @@ import Tags from "@/modules/react/sections/_components/tags";
 import Image from "next/image";
 import useArticleLike from "@/modules/react/sections/articles/_hooks/use-article-like";
 import useArticleLikeStatus from "@/modules/react/sections/articles/_hooks/use-article-like-status";
+import RedactorEditButton from "@/modules/react/sections/articles/_components/redactor-edit-button";
 
 interface ArticleCardProps {
   article: GetArticleResponse;
@@ -21,11 +22,27 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
   const { isLiked, likesCount } = useArticleLikeStatus(article);
   const { handletoggleLike } = useArticleLike(article.id, isLiked);
 
+  const handleCardClick = (e: React.MouseEvent) => {
+    if (
+      (e.target as HTMLElement).closest("button") ||
+      (e.target as HTMLElement).closest("a")
+    ) {
+      e.stopPropagation();
+      return;
+    }
+    router.push(`/blog/${article.slug}`);
+  };
+
   return (
     <div
-      className="flex flex-col bg-card rounded-xl text-card-foreground overflow-hidden hover:bg-secondary/20 transition-all duration-300 cursor-pointer"
-      onClick={() => router.push(`/blog/${article.slug}`)}
+      className="relative flex flex-col bg-card rounded-xl text-card-foreground overflow-hidden hover:bg-secondary/20 transition-all duration-300 cursor-pointer"
+      onClick={handleCardClick}
     >
+      <RedactorEditButton
+        articleId={article.id}
+        articleAuthorId={article.authorId}
+      />
+
       <div className="relative w-full aspect-video">
         {article.imageUrl ? (
           <Image

@@ -14,6 +14,7 @@ import NextTopLoader from "nextjs-toploader";
 import StoreInitializer from "@/app/_providers/store-initializer";
 import Footer from "@/app/_components/core/footer";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
+import { frFR } from "@clerk/localizations";
 
 export const metadata: Metadata = {
   title: SITE_NAME,
@@ -43,7 +44,11 @@ export default async function RootLayout({
           height={3}
         />
 
-        <ClerkProvider signInUrl="/auth/sign-in" signUpUrl="/auth/sign-up">
+        <ClerkProvider
+          signInUrl="/auth/sign-in"
+          signUpUrl="/auth/sign-up"
+          localization={frFR}
+        >
           <ReactQueryClientProvider>
             <NuqsAdapter>
               <ThemeProvider

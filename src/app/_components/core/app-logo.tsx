@@ -24,8 +24,10 @@ const AppLogo = ({ className, ...props }: Props) => {
       <Image
         src={"/assets/vertical-sync.png"}
         alt={`${SITE_NAME} logo`}
-        height={120}
-        width={120}
+        height={64}
+        width={86}
+        priority
+        className="w-auto h-[64px]"
       />
     </Link>
   );

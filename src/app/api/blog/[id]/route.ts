@@ -50,7 +50,6 @@ export async function PATCH(request: Request) {
       imageUrl,
       imageName,
       articleTags,
-      published,
       updatedAt,
     } = await request.json();
 
@@ -61,7 +60,6 @@ export async function PATCH(request: Request) {
       excerpt,
       imageUrl,
       imageName,
-      published,
       updatedAt,
       articleTags,
     });

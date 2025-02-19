@@ -6,7 +6,7 @@ import {
   UpdateTalkDto,
 } from "@/modules/core/model/Talk";
 import { Talk, TalkComment } from "@prisma/client";
-import { mockUser } from "./user.fixture";
+import { mockAuthor } from "@/__tests__/fixtures/user.fixture";
 
 export const mockTalk: Talk = {
   id: "talk_1",
@@ -66,10 +66,10 @@ export const mockTalkComments: TalkComment[] = [
 
 export const mockTalkWithComments: GetTalkResponse = {
   ...mockTalk,
-  author: mockUser,
+  author: mockAuthor,
   talkComments: mockTalkComments.map((comment) => ({
     ...comment,
-    author: mockUser,
-    replyToUser: mockUser,
+    author: mockAuthor,
+    replyToUser: mockAuthor,
   })),
 };

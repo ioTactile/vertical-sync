@@ -5,12 +5,13 @@ import { usePaginationStore, useUserStore } from "@/modules/core/store/store";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useQueryState } from "nuqs";
 import { useCallback, useEffect, useMemo } from "react";
-import useArticles from "@/modules/core/hooks/use-articles-page";
+import useArticles from "@/modules/core/hooks/use-public-articles-page";
+import PaginationSkeleton from "@/modules/react/sections/articles/_components/pagination-skeleton";
 
 const Pagination = () => {
   const { user } = useUserStore();
   const { page } = usePaginationStore();
-  const { data } = useArticles(user?.id, page);
+  const { data, isPending } = useArticles(user?.id, page);
 
   const totalPages = useMemo(
     () => Math.ceil((data?.total || 0) / 10),
@@ -46,6 +47,12 @@ const Pagination = () => {
     setStorePage(storePage + 1);
     setUrlPage(storePage + 1);
   }, [storePage, setStorePage, setUrlPage]);
+
+  if (isPending) {
+    return <PaginationSkeleton />;
+  }
+
+  if (!data?.articles.length) return null;
 
   return (
     <div className="flex items-center justify-center gap-2 mt-4">

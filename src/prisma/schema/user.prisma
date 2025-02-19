@@ -13,4 +13,5 @@ model User {
   articleComments ArticleComment[]
   articleReceivedReplies ArticleComment[] @relation("ReplyToUser")
   articleLikes ArticleLike[]
+  reports Report[] @relation("UserReports")
 }

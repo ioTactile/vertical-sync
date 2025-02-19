@@ -26,6 +26,7 @@ export class PrismaTalkRepository implements ITalkRepository {
         author: {
           select: {
             id: true,
+            clerkId: true,
             name: true,
             imageUrl: true,
           },
@@ -49,6 +50,7 @@ export class PrismaTalkRepository implements ITalkRepository {
         author: {
           select: {
             id: true,
+            clerkId: true,
             name: true,
             imageUrl: true,
           },
@@ -58,6 +60,7 @@ export class PrismaTalkRepository implements ITalkRepository {
             author: {
               select: {
                 id: true,
+                clerkId: true,
                 name: true,
                 imageUrl: true,
               },
@@ -65,6 +68,7 @@ export class PrismaTalkRepository implements ITalkRepository {
             replyToUser: {
               select: {
                 id: true,
+                clerkId: true,
                 name: true,
                 imageUrl: true,
               },
@@ -74,6 +78,7 @@ export class PrismaTalkRepository implements ITalkRepository {
                 author: {
                   select: {
                     id: true,
+                    clerkId: true,
                     name: true,
                     imageUrl: true,
                   },
@@ -81,6 +86,7 @@ export class PrismaTalkRepository implements ITalkRepository {
                 replyToUser: {
                   select: {
                     id: true,
+                    clerkId: true,
                     name: true,
                     imageUrl: true,
                   },
@@ -126,6 +132,7 @@ export class PrismaTalkRepository implements ITalkRepository {
         author: {
           select: {
             id: true,
+            clerkId: true,
             name: true,
             imageUrl: true,
           },
@@ -133,6 +140,7 @@ export class PrismaTalkRepository implements ITalkRepository {
         replyToUser: {
           select: {
             id: true,
+            clerkId: true,
             name: true,
             imageUrl: true,
           },
@@ -142,6 +150,7 @@ export class PrismaTalkRepository implements ITalkRepository {
             author: {
               select: {
                 id: true,
+                clerkId: true,
                 name: true,
                 imageUrl: true,
               },
@@ -149,6 +158,7 @@ export class PrismaTalkRepository implements ITalkRepository {
             replyToUser: {
               select: {
                 id: true,
+                clerkId: true,
                 name: true,
                 imageUrl: true,
               },

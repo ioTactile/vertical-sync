@@ -25,7 +25,10 @@ import { useToast } from "@/app/_hooks/use-toast";
 import Image from "next/image";
 import { useUpdateArticle } from "@/modules/core/mutations/useUpdateArticle";
 import { useCreateArticle } from "@/modules/core/mutations/useCreateArticle";
-import { GetArticleResponse } from "@/modules/core/model/Article";
+import {
+  CreateArticleDto,
+  GetArticleResponse,
+} from "@/modules/core/model/Article";
 import { useRouter } from "next/navigation";
 import MultiSelectTags from "@/modules/react/sections/admin/articles/_components/multi-select-tags";
 import { useAuthAction } from "@/app/_hooks/use-auth-action";
@@ -47,7 +50,6 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
       imageName: null,
       excerpt: null,
       articleTags: [],
-      published: false,
     },
     mode: "onChange",
   });
@@ -75,7 +77,6 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
           name: tag.tag.name,
         }))
       );
-      setValue("published", initialData.published);
     }
   }, [initialData, setValue]);
 
@@ -90,13 +91,12 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
     data
   ) => {
     handleAuthAction((user) => {
-      const article = {
+      const article: Omit<CreateArticleDto, "authorId"> = {
         title: data.title,
         content: data.content,
         imageUrl: data.imageUrl || null,
         imageName: data.imageName || null,
         excerpt: data.excerpt || null,
-        published: data.published,
         articleTags: data.articleTags,
       };
 

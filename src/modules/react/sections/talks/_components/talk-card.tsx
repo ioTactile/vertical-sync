@@ -6,6 +6,7 @@ import Avatar from "@/modules/react/sections/_components/avatar";
 import { Button } from "@/app/_components/ui/button";
 import { MessageCircle, Share2 } from "lucide-react";
 import { useShare } from "@/app/_hooks/use-share";
+import TalkActionButton from "@/modules/react/sections/talks/_components/talk-action-button";
 
 interface TalkCardProps {
   talk: TalkWithRelations;
@@ -37,6 +38,8 @@ const TalkCard = ({ talk }: TalkCardProps) => {
         <span className="text-muted-foreground">
           il y a {getTimeBetweenDateAndNow(talk.updatedAt)}
         </span>
+
+        <TalkActionButton talkId={talk.id} talkAuthorId={talk.author.clerkId} />
       </div>
 
       <h2 className="text-lg font-semibold">{talk.title}</h2>

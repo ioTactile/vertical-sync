@@ -41,6 +41,7 @@ export class PrismaArticleRepository implements IArticleRepository {
         author: {
           select: {
             id: true,
+            clerkId: true,
             name: true,
             imageUrl: true,
           },
@@ -109,6 +110,7 @@ export class PrismaArticleRepository implements IArticleRepository {
         author: {
           select: {
             id: true,
+            clerkId: true,
             name: true,
             imageUrl: true,
           },
@@ -144,6 +146,7 @@ export class PrismaArticleRepository implements IArticleRepository {
         author: {
           select: {
             id: true,
+            clerkId: true,
             name: true,
             imageUrl: true,
           },
@@ -254,6 +257,7 @@ export class PrismaArticleRepository implements IArticleRepository {
         author: {
           select: {
             id: true,
+            clerkId: true,
             name: true,
             imageUrl: true,
           },
@@ -261,6 +265,7 @@ export class PrismaArticleRepository implements IArticleRepository {
         replyToUser: {
           select: {
             id: true,
+            clerkId: true,
             name: true,
             imageUrl: true,
           },
@@ -270,6 +275,7 @@ export class PrismaArticleRepository implements IArticleRepository {
             author: {
               select: {
                 id: true,
+                clerkId: true,
                 name: true,
                 imageUrl: true,
               },
@@ -277,6 +283,7 @@ export class PrismaArticleRepository implements IArticleRepository {
             replyToUser: {
               select: {
                 id: true,
+                clerkId: true,
                 name: true,
                 imageUrl: true,
               },

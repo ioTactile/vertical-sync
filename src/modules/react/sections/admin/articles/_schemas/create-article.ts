@@ -10,7 +10,6 @@ export const createArticleSchema = z.object({
   imageUrl: z.string().url().nullable(),
   imageName: z.string().nullable(),
   excerpt: z.string().nullable(),
-  published: z.boolean().default(false),
   articleTags: z
     .array(
       z.object({

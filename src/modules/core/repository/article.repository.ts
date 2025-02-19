@@ -220,6 +220,7 @@ export class PrismaArticleRepository implements IArticleRepository {
             tagId: tag.id,
           })),
         },
+        updatedAt: data.updatedAt,
       },
       include: {
         articleTags: {

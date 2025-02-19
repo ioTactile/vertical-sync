@@ -8,14 +8,14 @@ export default function NotFoundPage() {
         <div className="flex h-full flex-col items-center justify-center gap-8">
           <div className="space-y-3 text-center">
             <span className="text-4xl font-bold">404</span>
-            <h1 className="text-2xl font-bold">Page not found</h1>
+            <h1 className="text-2xl font-bold">Page non trouvée</h1>
             <p>
-              Sorry, we couldn&apos;t find the page you&apos;re looking for.
+              Désolé, nous n&apos;avons pas trouvé la page que vous cherchez.
             </p>
           </div>
           <div className="flex items-center gap-4">
             <Button asChild>
-              <Link href="/">Go back home</Link>
+              <Link href="/">Retour à l&apos;accueil</Link>
             </Button>
           </div>
         </div>

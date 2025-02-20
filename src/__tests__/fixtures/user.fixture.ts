@@ -13,6 +13,7 @@ export const mockUser: User = {
 
 export const mockAuthor: Author = {
   id: "user_1",
+  clerkId: "clerk_1",
   name: "John Doe",
   imageUrl: "https://test.com/image.png",
 };

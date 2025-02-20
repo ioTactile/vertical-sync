@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { Library, Menu, MessageSquareText, Settings } from "lucide-react";
+import { Library, Map, Menu, MessageSquareText, Settings } from "lucide-react";
 import AppLogo from "@/app/_components/core/app-logo";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import { ThemeSwitcherDropdown } from "@/app/_components/core/theme-switcher-dropdown";
@@ -29,6 +29,7 @@ import { useUserStore } from "@/modules/core/store/store";
 const mainMenuItems: NavigationItem<string>[] = [
   { title: "Discussions", url: "/talks", icon: MessageSquareText },
   { title: "Blog", url: "/blog?page=1", icon: Library },
+  { title: "Spots", url: "/spots", icon: Map },
 ];
 
 const Header = () => {

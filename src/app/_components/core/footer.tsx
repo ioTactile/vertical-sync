@@ -1,4 +1,4 @@
-import { MessageSquareText, Library, Github } from "lucide-react";
+import { MessageSquareText, Library, Github, Map } from "lucide-react";
 import Link from "next/link";
 import { Separator } from "@/app/_components/ui/separator";
 import { Button } from "@/app/_components/ui/button";
@@ -12,6 +12,7 @@ const footerLinks: FooterLink[] = [
     links: [
       { title: "Discussions", url: "/talks", icon: MessageSquareText },
       { title: "Blog", url: "/blog?page=1", icon: Library },
+      { title: "Spots", url: "/spots", icon: Map },
     ],
   },
   {

@@ -106,3 +106,26 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: hsl(var(--primary) / 0.8);
 }
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+.leaflet-tooltip {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  font-family: "Inter", sans-serif !important;
+  text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff,
+    1px 1px 0 #fff, 0px 0px 5px rgba(255, 255, 255, 0.7) !important; /* Effet de halo */
+  font-weight: 600 !important;
+  margin-left: 0px !important;
+  &::before {
+    content: none !important;
+  }
+}

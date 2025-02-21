@@ -1,3 +1,6 @@
 export const TALK_TITLE_MAX_LENGTH = 300;
 export const TALK_EXCERPT_MAX_LENGTH = 500;
 export const GITHUB_URL = "https://github.com/ioTactile";
+
+export const MAP_ZOOM_DEFAULT = 6;
+export const MAP_ZOOM_TOOLTIP_MIN = 12;

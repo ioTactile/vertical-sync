@@ -72,6 +72,10 @@ export default withUt({
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      zIndex: {
+        500: "500",
+        1000: "1000",
+      },
     },
   },
   plugins: [animate],

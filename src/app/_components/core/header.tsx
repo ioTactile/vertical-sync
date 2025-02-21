@@ -18,6 +18,7 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
+  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -90,7 +91,10 @@ const Header = () => {
           </SheetTrigger>
           <SheetContent side="right" className="w-[300px] sm:w-[400px]">
             <SheetHeader>
-              <SheetTitle className="text-left">Micro services</SheetTitle>
+              <SheetTitle className="text-left">Vertical Sync</SheetTitle>
+              <SheetDescription>
+                Le hub des escaladeurs de France
+              </SheetDescription>
             </SheetHeader>
             <nav className="mt-6 flex flex-col space-y-4">
               <div>

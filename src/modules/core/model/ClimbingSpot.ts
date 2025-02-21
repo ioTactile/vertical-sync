@@ -1,9 +1,10 @@
-export interface ClimbingSpot {
-  id: string;
-  name: string;
-  latitude: number;
-  longitude: number;
-  type: "BOULDER" | "LEAD" | "INDOOR";
-  difficulty: string;
-  description: string;
-}
+import { CreateClimbingSpotInputs } from "@/modules/react/sections/spots/_schemas/create-climbing-spot";
+import { ClimbingSpot } from "@prisma/client";
+
+export type GetClimbingSpotsResponse = ClimbingSpot[];
+
+export type CreateClimbingSpotDto = {
+  authorId: string;
+  notation: number;
+  notationCount: number;
+} & CreateClimbingSpotInputs;

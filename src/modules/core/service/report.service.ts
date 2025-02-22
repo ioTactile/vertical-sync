@@ -1,4 +1,7 @@
-import { CreateReportDto } from "@/modules/core/model/Report";
+import {
+  CreateReportDto,
+  UpdateReportStatusDto,
+} from "@/modules/core/model/Report";
 import {
   IReportRepository,
   reportRepository,
@@ -9,6 +12,10 @@ export class ReportService {
 
   async createReport(data: CreateReportDto): Promise<void> {
     return await this.reportRepository.createReport(data);
+  }
+
+  async updateReportStatus(data: UpdateReportStatusDto): Promise<void> {
+    return await this.reportRepository.updateReportStatus(data);
   }
 }
 

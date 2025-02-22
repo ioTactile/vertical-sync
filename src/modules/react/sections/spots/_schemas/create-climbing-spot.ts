@@ -1,8 +1,4 @@
-import {
-  ClimbingSpotDifficulty,
-  ClimbingSpotType,
-  ClimbingSpotStatus,
-} from "@prisma/client";
+import { ClimbingSpotDifficulty, ClimbingSpotType } from "@prisma/client";
 import { z } from "zod";
 
 export const createClimbingSpotSchema = z.object({
@@ -32,7 +28,6 @@ export const createClimbingSpotSchema = z.object({
   email: z.string().email().nullable(),
   parkingAvailable: z.boolean().nullable(),
   toiletsAvailable: z.boolean().nullable(),
-  status: z.nativeEnum(ClimbingSpotStatus).default(ClimbingSpotStatus.PENDING),
 });
 
 export type CreateClimbingSpotInputs = z.infer<typeof createClimbingSpotSchema>;

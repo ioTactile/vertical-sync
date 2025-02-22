@@ -4,8 +4,9 @@ model ClimbingSpot {
   description String?
   country String?
   city String?
-  longitude Float
   latitude Float
+  longitude Float
+  coords Unsupported("geography(Point, 4326)")?
   imageUrls  String[]
   types ClimbingSpotType[]
   difficulties ClimbingSpotDifficulty[]
@@ -22,7 +23,7 @@ model ClimbingSpot {
   parkingAvailable Boolean?
   toiletsAvailable Boolean?
 
-  status ClimbingSpotStatus
+  status ClimbingSpotStatus @default(PENDING)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -35,6 +36,7 @@ model ClimbingSpot {
   @@index([difficulties])
   @@index([country])
   @@index([city])
+  @@index([coords],map: "location_idx", type: Gist)
 }
 
 enum ClimbingSpotType {

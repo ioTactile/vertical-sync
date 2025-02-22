@@ -8,8 +8,7 @@
   reporterId String
   reporter   User   @relation("UserReports", fields: [reporterId], references: [clerkId], onDelete: NoAction)
 
-  // Relations avec l'entité signalée
-  entityType String  // "TALK" ou "ARTICLE"
+  entityType ReportEntityType
   entityId   String
 
   @@id([reporterId, entityType, entityId])
@@ -22,3 +21,9 @@ enum ReportStatus {
   RESOLVED
   REJECTED
 }
+
+enum ReportEntityType {
+  TALK
+  ARTICLE
+}
+

@@ -11,12 +11,11 @@ import {
 } from "@/modules/react/sections/_schemas/create-report";
 import { CreateReportDto } from "@/modules/core/model/Report";
 import * as React from "react";
-
-type EntityType = "TALK" | "ARTICLE";
+import { ReportEntityType } from "@prisma/client";
 
 interface UseEntityActionsProps {
   entityId: string;
-  entityType: EntityType;
+  entityType: ReportEntityType;
 }
 
 export const useEntityActions = ({
@@ -46,10 +45,10 @@ export const useEntityActions = ({
     e.stopPropagation();
     e.preventDefault();
 
-    if (entityType === "TALK") {
+    if (entityType === ReportEntityType.TALK) {
       return deleteTalkMutation.mutate(entityId);
     }
-    if (entityType === "ARTICLE") {
+    if (entityType === ReportEntityType.ARTICLE) {
       return deleteArticleMutation.mutate(entityId);
     }
   };

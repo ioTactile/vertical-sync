@@ -4,13 +4,14 @@ import dynamic from "next/dynamic";
 import { SpotsFilters } from "@/modules/react/sections/spots/_components/climbing-spots-filters";
 import * as React from "react";
 import { Skeleton } from "@/app/_components/ui/skeleton";
-import useClimbingSpots from "@/modules/core/hooks/use-climbing-spots";
 import {
   ClimbingSpot,
   ClimbingSpotType,
   ClimbingSpotDifficulty,
 } from "@prisma/client";
 import ClimbingSpotSelected from "./climbing-spot-selected";
+import useClimbingSpotsByRadiusAndCoords from "@/modules/core/hooks/use-climbing-spots-by-radius-and-coors";
+import { DEFAULT_LOCATION, DEFAULT_RADIUS } from "@/app/_constants/app";
 
 const Map = dynamic(() => import("./map"), {
   ssr: false, // Désactive le rendu côté serveur
@@ -18,12 +19,43 @@ const Map = dynamic(() => import("./map"), {
 });
 
 const ClimbingSpotsMap = () => {
-  const { data: climbingSpots } = useClimbingSpots();
   const [selectedSpot, setSelectedSpot] = React.useState<ClimbingSpot | null>(
     null
   );
+  const [userLocation, setUserLocation] = React.useState<{
+    latitude: number;
+    longitude: number;
+  } | null>(null);
+  const [isLoadingLocation, setIsLoadingLocation] = React.useState(true);
 
-  console.log(selectedSpot);
+  React.useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setUserLocation({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          });
+          setIsLoadingLocation(false);
+        },
+        (error) => {
+          console.error("Erreur de géolocalisation:", error);
+          setIsLoadingLocation(false);
+        }
+      );
+    } else {
+      setIsLoadingLocation(false);
+    }
+  }, []);
+
+  const { data: climbingSpotsByRadiusAndCoords } =
+    useClimbingSpotsByRadiusAndCoords(
+      DEFAULT_RADIUS,
+      userLocation ?? DEFAULT_LOCATION,
+      {
+        enabled: !isLoadingLocation,
+      }
+    );
 
   const [filters, setFilters] = React.useState<{
     type: ClimbingSpotType[];
@@ -48,7 +80,7 @@ const ClimbingSpotsMap = () => {
 
   const filteredSpots = React.useMemo(() => {
     return (
-      climbingSpots?.filter((spot) => {
+      climbingSpotsByRadiusAndCoords?.filter((spot) => {
         const matchesType =
           filters.type.includes(ClimbingSpotType.ALL) ||
           filters.type.some((type) =>
@@ -70,7 +102,7 @@ const ClimbingSpotsMap = () => {
         return matchesType && matchesDifficulty && matchesSearch;
       }) ?? []
     );
-  }, [filters, climbingSpots]);
+  }, [filters, climbingSpotsByRadiusAndCoords]);
 
   return (
     <div className="relative min-h-screen-minus-header">

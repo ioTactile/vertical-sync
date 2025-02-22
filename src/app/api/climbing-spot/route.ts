@@ -1,8 +1,24 @@
+import { DEFAULT_LOCATION, DEFAULT_RADIUS } from "@/app/_constants/app";
 import { climbingSpotService } from "@/modules/core/service/climbing-spot.service";
 import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    const { searchParams } = new URL(request.url);
+    const radius =
+      parseInt(searchParams.get("radius") as string) ?? DEFAULT_RADIUS;
+    const coords =
+      JSON.parse(searchParams.get("coords") as string) ?? DEFAULT_LOCATION;
+
+    if (radius && coords) {
+      const climbingSpots =
+        await climbingSpotService.getClimbingSpotsByRadiusAndCoords(
+          radius,
+          coords
+        );
+      return NextResponse.json(climbingSpots, { status: 200 });
+    }
+
     const climbingSpots = await climbingSpotService.getClimbingSpots();
     return NextResponse.json(climbingSpots, { status: 200 });
   } catch (error) {

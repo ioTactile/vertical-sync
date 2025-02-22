@@ -16,6 +16,19 @@ export class ClimbingSpotService {
     return await this.climbingSpotRepository.findMany();
   }
 
+  async getClimbingSpotsByRadiusAndCoords(
+    radius: number,
+    coords: {
+      latitude: number;
+      longitude: number;
+    }
+  ): Promise<GetClimbingSpotsResponse> {
+    return await this.climbingSpotRepository.findByRadiusAndCoords(
+      radius,
+      coords
+    );
+  }
+
   async createClimbingSpot(climbingSpot: CreateClimbingSpotDto): Promise<void> {
     await this.climbingSpotRepository.create(climbingSpot);
   }

@@ -5,6 +5,8 @@ export type GetClimbingSpotsResponse = ClimbingSpot[];
 
 export type CreateClimbingSpotDto = {
   authorId: string;
-  notation: number;
-  notationCount: number;
+  coords: {
+    type: "Point";
+    coordinates: [number, number];
+  };
 } & CreateClimbingSpotInputs;

@@ -6,11 +6,7 @@ import {
   createClimbingSpotSchema,
   CreateClimbingSpotInputs,
 } from "@/modules/react/sections/spots/_schemas/create-climbing-spot";
-import {
-  ClimbingSpotDifficulty,
-  ClimbingSpotStatus,
-  ClimbingSpotType,
-} from "@prisma/client";
+import { ClimbingSpotDifficulty, ClimbingSpotType } from "@prisma/client";
 import { useAuthAction } from "@/app/_hooks/use-auth-action";
 import { useCreateClimbingSpot } from "@/modules/core/mutations/useCreateClimbingSpot";
 import { useToast } from "@/app/_hooks/use-toast";
@@ -65,7 +61,6 @@ const ClimbingSpotForm = ({ onSuccess }: ClimbingSpotFormProps) => {
       email: null,
       parkingAvailable: null,
       toiletsAvailable: null,
-      status: ClimbingSpotStatus.PENDING,
     },
     mode: "onChange",
   });
@@ -92,8 +87,10 @@ const ClimbingSpotForm = ({ onSuccess }: ClimbingSpotFormProps) => {
         {
           ...data,
           authorId: user.id,
-          notation: 0,
-          notationCount: 0,
+          coords: {
+            type: "Point",
+            coordinates: [data.longitude, data.latitude],
+          },
         },
         {
           onSuccess: () => {

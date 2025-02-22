@@ -10,6 +10,7 @@ import {
 } from "@/modules/react/sections/_schemas/create-report";
 import { CreateReportDto } from "@/modules/core/model/Report";
 import * as React from "react";
+import { ReportEntityType } from "@prisma/client";
 
 export const useTalkActions = (talkId: string) => {
   const { user } = useUserStore();
@@ -25,7 +26,7 @@ export const useTalkActions = (talkId: string) => {
     resolver: zodResolver(createReportSchema),
     defaultValues: {
       reason: "",
-      entityType: "TALK",
+      entityType: ReportEntityType.TALK,
       entityId: talkId,
     },
   });

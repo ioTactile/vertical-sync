@@ -83,13 +83,14 @@ const ClimbingSpotForm = ({ onSuccess }: ClimbingSpotFormProps) => {
     CreateClimbingSpotInputs
   > = (data) => {
     handleAuthAction((user) => {
+      const { longitude, latitude, ...rest } = data;
       createClimbingSpotMutation.mutate(
         {
-          ...data,
+          ...rest,
           authorId: user.id,
           coords: {
             type: "Point",
-            coordinates: [data.longitude, data.latitude],
+            coordinates: [longitude, latitude],
           },
         },
         {

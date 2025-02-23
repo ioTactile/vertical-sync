@@ -16,94 +16,109 @@ import {
   DropdownMenuTrigger,
 } from "@/app/_components/ui/dropdown-menu";
 import { Check } from "lucide-react";
+import { ExtendedClimbingSpot } from "@/modules/core/model/ClimbingSpot";
+import { useSpotSearch } from "@/modules/react/sections/spots/_hooks/use-spot-search";
+import { useSpotTypeAndDifficulty } from "@/modules/react/sections/spots/_hooks/use-spot-type-and-difficulty";
+import { useSpotSelection } from "@/modules/react/sections/spots/_hooks/use-spot-selection";
 
 interface SpotsFiltersProps {
+  userLocation: [number, number] | null;
+  isSpotSelected: boolean;
   onFilterChange: (filters: {
     type: ClimbingSpotType[];
     difficulties: ClimbingSpotDifficulty[];
-    search: string;
   }) => void;
+  onSpotSelect: (spot: ExtendedClimbingSpot | null) => void;
+  updateMapView: (center: [number, number]) => void;
+  addSearchSpots: (spots: ExtendedClimbingSpot[]) => void;
+  clearSearchSpots: () => void;
 }
 
 const spotTypes = Object.values(ClimbingSpotType);
 const spotDifficulties = Object.values(ClimbingSpotDifficulty);
 
-export const SpotsFilters = ({ onFilterChange }: SpotsFiltersProps) => {
-  const [selectedTypes, setSelectedTypes] = React.useState<ClimbingSpotType[]>([
-    ClimbingSpotType.ALL,
-  ]);
-  const [selectedDifficulties, setSelectedDifficulties] = React.useState<
-    ClimbingSpotDifficulty[]
-  >([]);
-  const [searchQuery, setSearchQuery] = React.useState("");
+export const SpotsFilters = ({
+  userLocation,
+  isSpotSelected,
+  onFilterChange,
+  onSpotSelect,
+  updateMapView,
+  addSearchSpots,
+  clearSearchSpots,
+}: SpotsFiltersProps) => {
+  const {
+    searchQuery,
+    setSearchQuery,
+    isSearchOpen,
+    setIsSearchOpen,
+    searchResults: extendedSearchResults,
+    isLoading,
+    handleSearch,
+  } = useSpotSearch(isSpotSelected);
 
-  const handleTypeSelect = React.useCallback(
-    (type: ClimbingSpotType) => {
-      setSelectedTypes((prev) => {
-        let newTypes: ClimbingSpotType[];
+  const {
+    selectedTypes,
+    selectedDifficulties,
+    handleTypeSelect,
+    handleDifficultySelect,
+  } = useSpotTypeAndDifficulty({ onFilterChange });
 
-        if (type === ClimbingSpotType.ALL) {
-          newTypes = [ClimbingSpotType.ALL];
-        } else {
-          const withoutAll = prev.filter((t) => t !== ClimbingSpotType.ALL);
-          newTypes = prev.includes(type)
-            ? withoutAll.filter((t) => t !== type)
-            : [...withoutAll, type];
-
-          if (newTypes.length === 0) newTypes = [ClimbingSpotType.ALL];
-        }
-
-        onFilterChange({
-          type: newTypes,
-          difficulties: selectedDifficulties,
-          search: searchQuery,
-        });
-        return newTypes;
-      });
-    },
-    [searchQuery, selectedDifficulties, onFilterChange]
-  );
-
-  const handleDifficultySelect = React.useCallback(
-    (difficulty: ClimbingSpotDifficulty) => {
-      setSelectedDifficulties((prev) => {
-        const newDifficulties = prev.includes(difficulty)
-          ? prev.filter((d) => d !== difficulty)
-          : [...prev, difficulty];
-
-        onFilterChange({
-          type: selectedTypes,
-          difficulties: newDifficulties,
-          search: searchQuery,
-        });
-        return newDifficulties;
-      });
-    },
-    [searchQuery, selectedTypes, onFilterChange]
-  );
-
-  const handleSearch = React.useCallback(
-    (value: string) => {
-      setSearchQuery(value);
-      onFilterChange({
-        type: selectedTypes,
-        difficulties: selectedDifficulties,
-        search: value,
-      });
-    },
-    [selectedTypes, selectedDifficulties, onFilterChange]
-  );
+  const {
+    handleSpotSelect,
+    handleEnterPress,
+    searchInputRef,
+    searchContainerRef,
+  } = useSpotSelection({
+    userLocation,
+    onSpotSelect,
+    updateMapView,
+    setSearchQuery,
+    setIsSearchOpen,
+    addSearchSpots,
+    clearSearchSpots,
+  });
 
   return (
     <div className="absolute left-4 top-4 flex gap-2 w-[calc(100%-2rem)] max-w-[800px] z-1000">
       <div className="relative flex items-center">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-        <Input
-          placeholder="Rechercher un spot..."
-          className="mr-4 pl-10 bg-white rounded-full h-10 w-[270px]"
-          value={searchQuery}
-          onChange={(e) => handleSearch(e.target.value)}
-        />
+        <div className="relative" ref={searchContainerRef}>
+          <Input
+            ref={searchInputRef}
+            placeholder="Rechercher un spot..."
+            className="mr-4 pl-10 bg-white rounded-full h-10 w-[270px]"
+            value={searchQuery}
+            onChange={handleSearch}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleEnterPress(extendedSearchResults || []);
+              }
+            }}
+            onFocus={() => setIsSearchOpen(true)}
+          />
+          {isSearchOpen && (
+            <div className="absolute top-full left-0 w-full mt-1 bg-white rounded-lg shadow-lg">
+              {isLoading ? (
+                <div className="p-2">Recherche en cours...</div>
+              ) : (
+                extendedSearchResults?.map((spot) => (
+                  <div
+                    key={spot.id}
+                    className="p-2 hover:bg-accent cursor-pointer"
+                    onClick={() => handleSpotSelect(spot)}
+                  >
+                    <div className="font-medium">{spot.name}</div>
+                    <div className="text-sm text-muted-foreground">
+                      {spot.types
+                        .map((type) => CLIMBING_SPOT_TYPE_LABELS[type])
+                        .join(", ")}
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          )}
+        </div>
       </div>
 
       <DropdownMenu>

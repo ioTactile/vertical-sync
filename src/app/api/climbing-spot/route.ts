@@ -9,6 +9,7 @@ export async function GET(request: Request) {
       parseInt(searchParams.get("radius") as string) ?? DEFAULT_RADIUS;
     const coords =
       JSON.parse(searchParams.get("coords") as string) ?? DEFAULT_LOCATION;
+    const searchQuery = searchParams.get("search") as string;
 
     if (radius && coords) {
       const climbingSpots =
@@ -16,6 +17,13 @@ export async function GET(request: Request) {
           radius,
           coords
         );
+      return NextResponse.json(climbingSpots, { status: 200 });
+    }
+
+    if (searchQuery) {
+      const climbingSpots = await climbingSpotService.getClimbingSpotsSearch(
+        searchQuery
+      );
       return NextResponse.json(climbingSpots, { status: 200 });
     }
 

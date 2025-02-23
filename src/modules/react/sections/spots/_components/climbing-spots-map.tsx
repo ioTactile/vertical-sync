@@ -4,14 +4,18 @@ import dynamic from "next/dynamic";
 import { SpotsFilters } from "@/modules/react/sections/spots/_components/climbing-spots-filters";
 import * as React from "react";
 import { Skeleton } from "@/app/_components/ui/skeleton";
-import {
-  ClimbingSpot,
-  ClimbingSpotType,
-  ClimbingSpotDifficulty,
-} from "@prisma/client";
-import ClimbingSpotSelected from "./climbing-spot-selected";
+import ClimbingSpotSelected from "@/modules/react/sections/spots/_components/climbing-spot-selected";
 import useClimbingSpotsByRadiusAndCoords from "@/modules/core/hooks/use-climbing-spots-by-radius-and-coors";
-import { DEFAULT_LOCATION, DEFAULT_RADIUS } from "@/app/_constants/app";
+import {
+  DEFAULT_LOCATION,
+  DEFAULT_RADIUS,
+  MAP_ZOOM_DEFAULT,
+} from "@/app/_constants/app";
+import useMapControls from "../_hooks/use-map-controls";
+import { ExtendedClimbingSpot } from "@/modules/core/model/ClimbingSpot";
+import useGeolocation from "@/modules/react/sections/spots/_hooks/use-geolocation";
+import useSpotFilters from "@/modules/react/sections/spots/_hooks/use-spot-filters";
+import SpotCounter from "@/modules/react/sections/spots/_components/climbing-spot-counter";
 
 const Map = dynamic(() => import("./map"), {
   ssr: false, // Désactive le rendu côté serveur
@@ -19,105 +23,62 @@ const Map = dynamic(() => import("./map"), {
 });
 
 const ClimbingSpotsMap = () => {
-  const [selectedSpot, setSelectedSpot] = React.useState<ClimbingSpot | null>(
-    null
-  );
-  const [userLocation, setUserLocation] = React.useState<{
-    latitude: number;
-    longitude: number;
-  } | null>(null);
-  const [isLoadingLocation, setIsLoadingLocation] = React.useState(true);
+  const [selectedSpot, setSelectedSpot] =
+    React.useState<ExtendedClimbingSpot | null>(null);
 
-  React.useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setUserLocation({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-          });
-          setIsLoadingLocation(false);
-        },
-        (error) => {
-          console.error("Erreur de géolocalisation:", error);
-          setIsLoadingLocation(false);
-        }
-      );
-    } else {
-      setIsLoadingLocation(false);
+  const { userLocation, isLoadingLocation } = useGeolocation();
+
+  const { data: climbingSpots } = useClimbingSpotsByRadiusAndCoords(
+    DEFAULT_RADIUS,
+    userLocation ?? DEFAULT_LOCATION,
+    {
+      enabled: !isLoadingLocation,
     }
-  }, []);
+  );
 
-  const { data: climbingSpotsByRadiusAndCoords } =
-    useClimbingSpotsByRadiusAndCoords(
-      DEFAULT_RADIUS,
-      userLocation ?? DEFAULT_LOCATION,
-      {
-        enabled: !isLoadingLocation,
-      }
-    );
-
-  const [filters, setFilters] = React.useState<{
-    type: ClimbingSpotType[];
-    difficulties: ClimbingSpotDifficulty[];
-    search: string;
-  }>({
-    type: [ClimbingSpotType.ALL],
-    difficulties: [],
-    search: "",
+  const {
+    zoom,
+    center,
+    shouldUpdateView,
+    handleZoomChange,
+    handleMapClick,
+    updateMapView,
+  } = useMapControls({
+    defaultZoom: MAP_ZOOM_DEFAULT,
+    defaultCenter: DEFAULT_LOCATION,
+    onSpotSelect: setSelectedSpot,
+    userLocation,
   });
 
-  const handleFilterChange = React.useCallback(
-    (newFilters: {
-      type: ClimbingSpotType[];
-      difficulties: ClimbingSpotDifficulty[];
-      search: string;
-    }) => {
-      setFilters(newFilters);
-    },
-    []
-  );
-
-  const filteredSpots = React.useMemo(() => {
-    return (
-      climbingSpotsByRadiusAndCoords?.filter((spot) => {
-        const matchesType =
-          filters.type.includes(ClimbingSpotType.ALL) ||
-          filters.type.some((type) =>
-            spot.types.includes(type as ClimbingSpotType)
-          );
-
-        const matchesDifficulty =
-          filters.difficulties.length === 0 ||
-          filters.difficulties.some((difficulty) =>
-            spot.difficulties.includes(difficulty)
-          );
-
-        const matchesSearch =
-          spot.name.toLowerCase().includes(filters.search.toLowerCase()) ||
-          spot.description
-            ?.toLowerCase()
-            .includes(filters.search.toLowerCase());
-
-        return matchesType && matchesDifficulty && matchesSearch;
-      }) ?? []
-    );
-  }, [filters, climbingSpotsByRadiusAndCoords]);
+  const {
+    filteredSpots,
+    handleFilterChange,
+    addSearchSpots,
+    clearSearchSpots,
+  } = useSpotFilters(climbingSpots, selectedSpot);
 
   return (
     <div className="relative min-h-screen-minus-header">
-      <SpotsFilters onFilterChange={handleFilterChange} />
-
+      <SpotsFilters
+        userLocation={userLocation}
+        isSpotSelected={!!selectedSpot}
+        onFilterChange={handleFilterChange}
+        onSpotSelect={setSelectedSpot}
+        updateMapView={updateMapView}
+        addSearchSpots={addSearchSpots}
+        clearSearchSpots={clearSearchSpots}
+      />
       {selectedSpot && <ClimbingSpotSelected spot={selectedSpot} />}
-
-      <Map spots={filteredSpots} onSpotSelect={setSelectedSpot} />
-
-      <div className="absolute bottom-4 right-4 bg-white p-3 rounded-lg shadow-lg z-[1000]">
-        <p className="text-sm font-medium">
-          {filteredSpots.length} spot{filteredSpots.length > 1 ? "s" : ""}{" "}
-          trouvé{filteredSpots.length > 1 ? "s" : ""}
-        </p>
-      </div>
+      <Map
+        spots={filteredSpots}
+        zoom={zoom}
+        center={center}
+        shouldUpdateView={shouldUpdateView}
+        onSpotSelect={setSelectedSpot}
+        handleZoomChange={handleZoomChange}
+        handleMapClick={handleMapClick}
+      />
+      <SpotCounter count={filteredSpots.length} />
     </div>
   );
 };

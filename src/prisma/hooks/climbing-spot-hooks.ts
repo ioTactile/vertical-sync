@@ -1,6 +1,6 @@
 import prisma from "@/prisma";
 
-export async function updateSpotNotation(spotId: string) {
+const updateSpotNotation = async (spotId: string) => {
   const comments = await prisma.climbingSpotComment.findMany({
     where: { climbingSpotId: spotId },
   });
@@ -19,4 +19,6 @@ export async function updateSpotNotation(spotId: string) {
       notationCount: notationCount,
     },
   });
-}
+};
+
+export default updateSpotNotation;

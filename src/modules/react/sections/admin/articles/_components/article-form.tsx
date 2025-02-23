@@ -8,7 +8,7 @@ import {
   createArticleSchema,
   CreateArticleInputs,
 } from "@/modules/react/sections/admin/articles/_schemas/create-article";
-import { useEffect, useState } from "react";
+import * as React from "react";
 import {
   TALK_TITLE_MAX_LENGTH,
   TALK_EXCERPT_MAX_LENGTH,
@@ -60,7 +60,7 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
     reset,
   } = form;
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (initialData) {
       setValue("title", initialData.title);
       setValue("content", initialData.content);
@@ -128,17 +128,17 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
     });
   };
 
-  const [titleSize, setTitleSize] = useState<number>(0);
-  const [excerptSize, setExcerptSize] = useState<number>(0);
+  const [titleSize, setTitleSize] = React.useState<number>(0);
+  const [excerptSize, setExcerptSize] = React.useState<number>(0);
 
   const title = watch("title");
   const excerpt = watch("excerpt");
 
-  useEffect(() => {
+  React.useEffect(() => {
     setTitleSize(title.length);
   }, [title]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (excerpt) {
       setExcerptSize(excerpt.length);
     }

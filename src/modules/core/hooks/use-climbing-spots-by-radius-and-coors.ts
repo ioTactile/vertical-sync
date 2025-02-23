@@ -3,10 +3,7 @@ import getClimbingSpotsByRadiusAndCoords from "@/modules/core/queries/get-climbi
 
 const useClimbingSpotsByRadiusAndCoords = (
   radius: number,
-  coords: {
-    latitude: number;
-    longitude: number;
-  },
+  coords: [number, number],
   { enabled }: { enabled: boolean }
 ) => {
   return useQuery({

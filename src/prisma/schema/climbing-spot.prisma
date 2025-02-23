@@ -4,8 +4,6 @@ model ClimbingSpot {
   description String?
   country String?
   city String?
-  latitude Float
-  longitude Float
   coords Unsupported("geography(Point, 4326)")?
   imageUrls  String[]
   types ClimbingSpotType[]

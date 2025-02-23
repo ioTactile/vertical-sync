@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { updateSpotNotation } from "@/prisma/hooks/climbing-spot-hooks";
+import updateSpotNotation from "@/prisma/hooks/climbing-spot-hooks";
 
 const prismaClientSingleton = () => {
   return new PrismaClient().$extends({

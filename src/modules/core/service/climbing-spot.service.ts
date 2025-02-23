@@ -5,6 +5,7 @@ import {
 import {
   CreateClimbingSpotDto,
   GetClimbingSpotsResponse,
+  GetClimbingSpotsSearchResponse,
 } from "@/modules/core/model/ClimbingSpot";
 
 export class ClimbingSpotService {
@@ -18,15 +19,18 @@ export class ClimbingSpotService {
 
   async getClimbingSpotsByRadiusAndCoords(
     radius: number,
-    coords: {
-      latitude: number;
-      longitude: number;
-    }
+    coords: [number, number]
   ): Promise<GetClimbingSpotsResponse> {
     return await this.climbingSpotRepository.findByRadiusAndCoords(
       radius,
       coords
     );
+  }
+
+  async getClimbingSpotsSearch(
+    searchQuery: string
+  ): Promise<GetClimbingSpotsSearchResponse> {
+    return await this.climbingSpotRepository.findBySearch(searchQuery);
   }
 
   async createClimbingSpot(climbingSpot: CreateClimbingSpotDto): Promise<void> {

@@ -2,10 +2,7 @@ import { climbingSpotGateway } from "@/modules/core/gateway-infra/api.climbing-s
 
 const getClimbingSpotsByRadiusAndCoords = async (
   radius: number,
-  coords: {
-    latitude: number;
-    longitude: number;
-  }
+  coords: [number, number]
 ) => {
   return await climbingSpotGateway.getClimbingSpotsByRadiusAndCoords(
     radius,

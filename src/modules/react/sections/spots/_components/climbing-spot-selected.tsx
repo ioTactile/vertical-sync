@@ -1,7 +1,7 @@
-import { ClimbingSpot } from "@prisma/client";
+import { ExtendedClimbingSpot } from "@/modules/core/model/ClimbingSpot";
 
 interface ClimbingSpotSelectedProps {
-  spot: ClimbingSpot;
+  spot: ExtendedClimbingSpot;
 }
 
 const ClimbingSpotSelected = ({ spot }: ClimbingSpotSelectedProps) => {

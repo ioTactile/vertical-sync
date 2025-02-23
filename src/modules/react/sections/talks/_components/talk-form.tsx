@@ -9,7 +9,7 @@ import {
   createTalkSchema,
   CreateTalkInputs,
 } from "@/modules/react/sections/talks/_schemas/create-talk";
-import { useEffect, useState } from "react";
+import * as React from "react";
 import { TALK_TITLE_MAX_LENGTH } from "@/app/_constants/app";
 import {
   Form,
@@ -63,10 +63,10 @@ const TalkForm = () => {
     });
   };
 
-  const [titleSize, setTitleSize] = useState<number>(0);
+  const [titleSize, setTitleSize] = React.useState<number>(0);
 
   const title = watch("title");
-  useEffect(() => {
+  React.useEffect(() => {
     setTitleSize(title.length);
   }, [title]);
 

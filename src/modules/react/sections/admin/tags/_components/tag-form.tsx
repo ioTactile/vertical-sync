@@ -17,7 +17,7 @@ import {
 } from "@/app/_components/ui/form";
 import { useCreateTag } from "@/modules/core/mutations/useCreateTag";
 import { useUpdateTag } from "@/modules/core/mutations/useUpdateTag";
-import { useEffect } from "react";
+import * as React from "react";
 import { useRouter } from "next/navigation";
 import { GetTagResponse } from "@/modules/core/model/Tag";
 import { useAuthAction } from "@/app/_hooks/use-auth-action";
@@ -44,7 +44,7 @@ const TagForm = ({ mode, initialData }: TagFormProps) => {
     setValue,
   } = form;
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (initialData) {
       setValue("name", initialData.name);
     }

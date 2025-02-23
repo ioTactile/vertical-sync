@@ -15,13 +15,19 @@ export class ApiClimbingSpotGateway implements IClimbingSpotGateway {
 
   async getClimbingSpotsByRadiusAndCoords(
     radius: number,
-    coords: {
-      latitude: number;
-      longitude: number;
-    }
+    coords: [number, number]
   ): Promise<GetClimbingSpotsResponse> {
     const response = await axiosInstance.get<GetClimbingSpotsResponse>(
       `/api/climbing-spot?radius=${radius}&coords=${JSON.stringify(coords)}`
+    );
+    return response.data;
+  }
+
+  async getClimbingSpotsSearch(
+    searchQuery: string
+  ): Promise<GetClimbingSpotsResponse> {
+    const response = await axiosInstance.get<GetClimbingSpotsResponse>(
+      `/api/climbing-spot?search=${searchQuery}`
     );
     return response.data;
   }

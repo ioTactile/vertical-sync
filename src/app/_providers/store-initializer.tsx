@@ -2,14 +2,14 @@
 
 import { useUserStore } from "@/modules/core/store/store";
 import { useUser } from "@clerk/nextjs";
-import { useEffect } from "react";
+import * as React from "react";
 
 const StoreInitializer = () => {
   const { user, isLoaded } = useUser();
   const setUser = useUserStore((state) => state.setUser);
   const setIsLoaded = useUserStore((state) => state.setIsLoaded);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (user) {
       setUser(user);
     }

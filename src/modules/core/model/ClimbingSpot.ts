@@ -7,9 +7,13 @@ export type GetClimbingSpotResponse = ClimbingSpot & {
 
 export type GetClimbingSpotsResponse = GetClimbingSpotResponse[];
 
-export type ExtendedClimbingSpot = Omit<GetClimbingSpotResponse, "coords"> & {
+export type ExtendedClimbingSpot = Omit<
+  GetClimbingSpotResponse,
+  "coords" | "notation"
+> & {
   latitude: number;
   longitude: number;
+  notation: string;
 };
 
 export type ExtendedClimbingSpots = ExtendedClimbingSpot[];

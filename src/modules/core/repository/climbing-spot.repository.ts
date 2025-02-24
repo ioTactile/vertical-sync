@@ -24,7 +24,7 @@ export class PrismaClimbingSpotRepository implements IClimbingSpotRepository {
         ST_X(coords::geometry) as longitude,
         ST_Y(coords::geometry) as latitude,
         ST_AsText(coords) as coords,
-        "imageUrls", types, difficulties, "bestPeriod", address,
+        "imageUrls", types, difficulties, "bestPeriod", notation, "notationCount", address,
         "websiteUrl", "phoneNumber", email, "parkingAvailable",
         "toiletsAvailable", status, "authorId", "createdAt", "updatedAt"
       FROM "ClimbingSpot"
@@ -43,7 +43,7 @@ export class PrismaClimbingSpotRepository implements IClimbingSpotRepository {
       ST_X(coords::geometry) as longitude,
       ST_Y(coords::geometry) as latitude,
       ST_AsText(coords) as coords,
-      "imageUrls", types, difficulties, "bestPeriod", address,
+      "imageUrls", types, difficulties, "bestPeriod", notation, "notationCount", address,
       "websiteUrl", "phoneNumber", email, "parkingAvailable",
       "toiletsAvailable", status, "authorId", "createdAt", "updatedAt"
     FROM "ClimbingSpot"
@@ -70,7 +70,7 @@ export class PrismaClimbingSpotRepository implements IClimbingSpotRepository {
         ST_X(coords::geometry) as longitude,
         ST_Y(coords::geometry) as latitude,
         ST_AsText(coords) as coords,
-        "imageUrls", types, difficulties, "bestPeriod", address,
+        "imageUrls", types, difficulties, "bestPeriod", notation, "notationCount", address,
         "websiteUrl", "phoneNumber", email, "parkingAvailable",
         "toiletsAvailable", status, "authorId", "createdAt", "updatedAt",
         SIMILARITY(LOWER(name), ${searchQueryLower}) as name_similarity,

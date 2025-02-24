@@ -50,7 +50,7 @@ const Footer = () => {
           ))}
 
           <div className="space-y-3">
-            <h3 className="font-semibold">Suivez-nous</h3>
+            <h3 className="font-semibold">Suivez-moi</h3>
             <div className="flex gap-2">
               <Button variant="outline" size="icon" asChild>
                 <a

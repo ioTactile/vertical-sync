@@ -5,6 +5,7 @@ const isAdminRoute = createRouteMatcher(["/admin(.*)"]);
 const isProtectedRoute = createRouteMatcher([
   "/talks/create",
   "/talks/:id/edit",
+  "/user-profile",
 ]);
 const isRedactorRoute = createRouteMatcher(["/blog/create", "/blog/update"]);
 

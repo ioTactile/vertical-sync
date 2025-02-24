@@ -1,5 +1,5 @@
 import { Button } from "@/app/_components/ui/button";
-import { SignInButton } from "@clerk/nextjs";
+import Link from "next/link";
 
 const CTASection = () => {
   return (
@@ -12,11 +12,10 @@ const CTASection = () => {
           Créez votre compte gratuitement et commencez à partager votre passion
           pour l&apos;escalade
         </p>
-        <SignInButton>
-          <Button size="lg" className="rounded-full">
-            Commencer maintenant
-          </Button>
-        </SignInButton>
+
+        <Button size="lg" className="rounded-full" asChild>
+          <Link href="/auth/sign-in">Commencer maintenant</Link>
+        </Button>
       </div>
     </section>
   );

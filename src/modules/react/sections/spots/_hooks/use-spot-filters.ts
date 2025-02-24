@@ -62,37 +62,36 @@ const useSpotFilters = (
   }, [selectedSpot, searchSpots]);
 
   const filteredSpots = React.useMemo(() => {
-    const filteredApiSpots =
-      spots
-        ?.filter((spot) => {
-          const matchesType =
-            filters.type.includes(ClimbingSpotType.ALL) ||
-            filters.type.some((type) => spot.types.includes(type));
+    const apiSpots =
+      spots?.map((spot) => {
+        const { coords, ...rest } = spot;
+        return {
+          ...rest,
+          ...extractCoords(coords),
+          notation: rest.notation?.toString() ?? "0",
+        };
+      }) ?? [];
 
-          const matchesDifficulty =
-            filters.difficulties.length === 0 ||
-            filters.difficulties.some((difficulty) =>
-              spot.difficulties.includes(difficulty)
-            );
-
-          return matchesType && matchesDifficulty;
-        })
-        .map((spot) => {
-          const { coords, ...rest } = spot;
-          return {
-            ...rest,
-            ...extractCoords(coords),
-          };
-        }) ?? [];
-
-    const allSpots = [...filteredApiSpots];
+    const allSpots = [...apiSpots];
     searchSpots.forEach((searchSpot) => {
       if (!allSpots.some((spot) => spot.id === searchSpot.id)) {
         allSpots.push(searchSpot);
       }
     });
 
-    return allSpots;
+    return allSpots.filter((spot) => {
+      const matchesType =
+        filters.type.includes(ClimbingSpotType.ALL) ||
+        filters.type.some((type) => spot.types.includes(type));
+
+      const matchesDifficulty =
+        filters.difficulties.length === 0 ||
+        filters.difficulties.some((difficulty) =>
+          spot.difficulties.includes(difficulty)
+        );
+
+      return matchesType && matchesDifficulty;
+    });
   }, [filters, spots, searchSpots]);
 
   return {

@@ -6,6 +6,8 @@ import {
 } from "@/app/_components/ui/tabs";
 import useClimbingSpotComments from "@/modules/core/hooks/use-climbing-spot-comments";
 import { ExtendedClimbingSpot } from "@/modules/core/model/ClimbingSpot";
+import { Author } from "@/modules/core/model/User";
+import { getTimeBetweenDateAndNow } from "@/modules/core/utils/date";
 import {
   CLIMBING_SPOT_DIFFICULTY_LABELS,
   CLIMBING_SPOT_TYPE_LABELS,
@@ -23,21 +25,25 @@ import {
   Toilet,
 } from "lucide-react";
 import Image from "next/image";
-import { ComponentType, useState } from "react";
+import Avatar from "@/modules/react/sections/_components/avatar";
+import * as React from "react";
 
 interface ClimbingSpotSelectedProps {
   spot: ExtendedClimbingSpot;
 }
 
 const ClimbingSpotSelected = ({ spot }: ClimbingSpotSelectedProps) => {
-  const [commentsEnabled, setCommentsEnabled] = useState<boolean>(false);
+  const [tabs, setTabs] = React.useState<"infos" | "comments">("infos");
 
-  const { data: comments } = useClimbingSpotComments(spot.id, commentsEnabled);
+  const { data: comments } = useClimbingSpotComments(
+    spot.id,
+    tabs === "comments"
+  );
 
   return (
     <div
       className="absolute top-0 left-0 w-full sm:min-w-[300px] sm:max-w-[400px] h-screen-minus-header sm:h-[600px] border-r border-r-border  
-      bg-white z-500 shadow-[2px_0px_5px_rgba(0,0,0,0.1)]"
+      bg-background z-500 shadow-[2px_0px_5px_rgba(0,0,0,0.1)]"
     >
       <div className="flex flex-col h-full overflow-y-auto">
         {spot.imageUrls.length > 0 ? (
@@ -68,16 +74,16 @@ const ClimbingSpotSelected = ({ spot }: ClimbingSpotSelectedProps) => {
             <p className="text-sm text-gray-500">{spot.description}</p>
           </div>
 
-          <Tabs defaultValue="infos" className="flex flex-col gap-2">
+          <Tabs
+            defaultValue={tabs}
+            className="flex flex-col gap-2"
+            onValueChange={(value) => setTabs(value as "infos" | "comments")}
+          >
             <TabsList className="w-full">
               <TabsTrigger value="infos" className="w-full">
                 Infos
               </TabsTrigger>
-              <TabsTrigger
-                value="comments"
-                className="w-full"
-                onClick={() => setCommentsEnabled(true)}
-              >
+              <TabsTrigger value="comments" className="w-full">
                 Commentaires
               </TabsTrigger>
             </TabsList>
@@ -159,10 +165,13 @@ const ClimbingSpotSelected = ({ spot }: ClimbingSpotSelectedProps) => {
             </TabsContent>
             <TabsContent value="comments" className="flex flex-col gap-4">
               {comments?.map((comment, index) => (
-                <div key={index} className="flex flex-col gap-2">
-                  <h3 className="text-sm font-bold">{comment.author.name}</h3>
-                  <p className="text-sm text-gray-500">{comment.content}</p>
-                </div>
+                <Comment
+                  key={index}
+                  author={comment.author}
+                  content={comment.content}
+                  notation={comment.notation}
+                  createdAt={comment.createdAt}
+                />
               ))}
             </TabsContent>
           </Tabs>
@@ -173,7 +182,7 @@ const ClimbingSpotSelected = ({ spot }: ClimbingSpotSelectedProps) => {
 };
 
 interface ElementProps {
-  icon: ComponentType<LucideProps>;
+  icon: React.ComponentType<LucideProps>;
   label: string | null;
   link?: string | null;
 }
@@ -238,6 +247,46 @@ const Notation = ({
       {notationCount && notationCount > 0 && (
         <span className="text-sm text-gray-500">({notationCount})</span>
       )}
+    </div>
+  );
+};
+
+interface CommentProps {
+  author: Author & {
+    _count: {
+      climbingSpotComments: number;
+    };
+  };
+  content: string;
+  notation: number;
+  createdAt: Date;
+}
+
+const Comment = ({ author, content, notation, createdAt }: CommentProps) => {
+  const notationNumber = notation.toString();
+
+  return (
+    <div className="flex flex-col gap-2 py-4">
+      <div className="flex items-center gap-3">
+        <Avatar alt={author.name} src={author.imageUrl} className="w-8 h-8" />
+        <div className="flex flex-col">
+          <span className="font-medium">{author.name}</span>
+          {author._count.climbingSpotComments && (
+            <span className="text-sm text-gray-500">
+              {author._count.climbingSpotComments} avis
+            </span>
+          )}
+        </div>
+      </div>
+
+      <div className="flex items-center gap-2">
+        <Notation notation={notationNumber} notationCount={null} />
+        <span className="text-sm text-gray-500">
+          il y a {getTimeBetweenDateAndNow(createdAt)}
+        </span>
+      </div>
+
+      <p className="text-sm text-gray-700">{content}</p>
     </div>
   );
 };

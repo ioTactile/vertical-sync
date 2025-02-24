@@ -13,7 +13,6 @@ export const mockArticle: Article = {
   content: "Test content",
   slug: "test-article",
   imageUrl: "https://example.com/image.jpg",
-  imageName: "test-image",
   excerpt: "Test excerpt",
   published: true,
   authorId: "user_1",
@@ -31,7 +30,6 @@ export const mockArticleDto: CreateArticleDto = {
   content: "Test content",
   authorId: "user_1",
   imageUrl: "https://example.com/image.jpg",
-  imageName: "test-image",
   excerpt: "Test excerpt",
   articleTags: [],
 };

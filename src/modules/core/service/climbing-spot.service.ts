@@ -6,7 +6,6 @@ import {
   CreateClimbingSpotDto,
   GetClimbingSpotCommentsResponse,
   GetClimbingSpotsResponse,
-  GetClimbingSpotsSearchResponse,
 } from "@/modules/core/model/ClimbingSpot";
 
 export class ClimbingSpotService {
@@ -30,7 +29,7 @@ export class ClimbingSpotService {
 
   async getClimbingSpotsSearch(
     searchQuery: string
-  ): Promise<GetClimbingSpotsSearchResponse> {
+  ): Promise<GetClimbingSpotsResponse> {
     return await this.climbingSpotRepository.findBySearch(searchQuery);
   }
 

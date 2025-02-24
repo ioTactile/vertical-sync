@@ -41,7 +41,7 @@ const ClimbingSpotsHeader = () => {
               Créer un spot
             </Button>
           </DialogTrigger>
-          <DialogContent className="overflow-y-auto max-h-full sm:max-h-[90vh]">
+          <DialogContent className="overflow-y-auto max-h-full sm:max-h-[90dvh]">
             <DialogHeader>
               <DialogTitle>Créer un nouveau spot d&apos;escalade</DialogTitle>
             </DialogHeader>

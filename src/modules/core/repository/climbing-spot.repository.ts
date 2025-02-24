@@ -2,7 +2,6 @@ import {
   CreateClimbingSpotDto,
   GetClimbingSpotCommentsResponse,
   GetClimbingSpotsResponse,
-  GetClimbingSpotsSearchResponse,
 } from "@/modules/core/model/ClimbingSpot";
 import prisma from "@/prisma";
 import { createId } from "@paralleldrive/cuid2";
@@ -13,7 +12,7 @@ export interface IClimbingSpotRepository {
     radius: number,
     coords: [number, number]
   ): Promise<GetClimbingSpotsResponse>;
-  findBySearch(searchQuery: string): Promise<GetClimbingSpotsSearchResponse>;
+  findBySearch(searchQuery: string): Promise<GetClimbingSpotsResponse>;
   create(climbingSpot: CreateClimbingSpotDto): Promise<void>;
   findComments(id: string): Promise<GetClimbingSpotCommentsResponse>;
 }
@@ -60,9 +59,7 @@ export class PrismaClimbingSpotRepository implements IClimbingSpotRepository {
     return spots as GetClimbingSpotsResponse;
   }
 
-  async findBySearch(
-    searchQuery: string
-  ): Promise<GetClimbingSpotsSearchResponse> {
+  async findBySearch(searchQuery: string): Promise<GetClimbingSpotsResponse> {
     const searchQueryLower = searchQuery.toLowerCase();
     const searchPattern = `%${searchQueryLower}%`;
 
@@ -98,7 +95,7 @@ export class PrismaClimbingSpotRepository implements IClimbingSpotRepository {
       LIMIT 5;
     `;
 
-    return spots as GetClimbingSpotsSearchResponse;
+    return spots as GetClimbingSpotsResponse;
   }
 
   async create(data: CreateClimbingSpotDto): Promise<void> {

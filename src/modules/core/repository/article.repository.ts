@@ -186,7 +186,6 @@ export class PrismaArticleRepository implements IArticleRepository {
         slug,
         excerpt: data.excerpt,
         imageUrl: data.imageUrl,
-        imageName: data.imageName,
         authorId: data.authorId,
         articleTags: {
           create: data.articleTags?.map((tag: { id: string }) => ({
@@ -216,7 +215,6 @@ export class PrismaArticleRepository implements IArticleRepository {
         slug,
         excerpt: data.excerpt,
         imageUrl: data.imageUrl,
-        imageName: data.imageName,
         articleTags: {
           deleteMany: {},
           create: data.articleTags?.map((tag: { id: string }) => ({

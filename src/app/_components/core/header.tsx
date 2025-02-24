@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils";
 import { Library, Map, Menu, MessageSquareText, Settings } from "lucide-react";
 import AppLogo from "@/app/_components/core/app-logo";
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { UserButton } from "@clerk/nextjs";
 import { ThemeSwitcherDropdown } from "@/app/_components/core/theme-switcher-dropdown";
 import Link from "next/link";
 import {
@@ -35,6 +35,7 @@ const mainMenuItems: NavigationItem<string>[] = [
 
 const Header = () => {
   const isAdmin = useUserStore((state) => state.isAdmin);
+  const user = useUserStore((state) => state.user);
 
   const menuItems = isAdmin
     ? [...mainMenuItems, { title: "Admin", url: "/admin", icon: Settings }]
@@ -68,16 +69,19 @@ const Header = () => {
         </div>
 
         {/* User Navigation */}
-        <div className="hidden items-center space-x-4 md:flex">
+        <div className="hidden items-center space-x-2 md:flex">
           <ThemeSwitcherDropdown />
           <div className="flex">
-            <SignedOut>
-              <SignInButton />
-            </SignedOut>
-
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
+            {user ? (
+              <UserButton
+                userProfileMode="navigation"
+                userProfileUrl="/user-profile"
+              />
+            ) : (
+              <Button variant="outline" asChild className="rounded-full">
+                <Link href="/auth/sign-in">Connexion</Link>
+              </Button>
+            )}
           </div>
         </div>
 
@@ -117,17 +121,30 @@ const Header = () => {
 
               <Separator />
 
-              <SheetClose asChild>
-                <div className="px-4 py-2">
-                  <SignedOut>
-                    <SignInButton />
-                  </SignedOut>
-
-                  <SignedIn>
-                    <UserButton />
-                  </SignedIn>
-                </div>
-              </SheetClose>
+              <div className="px-4 py-2">
+                {user ? (
+                  <SheetClose asChild>
+                    <UserButton
+                      userProfileMode="navigation"
+                      userProfileUrl="/user-profile"
+                      showName={true}
+                      appearance={{
+                        elements: {
+                          userButtonBox: "flex-row-reverse",
+                          userButtonAvatarBox: "h-5 w-5",
+                          userButtonOuterIdentifier: "text-foreground",
+                        },
+                      }}
+                    />
+                  </SheetClose>
+                ) : (
+                  <SheetClose asChild>
+                    <Button variant="outline" asChild className="rounded-full">
+                      <Link href="/auth/sign-in">Connexion</Link>
+                    </Button>
+                  </SheetClose>
+                )}
+              </div>
             </nav>
           </SheetContent>
         </Sheet>

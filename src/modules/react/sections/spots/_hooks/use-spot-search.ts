@@ -30,7 +30,11 @@ export const useSpotSearch = (isSpotSelected: boolean): UseSpotSearchReturn => {
     return (
       searchResults?.map((spot) => {
         const { coords, ...rest } = spot;
-        return { ...rest, ...extractCoords(coords) };
+        return {
+          ...rest,
+          ...extractCoords(coords),
+          notation: rest.notation?.toString() ?? "0",
+        };
       }) ?? []
     );
   }, [searchResults]);

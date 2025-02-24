@@ -64,6 +64,7 @@ export const useSpotSelection = ({
       setSearchQuery,
       setIsSearchOpen,
       addSearchSpots,
+      clearSearchSpots,
       userLocation,
     ]
   );
@@ -74,7 +75,6 @@ export const useSpotSelection = ({
       onSpotSelect(spot);
       setIsSearchOpen(false);
       updateMapView([spot.latitude, spot.longitude]);
-      console.log(searchInputRef.current);
       searchInputRef.current?.blur();
     },
     [onSpotSelect, updateMapView, setSearchQuery, setIsSearchOpen]

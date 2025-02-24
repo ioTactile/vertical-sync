@@ -20,6 +20,7 @@ import { ExtendedClimbingSpot } from "@/modules/core/model/ClimbingSpot";
 import { useSpotSearch } from "@/modules/react/sections/spots/_hooks/use-spot-search";
 import { useSpotTypeAndDifficulty } from "@/modules/react/sections/spots/_hooks/use-spot-type-and-difficulty";
 import { useSpotSelection } from "@/modules/react/sections/spots/_hooks/use-spot-selection";
+import { MobileFiltersDialog } from "@/modules/react/sections/spots/_components/mobile-filters-dialog";
 
 interface SpotsFiltersProps {
   userLocation: [number, number] | null;
@@ -86,7 +87,7 @@ export const SpotsFilters = ({
           <Input
             ref={searchInputRef}
             placeholder="Rechercher un spot..."
-            className="mr-4 pl-10 bg-white rounded-full h-10 w-[270px]"
+            className="mr-4 pl-10 bg-background rounded-full text-sm sm:text-base h-10 w-full sm:w-[270px]"
             value={searchQuery}
             onChange={handleSearch}
             onKeyDown={(e) => {
@@ -97,7 +98,7 @@ export const SpotsFilters = ({
             onFocus={() => setIsSearchOpen(true)}
           />
           {isSearchOpen && (
-            <div className="absolute top-full left-0 w-full mt-1 bg-white rounded-lg shadow-lg">
+            <div className="absolute top-full left-0 w-full mt-1 bg-background rounded-lg shadow-lg">
               {isLoading ? (
                 <div className="p-2">Recherche en cours...</div>
               ) : (
@@ -121,56 +122,68 @@ export const SpotsFilters = ({
         </div>
       </div>
 
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="outline" className="rounded-full shadow-sm">
-            Types
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent
-          align="end"
-          className="z-1000 bg-white overflow-y-scroll h-40"
-        >
-          {spotTypes.map((type) => (
-            <DropdownMenuItem key={type} onClick={() => handleTypeSelect(type)}>
-              <Check
-                className={`mr-2 h-4 w-4 ${
-                  selectedTypes.includes(type) ? "opacity-100" : "opacity-0"
-                }`}
-              />
-              {CLIMBING_SPOT_TYPE_LABELS[type]}
-            </DropdownMenuItem>
-          ))}
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <MobileFiltersDialog
+        selectedTypes={selectedTypes}
+        selectedDifficulties={selectedDifficulties}
+        handleTypeSelect={handleTypeSelect}
+        handleDifficultySelect={handleDifficultySelect}
+      />
 
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="outline" className="rounded-full shadow-sm">
-            Difficultés
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent
-          align="end"
-          className="z-1000 bg-white overflow-y-scroll h-40"
-        >
-          {spotDifficulties.map((difficulty) => (
-            <DropdownMenuItem
-              key={difficulty}
-              onClick={() => handleDifficultySelect(difficulty)}
-            >
-              <Check
-                className={`mr-2 h-4 w-4 ${
-                  selectedDifficulties.includes(difficulty)
-                    ? "opacity-100"
-                    : "opacity-0"
-                }`}
-              />
-              {CLIMBING_SPOT_DIFFICULTY_LABELS[difficulty]}
-            </DropdownMenuItem>
-          ))}
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <div className="hidden md:flex gap-2">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="rounded-full shadow-sm">
+              Types
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            align="end"
+            className="z-1000 bg-background overflow-y-scroll h-40"
+          >
+            {spotTypes.map((type) => (
+              <DropdownMenuItem
+                key={type}
+                onClick={() => handleTypeSelect(type)}
+              >
+                <Check
+                  className={`mr-2 h-4 w-4 ${
+                    selectedTypes.includes(type) ? "opacity-100" : "opacity-0"
+                  }`}
+                />
+                {CLIMBING_SPOT_TYPE_LABELS[type]}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="rounded-full shadow-sm">
+              Difficultés
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            align="end"
+            className="z-1000 bg-background overflow-y-scroll h-40"
+          >
+            {spotDifficulties.map((difficulty) => (
+              <DropdownMenuItem
+                key={difficulty}
+                onClick={() => handleDifficultySelect(difficulty)}
+              >
+                <Check
+                  className={`mr-2 h-4 w-4 ${
+                    selectedDifficulties.includes(difficulty)
+                      ? "opacity-100"
+                      : "opacity-0"
+                  }`}
+                />
+                {CLIMBING_SPOT_DIFFICULTY_LABELS[difficulty]}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
     </div>
   );
 };

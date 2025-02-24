@@ -37,7 +37,6 @@ const useMapControls = ({
   });
 
   const handleZoomChange = (newZoom: number) => {
-    console.log("newZoom", newZoom);
     setState((prev) => ({ ...prev, zoom: newZoom }));
   };
 
@@ -55,7 +54,6 @@ const useMapControls = ({
 
   React.useEffect(() => {
     if (userLocation) {
-      console.log("userLocation", userLocation);
       updateMapView(userLocation);
     }
   }, [userLocation]);

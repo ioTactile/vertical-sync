@@ -75,20 +75,14 @@ export class PrismaClimbingSpotRepository implements IClimbingSpotRepository {
         SIMILARITY(LOWER(name), ${searchQueryLower}) as name_similarity,
         SIMILARITY(LOWER(description), ${searchQueryLower}) as description_similarity,
         SIMILARITY(LOWER(city), ${searchQueryLower}) as city_similarity,
-        SIMILARITY(LOWER(types::text), ${searchQueryLower}) as types_similarity,
-        SIMILARITY(LOWER(difficulties::text), ${searchQueryLower}) as difficulties_similarity
       FROM "ClimbingSpot"
       WHERE (
         LOWER(name) % ${searchQueryLower}
         OR LOWER(description) % ${searchQueryLower}
         OR LOWER(city) % ${searchQueryLower}
-        OR LOWER(types::text) % ${searchQueryLower}
-        OR LOWER(difficulties::text) % ${searchQueryLower}
         OR LOWER(name) LIKE ${searchPattern}
         OR LOWER(description) LIKE ${searchPattern}
         OR LOWER(city) LIKE ${searchPattern}
-        OR LOWER(types::text) LIKE ${searchPattern}
-        OR LOWER(difficulties::text) LIKE ${searchPattern}
       )
       AND status = 'APPROVED'
       ORDER BY name_similarity DESC

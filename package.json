@@ -50,7 +50,6 @@
     "@tanstack/react-query": "^5.62.16",
     "@tanstack/react-query-devtools": "^5.62.16",
     "@tanstack/react-table": "^8.20.6",
-    "@uploadthing/react": "^7.1.5",
     "axios": "^1.7.9",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -74,7 +73,6 @@
     "stripe": "^17.5.0",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
-    "uploadthing": "^7.4.4",
     "zod": "^3.24.1",
     "zustand": "^5.0.3"
   },

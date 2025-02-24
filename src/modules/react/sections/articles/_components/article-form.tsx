@@ -20,9 +20,7 @@ import {
   FormItem,
   FormMessage,
 } from "@/app/_components/ui/form";
-import { UploadDropzone } from "@/lib/uploadthing";
 import { useToast } from "@/app/_hooks/use-toast";
-import Image from "next/image";
 import { useUpdateArticle } from "@/modules/core/mutations/useUpdateArticle";
 import { useCreateArticle } from "@/modules/core/mutations/useCreateArticle";
 import {
@@ -32,6 +30,10 @@ import {
 import { useRouter } from "next/navigation";
 import MultiSelectTags from "@/modules/react/sections/admin/articles/_components/multi-select-tags";
 import { useAuthAction } from "@/app/_hooks/use-auth-action";
+import { useS3Upload } from "@/app/_hooks/use-s3-upload";
+import { useFileManager } from "@/app/_hooks/use-file-manager";
+import { FileUpload } from "@/app/_components/ui/file-upload";
+import FilePreview from "@/app/_components/core/file-preview";
 
 interface ArticleFormProps {
   mode: "create" | "update";
@@ -47,7 +49,6 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
       title: "",
       content: "",
       imageUrl: null,
-      imageName: null,
       excerpt: null,
       articleTags: [],
     },
@@ -68,7 +69,6 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
       setValue("title", initialData.title);
       setValue("content", initialData.content);
       setValue("imageUrl", initialData.imageUrl);
-      setValue("imageName", initialData.imageName);
       setValue("excerpt", initialData.excerpt);
       setValue(
         "articleTags",
@@ -87,32 +87,55 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
 
   const { handleAuthAction } = useAuthAction();
 
+  const { uploadToS3, deleteFromS3, isUploading } = useS3Upload({
+    maxFiles: 5,
+  });
+  const { files, handleFiles, clearFiles, removeFile } = useFileManager(5);
+
   const handleCreateArticleSubmit: SubmitHandler<CreateArticleInputs> = (
     data
   ) => {
-    handleAuthAction((user) => {
+    handleAuthAction(async (user) => {
       const article: Omit<CreateArticleDto, "authorId"> = {
         title: data.title,
         content: data.content,
         imageUrl: data.imageUrl || null,
-        imageName: data.imageName || null,
         excerpt: data.excerpt || null,
         articleTags: data.articleTags,
       };
 
       if (mode === "create") {
-        createArticleMutation.mutate(
-          {
-            ...article,
-            authorId: user.id,
-          },
-          {
-            onSuccess: () => {
-              reset();
-              router.push("/blog");
-            },
+        try {
+          let imageUrls: string[] = [];
+
+          if (files.length > 0) {
+            imageUrls = await uploadToS3(files);
           }
-        );
+          createArticleMutation.mutate(
+            {
+              ...article,
+              imageUrl: imageUrls[0],
+              authorId: user.id,
+            },
+            {
+              onSuccess: () => {
+                clearFiles();
+                reset();
+                router.push("/blog");
+              },
+            }
+          );
+        } catch (error: unknown) {
+          console.error(error);
+          if (files.length > 0) {
+            await deleteFromS3(files.map((file) => file.name));
+          }
+          toast({
+            title: "Erreur",
+            description: "Une erreur est survenue lors de l'upload des images",
+            variant: "destructive",
+          });
+        }
       } else {
         updateArticleMutation.mutate(
           {
@@ -217,36 +240,16 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
           )}
         />
 
-        {watch("imageUrl") && (
-          <div className="aspect-video overflow-hidden rounded-xl">
-            <Image
-              src={watch("imageUrl") as string}
-              alt={watch("imageName") as string}
-              width={500}
-              height={500}
-              className="object-cover size-full"
-            />
-          </div>
-        )}
+        <FilePreview files={files} onRemove={removeFile} />
 
-        <UploadDropzone
-          content={{
-            label: watch("imageName") ? "Changer l'image" : "Ajouter une image",
-            button: "Sélectionner une image",
-          }}
-          endpoint="imageUploader"
-          onClientUploadComplete={(res) => {
-            const file = res[0];
-            setValue("imageUrl", file.url);
-            setValue("imageName", file.name);
-          }}
-          onUploadError={() => {
-            toast({
-              title: "Erreur",
-              description: "Une erreur est survenue lors de l'upload",
-            });
-          }}
-          className="rounded-xl ut-button:w-48 ut-button:bg-primary ut-button:text-primary-foreground ut-label:text-foreground ut-allowed-content:text-foreground"
+        <FileUpload
+          maxFiles={5}
+          onUpload={handleFiles}
+          isLoading={isUploading}
+          className="rounded-xl"
+          label={
+            watch("imageUrl") ? "Modifier l'image" : "Déposer votre image ici"
+          }
         />
 
         <MultiSelectTags control={control} />

@@ -4,6 +4,7 @@ import {
 } from "@/modules/core/repository/climbing-spot.repository";
 import {
   CreateClimbingSpotDto,
+  GetClimbingSpotCommentsResponse,
   GetClimbingSpotsResponse,
   GetClimbingSpotsSearchResponse,
 } from "@/modules/core/model/ClimbingSpot";
@@ -35,6 +36,12 @@ export class ClimbingSpotService {
 
   async createClimbingSpot(climbingSpot: CreateClimbingSpotDto): Promise<void> {
     await this.climbingSpotRepository.create(climbingSpot);
+  }
+
+  async getClimbingSpotComments(
+    id: string
+  ): Promise<GetClimbingSpotCommentsResponse> {
+    return await this.climbingSpotRepository.findComments(id);
   }
 }
 

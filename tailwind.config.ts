@@ -1,8 +1,7 @@
-import { withUt } from "uploadthing/tw";
 import type { Config } from "tailwindcss";
 import animate from "tailwindcss-animate";
 
-export default withUt({
+export default {
   darkMode: ["class"],
   content: [
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
@@ -13,6 +12,9 @@ export default withUt({
   theme: {
     extend: {
       minHeight: {
+        "screen-minus-header": "calc(100dvh - var(--header-height))",
+      },
+      height: {
         "screen-minus-header": "calc(100dvh - var(--header-height))",
       },
       colors: {
@@ -79,4 +81,4 @@ export default withUt({
     },
   },
   plugins: [animate],
-}) satisfies Config;
+} satisfies Config;

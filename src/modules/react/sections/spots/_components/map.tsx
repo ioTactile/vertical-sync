@@ -31,7 +31,10 @@ const Map = ({
   shouldUpdateView,
 }: MapProps) => {
   return (
-    <MapContainer zoomControl={false} className="h-[600px] w-full">
+    <MapContainer
+      zoomControl={false}
+      className="w-full h-screen-minus-header sm:h-[600px]"
+    >
       <MapEventHandler
         onZoomChange={handleZoomChange}
         onMapClick={handleMapClick}

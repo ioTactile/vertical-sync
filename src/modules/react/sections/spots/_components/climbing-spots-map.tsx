@@ -58,7 +58,7 @@ const ClimbingSpotsMap = () => {
   } = useSpotFilters(climbingSpots, selectedSpot);
 
   return (
-    <div className="relative min-h-screen-minus-header">
+    <div className="relative">
       <SpotsFilters
         userLocation={userLocation}
         isSpotSelected={!!selectedSpot}

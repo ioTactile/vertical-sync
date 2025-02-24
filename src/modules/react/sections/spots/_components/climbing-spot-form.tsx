@@ -20,22 +20,18 @@ import {
 } from "@/app/_components/ui/form";
 import { Input } from "@/app/_components/ui/input";
 import { Textarea } from "@/app/_components/ui/textarea";
-import { UploadDropzone } from "@/lib/uploadthing";
+import { FileUpload } from "@/app/_components/ui/file-upload";
 import { Button } from "@/app/_components/ui/button";
 import { Checkbox } from "@/app/_components/ui/checkbox";
 import MultiSelectClimbing from "@/modules/react/sections/spots/_components/multi-select-climbing";
-import Image from "next/image";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/app/_components/ui/carousel";
 import {
   CLIMBING_SPOT_DIFFICULTY_LABELS,
   CLIMBING_SPOT_TYPE_LABELS,
 } from "@/types/enum";
+import { useS3Upload } from "@/app/_hooks/use-s3-upload";
+import * as React from "react";
+import { useFileManager } from "@/app/_hooks/use-file-manager";
+import FilePreview from "@/app/_components/core/file-preview";
 
 interface ClimbingSpotFormProps {
   onSuccess: () => void;
@@ -68,7 +64,6 @@ const ClimbingSpotForm = ({ onSuccess }: ClimbingSpotFormProps) => {
   const {
     control,
     handleSubmit,
-    setValue,
     formState: { isValid },
     reset,
     watch,
@@ -79,38 +74,63 @@ const ClimbingSpotForm = ({ onSuccess }: ClimbingSpotFormProps) => {
   const { handleAuthAction } = useAuthAction();
   const { toast } = useToast();
 
+  const { uploadToS3, deleteFromS3, isUploading } = useS3Upload({
+    maxFiles: 5,
+  });
+  const { files, handleFiles, clearFiles, removeFile } = useFileManager(5);
+
   const handleCreateClimbingSpotSubmit: SubmitHandler<
     CreateClimbingSpotInputs
   > = (data) => {
-    handleAuthAction((user) => {
-      const { longitude, latitude, ...rest } = data;
-      createClimbingSpotMutation.mutate(
-        {
-          ...rest,
-          authorId: user.id,
-          coords: {
-            type: "Point",
-            coordinates: [longitude, latitude],
-          },
-        },
-        {
-          onSuccess: () => {
-            toast({
-              title: "Succès",
-              description: "Le spot d'escalade a été créé avec succès",
-            });
-            reset();
-            onSuccess();
-          },
-          onError: () => {
-            toast({
-              title: "Erreur",
-              description:
-                "Une erreur est survenue lors de la création du spot d'escalade",
-            });
-          },
+    handleAuthAction(async (user) => {
+      try {
+        let imageUrls: string[] = [];
+
+        if (files.length > 0) {
+          imageUrls = await uploadToS3(files);
         }
-      );
+
+        const { longitude, latitude, ...rest } = data;
+        createClimbingSpotMutation.mutate(
+          {
+            ...rest,
+            imageUrls,
+            authorId: user.id,
+            coords: {
+              type: "Point",
+              coordinates: [longitude, latitude],
+            },
+          },
+          {
+            onSuccess: () => {
+              toast({
+                title: "Succès",
+                description: "Le spot d'escalade a été créé avec succès",
+              });
+              clearFiles();
+              reset();
+              onSuccess();
+            },
+            onError: () => {
+              toast({
+                title: "Erreur",
+                description:
+                  "Une erreur est survenue lors de la création du spot d'escalade",
+              });
+            },
+          }
+        );
+      } catch (error: unknown) {
+        console.error(error);
+        if (files.length > 0) {
+          await deleteFromS3(files.map((file) => file.name));
+        }
+        toast({
+          title: "Erreur",
+          description: "Une erreur est survenue lors de l'upload des images",
+          variant: "destructive",
+        });
+      }
     });
   };
 
@@ -247,42 +267,18 @@ const ClimbingSpotForm = ({ onSuccess }: ClimbingSpotFormProps) => {
           }))}
         />
 
-        {watch("imageUrls").length > 0 && (
-          <Carousel className="w-full">
-            <CarouselContent className="-ml-0">
-              {watch("imageUrls").map((imageUrl) => (
-                <CarouselItem key={imageUrl} className="pl-0">
-                  <div className="aspect-video overflow-hidden rounded-xl">
-                    <Image
-                      src={imageUrl}
-                      alt={imageUrl}
-                      width={500}
-                      height={500}
-                      className="object-cover w-full h-full"
-                    />
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious className="absolute left-2 hover:scale-105" />
-            <CarouselNext className="absolute right-2 hover:scale-105" />
-          </Carousel>
-        )}
+        <FilePreview files={files} onRemove={removeFile} />
 
-        <UploadDropzone
-          endpoint="imageUploader"
-          onClientUploadComplete={(res) => {
-            const file = res[0];
-            setValue("imageUrls", [...watch("imageUrls"), file.url]);
-          }}
-          onUploadError={() => {
-            toast({
-              title: "Erreur",
-              description: "Une erreur est survenue lors de l'upload",
-              variant: "destructive",
-            });
-          }}
-          className="rounded-xl ut-button:w-48 ut-button:bg-primary ut-button:text-primary-foreground ut-label:text-foreground ut-allowed-content:text-foreground"
+        <FileUpload
+          maxFiles={5}
+          onUpload={handleFiles}
+          isLoading={isUploading}
+          className="rounded-xl"
+          label={
+            watch("imageUrls").length > 0
+              ? "Ajouter plus d'images"
+              : "Déposer vos images ici"
+          }
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -323,7 +319,7 @@ const ClimbingSpotForm = ({ onSuccess }: ClimbingSpotFormProps) => {
 
         <Button
           type="submit"
-          disabled={!isValid}
+          disabled={!isValid || isUploading}
           className="rounded-full self-end"
         >
           Créer le spot

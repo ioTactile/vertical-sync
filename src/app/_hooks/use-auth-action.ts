@@ -7,7 +7,7 @@ export const useAuthAction = () => {
   const { user, isLoaded } = useUserStore();
 
   const handleAuthAction = useCallback(
-    (action: (user: UserResource) => void) => {
+    (action: (user: UserResource) => void | Promise<void>) => {
       if (!isLoaded) return;
 
       if (!user) {

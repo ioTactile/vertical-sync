@@ -1,6 +1,7 @@
 import {
   CreateClimbingSpotDto,
   GetClimbingSpotsResponse,
+  GetClimbingSpotCommentsResponse,
 } from "@/modules/core/model/ClimbingSpot";
 
 export interface IClimbingSpotGateway {
@@ -13,4 +14,5 @@ export interface IClimbingSpotGateway {
     searchQuery: string
   ): Promise<GetClimbingSpotsResponse>;
   createClimbingSpot(climbingSpot: CreateClimbingSpotDto): Promise<void>;
+  getClimbingSpotComments(id: string): Promise<GetClimbingSpotCommentsResponse>;
 }

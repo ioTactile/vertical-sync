@@ -1,5 +1,6 @@
 import {
   CreateClimbingSpotDto,
+  GetClimbingSpotCommentsResponse,
   GetClimbingSpotsResponse,
   GetClimbingSpotsSearchResponse,
 } from "@/modules/core/model/ClimbingSpot";
@@ -14,6 +15,7 @@ export interface IClimbingSpotRepository {
   ): Promise<GetClimbingSpotsResponse>;
   findBySearch(searchQuery: string): Promise<GetClimbingSpotsSearchResponse>;
   create(climbingSpot: CreateClimbingSpotDto): Promise<void>;
+  findComments(id: string): Promise<GetClimbingSpotCommentsResponse>;
 }
 
 export class PrismaClimbingSpotRepository implements IClimbingSpotRepository {
@@ -149,6 +151,29 @@ export class PrismaClimbingSpotRepository implements IClimbingSpotRepository {
         NOW()
       )
     `;
+  }
+
+  async findComments(id: string): Promise<GetClimbingSpotCommentsResponse> {
+    const comments = await prisma.climbingSpotComment.findMany({
+      where: { climbingSpotId: id },
+      include: {
+        author: {
+          select: {
+            id: true,
+            name: true,
+            imageUrl: true,
+            clerkId: true,
+            _count: {
+              select: {
+                climbingSpotComments: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return comments;
   }
 }
 

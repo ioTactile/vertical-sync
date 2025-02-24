@@ -1,5 +1,6 @@
 import {
   CreateClimbingSpotDto,
+  GetClimbingSpotCommentsResponse,
   GetClimbingSpotsResponse,
 } from "@/modules/core/model/ClimbingSpot";
 import { IClimbingSpotGateway } from "@/modules/core/gateway/climbing-spot.gateway";
@@ -36,6 +37,20 @@ export class ApiClimbingSpotGateway implements IClimbingSpotGateway {
     const response = await axiosInstance.post<void>(
       "/api/climbing-spot",
       climbingSpot
+    );
+    return response.data;
+  }
+
+  async getClimbingSpotComments(
+    id: string
+  ): Promise<GetClimbingSpotCommentsResponse> {
+    const response = await axiosInstance.get<GetClimbingSpotCommentsResponse>(
+      `/api/climbing-spot/${id}/comments`,
+      {
+        params: {
+          id,
+        },
+      }
     );
     return response.data;
   }

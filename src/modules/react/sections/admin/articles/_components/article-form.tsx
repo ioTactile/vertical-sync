@@ -20,7 +20,6 @@ import {
   FormItem,
   FormMessage,
 } from "@/app/_components/ui/form";
-import { UploadDropzone } from "@/lib/uploadthing";
 import { useToast } from "@/app/_hooks/use-toast";
 import Image from "next/image";
 import { useUpdateArticle } from "@/modules/core/mutations/useUpdateArticle";
@@ -29,6 +28,7 @@ import { GetArticleResponse } from "@/modules/core/model/Article";
 import { useRouter } from "next/navigation";
 import MultiSelectTags from "@/modules/react/sections/admin/articles/_components/multi-select-tags";
 import { useAuthAction } from "@/app/_hooks/use-auth-action";
+import { FileUpload } from "@/app/_components/ui/file-upload";
 
 interface ArticleFormProps {
   mode: "create" | "update";
@@ -244,6 +244,18 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
             });
           }}
           className="rounded-xl ut-button:w-48 ut-button:bg-primary ut-button:text-primary-foreground ut-label:text-foreground ut-allowed-content:text-foreground"
+        />
+
+        <FileUpload
+          maxFiles={5}
+          onUpload={handleFileSelect}
+          isLoading={isUploading}
+          className="rounded-xl"
+          label={
+            watch("imageUrls").length > 0
+              ? "Ajouter plus d'images"
+              : "Déposer vos images ici"
+          }
         />
 
         <MultiSelectTags control={control} />

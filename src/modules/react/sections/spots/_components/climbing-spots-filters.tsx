@@ -123,7 +123,7 @@ export const SpotsFilters = ({
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" className="rounded-full">
+          <Button variant="outline" className="rounded-full shadow-sm">
             Types
           </Button>
         </DropdownMenuTrigger>
@@ -146,7 +146,7 @@ export const SpotsFilters = ({
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" className="rounded-full">
+          <Button variant="outline" className="rounded-full shadow-sm">
             Difficultés
           </Button>
         </DropdownMenuTrigger>

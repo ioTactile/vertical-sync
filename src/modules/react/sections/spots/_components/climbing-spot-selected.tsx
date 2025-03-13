@@ -27,12 +27,14 @@ import {
 import Image from "next/image";
 import Avatar from "@/modules/react/sections/_components/avatar";
 import * as React from "react";
+import { Button } from "@/app/_components/ui/button";
 
 interface ClimbingSpotSelectedProps {
   spot: ExtendedClimbingSpot;
+  onClose: () => void;
 }
 
-const ClimbingSpotSelected = ({ spot }: ClimbingSpotSelectedProps) => {
+const ClimbingSpotSelected = ({ spot, onClose }: ClimbingSpotSelectedProps) => {
   const [tabs, setTabs] = React.useState<"infos" | "comments">("infos");
 
   const { data: comments } = useClimbingSpotComments(
@@ -43,9 +45,9 @@ const ClimbingSpotSelected = ({ spot }: ClimbingSpotSelectedProps) => {
   return (
     <div
       className="absolute top-0 left-0 w-full sm:min-w-[300px] sm:max-w-[400px] h-screen-minus-header sm:h-[600px] border-r border-r-border  
-      bg-background z-500 shadow-[2px_0px_5px_rgba(0,0,0,0.1)]"
+      bg-background z-2000 shadow-[2px_0px_5px_rgba(0,0,0,0.1)]"
     >
-      <div className="flex flex-col h-full overflow-y-auto">
+      <div className="flex flex-col h-full overflow-y-auto pb-14 md:pb-0">
         {spot.imageUrls.length > 0 ? (
           <Image
             src={spot.imageUrls[0]}
@@ -83,7 +85,11 @@ const ClimbingSpotSelected = ({ spot }: ClimbingSpotSelectedProps) => {
               <TabsTrigger value="infos" className="w-full">
                 Infos
               </TabsTrigger>
-              <TabsTrigger value="comments" className="w-full">
+              <TabsTrigger
+                value="comments"
+                className="w-full"
+                disabled={comments?.length === 0}
+              >
                 Commentaires
               </TabsTrigger>
             </TabsList>
@@ -176,6 +182,13 @@ const ClimbingSpotSelected = ({ spot }: ClimbingSpotSelectedProps) => {
             </TabsContent>
           </Tabs>
         </div>
+
+        <Button
+          onClick={onClose}
+          className="w-full absolute bottom-0 left-0 rounded-none md:hidden h-14 text-base"
+        >
+          Fermer
+        </Button>
       </div>
     </div>
   );

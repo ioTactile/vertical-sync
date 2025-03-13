@@ -13,6 +13,8 @@ interface UseSpotTypeAndDifficultyReturn {
   selectedDifficulties: ClimbingSpotDifficulty[];
   handleTypeSelect: (type: ClimbingSpotType) => void;
   handleDifficultySelect: (difficulty: ClimbingSpotDifficulty) => void;
+  resetFilters: () => void;
+  isNotDefaultFilters: boolean;
 }
 
 export const useSpotTypeAndDifficulty = ({
@@ -67,10 +69,29 @@ export const useSpotTypeAndDifficulty = ({
     [selectedTypes, onFilterChange]
   );
 
+  const resetFilters = React.useCallback(() => {
+    setSelectedTypes([ClimbingSpotType.ALL]);
+    setSelectedDifficulties([]);
+    onFilterChange({
+      type: [ClimbingSpotType.ALL],
+      difficulties: [],
+    });
+  }, [onFilterChange]);
+
+  const isNotDefaultFilters = React.useMemo(() => {
+    return (
+      selectedTypes.length > 1 ||
+      !selectedTypes.includes(ClimbingSpotType.ALL) ||
+      selectedDifficulties.length > 0
+    );
+  }, [selectedTypes, selectedDifficulties]);
+
   return {
     selectedTypes,
     selectedDifficulties,
     handleTypeSelect,
     handleDifficultySelect,
+    resetFilters,
+    isNotDefaultFilters,
   };
 };

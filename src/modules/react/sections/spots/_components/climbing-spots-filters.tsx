@@ -55,13 +55,19 @@ export const SpotsFilters = ({
     searchResults: extendedSearchResults,
     isLoading,
     handleSearch,
-  } = useSpotSearch(isSpotSelected);
+  } = useSpotSearch({
+    isSpotSelected,
+    onSpotSelect,
+    updateMapView,
+  });
 
   const {
     selectedTypes,
     selectedDifficulties,
     handleTypeSelect,
     handleDifficultySelect,
+    resetFilters,
+    isNotDefaultFilters,
   } = useSpotTypeAndDifficulty({ onFilterChange });
 
   const {
@@ -82,7 +88,7 @@ export const SpotsFilters = ({
   return (
     <div className="absolute left-4 top-4 flex gap-2 w-[calc(100%-2rem)] max-w-[800px] z-1000">
       <div className="relative flex items-center">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4 z-1000" />
         <div className="relative" ref={searchContainerRef}>
           <Input
             ref={searchInputRef}
@@ -127,6 +133,8 @@ export const SpotsFilters = ({
         selectedDifficulties={selectedDifficulties}
         handleTypeSelect={handleTypeSelect}
         handleDifficultySelect={handleDifficultySelect}
+        resetFilters={resetFilters}
+        isNotDefaultFilters={isNotDefaultFilters}
       />
 
       <div className="hidden md:flex gap-2">

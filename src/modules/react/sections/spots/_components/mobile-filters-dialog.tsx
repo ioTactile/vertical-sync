@@ -21,6 +21,8 @@ interface MobileFiltersDialogProps {
   selectedDifficulties: ClimbingSpotDifficulty[];
   handleTypeSelect: (type: ClimbingSpotType) => void;
   handleDifficultySelect: (difficulty: ClimbingSpotDifficulty) => void;
+  resetFilters: () => void;
+  isNotDefaultFilters: boolean;
 }
 
 export const MobileFiltersDialog = ({
@@ -28,6 +30,8 @@ export const MobileFiltersDialog = ({
   selectedDifficulties,
   handleTypeSelect,
   handleDifficultySelect,
+  resetFilters,
+  isNotDefaultFilters,
 }: MobileFiltersDialogProps) => {
   const [search, setSearch] = React.useState<string>("");
 
@@ -42,8 +46,8 @@ export const MobileFiltersDialog = ({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" className="rounded-full md:hidden">
-          <SlidersHorizontal className="h-4 w-4 mr-2" />
+        <Button variant="outline" className="rounded-full  md:hidden">
+          <SlidersHorizontal className="h-4 w-4 mr-2 text-muted-foreground" />
           Filtres
         </Button>
       </DialogTrigger>
@@ -52,6 +56,16 @@ export const MobileFiltersDialog = ({
           <DialogTitle>Filtres</DialogTitle>
         </DialogHeader>
         <div className="flex flex-col gap-4">
+          {isNotDefaultFilters && (
+            <Button
+              variant="secondary"
+              className="rounded-xl"
+              onClick={resetFilters}
+            >
+              Réinitialiser
+            </Button>
+          )}
+
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
             <Input

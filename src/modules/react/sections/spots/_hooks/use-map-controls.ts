@@ -1,4 +1,5 @@
 import { MAP_ZOOM_RADIUS } from "@/app/_constants/app";
+import throttle from "lodash.throttle";
 import { ExtendedClimbingSpot } from "@/modules/core/model/ClimbingSpot";
 import * as React from "react";
 
@@ -21,7 +22,7 @@ interface UseMapControlsReturn {
   shouldUpdateView: boolean;
   handleZoomChange: (newZoom: number) => void;
   handleMapClick: () => void;
-  updateMapView: (newCenter: [number, number]) => void;
+  updateMapView: (newCenter: [number, number], zoom?: number) => void;
 }
 
 const useMapControls = ({
@@ -36,27 +37,40 @@ const useMapControls = ({
     shouldUpdateView: true,
   });
 
-  const handleZoomChange = (newZoom: number) => {
-    setState((prev) => ({ ...prev, zoom: newZoom }));
-  };
+  console.log(state.zoom);
 
-  const handleMapClick = () => {
+  const handleZoomChange = React.useCallback(
+    (newZoom: number) => {
+      setState((prev) => ({ ...prev, zoom: newZoom }));
+    },
+    [setState]
+  );
+
+  const throttledZoomChange = React.useCallback(
+    () => throttle(handleZoomChange, 100),
+    [handleZoomChange]
+  );
+
+  const handleMapClick = React.useCallback(() => {
     onSpotSelect(null);
-  };
+  }, [onSpotSelect]);
 
-  const updateMapView = (newCenter: [number, number]) => {
-    setState({
-      zoom: MAP_ZOOM_RADIUS,
-      center: newCenter,
-      shouldUpdateView: true,
-    });
-  };
+  const updateMapView = React.useCallback(
+    (newCenter: [number, number], zoom?: number) => {
+      setState({
+        zoom: zoom ?? MAP_ZOOM_RADIUS,
+        center: newCenter,
+        shouldUpdateView: true,
+      });
+    },
+    [setState]
+  );
 
   React.useEffect(() => {
     if (userLocation) {
       updateMapView(userLocation);
     }
-  }, [userLocation]);
+  }, [userLocation, updateMapView]);
 
   React.useEffect(() => {
     if (state.shouldUpdateView) {
@@ -72,7 +86,7 @@ const useMapControls = ({
     zoom: state.zoom,
     center: state.center,
     shouldUpdateView: state.shouldUpdateView,
-    handleZoomChange,
+    handleZoomChange: throttledZoomChange,
     handleMapClick,
     updateMapView,
   };

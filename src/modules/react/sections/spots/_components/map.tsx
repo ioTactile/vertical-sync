@@ -3,13 +3,12 @@
 import { MapContainer, TileLayer, ZoomControl } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import * as React from "react";
-import { MAP_ZOOM_TOOLTIP_MIN } from "@/app/_constants/app";
 import {
   ExtendedClimbingSpot,
   ExtendedClimbingSpots,
 } from "@/modules/core/model/ClimbingSpot";
-import MapMarkers from "@/modules/react/sections/spots/_components/map-markers";
 import MapEventHandler from "@/modules/react/sections/spots/_components/map-event-handler";
+import ClusteredMarkers from "@/modules/react/sections/spots/_components/clustered-markers";
 
 interface MapProps {
   spots: ExtendedClimbingSpots;
@@ -34,6 +33,7 @@ const Map = ({
     <MapContainer
       zoomControl={false}
       className="w-full h-screen-minus-header sm:h-[600px]"
+      preferCanvas={true}
     >
       <MapEventHandler
         onZoomChange={handleZoomChange}
@@ -46,12 +46,10 @@ const Map = ({
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        updateWhenIdle={true}
+        updateWhenZooming={false}
       />
-      <MapMarkers
-        spots={spots}
-        onSpotSelect={onSpotSelect}
-        showTooltips={zoom > MAP_ZOOM_TOOLTIP_MIN}
-      />
+      <ClusteredMarkers spots={spots} onSpotSelect={onSpotSelect} />
     </MapContainer>
   );
 };

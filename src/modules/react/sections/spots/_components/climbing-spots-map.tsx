@@ -5,17 +5,13 @@ import { SpotsFilters } from "@/modules/react/sections/spots/_components/climbin
 import * as React from "react";
 import { Skeleton } from "@/app/_components/ui/skeleton";
 import ClimbingSpotSelected from "@/modules/react/sections/spots/_components/climbing-spot-selected";
-import useClimbingSpotsByRadiusAndCoords from "@/modules/core/hooks/use-climbing-spots-by-radius-and-coors";
-import {
-  DEFAULT_LOCATION,
-  DEFAULT_RADIUS,
-  MAP_ZOOM_DEFAULT,
-} from "@/app/_constants/app";
-import useMapControls from "../_hooks/use-map-controls";
+import { DEFAULT_LOCATION, MAP_ZOOM_DEFAULT } from "@/app/_constants/app";
+import useMapControls from "@/modules/react/sections/spots/_hooks/use-map-controls";
 import { ExtendedClimbingSpot } from "@/modules/core/model/ClimbingSpot";
 import useGeolocation from "@/modules/react/sections/spots/_hooks/use-geolocation";
 import useSpotFilters from "@/modules/react/sections/spots/_hooks/use-spot-filters";
 import SpotCounter from "@/modules/react/sections/spots/_components/climbing-spot-counter";
+import useClimbingSpots from "@/modules/core/hooks/use-climbing-spots";
 
 const Map = dynamic(() => import("./map"), {
   ssr: false, // Désactive le rendu côté serveur
@@ -26,15 +22,17 @@ const ClimbingSpotsMap = () => {
   const [selectedSpot, setSelectedSpot] =
     React.useState<ExtendedClimbingSpot | null>(null);
 
-  const { userLocation, isLoadingLocation } = useGeolocation();
+  const { userLocation } = useGeolocation();
 
-  const { data: climbingSpots } = useClimbingSpotsByRadiusAndCoords(
-    DEFAULT_RADIUS,
-    userLocation ?? DEFAULT_LOCATION,
-    {
-      enabled: !isLoadingLocation,
-    }
-  );
+  // const { data: climbingSpots } = useClimbingSpotsByRadiusAndCoords(
+  //   DEFAULT_RADIUS,
+  //   userLocation ?? DEFAULT_LOCATION,
+  //   {
+  //     enabled: !isLoadingLocation,
+  //   }
+  // );
+
+  const { data: climbingSpots } = useClimbingSpots();
 
   const {
     zoom,
@@ -68,7 +66,12 @@ const ClimbingSpotsMap = () => {
         addSearchSpots={addSearchSpots}
         clearSearchSpots={clearSearchSpots}
       />
-      {selectedSpot && <ClimbingSpotSelected spot={selectedSpot} />}
+      {selectedSpot && (
+        <ClimbingSpotSelected
+          spot={selectedSpot}
+          onClose={() => setSelectedSpot(null)}
+        />
+      )}
       <Map
         spots={filteredSpots}
         zoom={zoom}

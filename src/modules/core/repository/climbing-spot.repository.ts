@@ -74,7 +74,7 @@ export class PrismaClimbingSpotRepository implements IClimbingSpotRepository {
         "toiletsAvailable", status, "authorId", "createdAt", "updatedAt",
         SIMILARITY(LOWER(name), ${searchQueryLower}) as name_similarity,
         SIMILARITY(LOWER(description), ${searchQueryLower}) as description_similarity,
-        SIMILARITY(LOWER(city), ${searchQueryLower}) as city_similarity,
+        SIMILARITY(LOWER(city), ${searchQueryLower}) as city_similarity
       FROM "ClimbingSpot"
       WHERE (
         LOWER(name) % ${searchQueryLower}

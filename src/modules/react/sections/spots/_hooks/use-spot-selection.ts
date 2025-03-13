@@ -4,7 +4,7 @@ import { ExtendedClimbingSpot } from "@/modules/core/model/ClimbingSpot";
 interface UseSpotSelectionProps {
   userLocation: [number, number] | null;
   onSpotSelect: (spot: ExtendedClimbingSpot | null) => void;
-  updateMapView: (center: [number, number]) => void;
+  updateMapView: (center: [number, number], zoom?: number) => void;
   setSearchQuery: (value: string) => void;
   setIsSearchOpen: (value: boolean) => void;
   addSearchSpots: (spots: ExtendedClimbingSpot[]) => void;
@@ -55,7 +55,7 @@ export const useSpotSelection = ({
       setSearchQuery(selectedSpot.name);
       onSpotSelect(selectedSpot);
       setIsSearchOpen(false);
-      updateMapView([selectedSpot.latitude, selectedSpot.longitude]);
+      updateMapView([selectedSpot.latitude, selectedSpot.longitude], 15);
       searchInputRef.current?.blur();
     },
     [
@@ -74,7 +74,7 @@ export const useSpotSelection = ({
       setSearchQuery(spot.name);
       onSpotSelect(spot);
       setIsSearchOpen(false);
-      updateMapView([spot.latitude, spot.longitude]);
+      updateMapView([spot.latitude, spot.longitude], 15);
       searchInputRef.current?.blur();
     },
     [onSpotSelect, updateMapView, setSearchQuery, setIsSearchOpen]

@@ -8,9 +8,9 @@ const UpdateArticle = () => {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
 
-  const { data: article } = useGetFetchQuery(id as string);
+  const { data: article, isLoading } = useGetFetchQuery(id as string);
 
-  if (!article) {
+  if (!isLoading && !article) {
     redirect("/admin/articles");
   }
 

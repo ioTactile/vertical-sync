@@ -72,7 +72,7 @@ const ClimbingSpotSelected = ({ spot, onClose }: ClimbingSpotSelectedProps) => {
               notation={spot.notation}
               notationCount={spot.notationCount}
             />
-            <p className="text-sm text-gray-500">{spot.description}</p>
+            <p className="text-sm text-muted-foreground">{spot.description}</p>
           </div>
 
           <Tabs
@@ -98,7 +98,10 @@ const ClimbingSpotSelected = ({ spot, onClose }: ClimbingSpotSelectedProps) => {
                   <h3 className="text-sm font-bold">Difficultés</h3>
                   <div className="flex flex-wrap items-center gap-2">
                     {spot.difficulties.map((difficulty, index) => (
-                      <span key={difficulty} className="text-sm text-gray-500">
+                      <span
+                        key={difficulty}
+                        className="text-sm text-muted-foreground"
+                      >
                         {CLIMBING_SPOT_DIFFICULTY_LABELS[difficulty]}{" "}
                         {index < spot.difficulties.length - 1 && ", "}
                       </span>
@@ -110,7 +113,10 @@ const ClimbingSpotSelected = ({ spot, onClose }: ClimbingSpotSelectedProps) => {
                   <h3 className="text-sm font-bold">Types</h3>
                   <div className="flex flex-wrap items-center gap-2">
                     {spot.types.map((type, index) => (
-                      <span key={type} className="text-sm text-gray-500">
+                      <span
+                        key={type}
+                        className="text-sm text-muted-foreground"
+                      >
                         {CLIMBING_SPOT_TYPE_LABELS[type]}
                         {index < spot.types.length - 1 && ", "}
                       </span>
@@ -122,7 +128,7 @@ const ClimbingSpotSelected = ({ spot, onClose }: ClimbingSpotSelectedProps) => {
                   <div className="flex flex-col gap-2">
                     <h3 className="text-sm font-bold">Meilleur période</h3>
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="text-sm text-gray-500">
+                      <span className="text-sm text-muted-foreground">
                         {spot.bestPeriod}
                       </span>
                     </div>
@@ -213,10 +219,10 @@ const Element = (item: ElementProps) => {
       {item.icon && <item.icon className="h-6 w-6 text-primary" />}
       {item.link ? (
         <a href={item.link} target="_blank" rel="noopener noreferrer">
-          <span className="text-sm text-gray-500">{item.label}</span>
+          <span className="text-sm text-muted-foreground">{item.label}</span>
         </a>
       ) : (
-        <span className="text-sm text-gray-500">{item.label}</span>
+        <span className="text-sm text-muted-foreground">{item.label}</span>
       )}
     </div>
   );
@@ -238,7 +244,9 @@ const Notation = ({
 
   return (
     <div className="flex items-center gap-2">
-      <span className="text-sm text-gray-500">{notationNumber.toFixed(1)}</span>
+      <span className="text-sm text-muted-foreground">
+        {notationNumber.toFixed(1)}
+      </span>
       <div className="flex">
         {/* Étoiles pleines */}
         {Array.from({ length: fullStars }).map((_, index) => (
@@ -263,7 +271,7 @@ const Notation = ({
         ))}
       </div>
       {notationCount && notationCount > 0 && (
-        <span className="text-sm text-gray-500">({notationCount})</span>
+        <span className="text-sm text-muted-foreground">({notationCount})</span>
       )}
     </div>
   );
@@ -290,7 +298,7 @@ const Comment = ({ author, content, notation, createdAt }: CommentProps) => {
         <div className="flex flex-col">
           <span className="font-medium">{author.name}</span>
           {author._count.climbingSpotComments && (
-            <span className="text-sm text-gray-500">
+            <span className="text-sm text-muted-foreground">
               {author._count.climbingSpotComments} avis
             </span>
           )}
@@ -299,7 +307,7 @@ const Comment = ({ author, content, notation, createdAt }: CommentProps) => {
 
       <div className="flex items-center gap-2">
         <Notation notation={notationNumber} notationCount={null} />
-        <span className="text-sm text-gray-500">
+        <span className="text-sm text-muted-foreground">
           il y a {getTimeBetweenDateAndNow(createdAt)}
         </span>
       </div>

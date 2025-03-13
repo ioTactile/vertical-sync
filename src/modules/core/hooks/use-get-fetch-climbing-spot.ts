@@ -15,18 +15,25 @@ export const useGetFetchQuery = (id?: string) => {
     initialData: () => {
       // Essayer de récupérer le spot depuis la liste complète des spots
       const cachedClimbingSpots =
-        queryClient.getQueryData<GetClimbingSpotsResponse>(["climbing-spots"]);
+        queryClient.getQueryData<GetClimbingSpotsResponse>([
+          "admin-climbing-spots",
+        ]);
       if (cachedClimbingSpots) {
+        console.log("cachedClimbingSpots", cachedClimbingSpots);
         return cachedClimbingSpots.find(
           (climbingSpot) => climbingSpot.id === id
         );
       }
 
       // Sinon, essayer de récupérer directement le spot individuel
-      return queryClient.getQueryData<GetClimbingSpotResponse>([
+      const cachedSpot = queryClient.getQueryData<GetClimbingSpotResponse>([
         "climbing-spot",
         id,
       ]);
+
+      console.log("cachedSpot", cachedSpot);
+
+      return cachedSpot ?? undefined;
     },
   });
 };

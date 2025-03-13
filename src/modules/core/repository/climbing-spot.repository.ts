@@ -7,6 +7,7 @@ import {
 } from "@/modules/core/model/ClimbingSpot";
 import prisma from "@/prisma";
 import { createId } from "@paralleldrive/cuid2";
+import { ClimbingSpotStatus, Prisma } from "@prisma/client";
 
 export interface IClimbingSpotRepository {
   findById(id: string): Promise<GetClimbingSpotResponse>;
@@ -24,8 +25,8 @@ export interface IClimbingSpotRepository {
 
 export class PrismaClimbingSpotRepository implements IClimbingSpotRepository {
   async findById(id: string): Promise<GetClimbingSpotResponse> {
-    const spot = await prisma.$queryRaw`
-      SELECT 
+    const [spot] = await prisma.$queryRaw<GetClimbingSpotResponse[]>`
+      SELECT  
         id, name, description, country, city,
         ST_X(coords::geometry) as longitude,
         ST_Y(coords::geometry) as latitude,
@@ -35,14 +36,13 @@ export class PrismaClimbingSpotRepository implements IClimbingSpotRepository {
         "toiletsAvailable", status, "authorId", "createdAt", "updatedAt"
       FROM "ClimbingSpot"
       WHERE id = ${id}
+      LIMIT 1
     `;
     return spot as GetClimbingSpotResponse;
   }
 
   async findMany(publishedOnly: boolean): Promise<GetClimbingSpotsResponse> {
-    const status = publishedOnly ? "APPROVED" : "PENDING";
-
-    const spots = await prisma.$queryRaw`
+    const baseQuery = Prisma.sql`
       SELECT 
         id, name, description, country, city,
         ST_X(coords::geometry) as longitude,
@@ -52,8 +52,14 @@ export class PrismaClimbingSpotRepository implements IClimbingSpotRepository {
         "websiteUrl", "phoneNumber", email, "parkingAvailable",
         "toiletsAvailable", status, "authorId", "createdAt", "updatedAt"
       FROM "ClimbingSpot"
-      WHERE status = ${status}
     `;
+
+    const spots = publishedOnly
+      ? await prisma.$queryRaw`
+          ${baseQuery}
+          WHERE status = ${ClimbingSpotStatus.APPROVED}::"ClimbingSpotStatus"
+        `
+      : await prisma.$queryRaw`${baseQuery}`;
     return spots as GetClimbingSpotsResponse;
   }
 

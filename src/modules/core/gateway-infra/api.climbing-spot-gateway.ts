@@ -25,7 +25,7 @@ export class ApiClimbingSpotGateway implements IClimbingSpotGateway {
 
   async getAdminClimbingSpots(): Promise<GetClimbingSpotsResponse> {
     const response = await axiosInstance.get<GetClimbingSpotsResponse>(
-      "/api/climbing-spot/admin"
+      "/api/admin/climbing-spot"
     );
     return response.data;
   }

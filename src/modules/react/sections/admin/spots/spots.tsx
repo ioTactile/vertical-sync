@@ -1,6 +1,6 @@
 "use client";
 
-import useAdminClimbingSpots from "@/modules/core/hooks/use-public-climbing-spots";
+import useAdminClimbingSpots from "@/modules/core/hooks/use-admin-climbing-spots";
 import ClimbingSpotsHeader from "@/modules/react/sections/admin/spots/_components/spot-header";
 import { DataTable } from "@/modules/react/sections/_components/data-table";
 import { columns } from "@/modules/react/sections/admin/spots/_components/columns";
@@ -8,9 +8,9 @@ import { getFormatedDate } from "@/modules/core/utils/date";
 import { extractCoords } from "@/lib/utils";
 
 const ClimbingSpots = () => {
-  const { data: spots } = useAdminClimbingSpots();
+  const { data: adminSpots } = useAdminClimbingSpots();
 
-  const spotsFormated = spots?.map((spot) => {
+  const spotsFormated = adminSpots?.map((spot) => {
     const { coords, ...rest } = spot;
     return {
       ...rest,

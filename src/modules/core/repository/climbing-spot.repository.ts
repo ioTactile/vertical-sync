@@ -1,24 +1,47 @@
 import {
   CreateClimbingSpotDto,
   GetClimbingSpotCommentsResponse,
+  GetClimbingSpotResponse,
   GetClimbingSpotsResponse,
+  UpdateClimbingSpotDto,
 } from "@/modules/core/model/ClimbingSpot";
 import prisma from "@/prisma";
 import { createId } from "@paralleldrive/cuid2";
 
 export interface IClimbingSpotRepository {
-  findMany(): Promise<GetClimbingSpotsResponse>;
+  findById(id: string): Promise<GetClimbingSpotResponse>;
+  findMany(publishedOnly: boolean): Promise<GetClimbingSpotsResponse>;
   findByRadiusAndCoords(
     radius: number,
     coords: [number, number]
   ): Promise<GetClimbingSpotsResponse>;
   findBySearch(searchQuery: string): Promise<GetClimbingSpotsResponse>;
-  create(climbingSpot: CreateClimbingSpotDto): Promise<void>;
   findComments(id: string): Promise<GetClimbingSpotCommentsResponse>;
+  create(climbingSpot: CreateClimbingSpotDto): Promise<void>;
+  update(climbingSpot: UpdateClimbingSpotDto): Promise<void>;
+  delete(id: string): Promise<void>;
 }
 
 export class PrismaClimbingSpotRepository implements IClimbingSpotRepository {
-  async findMany(): Promise<GetClimbingSpotsResponse> {
+  async findById(id: string): Promise<GetClimbingSpotResponse> {
+    const spot = await prisma.$queryRaw`
+      SELECT 
+        id, name, description, country, city,
+        ST_X(coords::geometry) as longitude,
+        ST_Y(coords::geometry) as latitude,
+        ST_AsText(coords) as coords,
+        "imageUrls", types, difficulties, "bestPeriod", notation, "notationCount", address,
+        "websiteUrl", "phoneNumber", email, "parkingAvailable",
+        "toiletsAvailable", status, "authorId", "createdAt", "updatedAt"
+      FROM "ClimbingSpot"
+      WHERE id = ${id}
+    `;
+    return spot as GetClimbingSpotResponse;
+  }
+
+  async findMany(publishedOnly: boolean): Promise<GetClimbingSpotsResponse> {
+    const status = publishedOnly ? "APPROVED" : "PENDING";
+
     const spots = await prisma.$queryRaw`
       SELECT 
         id, name, description, country, city,
@@ -29,7 +52,7 @@ export class PrismaClimbingSpotRepository implements IClimbingSpotRepository {
         "websiteUrl", "phoneNumber", email, "parkingAvailable",
         "toiletsAvailable", status, "authorId", "createdAt", "updatedAt"
       FROM "ClimbingSpot"
-      WHERE status = 'APPROVED'
+      WHERE status = ${status}
     `;
     return spots as GetClimbingSpotsResponse;
   }
@@ -92,6 +115,29 @@ export class PrismaClimbingSpotRepository implements IClimbingSpotRepository {
     return spots as GetClimbingSpotsResponse;
   }
 
+  async findComments(id: string): Promise<GetClimbingSpotCommentsResponse> {
+    const comments = await prisma.climbingSpotComment.findMany({
+      where: { climbingSpotId: id },
+      include: {
+        author: {
+          select: {
+            id: true,
+            name: true,
+            imageUrl: true,
+            clerkId: true,
+            _count: {
+              select: {
+                climbingSpotComments: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return comments;
+  }
+
   async create(data: CreateClimbingSpotDto): Promise<void> {
     const { coords, ...rest } = data;
 
@@ -144,27 +190,36 @@ export class PrismaClimbingSpotRepository implements IClimbingSpotRepository {
     `;
   }
 
-  async findComments(id: string): Promise<GetClimbingSpotCommentsResponse> {
-    const comments = await prisma.climbingSpotComment.findMany({
-      where: { climbingSpotId: id },
-      include: {
-        author: {
-          select: {
-            id: true,
-            name: true,
-            imageUrl: true,
-            clerkId: true,
-            _count: {
-              select: {
-                climbingSpotComments: true,
-              },
-            },
-          },
-        },
-      },
-    });
+  async update(data: UpdateClimbingSpotDto): Promise<void> {
+    const { coords, ...rest } = data;
 
-    return comments;
+    await prisma.$executeRaw`
+      UPDATE "ClimbingSpot"
+      SET
+        name = ${rest.name},
+        description = ${rest.description},
+        country = ${rest.country},
+        city = ${rest.city},
+        coords = ST_SetSRID(ST_MakePoint(${coords.coordinates[0]}, ${coords.coordinates[1]}), 4326),
+        "imageUrls" = ${rest.imageUrls},
+        types = ${rest.types}::\"ClimbingSpotType\"[],  
+        difficulties = ${rest.difficulties}::\"ClimbingSpotDifficulty\"[],
+        "bestPeriod" = ${rest.bestPeriod},
+        address = ${rest.address},
+        "websiteUrl" = ${rest.websiteUrl},
+        "phoneNumber" = ${rest.phoneNumber},
+        email = ${rest.email},
+        "parkingAvailable" = ${rest.parkingAvailable},
+        "toiletsAvailable" = ${rest.toiletsAvailable},
+        "updatedAt" = NOW()
+      WHERE id = ${data.id}
+    `;
+  }
+
+  async delete(id: string): Promise<void> {
+    await prisma.climbingSpot.delete({
+      where: { id },
+    });
   }
 }
 

@@ -12,7 +12,7 @@ export function useCreateArticle() {
       if (error) {
         console.error(error);
       } else {
-        await queryClient.invalidateQueries({ queryKey: ["articles"] });
+        await queryClient.invalidateQueries({ queryKey: ["admin-articles"] });
       }
     },
   });

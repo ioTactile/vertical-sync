@@ -5,7 +5,9 @@ import {
 import {
   CreateClimbingSpotDto,
   GetClimbingSpotCommentsResponse,
+  GetClimbingSpotResponse,
   GetClimbingSpotsResponse,
+  UpdateClimbingSpotDto,
 } from "@/modules/core/model/ClimbingSpot";
 
 export class ClimbingSpotService {
@@ -13,8 +15,16 @@ export class ClimbingSpotService {
     private readonly climbingSpotRepository: IClimbingSpotRepository
   ) {}
 
-  async getClimbingSpots(): Promise<GetClimbingSpotsResponse> {
-    return await this.climbingSpotRepository.findMany();
+  async getClimbingSpotById(id: string): Promise<GetClimbingSpotResponse> {
+    return await this.climbingSpotRepository.findById(id);
+  }
+
+  async getPublicClimbingSpots(): Promise<GetClimbingSpotsResponse> {
+    return await this.climbingSpotRepository.findMany(true);
+  }
+
+  async getAdminClimbingSpots(): Promise<GetClimbingSpotsResponse> {
+    return await this.climbingSpotRepository.findMany(false);
   }
 
   async getClimbingSpotsByRadiusAndCoords(
@@ -33,14 +43,22 @@ export class ClimbingSpotService {
     return await this.climbingSpotRepository.findBySearch(searchQuery);
   }
 
-  async createClimbingSpot(climbingSpot: CreateClimbingSpotDto): Promise<void> {
-    await this.climbingSpotRepository.create(climbingSpot);
-  }
-
   async getClimbingSpotComments(
     id: string
   ): Promise<GetClimbingSpotCommentsResponse> {
     return await this.climbingSpotRepository.findComments(id);
+  }
+
+  async createClimbingSpot(climbingSpot: CreateClimbingSpotDto): Promise<void> {
+    await this.climbingSpotRepository.create(climbingSpot);
+  }
+
+  async updateClimbingSpot(climbingSpot: UpdateClimbingSpotDto): Promise<void> {
+    await this.climbingSpotRepository.update(climbingSpot);
+  }
+
+  async deleteClimbingSpot(id: string): Promise<void> {
+    await this.climbingSpotRepository.delete(id);
   }
 }
 

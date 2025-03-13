@@ -10,13 +10,13 @@ export const useGetFetchQuery = (id?: string) => {
     queryFn: () => getTalkWithComments(id!),
     enabled: !!id,
     initialData: () => {
-      // Essayer de récupérer le tag depuis la liste complète des tags
+      // Essayer de récupérer le talk depuis la liste complète des talks
       const cachedTalks = queryClient.getQueryData<GetTalksResponse>(["talks"]);
       if (cachedTalks) {
         return cachedTalks.find((talk) => talk.id === id);
       }
 
-      // Sinon, essayer de récupérer directement le tag individuel
+      // Sinon, essayer de récupérer directement le talk individuel
       return queryClient.getQueryData<GetTalkResponse>(["talks", id]);
     },
   });

@@ -5,7 +5,7 @@ import {
 } from "@prisma/client";
 import { z } from "zod";
 
-export const createClimbingSpotSchema = z.object({
+export const updateClimbingSpotSchema = z.object({
   name: z.string().min(1, "Veuillez remplir ce champ"),
   description: z.string().nullable(),
   country: z.string().nullable(),
@@ -35,4 +35,4 @@ export const createClimbingSpotSchema = z.object({
   status: z.nativeEnum(ClimbingSpotStatus).default(ClimbingSpotStatus.PENDING),
 });
 
-export type CreateClimbingSpotInputs = z.infer<typeof createClimbingSpotSchema>;
+export type UpdateClimbingSpotInputs = z.infer<typeof updateClimbingSpotSchema>;

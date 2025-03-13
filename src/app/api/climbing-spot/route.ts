@@ -27,7 +27,7 @@ export async function GET(request: Request) {
       return NextResponse.json(climbingSpots, { status: 200 });
     }
 
-    const climbingSpots = await climbingSpotService.getClimbingSpots();
+    const climbingSpots = await climbingSpotService.getPublicClimbingSpots();
     return NextResponse.json(climbingSpots, { status: 200 });
   } catch (error) {
     return NextResponse.json(

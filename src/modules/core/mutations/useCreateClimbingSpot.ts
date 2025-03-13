@@ -12,7 +12,7 @@ export function useCreateClimbingSpot() {
       if (error) {
         console.error(error);
       } else {
-        await queryClient.invalidateQueries({ queryKey: ["climbingSpots"] });
+        await queryClient.invalidateQueries({ queryKey: ["climbing-spots"] });
       }
     },
   });

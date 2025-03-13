@@ -1,5 +1,11 @@
 import Link from "next/link";
-import { Library, MessageSquareText, Tag, AlertTriangle } from "lucide-react";
+import {
+  Library,
+  MessageSquareText,
+  Tag,
+  AlertTriangle,
+  MapPin,
+} from "lucide-react";
 import { Card } from "@/app/_components/ui/card";
 
 const cards = [
@@ -16,6 +22,13 @@ const cards = [
     icon: MessageSquareText,
     href: "/admin/talks",
     color: "text-blue-600",
+  },
+  {
+    title: "Spots",
+    description: "Gérer les spots d'escalade",
+    icon: MapPin,
+    href: "/admin/spots",
+    color: "text-purple-600",
   },
   {
     title: "Tags",

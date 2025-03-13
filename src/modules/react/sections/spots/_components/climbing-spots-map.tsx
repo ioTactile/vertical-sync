@@ -11,7 +11,7 @@ import { ExtendedClimbingSpot } from "@/modules/core/model/ClimbingSpot";
 import useGeolocation from "@/modules/react/sections/spots/_hooks/use-geolocation";
 import useSpotFilters from "@/modules/react/sections/spots/_hooks/use-spot-filters";
 import SpotCounter from "@/modules/react/sections/spots/_components/climbing-spot-counter";
-import useClimbingSpots from "@/modules/core/hooks/use-climbing-spots";
+import useClimbingSpots from "@/modules/core/hooks/use-public-climbing-spots";
 
 const Map = dynamic(() => import("./map"), {
   ssr: false, // Désactive le rendu côté serveur

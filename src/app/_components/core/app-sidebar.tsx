@@ -9,12 +9,19 @@ import {
   SidebarMenuItem,
 } from "@/app/_components/ui/sidebar";
 import { NavigationItem } from "@/types/navigation-item";
-import { AlertTriangle, Library, MessageSquareText, Tag } from "lucide-react";
+import {
+  AlertTriangle,
+  Library,
+  MapPin,
+  MessageSquareText,
+  Tag,
+} from "lucide-react";
 import Link from "next/link";
 
 const adminAsideMenuItems: NavigationItem<string>[] = [
   { title: "Discussions", url: "/admin/talks", icon: MessageSquareText },
   { title: "Articles", url: "/admin/articles", icon: Library },
+  { title: "Spots", url: "/admin/spots", icon: MapPin },
   { title: "Tags", url: "/admin/tags", icon: Tag },
   { title: "Signalements", url: "/admin/reports", icon: AlertTriangle },
 ];

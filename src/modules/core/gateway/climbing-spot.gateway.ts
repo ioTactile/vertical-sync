@@ -2,10 +2,14 @@ import {
   CreateClimbingSpotDto,
   GetClimbingSpotsResponse,
   GetClimbingSpotCommentsResponse,
+  GetClimbingSpotResponse,
+  UpdateClimbingSpotDto,
 } from "@/modules/core/model/ClimbingSpot";
 
 export interface IClimbingSpotGateway {
-  getClimbingSpots(): Promise<GetClimbingSpotsResponse>;
+  getClimbingSpot(id: string): Promise<GetClimbingSpotResponse>;
+  getPublicClimbingSpots(): Promise<GetClimbingSpotsResponse>;
+  getAdminClimbingSpots(): Promise<GetClimbingSpotsResponse>;
   getClimbingSpotsByRadiusAndCoords(
     radius: number,
     coords: [number, number]
@@ -13,6 +17,11 @@ export interface IClimbingSpotGateway {
   getClimbingSpotsSearch(
     searchQuery: string
   ): Promise<GetClimbingSpotsResponse>;
-  createClimbingSpot(climbingSpot: CreateClimbingSpotDto): Promise<void>;
   getClimbingSpotComments(id: string): Promise<GetClimbingSpotCommentsResponse>;
+  createClimbingSpot(climbingSpot: CreateClimbingSpotDto): Promise<void>;
+  updateClimbingSpot(
+    id: string,
+    climbingSpot: UpdateClimbingSpotDto
+  ): Promise<void>;
+  deleteClimbingSpot(id: string): Promise<void>;
 }

@@ -1,15 +1,31 @@
 import {
   CreateClimbingSpotDto,
   GetClimbingSpotCommentsResponse,
+  GetClimbingSpotResponse,
   GetClimbingSpotsResponse,
+  UpdateClimbingSpotDto,
 } from "@/modules/core/model/ClimbingSpot";
 import { IClimbingSpotGateway } from "@/modules/core/gateway/climbing-spot.gateway";
 import { axiosInstance } from "@/lib/globals";
 
 export class ApiClimbingSpotGateway implements IClimbingSpotGateway {
-  async getClimbingSpots(): Promise<GetClimbingSpotsResponse> {
+  async getClimbingSpot(id: string): Promise<GetClimbingSpotResponse> {
+    const response = await axiosInstance.get<GetClimbingSpotResponse>(
+      `/api/climbing-spot/${id}`
+    );
+    return response.data;
+  }
+
+  async getPublicClimbingSpots(): Promise<GetClimbingSpotsResponse> {
     const response = await axiosInstance.get<GetClimbingSpotsResponse>(
       "/api/climbing-spot"
+    );
+    return response.data;
+  }
+
+  async getAdminClimbingSpots(): Promise<GetClimbingSpotsResponse> {
+    const response = await axiosInstance.get<GetClimbingSpotsResponse>(
+      "/api/climbing-spot/admin"
     );
     return response.data;
   }
@@ -33,14 +49,6 @@ export class ApiClimbingSpotGateway implements IClimbingSpotGateway {
     return response.data;
   }
 
-  async createClimbingSpot(climbingSpot: CreateClimbingSpotDto): Promise<void> {
-    const response = await axiosInstance.post<void>(
-      "/api/climbing-spot",
-      climbingSpot
-    );
-    return response.data;
-  }
-
   async getClimbingSpotComments(
     id: string
   ): Promise<GetClimbingSpotCommentsResponse> {
@@ -51,6 +59,32 @@ export class ApiClimbingSpotGateway implements IClimbingSpotGateway {
           id,
         },
       }
+    );
+    return response.data;
+  }
+
+  async createClimbingSpot(climbingSpot: CreateClimbingSpotDto): Promise<void> {
+    const response = await axiosInstance.post<void>(
+      "/api/climbing-spot",
+      climbingSpot
+    );
+    return response.data;
+  }
+
+  async updateClimbingSpot(
+    id: string,
+    climbingSpot: UpdateClimbingSpotDto
+  ): Promise<void> {
+    const response = await axiosInstance.put<void>(
+      `/api/climbing-spot/${id}`,
+      climbingSpot
+    );
+    return response.data;
+  }
+
+  async deleteClimbingSpot(id: string): Promise<void> {
+    const response = await axiosInstance.delete<void>(
+      `/api/climbing-spot/${id}`
     );
     return response.data;
   }

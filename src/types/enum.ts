@@ -1,4 +1,8 @@
-import { ClimbingSpotDifficulty, ClimbingSpotType } from "@prisma/client";
+import {
+  ClimbingSpotDifficulty,
+  ClimbingSpotStatus,
+  ClimbingSpotType,
+} from "@prisma/client";
 
 export const CLIMBING_SPOT_TYPE_LABELS: Record<ClimbingSpotType, string> = {
   ALL: "Tous les types",
@@ -42,4 +46,10 @@ export const CLIMBING_SPOT_DIFFICULTY_LABELS: Record<
   GRADE_9A_PLUS: "9a+",
   GRADE_9B: "9b",
   GRADE_9B_PLUS: "9b+",
+};
+
+export const CLIMBING_SPOT_STATUS_LABELS: Record<ClimbingSpotStatus, string> = {
+  PENDING: "En attente",
+  APPROVED: "Approuvé",
+  REJECTED: "Rejeté",
 };

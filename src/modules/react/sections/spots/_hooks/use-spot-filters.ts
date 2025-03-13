@@ -61,6 +61,7 @@ const useSpotFilters = (
     }
   }, [selectedSpot, searchSpots]);
 
+  // Récupère les spots filtrés
   const filteredSpots = React.useMemo(() => {
     const apiSpots =
       spots?.map((spot) => {
@@ -73,11 +74,6 @@ const useSpotFilters = (
       }) ?? [];
 
     const allSpots = [...apiSpots];
-    searchSpots.forEach((searchSpot) => {
-      if (!allSpots.some((spot) => spot.id === searchSpot.id)) {
-        allSpots.push(searchSpot);
-      }
-    });
 
     return allSpots.filter((spot) => {
       const matchesType =
@@ -92,7 +88,7 @@ const useSpotFilters = (
 
       return matchesType && matchesDifficulty;
     });
-  }, [filters, spots, searchSpots]);
+  }, [filters, spots]);
 
   return {
     filters,

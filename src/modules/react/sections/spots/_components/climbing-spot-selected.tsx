@@ -16,6 +16,7 @@ import {
   CircleParking,
   CircleParkingOff,
   Globe,
+  Loader2,
   LucideProps,
   Mail,
   MapPin,
@@ -37,15 +38,13 @@ interface ClimbingSpotSelectedProps {
 const ClimbingSpotSelected = ({ spot, onClose }: ClimbingSpotSelectedProps) => {
   const [tabs, setTabs] = React.useState<"infos" | "comments">("infos");
 
-  const { data: comments } = useClimbingSpotComments(
-    spot.id,
-    tabs === "comments"
-  );
+  const { data: comments, isLoading: isCommentsLoading } =
+    useClimbingSpotComments(spot.id, tabs === "comments");
 
   return (
     <div
       className="absolute top-0 left-0 w-full sm:min-w-[300px] sm:max-w-[400px] h-screen-minus-header sm:h-[600px] border-r border-r-border  
-      bg-background z-2000 shadow-[2px_0px_5px_rgba(0,0,0,0.1)]"
+      bg-background z-2000 sm:z-500 shadow-[2px_0px_5px_rgba(0,0,0,0.1)]"
     >
       <div className="flex flex-col h-full overflow-y-auto pb-14 md:pb-0">
         {spot.imageUrls.length > 0 ? (
@@ -88,7 +87,7 @@ const ClimbingSpotSelected = ({ spot, onClose }: ClimbingSpotSelectedProps) => {
               <TabsTrigger
                 value="comments"
                 className="w-full"
-                disabled={comments?.length === 0}
+                disabled={!spot.notationCount}
               >
                 Commentaires
               </TabsTrigger>
@@ -170,15 +169,21 @@ const ClimbingSpotSelected = ({ spot, onClose }: ClimbingSpotSelectedProps) => {
               </div>
             </TabsContent>
             <TabsContent value="comments" className="flex flex-col gap-4">
-              {comments?.map((comment, index) => (
-                <Comment
-                  key={index}
-                  author={comment.author}
-                  content={comment.content}
-                  notation={comment.notation}
-                  createdAt={comment.createdAt}
-                />
-              ))}
+              {isCommentsLoading ? (
+                <div className="flex items-center justify-center h-full">
+                  <Loader2 className="h-6 w-6 animate-spin" />
+                </div>
+              ) : (
+                comments?.map((comment, index) => (
+                  <Comment
+                    key={index}
+                    author={comment.author}
+                    content={comment.content}
+                    notation={comment.notation}
+                    createdAt={comment.createdAt}
+                  />
+                ))
+              )}
             </TabsContent>
           </Tabs>
         </div>

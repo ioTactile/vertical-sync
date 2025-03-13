@@ -93,7 +93,7 @@ export const SpotsFilters = ({
           <Input
             ref={searchInputRef}
             placeholder="Rechercher un spot..."
-            className="mr-4 pl-10 bg-background rounded-full text-sm sm:text-base h-10 w-full sm:w-[270px]"
+            className="pl-10 bg-background rounded-full text-sm sm:text-base h-10 w-full sm:w-[270px]"
             value={searchQuery}
             onChange={handleSearch}
             onKeyDown={(e) => {

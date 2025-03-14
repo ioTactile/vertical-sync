@@ -10,7 +10,14 @@ export const updateArticleSchema = z.object({
   imageUrl: z.string().url().nullable(),
   excerpt: z.string().nullable(),
   published: z.boolean().default(false),
-  tags: z.array(z.string().cuid()),
+  articleTags: z
+    .array(
+      z.object({
+        id: z.string().cuid(),
+        name: z.string(),
+      })
+    )
+    .max(3, "Vous ne pouvez pas choisir plus de 3 tags"),
 });
 
 export type UpdateArticleInputs = z.infer<typeof updateArticleSchema>;

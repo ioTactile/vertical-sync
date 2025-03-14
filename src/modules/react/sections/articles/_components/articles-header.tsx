@@ -11,7 +11,7 @@ const ArticlesHeader = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-background/50 to-transparent" />
       </div>
 
-      <div className="flex justify-between items-center mt-2 px-2">
+      <div className="flex justify-between items-center my-2 px-2">
         <h1 className="text-2xl lg:text-3xl font-bold">Blog</h1>
         <RedactorCreateButton />
       </div>

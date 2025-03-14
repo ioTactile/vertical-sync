@@ -9,6 +9,7 @@ export const createArticleSchema = z.object({
   content: z.string().min(1, "Veuillez remplir ce champ"),
   imageUrl: z.string().url().nullable(),
   excerpt: z.string().nullable(),
+  published: z.boolean().default(false),
   articleTags: z
     .array(
       z.object({

@@ -4,6 +4,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/app/_components/ui/card";
+import { EMAIL_CONTACT } from "@/app/_constants/app";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -207,7 +208,7 @@ export default function CGU() {
             <p>
               Pour toute question concernant ces CGU ou le fonctionnement de la
               plateforme, vous pouvez nous contacter à l&apos;adresse :
-              jbs.io@protonmail.com
+              {EMAIL_CONTACT}
             </p>
             <p>Dernière mise à jour : {new Date().toLocaleDateString()}</p>
           </CardContent>

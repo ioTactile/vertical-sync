@@ -1,6 +1,7 @@
 export const TALK_TITLE_MAX_LENGTH = 300;
 export const TALK_EXCERPT_MAX_LENGTH = 500;
 export const GITHUB_URL = "https://github.com/ioTactile";
+export const EMAIL_CONTACT = "jbs.io@protonmail.com";
 
 export const MAP_ZOOM_DEFAULT = 6;
 export const MAP_ZOOM_RADIUS = 11; // Zoom approximatif pour un rayon de 20km

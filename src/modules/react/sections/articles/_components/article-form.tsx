@@ -18,6 +18,7 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "@/app/_components/ui/form";
 import { useToast } from "@/app/_hooks/use-toast";
@@ -34,6 +35,12 @@ import { useS3Upload } from "@/app/_hooks/use-s3-upload";
 import { useFileManager } from "@/app/_hooks/use-file-manager";
 import { FileUpload } from "@/app/_components/ui/file-upload";
 import FilePreview from "@/app/_components/core/file-preview";
+import {
+  UpdateArticleInputs,
+  updateArticleSchema,
+} from "@/modules/react/sections/admin/articles/_schemas/update-article";
+import { Checkbox } from "@/app/_components/ui/checkbox";
+import { useUserStore } from "@/modules/core/store/store";
 
 interface ArticleFormProps {
   mode: "create" | "update";
@@ -43,17 +50,26 @@ interface ArticleFormProps {
 const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
   const { toast } = useToast();
 
-  const form = useForm<CreateArticleInputs>({
-    resolver: zodResolver(createArticleSchema),
+  const { isAdmin } = useUserStore();
+
+  const form = useForm<
+    typeof mode extends "create" ? CreateArticleInputs : UpdateArticleInputs
+  >({
+    resolver: zodResolver(
+      mode === "create" ? createArticleSchema : updateArticleSchema
+    ),
     defaultValues: {
       title: "",
       content: "",
       imageUrl: null,
       excerpt: null,
+      published: false,
       articleTags: [],
     },
     mode: "onChange",
   });
+
+  console.log(form.watch("content"));
 
   const {
     control,
@@ -77,6 +93,7 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
           name: tag.tag.name,
         }))
       );
+      setValue("published", initialData.published);
     }
   }, [initialData, setValue]);
 
@@ -92,9 +109,9 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
   });
   const { files, handleFiles, clearFiles, removeFile } = useFileManager(5);
 
-  const handleCreateArticleSubmit: SubmitHandler<CreateArticleInputs> = (
-    data
-  ) => {
+  const handleCreateArticleSubmit: SubmitHandler<
+    typeof mode extends "create" ? CreateArticleInputs : UpdateArticleInputs
+  > = (data) => {
     handleAuthAction(async (user) => {
       const article: Omit<CreateArticleDto, "authorId"> = {
         title: data.title,
@@ -102,6 +119,7 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
         imageUrl: data.imageUrl || null,
         excerpt: data.excerpt || null,
         articleTags: data.articleTags,
+        published: data.published,
       };
 
       if (mode === "create") {
@@ -224,10 +242,11 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
         />
 
         <FormField
-          control={control}
+          control={form.control}
           name="content"
           render={({ field }) => (
             <FormItem>
+              <FormLabel>Corps*</FormLabel>
               <FormControl>
                 <Textarea
                   placeholder="Corps*"
@@ -253,6 +272,24 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
         />
 
         <MultiSelectTags control={control} />
+
+        {isAdmin && (
+          <FormField
+            control={control}
+            name="published"
+            render={({ field }) => (
+              <FormItem className="flex items-center space-x-2">
+                <FormControl>
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <FormLabel>Publié l&apos;article</FormLabel>
+              </FormItem>
+            )}
+          />
+        )}
 
         <Button
           type="submit"

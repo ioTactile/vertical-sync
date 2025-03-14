@@ -18,6 +18,7 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "@/app/_components/ui/form";
 import { useToast } from "@/app/_hooks/use-toast";
@@ -33,6 +34,7 @@ import { useS3Upload } from "@/app/_hooks/use-s3-upload";
 import { useFileManager } from "@/app/_hooks/use-file-manager";
 import { UpdateArticleInputs } from "@/modules/react/sections/admin/articles/_schemas/update-article";
 import { updateArticleSchema } from "@/modules/react/sections/admin/articles/_schemas/update-article";
+import { Checkbox } from "@/app/_components/ui/checkbox";
 
 interface ArticleFormProps {
   mode: "create" | "update";
@@ -105,6 +107,7 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
         imageUrl: data.imageUrl || null,
         excerpt: data.excerpt || null,
         articleTags: data.articleTags,
+        published: data.published,
       };
 
       try {
@@ -240,7 +243,7 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
         />
 
         <FormField
-          control={control}
+          control={form.control}
           name="content"
           render={({ field }) => (
             <FormItem>
@@ -269,6 +272,22 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
         />
 
         <MultiSelectTags control={control} />
+
+        <FormField
+          control={control}
+          name="published"
+          render={({ field }) => (
+            <FormItem className="flex items-center space-x-2">
+              <FormControl>
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
+              <FormLabel>Publié l&apos;article</FormLabel>
+            </FormItem>
+          )}
+        />
 
         <Button
           type="submit"

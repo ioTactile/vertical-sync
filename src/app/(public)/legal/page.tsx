@@ -4,6 +4,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/app/_components/ui/card";
+import { EMAIL_CONTACT } from "@/app/_constants/app";
 import { Metadata } from "next";
 import Link from "next/link";
 
@@ -26,9 +27,9 @@ export default function MentionsLegales() {
             <div>
               <h3 className="font-semibold mb-2">Identité</h3>
               <p>Jordan Biesmans - Auto-entrepreneur</p>
-              <p>52 rue de Cernay 51100 Reims</p>
+              <p className="text-muted-foreground">Adresse non renseignée</p>
               <p>SIRET : 978 277 978 000 18</p>
-              <p>Email : jbs.io@protonmail.com</p>
+              <p>Email : {EMAIL_CONTACT}</p>
             </div>
 
             <div>

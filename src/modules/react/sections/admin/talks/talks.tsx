@@ -5,9 +5,10 @@ import TalksHeader from "@/modules/react/sections/admin/talks/_components/talks-
 import { DataTable } from "@/modules/react/sections/_components/data-table";
 import { columns } from "@/modules/react/sections/admin/talks/_components/columns";
 import { getFormatedDate } from "@/modules/core/utils/date";
+import TableSkeleton from "@/app/_components/ui/table-skeleton";
 
 const Talks = () => {
-  const { data: talks } = useTalks();
+  const { data: talks, isPending } = useTalks();
 
   const talksFormated = talks?.map((talk) => ({
     ...talk,
@@ -20,7 +21,11 @@ const Talks = () => {
   return (
     <div className="container flex flex-col space-y-2 mx-auto py-2">
       <TalksHeader />
-      <DataTable columns={columns} data={talksFormated} />
+      {isPending ? (
+        <TableSkeleton />
+      ) : (
+        <DataTable columns={columns} data={talksFormated} />
+      )}
     </div>
   );
 };

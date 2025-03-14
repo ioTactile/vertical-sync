@@ -4,6 +4,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/app/_components/ui/card";
+import { EMAIL_CONTACT } from "@/app/_constants/app";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -87,7 +88,7 @@ export default function PolitiqueConfidentialite() {
               <li>Droit d&apos;opposition au traitement</li>
             </ul>
             <p className="mt-4">
-              Pour exercer ces droits, contactez-nous à : jbs.io@protonmail.com
+              Pour exercer ces droits, contactez-nous à : {EMAIL_CONTACT}
             </p>
           </CardContent>
         </Card>

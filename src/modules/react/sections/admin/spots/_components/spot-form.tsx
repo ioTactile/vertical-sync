@@ -400,7 +400,7 @@ const SpotForm = ({ mode, initialData }: SpotFormProps) => {
                     onCheckedChange={field.onChange}
                   />
                 </FormControl>
-                <label>Parking disponible</label>
+                <FormLabel>Parking disponible</FormLabel>
                 <FormMessage />
               </FormItem>
             )}
@@ -417,48 +417,46 @@ const SpotForm = ({ mode, initialData }: SpotFormProps) => {
                     onCheckedChange={field.onChange}
                   />
                 </FormControl>
-                <label>Toilettes disponibles</label>
+                <FormLabel>Toilettes disponibles</FormLabel>
                 <FormMessage />
               </FormItem>
             )}
           />
         </div>
 
-        {mode === "update" && (
-          <FormField
-            control={control}
-            name="status"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Select
-                    value={field.value || initialData?.status}
-                    onValueChange={field.onChange}
-                  >
-                    <FormItem>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Statut" />
-                        </SelectTrigger>
-                      </FormControl>
-                    </FormItem>
-                    <FormItem>
-                      <FormControl>
-                        <SelectContent>
-                          {Object.values(ClimbingSpotStatus).map((status) => (
-                            <SelectItem key={status} value={status}>
-                              {CLIMBING_SPOT_STATUS_LABELS[status]}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </FormControl>
-                    </FormItem>
-                  </Select>
-                </FormControl>
-              </FormItem>
-            )}
-          />
-        )}
+        <FormField
+          control={control}
+          name="status"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Select
+                  value={field.value || initialData?.status}
+                  onValueChange={field.onChange}
+                >
+                  <FormItem>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Statut" />
+                      </SelectTrigger>
+                    </FormControl>
+                  </FormItem>
+                  <FormItem>
+                    <FormControl>
+                      <SelectContent>
+                        {Object.values(ClimbingSpotStatus).map((status) => (
+                          <SelectItem key={status} value={status}>
+                            {CLIMBING_SPOT_STATUS_LABELS[status]}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </FormControl>
+                  </FormItem>
+                </Select>
+              </FormControl>
+            </FormItem>
+          )}
+        />
 
         <Button
           type="submit"

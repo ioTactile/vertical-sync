@@ -17,7 +17,11 @@ export const useGetFetchQuery = (id?: string) => {
       }
 
       // Sinon, essayer de récupérer directement le talk individuel
-      return queryClient.getQueryData<GetTalkResponse>(["talks", id]);
+      const cachedTalk = queryClient.getQueryData<GetTalkResponse>([
+        "talks",
+        id,
+      ]);
+      return cachedTalk ?? undefined;
     },
   });
 };

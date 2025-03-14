@@ -71,12 +71,9 @@ export class ApiClimbingSpotGateway implements IClimbingSpotGateway {
     return response.data;
   }
 
-  async updateClimbingSpot(
-    id: string,
-    climbingSpot: UpdateClimbingSpotDto
-  ): Promise<void> {
-    const response = await axiosInstance.put<void>(
-      `/api/climbing-spot/${id}`,
+  async updateClimbingSpot(climbingSpot: UpdateClimbingSpotDto): Promise<void> {
+    const response = await axiosInstance.patch<void>(
+      `/api/climbing-spot/${climbingSpot.id}`,
       climbingSpot
     );
     return response.data;

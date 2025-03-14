@@ -8,11 +8,13 @@ const UpdateTag = () => {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
 
-  const { data: tag } = useGetFetchQuery(id as string);
+  const { data: tag, isError } = useGetFetchQuery(id as string);
 
-  if (!tag) {
+  if (!tag && isError) {
     redirect("/admin/tags");
   }
+
+  if (!tag) return null;
 
   return (
     <div className="container mx-auto flex flex-col gap-6 mt-2 px-4 sm:px-0">

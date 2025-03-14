@@ -19,9 +19,6 @@ export interface IClimbingSpotGateway {
   ): Promise<GetClimbingSpotsResponse>;
   getClimbingSpotComments(id: string): Promise<GetClimbingSpotCommentsResponse>;
   createClimbingSpot(climbingSpot: CreateClimbingSpotDto): Promise<void>;
-  updateClimbingSpot(
-    id: string,
-    climbingSpot: UpdateClimbingSpotDto
-  ): Promise<void>;
+  updateClimbingSpot(climbingSpot: UpdateClimbingSpotDto): Promise<void>;
   deleteClimbingSpot(id: string): Promise<void>;
 }

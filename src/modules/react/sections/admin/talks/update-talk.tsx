@@ -9,11 +9,13 @@ const UpdateTalk = () => {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
 
-  const { data: talk } = useGetFetchQuery(id as string);
+  const { data: talk, isError } = useGetFetchQuery(id as string);
 
-  if (!talk) {
+  if (!talk && isError) {
     redirect("/admin/talks");
   }
+
+  if (!talk) return null;
 
   return (
     <div className="container mx-auto flex flex-col gap-6 mt-2 px-4 sm:px-0">

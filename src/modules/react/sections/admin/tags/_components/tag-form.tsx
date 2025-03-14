@@ -21,6 +21,10 @@ import * as React from "react";
 import { useRouter } from "next/navigation";
 import { GetTagResponse } from "@/modules/core/model/Tag";
 import { useAuthAction } from "@/app/_hooks/use-auth-action";
+import {
+  UpdateTagInputs,
+  updateTagSchema,
+} from "@/modules/react/sections/admin/tags/_schemas/update-tag";
 
 interface TagFormProps {
   mode: "create" | "update";
@@ -28,8 +32,12 @@ interface TagFormProps {
 }
 
 const TagForm = ({ mode, initialData }: TagFormProps) => {
-  const form = useForm<CreateTagInputs>({
-    resolver: zodResolver(createTagSchema),
+  const form = useForm<
+    typeof mode extends "create" ? CreateTagInputs : UpdateTagInputs
+  >({
+    resolver: zodResolver(
+      mode === "create" ? createTagSchema : updateTagSchema
+    ),
     defaultValues: {
       name: "",
     },
@@ -57,9 +65,9 @@ const TagForm = ({ mode, initialData }: TagFormProps) => {
 
   const { handleAuthAction } = useAuthAction();
 
-  const handleCreateOrUpdateTagSubmit: SubmitHandler<CreateTagInputs> = (
-    data
-  ) => {
+  const handleCreateOrUpdateTagSubmit: SubmitHandler<
+    typeof mode extends "create" ? CreateTagInputs : UpdateTagInputs
+  > = (data) => {
     handleAuthAction(() => {
       const tag = {
         name: data.name,

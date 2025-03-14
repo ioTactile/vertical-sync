@@ -5,7 +5,7 @@ import { climbingSpotGateway } from "@/modules/core/gateway-infra/api.climbing-s
 export function useUpdateClimbingSpot() {
   return useMutation({
     mutationFn: (climbingSpot: UpdateClimbingSpotDto) =>
-      climbingSpotGateway.updateClimbingSpot(climbingSpot.id, climbingSpot),
+      climbingSpotGateway.updateClimbingSpot(climbingSpot),
     onSettled: async (_data, error) => {
       if (error) {
         console.error(error);

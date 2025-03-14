@@ -37,8 +37,6 @@ const useMapControls = ({
     shouldUpdateView: true,
   });
 
-  console.log(state.zoom);
-
   const handleZoomChange = React.useCallback(
     (newZoom: number) => {
       setState((prev) => ({ ...prev, zoom: newZoom }));

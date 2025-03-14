@@ -217,6 +217,7 @@ export class PrismaClimbingSpotRepository implements IClimbingSpotRepository {
         email = ${rest.email},
         "parkingAvailable" = ${rest.parkingAvailable},
         "toiletsAvailable" = ${rest.toiletsAvailable},
+        status = ${rest.status}::\"ClimbingSpotStatus\",
         "updatedAt" = NOW()
       WHERE id = ${data.id}
     `;

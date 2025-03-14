@@ -7,8 +7,6 @@ export async function GET(
 ) {
   const id = (await params).id;
 
-  console.log("id", id);
-
   try {
     const spot = await climbingSpotService.getClimbingSpotById(id);
     return NextResponse.json(spot, { status: 200 });

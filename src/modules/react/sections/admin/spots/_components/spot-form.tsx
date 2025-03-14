@@ -46,6 +46,11 @@ import {
   SelectTrigger,
 } from "@/app/_components/ui/select";
 import { SelectValue } from "@radix-ui/react-select";
+import ImageUrlPreview from "@/app/_components/core/image-url-preview";
+import {
+  UpdateClimbingSpotInputs,
+  updateClimbingSpotSchema,
+} from "@/modules/react/sections/admin/spots/_schemas/update-climbing-spot";
 
 interface SpotFormProps {
   mode: "create" | "update";
@@ -53,8 +58,14 @@ interface SpotFormProps {
 }
 
 const SpotForm = ({ mode, initialData }: SpotFormProps) => {
-  const form = useForm<CreateClimbingSpotInputs>({
-    resolver: zodResolver(createClimbingSpotSchema),
+  const form = useForm<
+    typeof mode extends "update"
+      ? UpdateClimbingSpotInputs
+      : CreateClimbingSpotInputs
+  >({
+    resolver: zodResolver(
+      mode === "update" ? updateClimbingSpotSchema : createClimbingSpotSchema
+    ),
     defaultValues: {
       name: "",
       description: null,
@@ -86,8 +97,6 @@ const SpotForm = ({ mode, initialData }: SpotFormProps) => {
     watch,
   } = form;
 
-  console.log(isValid);
-
   React.useEffect(() => {
     if (initialData) {
       const { coords, ...rest } = initialData;
@@ -107,9 +116,11 @@ const SpotForm = ({ mode, initialData }: SpotFormProps) => {
       setValue("email", rest.email);
       setValue("parkingAvailable", rest.parkingAvailable);
       setValue("toiletsAvailable", rest.toiletsAvailable);
-      setValue("status", rest.status);
+      if (mode === "update") {
+        setValue("status", rest.status);
+      }
     }
-  }, [initialData, setValue]);
+  }, [initialData, setValue, mode]);
 
   const router = useRouter();
 
@@ -126,7 +137,9 @@ const SpotForm = ({ mode, initialData }: SpotFormProps) => {
   const { files, handleFiles, clearFiles, removeFile } = useFileManager(5);
 
   const handleCreateOrUpdateClimbingSpotSubmit: SubmitHandler<
-    CreateClimbingSpotInputs
+    typeof mode extends "update"
+      ? UpdateClimbingSpotInputs
+      : CreateClimbingSpotInputs
   > = (data) => {
     handleAuthAction(async (user) => {
       const spot = {
@@ -151,14 +164,26 @@ const SpotForm = ({ mode, initialData }: SpotFormProps) => {
         status: data.status,
       };
 
-      if (mode === "create") {
-        try {
-          let imageUrls: string[] = [];
+      try {
+        let imageUrls: string[] = [...(data.imageUrls || [])];
 
-          if (files.length > 0) {
-            imageUrls = await uploadToS3(files);
+        if (mode === "update") {
+          const imagesToDelete = initialData?.imageUrls.filter(
+            (url) => !data.imageUrls.includes(url)
+          );
+          if (imagesToDelete && imagesToDelete.length > 0) {
+            await deleteFromS3(
+              imagesToDelete.map((url) => url.split("/").pop() || "")
+            );
           }
+        }
 
+        if (files.length > 0) {
+          const newImageUrls = await uploadToS3(files);
+          imageUrls = [...imageUrls, ...newImageUrls];
+        }
+
+        if (mode === "create") {
           createClimbingSpotMutation.mutate(
             {
               ...spot,
@@ -167,50 +192,48 @@ const SpotForm = ({ mode, initialData }: SpotFormProps) => {
             },
             {
               onSuccess: () => {
-                toast({
-                  title: "Succès",
-                  description: "Le spot d'escalade a été créé avec succès",
-                });
                 clearFiles();
                 reset();
                 router.push("/admin/spots");
               },
-              onError: () => {
-                toast({
-                  title: "Erreur",
-                  description:
-                    "Une erreur est survenue lors de la création du spot d'escalade",
-                });
+            }
+          );
+        } else {
+          updateClimbingSpotMutation.mutate(
+            {
+              ...spot,
+              id: initialData!.id,
+              imageUrls,
+              updatedAt: new Date(),
+            },
+            {
+              onSuccess: () => {
+                clearFiles();
+                reset();
+                router.push("/admin/spots");
               },
             }
           );
-        } catch (error: unknown) {
-          console.error(error);
-          if (files.length > 0) {
-            await deleteFromS3(files.map((file) => file.name));
-          }
-          toast({
-            title: "Erreur",
-            description: "Une erreur est survenue lors de l'upload des images",
-            variant: "destructive",
-          });
         }
-      } else {
-        updateClimbingSpotMutation.mutate(
-          {
-            ...spot,
-            id: initialData!.id,
-            updatedAt: new Date(),
-          },
-          {
-            onSuccess: () => {
-              reset();
-              router.push("/admin/spots");
-            },
-          }
-        );
+      } catch (error: unknown) {
+        console.error(error);
+        if (files.length > 0) {
+          await deleteFromS3(files.map((file) => file.name));
+        }
+        toast({
+          title: "Erreur",
+          description: "Une erreur est survenue lors de l'upload des images",
+          variant: "destructive",
+        });
       }
     });
+  };
+
+  const handleRemoveImageUrl = (url: string) => {
+    const newImageUrls = watch("imageUrls").filter(
+      (imageUrl) => imageUrl !== url
+    );
+    setValue("imageUrls", newImageUrls);
   };
 
   return (
@@ -346,6 +369,11 @@ const SpotForm = ({ mode, initialData }: SpotFormProps) => {
           }))}
         />
 
+        <ImageUrlPreview
+          imageUrls={watch("imageUrls")}
+          onRemove={handleRemoveImageUrl}
+        />
+
         <FilePreview files={files} onRemove={removeFile} />
 
         <FileUpload
@@ -396,40 +424,42 @@ const SpotForm = ({ mode, initialData }: SpotFormProps) => {
           />
         </div>
 
-        <FormField
-          control={control}
-          name="status"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Select value={field.value} onValueChange={field.onChange}>
-                  <FormItem>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Statut" />
-                      </SelectTrigger>
-                    </FormControl>
-                  </FormItem>
-                  <FormItem>
-                    <FormControl>
-                      <SelectContent>
-                        {Object.values(ClimbingSpotStatus).map((status) => (
-                          <SelectItem
-                            key={status}
-                            value={status}
-                            defaultValue={ClimbingSpotStatus.PENDING}
-                          >
-                            {CLIMBING_SPOT_STATUS_LABELS[status]}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </FormControl>
-                  </FormItem>
-                </Select>
-              </FormControl>
-            </FormItem>
-          )}
-        />
+        {mode === "update" && (
+          <FormField
+            control={control}
+            name="status"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Select
+                    value={field.value || initialData?.status}
+                    onValueChange={field.onChange}
+                  >
+                    <FormItem>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Statut" />
+                        </SelectTrigger>
+                      </FormControl>
+                    </FormItem>
+                    <FormItem>
+                      <FormControl>
+                        <SelectContent>
+                          {Object.values(ClimbingSpotStatus).map((status) => (
+                            <SelectItem key={status} value={status}>
+                              {CLIMBING_SPOT_STATUS_LABELS[status]}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </FormControl>
+                    </FormItem>
+                  </Select>
+                </FormControl>
+              </FormItem>
+            )}
+          />
+        )}
+
         <Button
           type="submit"
           disabled={!isValid || isUploading}

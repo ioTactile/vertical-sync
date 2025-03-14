@@ -31,6 +31,8 @@ import { FileUpload } from "@/app/_components/ui/file-upload";
 import FilePreview from "@/app/_components/core/file-preview";
 import { useS3Upload } from "@/app/_hooks/use-s3-upload";
 import { useFileManager } from "@/app/_hooks/use-file-manager";
+import { UpdateArticleInputs } from "@/modules/react/sections/admin/articles/_schemas/update-article";
+import { updateArticleSchema } from "@/modules/react/sections/admin/articles/_schemas/update-article";
 
 interface ArticleFormProps {
   mode: "create" | "update";
@@ -40,8 +42,12 @@ interface ArticleFormProps {
 const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
   const { toast } = useToast();
 
-  const form = useForm<CreateArticleInputs>({
-    resolver: zodResolver(createArticleSchema),
+  const form = useForm<
+    typeof mode extends "create" ? CreateArticleInputs : UpdateArticleInputs
+  >({
+    resolver: zodResolver(
+      mode === "create" ? createArticleSchema : updateArticleSchema
+    ),
     defaultValues: {
       title: "",
       content: "",
@@ -89,9 +95,9 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
   });
   const { files, handleFiles, clearFiles, removeFile } = useFileManager(5);
 
-  const handleCreateArticleSubmit: SubmitHandler<CreateArticleInputs> = (
-    data
-  ) => {
+  const handleCreateArticleSubmit: SubmitHandler<
+    typeof mode extends "create" ? CreateArticleInputs : UpdateArticleInputs
+  > = (data) => {
     handleAuthAction(async (user) => {
       const article = {
         title: data.title,
@@ -101,13 +107,24 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
         articleTags: data.articleTags,
       };
 
-      if (mode === "create") {
-        try {
-          let imageUrls: string[] = [];
+      try {
+        let imageUrls: string[] = [...(data.imageUrl || [])];
 
-          if (files.length > 0) {
-            imageUrls = await uploadToS3(files);
+        if (mode === "update") {
+          const imagesToDelete =
+            initialData?.imageUrl !== data.imageUrl
+              ? initialData?.imageUrl
+              : null;
+          if (imagesToDelete) {
+            await deleteFromS3([imagesToDelete]);
           }
+        }
+
+        if (files.length > 0) {
+          imageUrls = await uploadToS3(files);
+        }
+
+        if (mode === "create") {
           createArticleMutation.mutate(
             {
               ...article,
@@ -122,31 +139,33 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
               },
             }
           );
-        } catch (error: unknown) {
-          console.error(error);
-          if (files.length > 0) {
-            await deleteFromS3(files.map((file) => file.name));
-          }
-          toast({
-            title: "Erreur",
-            description: "Une erreur est survenue lors de l'upload des images",
-            variant: "destructive",
-          });
-        }
-      } else {
-        updateArticleMutation.mutate(
-          {
-            ...article,
-            id: initialData!.id,
-            updatedAt: new Date(),
-          },
-          {
-            onSuccess: () => {
-              reset();
-              router.push("/admin/articles");
+        } else {
+          updateArticleMutation.mutate(
+            {
+              ...article,
+              id: initialData!.id,
+              imageUrl: imageUrls[0],
+              updatedAt: new Date(),
             },
-          }
-        );
+            {
+              onSuccess: () => {
+                clearFiles();
+                reset();
+                router.push("/admin/articles");
+              },
+            }
+          );
+        }
+      } catch (error: unknown) {
+        console.error(error);
+        if (files.length > 0) {
+          await deleteFromS3(files.map((file) => file.name));
+        }
+        toast({
+          title: "Erreur",
+          description: "Une erreur est survenue lors de l'upload des images",
+          variant: "destructive",
+        });
       }
     });
   };

@@ -30,9 +30,6 @@ export const useGetFetchQuery = (id?: string) => {
         "climbing-spot",
         id,
       ]);
-
-      console.log("cachedSpot", cachedSpot);
-
       return cachedSpot ?? undefined;
     },
   });

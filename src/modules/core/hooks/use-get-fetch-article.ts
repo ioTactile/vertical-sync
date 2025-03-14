@@ -12,7 +12,6 @@ export const useGetFetchQuery = (id?: string) => {
     queryKey: ["articles", id],
     queryFn: () => getArticleById(id!),
     enabled: !!id,
-
     initialData: () => {
       // Essayer de récupérer le tag depuis la liste complète des tags
       const cachedArticles = queryClient.getQueryData<GetArticlesResponse>([
@@ -23,7 +22,11 @@ export const useGetFetchQuery = (id?: string) => {
       }
 
       // Sinon, essayer de récupérer directement le tag individuel
-      return queryClient.getQueryData<GetArticleResponse>(["articles", id]);
+      const cachedArticle = queryClient.getQueryData<GetArticleResponse>([
+        "articles",
+        id,
+      ]);
+      return cachedArticle ?? undefined;
     },
   });
 };

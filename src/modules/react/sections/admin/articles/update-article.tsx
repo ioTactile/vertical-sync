@@ -8,11 +8,13 @@ const UpdateArticle = () => {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
 
-  const { data: article, isLoading } = useGetFetchQuery(id as string);
+  const { data: article, isError } = useGetFetchQuery(id as string);
 
-  if (!isLoading && !article) {
+  if (!article && isError) {
     redirect("/admin/articles");
   }
+
+  if (!article) return null;
 
   return (
     <div className="container mx-auto flex flex-col gap-6 mt-2 px-4 sm:px-0">

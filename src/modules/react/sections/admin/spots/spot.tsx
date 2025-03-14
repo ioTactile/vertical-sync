@@ -36,8 +36,6 @@ const Spot = () => {
 
   if (!spot) return null;
 
-  console.log(spot);
-
   return (
     <div className="container mx-auto flex flex-col gap-6 mt-2 px-4 sm:px-0">
       <h1 className="text-2xl lg:text-3xl font-bold">Détails du Spot</h1>
@@ -149,7 +147,10 @@ const Spot = () => {
               </div>
             </TabsContent>
 
-            <TabsContent value="images" className="grid grid-cols-2 gap-4">
+            <TabsContent
+              value="images"
+              className="grid grid-cols-1 md:grid-cols-2 gap-4"
+            >
               {spot.imageUrls.length > 0 ? (
                 spot.imageUrls.map((imageUrl, index) => (
                   <Image

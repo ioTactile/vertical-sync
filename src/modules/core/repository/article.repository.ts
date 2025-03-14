@@ -192,6 +192,7 @@ export class PrismaArticleRepository implements IArticleRepository {
             tagId: tag.id,
           })),
         },
+        published: data.published,
       },
       include: {
         articleTags: {
@@ -222,6 +223,7 @@ export class PrismaArticleRepository implements IArticleRepository {
           })),
         },
         updatedAt: data.updatedAt,
+        published: data.published,
       },
       include: {
         articleTags: {

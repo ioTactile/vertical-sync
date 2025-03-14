@@ -188,7 +188,7 @@ export class PrismaClimbingSpotRepository implements IClimbingSpotRepository {
         ${rest.email},
         ${rest.parkingAvailable},
         ${rest.toiletsAvailable},
-        'PENDING',
+        ${rest.status}::\"ClimbingSpotStatus\",
         ${rest.authorId},
         NOW(),
         NOW()

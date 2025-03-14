@@ -21,16 +21,8 @@ export async function GET(
 
 export async function POST(request: Request) {
   try {
-    const { content, talkId, authorId, replyToId, replyToUserId } =
-      await request.json();
-
-    await talkService.createTalkComment({
-      content,
-      talkId,
-      authorId,
-      replyToId,
-      replyToUserId,
-    });
+    const data = await request.json();
+    await talkService.createTalkComment(data);
 
     return NextResponse.json(
       { message: "Réponse au commentaire créée" },

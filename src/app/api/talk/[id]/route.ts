@@ -21,9 +21,8 @@ export async function GET(
 
 export async function PATCH(request: Request) {
   try {
-    const { id, title, content, updatedAt } = await request.json();
-
-    await talkService.updateTalk({ id, title, content, updatedAt });
+    const data = await request.json();
+    await talkService.updateTalk(data);
 
     return NextResponse.json(
       { message: "Discussion mise à jour" },

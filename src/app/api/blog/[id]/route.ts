@@ -39,18 +39,8 @@ export async function GET(
 
 export async function PATCH(request: Request) {
   try {
-    const { id, title, content, excerpt, imageUrl, articleTags, updatedAt } =
-      await request.json();
-
-    await articleService.updateArticle({
-      id,
-      title,
-      content,
-      excerpt,
-      imageUrl,
-      updatedAt,
-      articleTags,
-    });
+    const data = await request.json();
+    await articleService.updateArticle(data);
 
     return NextResponse.json(
       {

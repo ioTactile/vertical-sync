@@ -21,16 +21,8 @@ export async function GET(
 
 export async function POST(request: Request) {
   try {
-    const { articleId, content, authorId, replyToId, replyToUserId } =
-      await request.json();
-
-    await articleService.createArticleComment({
-      articleId,
-      content,
-      authorId,
-      replyToId,
-      replyToUserId,
-    });
+    const data = await request.json();
+    await articleService.createArticleComment(data);
 
     return NextResponse.json({ message: "Commentaire créé" }, { status: 201 });
   } catch (error) {

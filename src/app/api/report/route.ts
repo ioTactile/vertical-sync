@@ -3,14 +3,8 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
-    const { entityType, entityId, reason, reporterId } = await request.json();
-
-    await reportService.createReport({
-      entityType,
-      entityId,
-      reason,
-      reporterId,
-    });
+    const data = await request.json();
+    await reportService.createReport(data);
 
     return NextResponse.json(
       { message: "Signalement envoyé" },

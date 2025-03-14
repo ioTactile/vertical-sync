@@ -21,12 +21,8 @@ export async function GET(
 
 export async function PATCH(request: Request) {
   try {
-    const { id, name, updatedAt } = await request.json();
-    await tagService.updateTag({
-      id,
-      name,
-      updatedAt,
-    });
+    const data = await request.json();
+    await tagService.updateTag(data);
 
     return NextResponse.json(
       {

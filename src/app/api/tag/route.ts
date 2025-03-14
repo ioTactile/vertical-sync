@@ -17,8 +17,8 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const { name } = await request.json();
-    const tag = await tagService.createTag({ name });
+    const data = await request.json();
+    const tag = await tagService.createTag(data);
 
     return NextResponse.json({ message: "Tag créé", tag }, { status: 201 });
   } catch (error) {

@@ -74,7 +74,7 @@ export default async function RootLayout({
 
         <Script
           async
-          src="https://unami.iotactile.com/script.js"
+          src="https://umami.iotactile.com/script.js"
           data-website-id="5f7c3375-975d-4378-848b-d038e68baae4"
         />
       </body>

@@ -1,0 +1,13 @@
+services:
+  database:
+    type: postgres
+    version: "16"
+    extensions:
+      - postgis
+      - pg_trgm
+
+deploy:
+  hooks:
+    post-deploy:
+      - npx prisma generate
+      - if [ "$DOKPLOY_BRANCH" = "main" ]; then npx prisma db seed; fi

@@ -21,7 +21,7 @@ model ClimbingSpot {
   parkingAvailable Boolean?
   toiletsAvailable Boolean?
 
-  status ClimbingSpotStatus @default(PENDING)
+  status ClimbingSpotStatus
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

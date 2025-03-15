@@ -5,7 +5,7 @@ model Article {
   content   String
   imageUrl  String?
   excerpt   String?
-  published Boolean  @default(false)
+  published Boolean  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

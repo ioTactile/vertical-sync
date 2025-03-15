@@ -5,6 +5,7 @@ const isAdminRoute = createRouteMatcher(["/admin(.*)"]);
 const isProtectedRoute = createRouteMatcher([
   "/talks/create",
   "/talks/:id/edit",
+  "/user-profile",
 ]);
 const isRedactorRoute = createRouteMatcher(["/blog/create", "/blog/update"]);
 
@@ -21,7 +22,10 @@ export default clerkMiddleware(async (auth, req) => {
   }
 
   if (isRedactorRoute(req)) {
-    if (sessionClaims?.metadata?.role !== "redactor") {
+    if (
+      sessionClaims?.metadata?.role !== "redactor" &&
+      sessionClaims?.metadata?.role !== "admin"
+    ) {
       return NextResponse.redirect(new URL("/", req.url));
     }
   }

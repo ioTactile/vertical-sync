@@ -3,7 +3,7 @@ import getAdminArticles from "@/modules/core/queries/get-admin-articles";
 
 const useAdminArticles = () => {
   return useQuery({
-    queryKey: ["articles"],
+    queryKey: ["admin-articles"],
     queryFn: () => getAdminArticles(),
   });
 };

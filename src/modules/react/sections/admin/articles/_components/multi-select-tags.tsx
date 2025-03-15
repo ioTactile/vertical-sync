@@ -57,7 +57,7 @@ const MultiSelectTags = ({ control }: MultiSelectTagsProps) => {
                 </Button>
               </FormControl>
             </PopoverTrigger>
-            <PopoverContent className="w-full p-0">
+            <PopoverContent className="p-0">
               <Command>
                 <CommandInput placeholder="Rechercher un tag..." />
                 <CommandList>

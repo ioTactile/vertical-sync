@@ -186,13 +186,13 @@ export class PrismaArticleRepository implements IArticleRepository {
         slug,
         excerpt: data.excerpt,
         imageUrl: data.imageUrl,
-        imageName: data.imageName,
         authorId: data.authorId,
         articleTags: {
           create: data.articleTags?.map((tag: { id: string }) => ({
             tagId: tag.id,
           })),
         },
+        published: data.published,
       },
       include: {
         articleTags: {
@@ -216,7 +216,6 @@ export class PrismaArticleRepository implements IArticleRepository {
         slug,
         excerpt: data.excerpt,
         imageUrl: data.imageUrl,
-        imageName: data.imageName,
         articleTags: {
           deleteMany: {},
           create: data.articleTags?.map((tag: { id: string }) => ({
@@ -224,6 +223,7 @@ export class PrismaArticleRepository implements IArticleRepository {
           })),
         },
         updatedAt: data.updatedAt,
+        published: data.published,
       },
       include: {
         articleTags: {

@@ -17,7 +17,8 @@ export const useGetFetchQuery = (id?: string) => {
       }
 
       // Sinon, essayer de récupérer directement le tag individuel
-      return queryClient.getQueryData<GetTagResponse>(["tags", id]);
+      const cachedTag = queryClient.getQueryData<GetTagResponse>(["tags", id]);
+      return cachedTag ?? undefined;
     },
   });
 };

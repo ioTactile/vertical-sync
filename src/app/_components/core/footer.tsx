@@ -1,4 +1,4 @@
-import { MessageSquareText, Library, Github } from "lucide-react";
+import { MessageSquareText, Library, Github, Map } from "lucide-react";
 import Link from "next/link";
 import { Separator } from "@/app/_components/ui/separator";
 import { Button } from "@/app/_components/ui/button";
@@ -12,6 +12,7 @@ const footerLinks: FooterLink[] = [
     links: [
       { title: "Discussions", url: "/talks", icon: MessageSquareText },
       { title: "Blog", url: "/blog?page=1", icon: Library },
+      { title: "Spots", url: "/spots", icon: Map },
     ],
   },
   {
@@ -49,7 +50,7 @@ const Footer = () => {
           ))}
 
           <div className="space-y-3">
-            <h3 className="font-semibold">Suivez-nous</h3>
+            <h3 className="font-semibold">Suivez-moi</h3>
             <div className="flex gap-2">
               <Button variant="outline" size="icon" asChild>
                 <a

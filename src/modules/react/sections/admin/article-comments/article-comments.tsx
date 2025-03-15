@@ -6,24 +6,30 @@ import { columns } from "@/modules/react/sections/admin/article-comments/_compon
 import { getFormatedDate } from "@/modules/core/utils/date";
 import useArticleComments from "@/modules/core/hooks/use-article-comments";
 import { useParams } from "next/navigation";
+import TableSkeleton from "@/app/_components/ui/table-skeleton";
 
 const ArticleComments = () => {
   const { id } = useParams();
 
-  const { data: articleComments } = useArticleComments(id as string);
+  const { data: articleComments, isPending } = useArticleComments(id as string);
 
-  const articleCommentsFormated = articleComments?.map((articleComment) => ({
-    ...articleComment,
-    createdAt: getFormatedDate(articleComment.createdAt),
-    updatedAt: getFormatedDate(articleComment.updatedAt),
-  }));
+  const articleCommentsFormated =
+    articleComments?.map((articleComment) => ({
+      ...articleComment,
+      createdAt: getFormatedDate(articleComment.createdAt),
+      updatedAt: getFormatedDate(articleComment.updatedAt),
+    })) || [];
 
   if (!articleCommentsFormated) return null;
 
   return (
     <div className="container flex flex-col space-y-2 mx-auto py-2">
       <ArticleCommentsHeader />
-      <DataTable columns={columns} data={articleCommentsFormated} />
+      {isPending ? (
+        <TableSkeleton />
+      ) : (
+        <DataTable columns={columns} data={articleCommentsFormated} />
+      )}
     </div>
   );
 };

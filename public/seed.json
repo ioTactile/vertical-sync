@@ -1,0 +1,187 @@
+[
+  {
+    "name": "Block'Out Cergy-Pontoise",
+    "description": "La première salle du groupe Block'Out, offrant 1200 m² d'espace avec 900 m² de surface grimpable, 42 profils variés et près de 280 voies.",
+    "country": "France",
+    "city": "Osny",
+    "coords": {
+      "type": "Point",
+      "coordinates": [
+        2.0723,
+        49.0458
+      ]
+    },
+    "imageUrls": [],
+    "types": [
+      "INDOOR"
+    ],
+    "difficulties": [
+      "BEGINNER",
+      "INTERMEDIATE",
+      "ADVANCED"
+    ],
+    "bestPeriod": null,
+    "address": "9 Chaussée Jules César, 95520 Osny",
+    "websiteUrl": "https://www.blockout.fr/bo1-cergy",
+    "phoneNumber": "+33 1 30 75 13 27",
+    "email": null,
+    "parkingAvailable": true,
+    "toiletsAvailable": true,
+    "userId": "user_2sfZ5Er5H86nxGk8BOsAC9DgBf0",
+    "status": "APPROVED"
+  },
+  {
+    "name": "Block'Out Evry-Lisses",
+    "description": "Troisième salle du groupe, avec 1300 m² dont 750 m² de surface grimpable, 35 profils différents et près de 250 voies.",
+    "country": "France",
+    "city": "Lisses",
+    "coords": {
+      "type": "Point",
+      "coordinates": [
+        2.4264,
+        48.6091
+      ]
+    },
+    "imageUrls": [],
+    "types": [
+      "INDOOR"
+    ],
+    "difficulties": [
+      "BEGINNER",
+      "INTERMEDIATE",
+      "ADVANCED"
+    ],
+    "bestPeriod": null,
+    "address": "20-22 Rue du Cantal, 91090 Lisses",
+    "websiteUrl": "https://www.blockout.fr/bo3-evry",
+    "phoneNumber": "+33 1 60 86 26 89",
+    "email": null,
+    "parkingAvailable": true,
+    "toiletsAvailable": true,
+    "userId": "user_2sfZ5Er5H86nxGk8BOsAC9DgBf0"
+  },
+  {
+    "name": "Block'Out Bordeaux",
+    "description": "Première salle d'escalade de bloc à Bordeaux, offrant plus de 1100 m² de surface grimpable avec 45 blocs et 300 parcours.",
+    "country": "France",
+    "city": "Bordeaux",
+    "coords": {
+      "type": "Point",
+      "coordinates": [
+        -0.5669,
+        44.8685
+      ]
+    },
+    "imageUrls": [],
+    "types": [
+      "INDOOR"
+    ],
+    "difficulties": [
+      "BEGINNER",
+      "INTERMEDIATE",
+      "ADVANCED"
+    ],
+    "bestPeriod": null,
+    "address": "3 Rue Georges Barres, 33300 Bordeaux",
+    "websiteUrl": "https://www.blockout.fr/bo-bordeaux",
+    "phoneNumber": "+33 5 57 93 96 19",
+    "email": null,
+    "parkingAvailable": true,
+    "toiletsAvailable": true,
+    "userId": "user_2sfZ5Er5H86nxGk8BOsAC9DgBf0",
+    "status": "APPROVED"
+  },
+  {
+    "name": "Arkose Rouen",
+    "description": "Située en bord de Seine, cette salle propose 1650 m² dédiés à l'escalade de bloc, avec deux espaces distincts et un espace pour enfants.",
+    "country": "France",
+    "city": "Rouen",
+    "coords": {
+      "type": "Point",
+      "coordinates": [
+        1.0986,
+        49.4314
+      ]
+    },
+    "imageUrls": [],
+    "types": [
+      "INDOOR"
+    ],
+    "difficulties": [
+      "BEGINNER",
+      "INTERMEDIATE",
+      "ADVANCED"
+    ],
+    "bestPeriod": null,
+    "address": "181 Quai du Cours la Reine, 76100 Rouen",
+    "websiteUrl": "https://planetgrimpe.com/sae/arkose-rouen/",
+    "phoneNumber": "0290870150",
+    "email": null,
+    "parkingAvailable": true,
+    "toiletsAvailable": true,
+    "userId": "user_2sfZ5Er5H86nxGk8BOsAC9DgBf0",
+    "status": "APPROVED"
+  },
+  {
+    "name": "Arkose Massy",
+    "description": "L'un des plus grands espaces de grimpe en France avec 1550 m² dédiés à l'escalade de bloc, une zone d'entraînement et un restaurant.",
+    "country": "France",
+    "city": "Massy",
+    "coords": {
+      "type": "Point",
+      "coordinates": [
+        2.2749,
+        48.7302
+      ]
+    },
+    "imageUrls": [],
+    "types": [
+      "INDOOR"
+    ],
+    "difficulties": [
+      "BEGINNER",
+      "INTERMEDIATE",
+      "ADVANCED"
+    ],
+    "bestPeriod": null,
+    "address": "4 Rue Galvani, 91300 Massy",
+    "websiteUrl": "https://arkose.com/massy",
+    "phoneNumber": "01 64 47 07 47",
+    "email": null,
+    "parkingAvailable": true,
+    "toiletsAvailable": true,
+    "userId": "user_2sfZ5Er5H86nxGk8BOsAC9DgBf0",
+    "status": "APPROVED"
+  },
+  {
+    "name": "Arkose Bordeaux",
+    "description": "Située dans un ancien chai centenaire, cette salle propose de l'escalade de bloc, avec un espace pour enfants et un restaurant.",
+    "country": "France",
+    "city": "Bordeaux",
+    "coords": {
+      "type": "Point",
+      "coordinates": [
+        -0.5754,
+        44.863
+      ]
+    },
+    "imageUrls": [],
+    "types": [
+      "INDOOR"
+    ],
+    "difficulties": [
+      "BEGINNER",
+      "INTERMEDIATE",
+      "ADVANCED"
+    ],
+    "bestPeriod": null,
+    "address": "170 Cr du Médoc Galerie Tatry, 33300 Bordeaux",
+    "websiteUrl": "https://arkose.com/bordeaux",
+    "phoneNumber": "05 56 80 57 46",
+    "email": null,
+    "parkingAvailable": true,
+    "toiletsAvailable": true,
+    "userId": "user_2sfZ5Er5H86nxGk8BOsAC9DgBf0",
+    "status": "APPROVED"
+  }
+]

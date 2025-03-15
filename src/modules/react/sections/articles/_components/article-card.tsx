@@ -47,7 +47,7 @@ const ArticleCard = ({ article }: ArticleCardProps) => {
         {article.imageUrl ? (
           <Image
             src={article.imageUrl}
-            alt={article.imageName ?? article.title}
+            alt={article.title}
             className="object-cover"
             fill
           />

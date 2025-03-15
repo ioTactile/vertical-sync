@@ -1,0 +1,98 @@
+model ClimbingSpot {
+  id String @id @default(cuid())
+  name String
+  description String?
+  country String?
+  city String?
+  coords Unsupported("geography(Point, 4326)")?
+  imageUrls  String[]
+  types ClimbingSpotType[]
+  difficulties ClimbingSpotDifficulty[]
+  notation Decimal? @default(0) @db.Decimal(3,2)
+  notationCount Int? @default(0)
+  bestPeriod String? 
+  comments ClimbingSpotComment[]
+
+  address String?
+  websiteUrl String?
+  phoneNumber String?
+  email String?
+
+  parkingAvailable Boolean?
+  toiletsAvailable Boolean?
+
+  status ClimbingSpotStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  authorId String
+  author User @relation(fields: [authorId], references: [clerkId], onDelete: NoAction)
+
+  @@index([status])
+  @@index([types])
+  @@index([difficulties])
+  @@index([country])
+  @@index([city])
+  @@index([coords],map: "location_idx", type: Gist)
+}
+
+enum ClimbingSpotType {
+  ALL
+  OUTDOOR
+  INDOOR
+  OUTDOOR_BOULDER
+  OUTDOOR_LEAD
+  INDOOR_BOULDER
+  INDOOR_LEAD
+  INDOOR_SPEED
+}
+
+enum ClimbingSpotDifficulty {
+  // Niveaux généraux
+  BEGINNER        // 4a - 5b
+  INTERMEDIATE    // 5c - 6b
+  ADVANCED        // 6c - 7b
+  EXPERT          // 7c - 8b
+  ELITE           // 8c et plus
+
+   // Cotations détaillées
+  // Débutant (Beginner)
+  GRADE_4A
+  GRADE_4B
+  GRADE_4C
+  GRADE_5A
+  GRADE_5B
+
+  // Intermédiaire (Intermediate)
+  GRADE_5C
+  GRADE_6A
+  GRADE_6B
+
+  // Avancé (Advanced)
+  GRADE_6C
+  GRADE_7A
+  GRADE_7B
+
+  // Expert
+  GRADE_7C
+  GRADE_8A
+  GRADE_8B
+
+  // Elite
+  GRADE_8C
+  GRADE_9A
+  GRADE_9A_PLUS
+  GRADE_9B
+  GRADE_9B_PLUS
+}
+
+enum ClimbingSpotStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+
+
+

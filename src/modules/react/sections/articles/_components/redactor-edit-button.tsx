@@ -22,7 +22,7 @@ const RedactorEditButton = ({
     <Button
       variant="outline"
       size="sm"
-      className="rounded-full bg-primary text-primary-foreground hover:bg-primary/80 absolute top-2 right-2 z-10"
+      className="rounded-full bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary absolute top-2 right-2 z-10"
       asChild
     >
       <Link href={`/blog/update?id=${articleId}`}>

@@ -7,20 +7,17 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const identifier = (await params).id;
-  console.log("identifier", identifier);
 
   try {
     let article: GetArticleResponse | null = null;
 
     // Vérifie si l'identifiant est un CUID
     if (/^c[a-z0-9]{24,27}$/i.test(identifier)) {
-      console.log("Recherche par ID");
       article = await articleService.getArticleById(identifier);
     }
 
     // Vérifie si l'identifiant est un slug (ex:article-sur-l'escalade-1739205155676)
     if (!/^c[a-z0-9]{24,27}$/i.test(identifier)) {
-      console.log("Recherche par slug");
       article = await articleService.getArticleBySlug(identifier);
     }
 
@@ -42,27 +39,8 @@ export async function GET(
 
 export async function PATCH(request: Request) {
   try {
-    const {
-      id,
-      title,
-      content,
-      excerpt,
-      imageUrl,
-      imageName,
-      articleTags,
-      updatedAt,
-    } = await request.json();
-
-    await articleService.updateArticle({
-      id,
-      title,
-      content,
-      excerpt,
-      imageUrl,
-      imageName,
-      updatedAt,
-      articleTags,
-    });
+    const data = await request.json();
+    await articleService.updateArticle(data);
 
     return NextResponse.json(
       {

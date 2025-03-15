@@ -1,6 +1,5 @@
 import { Button } from "@/app/_components/ui/button";
 import { SITE_META_DESRIPTION } from "@/app/_constants/seo";
-import { SignInButton } from "@clerk/nextjs";
 import { User } from "@clerk/nextjs/server";
 import Link from "next/link";
 
@@ -36,13 +35,9 @@ const HeroSection = ({ user }: HeroSectionProps) => {
                 </Button>
               </>
             ) : (
-              <>
-                <SignInButton>
-                  <Button size="lg" className="rounded-full">
-                    Commencer maintenant
-                  </Button>
-                </SignInButton>
-              </>
+              <Button size="lg" className="rounded-full" asChild>
+                <Link href="/auth/sign-in">Commencer maintenant</Link>
+              </Button>
             )}
           </div>
         </div>

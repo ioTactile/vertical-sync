@@ -1,9 +1,9 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { Library, Menu, MessageSquareText, Settings } from "lucide-react";
+import { Library, Map, Menu, MessageSquareText, Settings } from "lucide-react";
 import AppLogo from "@/app/_components/core/app-logo";
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { UserButton } from "@clerk/nextjs";
 import { ThemeSwitcherDropdown } from "@/app/_components/core/theme-switcher-dropdown";
 import Link from "next/link";
 import {
@@ -18,6 +18,7 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
+  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -29,10 +30,12 @@ import { useUserStore } from "@/modules/core/store/store";
 const mainMenuItems: NavigationItem<string>[] = [
   { title: "Discussions", url: "/talks", icon: MessageSquareText },
   { title: "Blog", url: "/blog?page=1", icon: Library },
+  { title: "Spots", url: "/spots", icon: Map },
 ];
 
 const Header = () => {
   const isAdmin = useUserStore((state) => state.isAdmin);
+  const user = useUserStore((state) => state.user);
 
   const menuItems = isAdmin
     ? [...mainMenuItems, { title: "Admin", url: "/admin", icon: Settings }]
@@ -66,16 +69,19 @@ const Header = () => {
         </div>
 
         {/* User Navigation */}
-        <div className="hidden items-center space-x-4 md:flex">
+        <div className="hidden items-center space-x-2 md:flex">
           <ThemeSwitcherDropdown />
           <div className="flex">
-            <SignedOut>
-              <SignInButton />
-            </SignedOut>
-
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
+            {user ? (
+              <UserButton
+                userProfileMode="navigation"
+                userProfileUrl="/user-profile"
+              />
+            ) : (
+              <Button variant="outline" asChild className="rounded-full">
+                <Link href="/auth/sign-in">Connexion</Link>
+              </Button>
+            )}
           </div>
         </div>
 
@@ -89,7 +95,10 @@ const Header = () => {
           </SheetTrigger>
           <SheetContent side="right" className="w-[300px] sm:w-[400px]">
             <SheetHeader>
-              <SheetTitle className="text-left">Micro services</SheetTitle>
+              <SheetTitle className="text-left">Vertical Sync</SheetTitle>
+              <SheetDescription>
+                Le hub des escaladeurs de France
+              </SheetDescription>
             </SheetHeader>
             <nav className="mt-6 flex flex-col space-y-4">
               <div>
@@ -112,17 +121,30 @@ const Header = () => {
 
               <Separator />
 
-              <SheetClose asChild>
-                <div className="px-4 py-2">
-                  <SignedOut>
-                    <SignInButton />
-                  </SignedOut>
-
-                  <SignedIn>
-                    <UserButton />
-                  </SignedIn>
-                </div>
-              </SheetClose>
+              <div className="px-4 py-2">
+                {user ? (
+                  <SheetClose asChild>
+                    <UserButton
+                      userProfileMode="navigation"
+                      userProfileUrl="/user-profile"
+                      showName={true}
+                      appearance={{
+                        elements: {
+                          userButtonBox: "flex-row-reverse",
+                          userButtonAvatarBox: "h-5 w-5",
+                          userButtonOuterIdentifier: "text-foreground",
+                        },
+                      }}
+                    />
+                  </SheetClose>
+                ) : (
+                  <SheetClose asChild>
+                    <Button variant="outline" asChild className="rounded-full">
+                      <Link href="/auth/sign-in">Connexion</Link>
+                    </Button>
+                  </SheetClose>
+                )}
+              </div>
             </nav>
           </SheetContent>
         </Sheet>

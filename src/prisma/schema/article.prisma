@@ -4,7 +4,6 @@ model Article {
   slug      String   @unique
   content   String
   imageUrl  String?
-  imageName String?
   excerpt   String?
   published Boolean  @default(false)
   createdAt DateTime @default(now())

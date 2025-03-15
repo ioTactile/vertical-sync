@@ -20,19 +20,8 @@ import {
   FormMessage,
 } from "@/app/_components/ui/form";
 import { Textarea } from "@/app/_components/ui/textarea";
-import { useDeleteTalk } from "@/modules/core/mutations/useDeleteTalk";
-import { useUserStore } from "@/modules/core/store/store";
-import * as React from "react";
-import { useAuthAction } from "@/app/_hooks/use-auth-action";
-import {
-  CreateReportInputs,
-  createReportSchema,
-} from "@/modules/react/sections/_schemas/create-report";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { CreateReportDto } from "@/modules/core/model/Report";
-import { useCreateReport } from "@/modules/core/mutations/useCreateReport";
 import { Flag, MoreHorizontal, Trash2 } from "lucide-react";
+import { useTalkActions } from "@/modules/react/sections/talks/_hooks/use-talk-actions";
 
 interface TalkActionButtonProps {
   talkId: string;
@@ -40,54 +29,17 @@ interface TalkActionButtonProps {
 }
 
 const TalkActionButton = ({ talkId, talkAuthorId }: TalkActionButtonProps) => {
-  const { user } = useUserStore();
-
-  const { handleAuthAction } = useAuthAction();
-
-  const form = useForm<CreateReportInputs>({
-    resolver: zodResolver(createReportSchema),
-    defaultValues: {
-      reason: "",
-      entityType: "TALK",
-      entityId: talkId,
-    },
-  });
-
-  const deleteTalkMutation = useDeleteTalk();
-  const createReportMutation = useCreateReport();
-
-  const [isReportModalOpen, setIsReportModalOpen] =
-    React.useState<boolean>(false);
-  const [isMenuOpen, setIsMenuOpen] = React.useState<boolean>(false);
-
-  const handleStopPropagation = (
-    e: React.MouseEvent<HTMLDivElement | HTMLButtonElement>
-  ) => {
-    e.stopPropagation();
-  };
-
-  const handleDelete = (e: React.MouseEvent<HTMLDivElement>) => {
-    e.stopPropagation();
-    e.preventDefault();
-    deleteTalkMutation.mutate(talkId);
-  };
-
-  const onSubmit = (data: CreateReportInputs) => {
-    handleAuthAction((user) => {
-      const report: CreateReportDto = {
-        ...data,
-        reporterId: user.id,
-      };
-
-      createReportMutation.mutate(report, {
-        onSuccess: () => {
-          setIsReportModalOpen(false);
-          setIsMenuOpen(false);
-          form.reset();
-        },
-      });
-    });
-  };
+  const {
+    user,
+    form,
+    isReportModalOpen,
+    setIsReportModalOpen,
+    isMenuOpen,
+    setIsMenuOpen,
+    handleDelete,
+    handleReport,
+    handleStopPropagation,
+  } = useTalkActions(talkId);
 
   return (
     <DropdownMenu open={isMenuOpen} onOpenChange={setIsMenuOpen} modal={false}>
@@ -119,7 +71,7 @@ const TalkActionButton = ({ talkId, talkAuthorId }: TalkActionButtonProps) => {
               </DialogHeader>
               <Form {...form}>
                 <form
-                  onSubmit={form.handleSubmit(onSubmit)}
+                  onSubmit={form.handleSubmit(handleReport)}
                   className="space-y-4"
                 >
                   <FormField

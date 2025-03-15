@@ -5,22 +5,27 @@ import ArticlesHeader from "@/modules/react/sections/admin/articles/_components/
 import { DataTable } from "@/modules/react/sections/_components/data-table";
 import { columns } from "@/modules/react/sections/admin/articles/_components/columns";
 import { getFormatedDate } from "@/modules/core/utils/date";
+import TableSkeleton from "@/app/_components/ui/table-skeleton";
 
 const Articles = () => {
-  const { data } = useAdminArticles();
+  const { data: articles, isPending } = useAdminArticles();
 
-  const articlesFormated = data?.articles.map((article) => ({
-    ...article,
-    createdAt: getFormatedDate(article.createdAt),
-    updatedAt: getFormatedDate(article.updatedAt),
-  }));
-
-  if (!articlesFormated) return null;
+  const articlesFormated =
+    articles?.articles.map((article) => ({
+      ...article,
+      createdAt: getFormatedDate(article.createdAt),
+      updatedAt: getFormatedDate(article.updatedAt),
+    })) || [];
 
   return (
     <div className="container flex flex-col space-y-2 mx-auto py-2">
       <ArticlesHeader />
-      <DataTable columns={columns} data={articlesFormated} />
+
+      {isPending ? (
+        <TableSkeleton />
+      ) : (
+        <DataTable columns={columns} data={articlesFormated} />
+      )}
     </div>
   );
 };

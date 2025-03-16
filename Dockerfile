@@ -16,6 +16,20 @@ RUN npm install
 # Copy all source code into the container
 COPY . .
 
+# Set environment variables
+ENV NODE_ENV=production
+ENV BASE_URL=https://vertical-sync.iotactile.com
+ENV DB_NAME=vertical_sync_db
+ENV DB_USER=postgres
+ENV DB_PASSWORD=postgres
+ENV DATABASE_URL=postgresql://postgres:postgres@postgres:5432/vertical_sync_db
+ENV NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_live_Y2xlcmsudmVydGljYWwtc3luYy5pb3RhY3RpbGUuY29tJA
+ENV CLERK_SECRET_KEY=sk_live_HQoqMBXPFxF2CuFW0KLBvSwRRZSzSp8ElLFnmnlqUs
+ENV AWS_BUCKET_NAME=vertical-sync
+ENV AWS_BUCKET_REGION=eu-west-3
+ENV AWS_ACCESS_KEY_ID=AKIAQNWNNK2I5DCHLBVL
+ENV AWS_SECRET_ACCESS_KEY=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
+
 # Build the Next.js application
 RUN npm run build
 

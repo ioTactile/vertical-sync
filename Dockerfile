@@ -43,6 +43,15 @@ COPY . .
 # Build the Next.js application
 RUN npm run build
 
+# Generate Prisma client
+RUN npx prisma generate
+
+# Deploy Prisma migrations
+RUN npx prisma migrate deploy
+
+# Push Prisma schema to the database
+RUN npx prisma db push
+
 # Stage 2: Production image
 FROM node:20 AS production
 

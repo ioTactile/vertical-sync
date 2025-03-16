@@ -42,7 +42,7 @@ services:
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
       - CLERK_SECRET_KEY=${CLERK_SECRET_KEY}
-    command: sh -c "npm install && npx prisma generate && npx prisma migrate deploy && (npx prisma db seed || true) && npm run build && npm start"
+    command: sh -c "npm install && npx prisma generate && npx prisma migrate deploy && npm run build && npm start"
     depends_on:
       postgres:
         condition: service_healthy

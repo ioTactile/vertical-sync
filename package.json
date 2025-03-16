@@ -5,9 +5,7 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
-    "build:prod": "NODE_ENV=production next build",
     "start": "next start",
-    "start:prod": "NODE_ENV=production next start",
     "lint": "next lint",
     "postinstall": "prisma generate",
     "migrate:dev": "prisma migrate dev",

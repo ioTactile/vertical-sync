@@ -43,7 +43,7 @@ RUN npm install
 COPY . .
 
 # Build the Next.js application
-RUN npm run build:prod
+RUN npm run build
 
 # Stage 2: Production image
 FROM node:18 AS production
@@ -61,4 +61,4 @@ COPY --from=builder /app/src/prisma ./src/prisma
 EXPOSE 3000
 
 # Start the application
-CMD ["npm", "start:prod"]
+CMD ["npm", "start"]

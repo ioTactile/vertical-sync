@@ -4,6 +4,32 @@ FROM node:18 AS builder
 # Set working directory
 WORKDIR /app
 
+ARG NODE_ENV
+ARG BASE_URL
+ARG DB_NAME
+ARG DB_USER
+ARG DB_PASSWORD
+ARG DATABASE_URL
+ARG NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+ARG CLERK_SECRET_KEY
+ARG AWS_BUCKET_NAME
+ARG AWS_BUCKET_REGION
+ARG AWS_ACCESS_KEY_ID
+ARG AWS_SECRET_ACCESS_KEY
+
+ENV NODE_ENV=${NODE_ENV}
+ENV BASE_URL=${BASE_URL}
+ENV DB_NAME=${DB_NAME}
+ENV DB_USER=${DB_USER}
+ENV DB_PASSWORD=${DB_PASSWORD}
+ENV DATABASE_URL=${DATABASE_URL}  
+ENV NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
+ENV CLERK_SECRET_KEY=${CLERK_SECRET_KEY}
+ENV AWS_BUCKET_NAME=${AWS_BUCKET_NAME}
+ENV AWS_BUCKET_REGION=${AWS_BUCKET_REGION}
+ENV AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+ENV AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+
 # Copy package.json and package-lock.json
 COPY package.json package-lock.json ./
 
@@ -16,22 +42,8 @@ RUN npm install
 # Copy all source code into the container
 COPY . .
 
-# Set environment variables
-ENV NODE_ENV=production
-ENV BASE_URL=https://vertical-sync.iotactile.com
-ENV DB_NAME=vertical_sync_db
-ENV DB_USER=postgres
-ENV DB_PASSWORD=postgres
-ENV DATABASE_URL=postgresql://postgres:postgres@postgres:5432/vertical_sync_db
-ENV NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_live_Y2xlcmsudmVydGljYWwtc3luYy5pb3RhY3RpbGUuY29tJA
-ENV CLERK_SECRET_KEY=sk_live_HQoqMBXPFxF2CuFW0KLBvSwRRZSzSp8ElLFnmnlqUs
-ENV AWS_BUCKET_NAME=vertical-sync
-ENV AWS_BUCKET_REGION=eu-west-3
-ENV AWS_ACCESS_KEY_ID=AKIAQNWNNK2I5DCHLBVL
-ENV AWS_SECRET_ACCESS_KEY=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
-
 # Build the Next.js application
-RUN npm run build
+RUN npm run build:prod
 
 # Stage 2: Production image
 FROM node:18 AS production
@@ -49,4 +61,4 @@ COPY --from=builder /app/src/prisma ./src/prisma
 EXPOSE 3000
 
 # Start the application
-CMD ["npm", "start"]
+CMD ["npm", "start:prod"]

@@ -4,15 +4,15 @@ services:
   postgres:
     image: iotactile/postgres-custom-16
     environment:
-      POSTGRES_DB: ${DB_NAME:-postgres}
-      POSTGRES_USER: ${DB_USER:-postgres}
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_DB: vertical_sync_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres}"]
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -25,24 +25,28 @@ services:
     networks:
       - app_network
 
+  prisma-studio:
+    image: timothyjmiller/prisma-studio:latest
+    ports:
+      - "5555:5555"
+    environment:
+      DATABASE_URL: postgresql://postgres:admin@postgres:5432/vertical_sync_db
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - app_network
+
   nextjs:
-    image: node:18-alpine
-    working_dir: /app
-    volumes:
-      - .:/app
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "3001:3000"
     environment:
       - NODE_ENV=production
-      - DATABASE_URL=${DATABASE_URL}
-      - BASE_URL=${BASE_URL}
-      - AWS_BUCKET_NAME=${AWS_BUCKET_NAME}
-      - AWS_BUCKET_REGION=${AWS_BUCKET_REGION}
-      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-      - NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
-      - CLERK_SECRET_KEY=${CLERK_SECRET_KEY}
-    command: sh -c "npm install && npm install --save-dev @types/leaflet && npx prisma generate && npx prisma migrate deploy && npm run build && npm start"
+      - DATABASE_URL=postgresql://postgres:admin@postgres:5432/vertical_sync_db
     depends_on:
       postgres:
         condition: service_healthy
@@ -52,7 +56,7 @@ services:
 
 volumes:
   postgres_data:
-    name: ${COMPOSE_PROJECT_NAME:-app}_postgres_data
+    name: vertical_sync_postgres_data
 
 networks:
   app_network:

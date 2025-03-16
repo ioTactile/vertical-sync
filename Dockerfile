@@ -37,9 +37,6 @@ COPY src/prisma ./src/prisma/
 # Install dependencies
 RUN npm install 
 
-# Ensure Leaflet types are installed
-RUN npm install --save-dev @types/leaflet @types/leaflet.markercluster
-
 # Copy all source code into the container
 COPY . .
 

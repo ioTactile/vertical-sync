@@ -34,7 +34,7 @@ ENV AWS_SECRET_ACCESS_KEY=iXkhHg6kw6hBlYxsFZ3qQkofcpfw+RI0Le5DjRRb
 RUN npm run build
 
 # Stage 2: Production image
-FROM node:18-alpine AS production
+FROM node:18 AS production
 
 # Set working directory
 WORKDIR /app

@@ -82,6 +82,17 @@ COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/package.json ./
 COPY --from=builder /app/src/prisma ./src/prisma
 
+# Create a script to display the variables
+RUN echo '#!/bin/bash \n\
+echo "=== Variables de base de données ===" \n\
+echo "DB_NAME: $DB_NAME" \n\
+echo "DB_USER: $DB_USER" \n\
+echo "DB_PASSWORD: $DB_PASSWORD" \n\
+echo "DATABASE_URL: $DATABASE_URL" \n\
+echo "=================================" \n\
+npm start' > /app/start.sh && chmod +x /app/start.sh
+
+
 # Expose the port that the app will run on
 EXPOSE 3000
 

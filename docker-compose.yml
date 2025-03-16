@@ -30,7 +30,9 @@ services:
     ports:
       - "5555:5555"
     environment:
-      DATABASE_URL: postgresql://postgres:admin@postgres:5432/vertical_sync_db
+      POSTGRES_URL: ${DATABASE_URL}
+    volumes:
+      - prisma_studio_data:/app/prisma
     depends_on:
       postgres:
         condition: service_healthy
@@ -78,6 +80,8 @@ services:
 volumes:
   postgres_data:
     name: vertical_sync_postgres_data
+  prisma_studio_data:
+    name: vertical_sync_prisma_studio_data
 
 networks:
   app_network:

@@ -1,10 +1,9 @@
 # Stage 1: Install dependencies and build the application
-FROM node:18 AS builder
+FROM node:20 AS builder
 
 # Set working directory
 WORKDIR /app
 
-ARG NODE_ENV
 ARG BASE_URL
 ARG DB_NAME
 ARG DB_USER
@@ -17,7 +16,6 @@ ARG AWS_BUCKET_REGION
 ARG AWS_ACCESS_KEY_ID
 ARG AWS_SECRET_ACCESS_KEY
 
-ENV NODE_ENV=${NODE_ENV}
 ENV BASE_URL=${BASE_URL}
 ENV DB_NAME=${DB_NAME}
 ENV DB_USER=${DB_USER}
@@ -49,7 +47,7 @@ COPY . .
 RUN npm run build
 
 # Stage 2: Production image
-FROM node:18 AS production
+FROM node:20 AS production
 
 # Set working directory
 WORKDIR /app

@@ -24,6 +24,10 @@ enum ReportStatus {
 
 enum ReportEntityType {
   TALK
+  TALK_COMMENT
   ARTICLE
+  ARTICLE_COMMENT
+  CLIMBING_SPOT
+  CLIMBING_SPOT_COMMENT
 }
 

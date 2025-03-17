@@ -8,6 +8,7 @@ interface UserState {
   isRedactor: boolean;
   setUser: (user: UserResource) => void;
   setIsLoaded: (isLoaded: boolean) => void;
+  resetUser: () => void;
 }
 
 export const useUserStore = create<UserState>((set) => ({
@@ -24,6 +25,7 @@ export const useUserStore = create<UserState>((set) => ({
         user?.publicMetadata?.role === "admin",
     }),
   setIsLoaded: (isLoaded) => set({ isLoaded }),
+  resetUser: () => set({ user: null, isAdmin: false, isRedactor: false }),
 }));
 
 interface PaginationState {

@@ -1,5 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@/app/_components/ui/button";
 import {
   DropdownMenu,
@@ -15,7 +15,9 @@ import { useDeleteTalk } from "@/modules/core/mutations/useDeleteTalk";
 export type Talk = {
   id: string;
   title: string;
-  createdAt: string;
+  _count: {
+    talkComments: number;
+  };
   updatedAt: string;
 };
 
@@ -23,14 +25,47 @@ export const columns: ColumnDef<Talk>[] = [
   {
     accessorKey: "title",
     header: "Titre",
+    cell: ({ row }) => {
+      const title = row.getValue("title") as string;
+      return (
+        <div title={title}>
+          {title.slice(0, 20)}
+          {title.length > 20 && "..."}
+        </div>
+      );
+    },
   },
   {
-    accessorKey: "createdAt",
-    header: "Date de création",
+    accessorKey: "talkComments",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Commentaires
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const comments = row.original._count.talkComments;
+      return <div>{comments}</div>;
+    },
   },
   {
     accessorKey: "updatedAt",
-    header: "Date de mise à jour",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Date de mise à jour
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
   },
   {
     id: "actions",

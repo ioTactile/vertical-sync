@@ -1,12 +1,13 @@
 "use client";
 
 import { Button } from "@/app/_components/ui/button";
-import { usePaginationStore, useUserStore } from "@/modules/core/store/store";
+import { usePaginationStore } from "@/modules/core/store/store";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useQueryState } from "nuqs";
 import { useCallback, useEffect, useMemo } from "react";
 import useArticles from "@/modules/core/hooks/use-public-articles-page";
 import PaginationSkeleton from "@/modules/react/sections/articles/_components/pagination-skeleton";
+import { useUserStore } from "@/modules/core/store/store";
 
 const Pagination = () => {
   const { user } = useUserStore();

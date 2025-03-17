@@ -1,5 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@/app/_components/ui/button";
 import {
   DropdownMenu,
@@ -15,7 +15,6 @@ import { useDeleteArticleComment } from "@/modules/core/mutations/useDeleteArtic
 export type ArticleComment = {
   id: string;
   content: string;
-  createdAt: string;
   updatedAt: string;
   articleId: string;
 };
@@ -24,14 +23,29 @@ export const columns: ColumnDef<ArticleComment>[] = [
   {
     accessorKey: "content",
     header: "Contenu",
-  },
-  {
-    accessorKey: "createdAt",
-    header: "Date de création",
+    cell: ({ row }) => {
+      const content = row.getValue("content") as string;
+      return (
+        <div title={content}>
+          {content.slice(0, 20)}
+          {content.length > 20 && "..."}
+        </div>
+      );
+    },
   },
   {
     accessorKey: "updatedAt",
-    header: "Date de mise à jour",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Date de mise à jour
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
   },
   {
     id: "actions",

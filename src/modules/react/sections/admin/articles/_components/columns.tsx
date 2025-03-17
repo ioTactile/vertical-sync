@@ -1,5 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@/app/_components/ui/button";
 import {
   DropdownMenu,
@@ -18,7 +18,6 @@ export type Article = {
   title: string;
   slug: string;
   published: boolean;
-  createdAt: string;
   updatedAt: string;
 };
 
@@ -26,6 +25,15 @@ export const columns: ColumnDef<Article>[] = [
   {
     accessorKey: "title",
     header: "Titre",
+    cell: ({ row }) => {
+      const title = row.getValue("title") as string;
+      return (
+        <div title={title}>
+          {title.slice(0, 20)}
+          {title.length > 20 && "..."}
+        </div>
+      );
+    },
   },
   {
     accessorKey: "published",
@@ -33,12 +41,18 @@ export const columns: ColumnDef<Article>[] = [
     cell: ({ row }) => (row.original.published ? "Oui" : "Non"),
   },
   {
-    accessorKey: "createdAt",
-    header: "Date de création",
-  },
-  {
     accessorKey: "updatedAt",
-    header: "Date de mise à jour",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Date de mise à jour
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
   },
   {
     id: "actions",

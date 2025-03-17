@@ -1,7 +1,7 @@
 import { Button } from "@/app/_components/ui/button";
-import { useUserStore } from "@/modules/core/store/store";
 import Link from "next/link";
 import { Pencil } from "lucide-react";
+import { useUserStore } from "@/modules/core/store/store";
 
 interface RedactorEditButtonProps {
   articleId: string;

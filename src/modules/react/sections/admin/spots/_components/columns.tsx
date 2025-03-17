@@ -14,20 +14,20 @@ import {
 import Link from "next/link";
 import {
   CLIMBING_SPOT_DIFFICULTY_LABELS,
+  CLIMBING_SPOT_STATUS_LABELS,
   CLIMBING_SPOT_TYPE_LABELS,
 } from "@/types/enum";
 import { useDeleteClimbingSpot } from "@/modules/core/mutations/useDeleteClimbingSpot";
+import { ClimbingSpotStatus } from "@prisma/client";
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
 export type Spot = {
   id: string;
   name: string;
-  createdAt: string;
   updatedAt: string;
   types: string[];
   difficulties: string[];
   notation: string;
+  status: string;
 };
 
 export const columns: ColumnDef<Spot>[] = [
@@ -42,6 +42,15 @@ export const columns: ColumnDef<Spot>[] = [
           Nom
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const name = row.getValue("name") as string;
+      return (
+        <div title={name}>
+          {name.slice(0, 20)}
+          {name.length > 20 && "..."}
+        </div>
       );
     },
   },
@@ -95,6 +104,14 @@ export const columns: ColumnDef<Spot>[] = [
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
+    },
+  },
+  {
+    accessorKey: "status",
+    header: "Statut",
+    cell: ({ row }) => {
+      const status = row.getValue("status") as ClimbingSpotStatus;
+      return <div>{CLIMBING_SPOT_STATUS_LABELS[status]}</div>;
     },
   },
   {

@@ -1,8 +1,8 @@
 import Tag from "@/modules/react/sections/_components/tag";
-import { GetArticleResponse } from "@/modules/core/model/Article";
+import { GetArticleWithRelationsResponse } from "@/modules/core/model/Article";
 
 interface TagsProps {
-  tags: GetArticleResponse["articleTags"];
+  tags: GetArticleWithRelationsResponse["articleTags"];
 }
 
 const Tags = ({ tags }: TagsProps) => {

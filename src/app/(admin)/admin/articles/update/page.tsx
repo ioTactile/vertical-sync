@@ -1,5 +1,5 @@
 import NotFoundPage from "@/app/not-found";
-import getArticle from "@/modules/core/queries/get-article-by-slug";
+import getArticle from "@/modules/core/queries/get-article-by-slug-with-relations";
 import AdminUpdateArticlePage from "@/modules/react/sections/admin/articles/update-article";
 import { PageProps } from "@/types/pages-props";
 

@@ -1,4 +1,4 @@
-import { GetArticleResponse } from "@/modules/core/model/Article";
+import { GetArticleWithRelationsResponse } from "@/modules/core/model/Article";
 import { useUserStore } from "@/modules/core/store/store";
 
 type ArticleLikeStatus = {
@@ -7,7 +7,7 @@ type ArticleLikeStatus = {
 };
 
 const useArticleLikeStatus = (
-  article: GetArticleResponse
+  article: GetArticleWithRelationsResponse
 ): ArticleLikeStatus => {
   const { user } = useUserStore();
 

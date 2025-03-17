@@ -4,6 +4,7 @@ import {
   GetArticleCommentsResponse,
   GetArticleResponse,
   GetArticlesResponse,
+  GetArticleWithRelationsResponse,
   UpdateArticleDto,
 } from "@/modules/core/model/Article";
 import {
@@ -19,8 +20,14 @@ export interface ArticleFilters {
 
 export interface IArticleRepository {
   findMany(filters: ArticleFilters): Promise<GetArticlesResponse>;
-  findBySlug(slug: string): Promise<GetArticleResponse | null>;
-  findById(id: string): Promise<GetArticleResponse | null>;
+  findBySlug(
+    slug: string,
+    withRelations?: boolean
+  ): Promise<GetArticleResponse | GetArticleWithRelationsResponse | null>;
+  findById(
+    id: string,
+    withRelations?: boolean
+  ): Promise<GetArticleResponse | GetArticleWithRelationsResponse | null>;
   create(data: CreateArticleDto): Promise<void>;
   update(data: UpdateArticleDto): Promise<void>;
   updatePublishStatus(id: string, published: boolean): Promise<void>;
@@ -103,75 +110,93 @@ export class PrismaArticleRepository implements IArticleRepository {
     };
   }
 
-  async findBySlug(slug: string): Promise<GetArticleResponse | null> {
-    return await prisma.article.findUnique({
-      where: { slug: slug, published: true },
-      include: {
-        author: {
-          select: {
-            id: true,
-            clerkId: true,
-            name: true,
-            imageUrl: true,
+  async findBySlug(
+    slug: string,
+    withRelations?: boolean
+  ): Promise<GetArticleResponse | GetArticleWithRelationsResponse | null> {
+    if (withRelations) {
+      return await prisma.article.findUnique({
+        where: { slug: slug, published: true },
+        include: {
+          author: {
+            select: {
+              id: true,
+              clerkId: true,
+              name: true,
+              imageUrl: true,
+            },
           },
-        },
-        articleTags: {
-          include: {
-            tag: {
-              select: {
-                name: true,
+          articleTags: {
+            include: {
+              tag: {
+                select: {
+                  name: true,
+                },
               },
             },
           },
-        },
-        articleLikes: {
-          select: {
-            userId: true,
+          articleLikes: {
+            select: {
+              userId: true,
+            },
+          },
+          _count: {
+            select: {
+              articleComments: true,
+              articleLikes: true,
+            },
           },
         },
-        _count: {
-          select: {
-            articleComments: true,
-            articleLikes: true,
-          },
-        },
-      },
+      });
+    }
+
+    return await prisma.article.findUnique({
+      where: { slug: slug, published: true },
     });
   }
 
-  async findById(id: string): Promise<GetArticleResponse | null> {
-    return await prisma.article.findUnique({
-      where: { id, published: true },
-      include: {
-        author: {
-          select: {
-            id: true,
-            clerkId: true,
-            name: true,
-            imageUrl: true,
+  async findById(
+    id: string,
+    withRelations?: boolean
+  ): Promise<GetArticleResponse | GetArticleWithRelationsResponse | null> {
+    if (withRelations) {
+      return await prisma.article.findUnique({
+        where: { id, published: true },
+        include: {
+          author: {
+            select: {
+              id: true,
+              clerkId: true,
+              name: true,
+              imageUrl: true,
+            },
           },
-        },
-        articleTags: {
-          include: {
-            tag: {
-              select: {
-                name: true,
+          articleTags: {
+            include: {
+              tag: {
+                select: {
+                  name: true,
+                },
               },
             },
           },
-        },
-        articleLikes: {
-          select: {
-            userId: true,
+          articleLikes: {
+            select: {
+              userId: true,
+            },
+          },
+          _count: {
+            select: {
+              articleComments: true,
+              articleLikes: true,
+            },
           },
         },
-        _count: {
-          select: {
-            articleComments: true,
-            articleLikes: true,
-          },
-        },
-      },
+      });
+    }
+
+    return await prisma.article.findUnique({
+      where: { id, published: true },
     });
   }
 

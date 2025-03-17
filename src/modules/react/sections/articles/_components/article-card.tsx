@@ -1,4 +1,4 @@
-import { GetArticleResponse } from "@/modules/core/model/Article";
+import { GetArticleWithRelationsResponse } from "@/modules/core/model/Article";
 import { getTimeBetweenDateAndNow } from "@/modules/core/utils/date";
 import { getCapitalize } from "@/modules/core/utils/string";
 import { useRouter } from "next/navigation";
@@ -13,7 +13,7 @@ import useArticleLikeStatus from "@/modules/react/sections/articles/_hooks/use-a
 import RedactorEditButton from "@/modules/react/sections/articles/_components/redactor-edit-button";
 
 interface ArticleCardProps {
-  article: GetArticleResponse;
+  article: GetArticleWithRelationsResponse;
 }
 
 const ArticleCard = ({ article }: ArticleCardProps) => {

@@ -6,11 +6,15 @@ import {
   UpdateTalkDto,
   CreateTalkDto,
   CreateTalkCommentDto,
+  GetTalkWithCommentsResponse,
 } from "@/modules/core/model/Talk";
 
 export interface ITalkRepository {
   findMany(): Promise<GetTalksResponse>;
-  findById(id: string): Promise<GetTalkResponse | null>;
+  findById(
+    id: string,
+    includeComments?: boolean
+  ): Promise<GetTalkResponse | GetTalkWithCommentsResponse | null>;
   create(data: CreateTalkDto): Promise<void>;
   update(data: UpdateTalkDto): Promise<void>;
   delete(id: string): Promise<void>;
@@ -43,59 +47,68 @@ export class PrismaTalkRepository implements ITalkRepository {
     });
   }
 
-  async findById(id: string): Promise<GetTalkResponse | null> {
+  async findById(
+    id: string,
+    includeComments?: boolean
+  ): Promise<GetTalkResponse | GetTalkWithCommentsResponse | null> {
+    if (includeComments) {
+      return await prisma.talk.findUnique({
+        where: { id },
+        include: {
+          author: {
+            select: {
+              id: true,
+              clerkId: true,
+              name: true,
+              imageUrl: true,
+            },
+          },
+          talkComments: {
+            include: {
+              author: {
+                select: {
+                  id: true,
+                  clerkId: true,
+                  name: true,
+                  imageUrl: true,
+                },
+              },
+              replyToUser: {
+                select: {
+                  id: true,
+                  clerkId: true,
+                  name: true,
+                  imageUrl: true,
+                },
+              },
+              replies: {
+                include: {
+                  author: {
+                    select: {
+                      id: true,
+                      clerkId: true,
+                      name: true,
+                      imageUrl: true,
+                    },
+                  },
+                  replyToUser: {
+                    select: {
+                      id: true,
+                      clerkId: true,
+                      name: true,
+                      imageUrl: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      });
+    }
+
     return await prisma.talk.findUnique({
       where: { id },
-      include: {
-        author: {
-          select: {
-            id: true,
-            clerkId: true,
-            name: true,
-            imageUrl: true,
-          },
-        },
-        talkComments: {
-          include: {
-            author: {
-              select: {
-                id: true,
-                clerkId: true,
-                name: true,
-                imageUrl: true,
-              },
-            },
-            replyToUser: {
-              select: {
-                id: true,
-                clerkId: true,
-                name: true,
-                imageUrl: true,
-              },
-            },
-            replies: {
-              include: {
-                author: {
-                  select: {
-                    id: true,
-                    clerkId: true,
-                    name: true,
-                    imageUrl: true,
-                  },
-                },
-                replyToUser: {
-                  select: {
-                    id: true,
-                    clerkId: true,
-                    name: true,
-                    imageUrl: true,
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
     });
   }
 

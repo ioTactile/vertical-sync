@@ -26,7 +26,7 @@ import { useUpdateArticle } from "@/modules/core/mutations/useUpdateArticle";
 import { useCreateArticle } from "@/modules/core/mutations/useCreateArticle";
 import {
   CreateArticleDto,
-  GetArticleResponse,
+  GetArticleWithRelationsResponse,
 } from "@/modules/core/model/Article";
 import { useRouter } from "next/navigation";
 import MultiSelectTags from "@/modules/react/sections/admin/articles/_components/multi-select-tags";
@@ -44,7 +44,7 @@ import { useUserStore } from "@/modules/core/store/store";
 
 interface ArticleFormProps {
   mode: "create" | "update";
-  initialData?: GetArticleResponse;
+  initialData?: GetArticleWithRelationsResponse;
 }
 
 const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {

@@ -1,4 +1,11 @@
+import { SITE_NAME } from "@/app/_constants/seo";
 import { UserProfile as ClerkUserProfile } from "@clerk/nextjs";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: `${SITE_NAME} - Profil utilisateur`,
+  description: "Profil utilisateur et paramètres de compte",
+};
 
 export default function UserProfile() {
   return (

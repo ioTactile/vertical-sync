@@ -24,7 +24,7 @@ import {
 import { useToast } from "@/app/_hooks/use-toast";
 import { useUpdateArticle } from "@/modules/core/mutations/useUpdateArticle";
 import { useCreateArticle } from "@/modules/core/mutations/useCreateArticle";
-import { GetArticleResponse } from "@/modules/core/model/Article";
+import { GetArticleWithRelationsResponse } from "@/modules/core/model/Article";
 import { useRouter } from "next/navigation";
 import MultiSelectTags from "@/modules/react/sections/admin/articles/_components/multi-select-tags";
 import { useAuthAction } from "@/app/_hooks/use-auth-action";
@@ -38,7 +38,7 @@ import { Checkbox } from "@/app/_components/ui/checkbox";
 
 interface ArticleFormProps {
   mode: "create" | "update";
-  initialData?: GetArticleResponse;
+  initialData?: GetArticleWithRelationsResponse;
 }
 
 const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {

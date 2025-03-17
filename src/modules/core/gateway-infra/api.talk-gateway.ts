@@ -3,6 +3,7 @@ import {
   CreateTalkDto,
   GetTalkResponse,
   GetTalksResponse,
+  GetTalkWithCommentsResponse,
   UpdateTalkDto,
 } from "@/modules/core/model/Talk";
 import { CreateTalkCommentDto } from "@/modules/core/model/Talk";
@@ -14,9 +15,16 @@ export class ApiTalkGateway implements ITalkGateway {
     return response.data;
   }
 
-  async getTalkWithComments(id: string): Promise<GetTalkResponse> {
+  async getTalk(id: string): Promise<GetTalkResponse> {
     const response = await axiosInstance.get<GetTalkResponse>(
       `/api/talk/${id}`
+    );
+    return response.data;
+  }
+
+  async getTalkWithComments(id: string): Promise<GetTalkWithCommentsResponse> {
+    const response = await axiosInstance.get<GetTalkWithCommentsResponse>(
+      `/api/talk/${id}?includeComments=true`
     );
     return response.data;
   }

@@ -10,6 +10,7 @@ import {
   GetArticleCommentsResponse,
   GetArticleResponse,
   GetArticlesResponse,
+  GetArticleWithRelationsResponse,
   UpdateArticleDto,
 } from "@/modules/core/model/Article";
 
@@ -32,12 +33,18 @@ export class ArticleService {
     });
   }
 
-  async getArticleById(id: string): Promise<GetArticleResponse | null> {
-    return await this.articleRepository.findById(id);
+  async getArticleById(
+    id: string,
+    withRelations?: boolean
+  ): Promise<GetArticleResponse | GetArticleWithRelationsResponse | null> {
+    return await this.articleRepository.findById(id, withRelations);
   }
 
-  async getArticleBySlug(slug: string): Promise<GetArticleResponse | null> {
-    return await this.articleRepository.findBySlug(slug);
+  async getArticleBySlug(
+    slug: string,
+    withRelations?: boolean
+  ): Promise<GetArticleResponse | GetArticleWithRelationsResponse | null> {
+    return await this.articleRepository.findBySlug(slug, withRelations);
   }
 
   async createArticle(data: CreateArticleDto): Promise<void> {

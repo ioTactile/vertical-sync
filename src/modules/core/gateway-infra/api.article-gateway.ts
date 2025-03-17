@@ -4,6 +4,7 @@ import {
   CreateArticleLikeDto,
   GetArticleCommentsResponse,
   GetArticleResponse,
+  GetArticleWithRelationsResponse,
   GetArticlesResponse,
   UpdateArticleDto,
 } from "@/modules/core/model/Article";
@@ -40,9 +41,26 @@ export class ApiArticleGateway implements IArticleGateway {
     return response.data;
   }
 
+  async getArticleBySlugWithRelations(
+    slug: string
+  ): Promise<GetArticleWithRelationsResponse> {
+    const response = await axiosInstance.get<GetArticleWithRelationsResponse>(
+      `/api/blog/${slug}?withRelations=true`
+    );
+    return response.data;
+  }
   async getArticleById(id: string): Promise<GetArticleResponse> {
     const response = await axiosInstance.get<GetArticleResponse>(
       `/api/blog/${id}`
+    );
+    return response.data;
+  }
+
+  async getArticleByIdWithRelations(
+    id: string
+  ): Promise<GetArticleWithRelationsResponse> {
+    const response = await axiosInstance.get<GetArticleWithRelationsResponse>(
+      `/api/blog/${id}?withRelations=true`
     );
     return response.data;
   }

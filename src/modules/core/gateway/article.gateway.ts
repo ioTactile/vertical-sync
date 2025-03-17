@@ -1,11 +1,12 @@
 import {
   CreateArticleDto,
   GetArticleCommentsResponse,
-  GetArticleResponse,
+  GetArticleWithRelationsResponse,
   GetArticlesResponse,
   UpdateArticleDto,
   CreateArticleCommentDto,
   CreateArticleLikeDto,
+  GetArticleResponse,
 } from "@/modules/core/model/Article";
 import { ArticleFilters } from "@/modules/core/repository/article.repository";
 
@@ -15,7 +16,13 @@ export interface IArticleGateway {
   ) => Promise<GetArticlesResponse>;
   getAdminArticles: () => Promise<GetArticlesResponse>;
   getArticleBySlug: (slug: string) => Promise<GetArticleResponse>;
+  getArticleBySlugWithRelations: (
+    slug: string
+  ) => Promise<GetArticleWithRelationsResponse>;
   getArticleById: (id: string) => Promise<GetArticleResponse>;
+  getArticleByIdWithRelations: (
+    id: string
+  ) => Promise<GetArticleWithRelationsResponse>;
   createArticle: (article: CreateArticleDto) => Promise<{
     message: string;
   }>;

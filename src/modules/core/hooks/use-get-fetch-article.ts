@@ -1,9 +1,9 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
-  GetArticleResponse,
+  GetArticleWithRelationsResponse,
   GetArticlesResponse,
 } from "@/modules/core/model/Article";
-import getArticleById from "@/modules/core/queries/get-article-by-id";
+import getArticleById from "@/modules/core/queries/get-article-by-id-with-relations";
 
 export const useGetFetchQuery = (id?: string) => {
   const queryClient = useQueryClient();
@@ -22,10 +22,11 @@ export const useGetFetchQuery = (id?: string) => {
       }
 
       // Sinon, essayer de récupérer directement le tag individuel
-      const cachedArticle = queryClient.getQueryData<GetArticleResponse>([
-        "articles",
-        id,
-      ]);
+      const cachedArticle =
+        queryClient.getQueryData<GetArticleWithRelationsResponse>([
+          "articles",
+          id,
+        ]);
       return cachedArticle ?? undefined;
     },
   });

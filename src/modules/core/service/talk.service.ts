@@ -18,8 +18,11 @@ export class TalkService {
     return await this.talkRepository.findMany();
   }
 
-  async getTalkById(id: string): Promise<GetTalkResponse | null> {
-    return await this.talkRepository.findById(id);
+  async getTalkById(
+    id: string,
+    includeComments?: boolean
+  ): Promise<GetTalkResponse | null> {
+    return await this.talkRepository.findById(id, includeComments);
   }
 
   async createTalk(data: CreateTalkDto): Promise<void> {

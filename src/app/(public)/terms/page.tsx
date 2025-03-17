@@ -5,10 +5,11 @@ import {
   CardTitle,
 } from "@/app/_components/ui/card";
 import { EMAIL_CONTACT } from "@/app/_constants/app";
+import { SITE_NAME } from "@/app/_constants/seo";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Conditions Générales d'Utilisation",
+  title: `${SITE_NAME} - Conditions Générales d'Utilisation`,
   description: "Conditions générales d'utilisation du service",
 };
 

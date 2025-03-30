@@ -12,7 +12,7 @@ export function useUpdateArticlePublish() {
         console.error(error);
       } else {
         await queryClient.invalidateQueries({
-          queryKey: ["admin-articles"],
+          queryKey: ["admin-articles", "articles"],
         });
       }
     },

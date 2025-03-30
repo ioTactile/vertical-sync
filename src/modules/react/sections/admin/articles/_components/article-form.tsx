@@ -76,7 +76,7 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
     if (initialData) {
       setValue("title", initialData.title);
       setValue("content", initialData.content);
-      setValue("imageUrl", null);
+      setValue("imageUrl", initialData.imageUrl);
       setValue("excerpt", initialData.excerpt);
       setValue(
         "articleTags",

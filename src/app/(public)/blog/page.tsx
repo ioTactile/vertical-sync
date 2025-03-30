@@ -1,3 +1,4 @@
+import { SITE_NAME } from "@/app/_constants/seo";
 import getPublicArticles from "@/modules/core/queries/get-public-articles";
 import ArticlesPage from "@/modules/react/pages/ArticlesPage";
 import { PageProps } from "@/types/pages-props";
@@ -7,6 +8,12 @@ import {
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: `${SITE_NAME} - Blog`,
+  description: "Découvrez les dernières actualités et conseils pour l'escalade",
+};
 
 export default async function Articles({ searchParams }: PageProps) {
   const queryClient = new QueryClient();

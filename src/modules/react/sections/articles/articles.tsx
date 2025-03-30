@@ -6,11 +6,15 @@ import ArticleCardsSkeleton from "@/modules/react/sections/articles/_components/
 
 const Articles = () => {
   return (
-    <div className="container mx-auto pt-2 pb-4 px-4 sm:px-0">
+    <div className="container min-h-screen-minus-header mx-auto flex flex-col gap-6 pt-2 pb-4 px-4 sm:px-0">
       <ArticlesHeader />
       <React.Suspense fallback={<ArticleCardsSkeleton />}>
-        <ArticleCards />
-        <Pagination />
+        <div className="flex-grow">
+          <ArticleCards />
+        </div>
+        <div className="mt-auto pt-6">
+          <Pagination />
+        </div>
       </React.Suspense>
     </div>
   );

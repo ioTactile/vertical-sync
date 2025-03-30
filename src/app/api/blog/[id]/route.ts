@@ -1,24 +1,32 @@
 import { NextResponse } from "next/server";
 import { articleService } from "@/modules/core/service/article.service";
-import { GetArticleResponse } from "@/modules/core/model/Article";
+import {
+  GetArticleResponse,
+  GetArticleWithRelationsResponse,
+} from "@/modules/core/model/Article";
 
 export async function GET(
-  _request: Request,
+  request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const identifier = (await params).id;
+  const withRelations = request.url.includes("withRelations=true");
 
   try {
-    let article: GetArticleResponse | null = null;
+    let article: GetArticleResponse | GetArticleWithRelationsResponse | null =
+      null;
 
     // Vérifie si l'identifiant est un CUID
     if (/^c[a-z0-9]{24,27}$/i.test(identifier)) {
-      article = await articleService.getArticleById(identifier);
+      article = await articleService.getArticleById(identifier, withRelations);
     }
 
     // Vérifie si l'identifiant est un slug (ex:article-sur-l'escalade-1739205155676)
     if (!/^c[a-z0-9]{24,27}$/i.test(identifier)) {
-      article = await articleService.getArticleBySlug(identifier);
+      article = await articleService.getArticleBySlug(
+        identifier,
+        withRelations
+      );
     }
 
     if (!article) {

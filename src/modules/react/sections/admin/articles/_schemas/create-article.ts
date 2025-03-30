@@ -6,7 +6,18 @@ export const createArticleSchema = z.object({
     .string()
     .min(1, "Veuillez remplir ce champ")
     .max(TALK_TITLE_MAX_LENGTH, "300 caractères maximum"),
-  content: z.string().min(1, "Veuillez remplir ce champ"),
+  content: z.string().refine(
+    (value) => {
+      const isEmpty =
+        value.trim() === "" ||
+        value.replace(/<p><\/p>/g, "").trim() === "" ||
+        value === "<p></p>";
+      return !isEmpty;
+    },
+    {
+      message: "Veuillez remplir ce champ",
+    }
+  ),
   imageUrl: z.string().url().nullable(),
   excerpt: z.string().nullable(),
   published: z.boolean().default(false),

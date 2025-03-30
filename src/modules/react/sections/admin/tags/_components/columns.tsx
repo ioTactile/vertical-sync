@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@/app/_components/ui/button";
 import {
   DropdownMenu,
@@ -15,12 +15,9 @@ import Link from "next/link";
 import { useShare } from "@/app/_hooks/use-share";
 import { useDeleteTag } from "@/modules/core/mutations/useDeleteTag";
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
 export type Tag = {
   id: string;
   name: string;
-  createdAt: string;
   updatedAt: string;
 };
 
@@ -28,16 +25,29 @@ export const columns: ColumnDef<Tag>[] = [
   {
     accessorKey: "name",
     header: "Nom",
+    cell: ({ row }) => {
+      const name = row.getValue("name") as string;
+      return (
+        <div title={name}>
+          {name.slice(0, 20)}
+          {name.length > 20 && "..."}
+        </div>
+      );
+    },
   },
-
-  {
-    accessorKey: "createdAt",
-    header: "Date de création",
-  },
-
   {
     accessorKey: "updatedAt",
-    header: "Date de mise à jour",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Date de mise à jour
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
   },
   {
     id: "actions",

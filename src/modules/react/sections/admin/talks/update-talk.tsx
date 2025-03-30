@@ -1,7 +1,7 @@
 "use client";
 
 import { useGetFetchQuery } from "@/modules/core/hooks/use-get-fetch-talk";
-import { GetTalkResponse } from "@/modules/core/model/Talk";
+import { GetTalkWithCommentsResponse } from "@/modules/core/model/Talk";
 import TalkForm from "@/modules/react/sections/admin/talks/_components/talk-form";
 import { redirect, useSearchParams } from "next/navigation";
 
@@ -23,7 +23,10 @@ const UpdateTalk = () => {
         Mettre à jour : {talk.title}
       </h1>
 
-      <TalkForm mode="update" initialData={talk as GetTalkResponse} />
+      <TalkForm
+        mode="update"
+        initialData={talk as GetTalkWithCommentsResponse}
+      />
     </div>
   );
 };

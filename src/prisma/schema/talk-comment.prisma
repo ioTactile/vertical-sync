@@ -6,13 +6,13 @@ model TalkComment {
   
   // Relations avec Talk et User
   talkId    String
-  talk      Talk        @relation(fields: [talkId], references: [id], onDelete: NoAction)
+  talk      Talk        @relation(fields: [talkId], references: [id], onDelete: Cascade)
   authorId  String
   author    User        @relation(fields: [authorId], references: [clerkId], onDelete: NoAction)
   
   // Gestion des commentaires imbriqués
   replyToId  String?
-  replyTo    TalkComment?    @relation("ReplyTo", fields: [replyToId], references: [id], onDelete: NoAction)
+  replyTo    TalkComment?    @relation("ReplyTo", fields: [replyToId], references: [id], onDelete: Cascade)
   replies   TalkComment[]   @relation("ReplyTo")
 
   // Ajout de la relation avec l'utilisateur qui répond

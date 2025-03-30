@@ -26,7 +26,7 @@ import { useUpdateArticle } from "@/modules/core/mutations/useUpdateArticle";
 import { useCreateArticle } from "@/modules/core/mutations/useCreateArticle";
 import {
   CreateArticleDto,
-  GetArticleResponse,
+  GetArticleWithRelationsResponse,
 } from "@/modules/core/model/Article";
 import { useRouter } from "next/navigation";
 import MultiSelectTags from "@/modules/react/sections/admin/articles/_components/multi-select-tags";
@@ -41,10 +41,11 @@ import {
 } from "@/modules/react/sections/admin/articles/_schemas/update-article";
 import { Checkbox } from "@/app/_components/ui/checkbox";
 import { useUserStore } from "@/modules/core/store/store";
+import TipTapEditor from "@/app/_components/core/tiptap-editor";
 
 interface ArticleFormProps {
   mode: "create" | "update";
-  initialData?: GetArticleResponse;
+  initialData?: GetArticleWithRelationsResponse;
 }
 
 const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
@@ -244,14 +245,19 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
         <FormField
           control={form.control}
           name="content"
-          render={({ field }) => (
+          render={() => (
             <FormItem>
               <FormLabel>Corps*</FormLabel>
               <FormControl>
-                <Textarea
-                  placeholder="Corps*"
-                  {...field}
-                  className="shadow-none"
+                <TipTapEditor
+                  control={control}
+                  name="content"
+                  placeholder={
+                    mode === "create"
+                      ? "Rédigez votre article ici..."
+                      : "Modifier votre article ici..."
+                  }
+                  className="w-full"
                 />
               </FormControl>
               <FormMessage />

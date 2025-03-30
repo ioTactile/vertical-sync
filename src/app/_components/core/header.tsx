@@ -25,6 +25,7 @@ import {
 } from "@/app/_components/ui/sheet";
 import { Button } from "@/app/_components/ui/button";
 import { NavigationItem } from "@/types/navigation-item";
+import * as React from "react";
 import { useUserStore } from "@/modules/core/store/store";
 
 const mainMenuItems: NavigationItem<string>[] = [
@@ -34,8 +35,8 @@ const mainMenuItems: NavigationItem<string>[] = [
 ];
 
 const Header = () => {
-  const isAdmin = useUserStore((state) => state.isAdmin);
-  const user = useUserStore((state) => state.user);
+  const { isAdmin } = useUserStore();
+  const { user } = useUserStore();
 
   const menuItems = isAdmin
     ? [...mainMenuItems, { title: "Admin", url: "/admin", icon: Settings }]

@@ -6,7 +6,7 @@ model ClimbingSpotComment {
   
   // Relations avec ClimbingSpot et User
   climbingSpotId    String
-  climbingSpot      ClimbingSpot      @relation(fields: [climbingSpotId], references: [id], onDelete: NoAction)
+  climbingSpot      ClimbingSpot      @relation(fields: [climbingSpotId], references: [id], onDelete: Cascade)
   authorId  String      
   author    User        @relation(fields: [authorId], references: [clerkId], onDelete: NoAction)
 

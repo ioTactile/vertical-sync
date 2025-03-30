@@ -4,11 +4,13 @@ import {
   GetTalksResponse,
   UpdateTalkDto,
   CreateTalkCommentDto,
+  GetTalkWithCommentsResponse,
 } from "@/modules/core/model/Talk";
 
 export interface ITalkGateway {
   getTalks: () => Promise<GetTalksResponse>;
-  getTalkWithComments: (id: string) => Promise<GetTalkResponse>;
+  getTalk: (id: string) => Promise<GetTalkResponse>;
+  getTalkWithComments: (id: string) => Promise<GetTalkWithCommentsResponse>;
   createTalk: (talk: CreateTalkDto) => Promise<{
     message: string;
   }>;

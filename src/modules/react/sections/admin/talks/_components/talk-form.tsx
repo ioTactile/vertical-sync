@@ -17,13 +17,13 @@ import {
 } from "@/app/_components/ui/form";
 import { useUpdateTalk } from "@/modules/core/mutations/useUpdateTalk";
 import { useCreateTalk } from "@/modules/core/mutations/useCreateTalk";
-import { GetTalkResponse } from "@/modules/core/model/Talk";
+import { GetTalkWithCommentsResponse } from "@/modules/core/model/Talk";
 import { useRouter } from "next/navigation";
 import { useAuthAction } from "@/app/_hooks/use-auth-action";
 
 interface TalkFormProps {
   mode: "create" | "update";
-  initialData?: GetTalkResponse;
+  initialData?: GetTalkWithCommentsResponse;
 }
 
 const TalkForm = ({ mode, initialData }: TalkFormProps) => {

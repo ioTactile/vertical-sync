@@ -5,11 +5,12 @@ import {
   CardTitle,
 } from "@/app/_components/ui/card";
 import { EMAIL_CONTACT } from "@/app/_constants/app";
+import { SITE_NAME } from "@/app/_constants/seo";
 import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Mentions Légales",
+  title: `${SITE_NAME} - Mentions Légales`,
   description: "Mentions légales et informations juridiques",
 };
 

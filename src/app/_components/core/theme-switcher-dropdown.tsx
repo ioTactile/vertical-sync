@@ -28,13 +28,13 @@ export const ThemeSwitcherDropdown = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => setTheme("light")}>
-          <Sun className="w-4 mr-2" /> Light
+          <Sun className="w-4 mr-2" /> Clair
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme("dark")}>
-          <Moon className="w-4 mr-2" /> Dark
+          <Moon className="w-4 mr-2" /> Sombre
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme("system")}>
-          <Computer className="w-4 mr-2" /> System
+          <Computer className="w-4 mr-2" /> Système
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

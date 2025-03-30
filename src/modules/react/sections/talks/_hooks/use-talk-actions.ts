@@ -1,4 +1,3 @@
-import { useUserStore } from "@/modules/core/store/store";
 import { useDeleteTalk } from "@/modules/core/mutations/useDeleteTalk";
 import { useCreateReport } from "@/modules/core/mutations/useCreateReport";
 import { useAuthAction } from "@/app/_hooks/use-auth-action";
@@ -11,6 +10,7 @@ import {
 import { CreateReportDto } from "@/modules/core/model/Report";
 import * as React from "react";
 import { ReportEntityType } from "@prisma/client";
+import { useUserStore } from "@/modules/core/store/store";
 
 export const useTalkActions = (talkId: string) => {
   const { user } = useUserStore();

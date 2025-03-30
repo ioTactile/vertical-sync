@@ -27,6 +27,9 @@ export type TalkWithRelations = {
 export type GetTalksResponse = TalkWithRelations[];
 
 // One Talk
+export type GetTalkResponse = Talk;
+
+// One Talk with comments
 export type TalkCommentWithRelations = {
   author: Author;
   replyToUser: Author | null;
@@ -36,7 +39,7 @@ export type TalkCommentWithRelations = {
   })[];
 } & TalkComment;
 
-export type GetTalkResponse = {
+export type GetTalkWithCommentsResponse = {
   author: Author;
   talkComments: TalkCommentWithRelations[];
 } & Talk;

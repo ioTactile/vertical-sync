@@ -43,7 +43,11 @@ export type GetArticlesResponse = {
 
 // One Article
 
-export type GetArticleResponse = ArticleWithRelations;
+export type GetArticleResponse = Article;
+
+// One Article with relations
+
+export type GetArticleWithRelationsResponse = ArticleWithRelations;
 
 // Create Article Comment
 

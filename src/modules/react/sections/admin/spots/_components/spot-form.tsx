@@ -51,6 +51,8 @@ import {
   UpdateClimbingSpotInputs,
   updateClimbingSpotSchema,
 } from "@/modules/react/sections/admin/spots/_schemas/update-climbing-spot";
+import { ModalCoordinateMap } from "@/modules/react/sections/_components/modal-coordinate-map";
+import { useModalCoordinateMap } from "../../../_hooks/use-modal-coordinate-map";
 
 interface SpotFormProps {
   mode: "create" | "update";
@@ -236,6 +238,19 @@ const SpotForm = ({ mode, initialData }: SpotFormProps) => {
     setValue("imageUrls", newImageUrls);
   };
 
+  const {
+    isMapOpen,
+    selectedCoordinates,
+    setIsMapOpen,
+    handleCoordinateSelection: baseHandleCoordinateSelection,
+  } = useModalCoordinateMap();
+
+  const handleCoordinateSelection = (coords: [number, number]) => {
+    setValue("latitude", coords[0]);
+    setValue("longitude", coords[1]);
+    baseHandleCoordinateSelection(coords);
+  };
+
   return (
     <Form {...form}>
       <form
@@ -346,6 +361,13 @@ const SpotForm = ({ mode, initialData }: SpotFormProps) => {
                 <FormMessage />
               </FormItem>
             )}
+          />
+
+          <ModalCoordinateMap
+            isMapOpen={isMapOpen}
+            setIsMapOpen={setIsMapOpen}
+            selectedCoordinates={selectedCoordinates}
+            handleCoordinateSelection={handleCoordinateSelection}
           />
         </div>
 

@@ -1,5 +1,8 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { GetTalkResponse, GetTalksResponse } from "@/modules/core/model/Talk";
+import {
+  GetTalksResponse,
+  GetTalkWithCommentsResponse,
+} from "@/modules/core/model/Talk";
 import getTalkWithComments from "@/modules/core/queries/get-talk-with-comments";
 
 export const useGetFetchQuery = (id?: string) => {
@@ -17,7 +20,7 @@ export const useGetFetchQuery = (id?: string) => {
       }
 
       // Sinon, essayer de récupérer directement le talk individuel
-      const cachedTalk = queryClient.getQueryData<GetTalkResponse>([
+      const cachedTalk = queryClient.getQueryData<GetTalkWithCommentsResponse>([
         "talks",
         id,
       ]);

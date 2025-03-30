@@ -7,14 +7,14 @@ model ArticleComment {
   
   // Relations avec Talk et User
   articleId    String
-  article      Article      @relation(fields: [articleId], references: [id], onDelete: NoAction)
+  article      Article      @relation(fields: [articleId], references: [id], onDelete: Cascade)
   authorId  String      
   author    User        @relation(fields: [authorId], references: [clerkId], onDelete: NoAction)
   
 
   // Gestion des commentaires imbriqués
   replyToId  String?      
-  replyTo    ArticleComment?    @relation("ReplyTo", fields: [replyToId], references: [id], onDelete: NoAction)
+  replyTo    ArticleComment?    @relation("ReplyTo", fields: [replyToId], references: [id], onDelete: Cascade)
   replies   ArticleComment[]   @relation("ReplyTo")
 
 

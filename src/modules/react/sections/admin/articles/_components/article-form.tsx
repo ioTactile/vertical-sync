@@ -24,7 +24,7 @@ import {
 import { useToast } from "@/app/_hooks/use-toast";
 import { useUpdateArticle } from "@/modules/core/mutations/useUpdateArticle";
 import { useCreateArticle } from "@/modules/core/mutations/useCreateArticle";
-import { GetArticleResponse } from "@/modules/core/model/Article";
+import { GetArticleWithRelationsResponse } from "@/modules/core/model/Article";
 import { useRouter } from "next/navigation";
 import MultiSelectTags from "@/modules/react/sections/admin/articles/_components/multi-select-tags";
 import { useAuthAction } from "@/app/_hooks/use-auth-action";
@@ -35,10 +35,11 @@ import { useFileManager } from "@/app/_hooks/use-file-manager";
 import { UpdateArticleInputs } from "@/modules/react/sections/admin/articles/_schemas/update-article";
 import { updateArticleSchema } from "@/modules/react/sections/admin/articles/_schemas/update-article";
 import { Checkbox } from "@/app/_components/ui/checkbox";
+import TipTapEditor from "@/app/_components/core/tiptap-editor";
 
 interface ArticleFormProps {
   mode: "create" | "update";
-  initialData?: GetArticleResponse;
+  initialData?: GetArticleWithRelationsResponse;
 }
 
 const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
@@ -69,6 +70,8 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
     reset,
   } = form;
 
+  console.log(watch("content"));
+
   React.useEffect(() => {
     if (initialData) {
       setValue("title", initialData.title);
@@ -82,8 +85,11 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
           name: tag.tag.name,
         }))
       );
+      setValue("published", initialData.published);
     }
   }, [initialData, setValue]);
+
+  console.log(form.formState.errors);
 
   const router = useRouter();
 
@@ -96,6 +102,8 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
     maxFiles: 5,
   });
   const { files, handleFiles, clearFiles, removeFile } = useFileManager(5);
+
+  console.log(watch("imageUrl"));
 
   const handleCreateArticleSubmit: SubmitHandler<
     typeof mode extends "create" ? CreateArticleInputs : UpdateArticleInputs
@@ -245,13 +253,19 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
         <FormField
           control={form.control}
           name="content"
-          render={({ field }) => (
+          render={() => (
             <FormItem>
+              <FormLabel>Corps*</FormLabel>
               <FormControl>
-                <Textarea
-                  placeholder="Corps*"
-                  {...field}
-                  className="shadow-none"
+                <TipTapEditor
+                  control={control}
+                  name="content"
+                  placeholder={
+                    mode === "create"
+                      ? "Rédigez votre article ici..."
+                      : "Modifier votre article ici..."
+                  }
+                  className="w-full"
                 />
               </FormControl>
               <FormMessage />

@@ -120,15 +120,5 @@
     "typescript": "^5.8.2",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.0.9"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "@clerk/shared",
-      "@prisma/client",
-      "@prisma/engines",
-      "esbuild",
-      "prisma",
-      "sharp"
-    ]
   }
 }

@@ -70,11 +70,13 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
     reset,
   } = form;
 
+  console.log(watch("content"));
+
   React.useEffect(() => {
     if (initialData) {
       setValue("title", initialData.title);
       setValue("content", initialData.content);
-      setValue("imageUrl", initialData.imageUrl);
+      setValue("imageUrl", null);
       setValue("excerpt", initialData.excerpt);
       setValue(
         "articleTags",
@@ -83,8 +85,11 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
           name: tag.tag.name,
         }))
       );
+      setValue("published", initialData.published);
     }
   }, [initialData, setValue]);
+
+  console.log(form.formState.errors);
 
   const router = useRouter();
 
@@ -97,6 +102,8 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
     maxFiles: 5,
   });
   const { files, handleFiles, clearFiles, removeFile } = useFileManager(5);
+
+  console.log(watch("imageUrl"));
 
   const handleCreateArticleSubmit: SubmitHandler<
     typeof mode extends "create" ? CreateArticleInputs : UpdateArticleInputs

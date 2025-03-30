@@ -8,6 +8,7 @@ import Link from "next/link";
 import useArticles from "@/modules/core/hooks/use-public-articles";
 import { Button } from "@/app/_components/ui/button";
 import { Calendar, Tag, User } from "lucide-react";
+import { sanitizeHtml } from "@/modules/core/utils/helpers";
 
 const Article = () => {
   const { slug } = useParams();
@@ -15,6 +16,10 @@ const Article = () => {
   const { data: article, isError } = useArticleBySlug(slug as string);
 
   const { data: recentArticles } = useArticles();
+
+  const filteredRecentArticles = recentArticles?.articles
+    .filter((recentArticle) => recentArticle.id !== article?.id)
+    .slice(0, 3);
 
   if (!article && isError) {
     redirect("/blog");
@@ -72,10 +77,9 @@ const Article = () => {
         <div className="flex flex-col md:flex-row">
           {/* Contenu de l'article */}
           <div className="md:w-2/3 p-4">
-            <div
-              className="prose max-w-none"
-              dangerouslySetInnerHTML={{ __html: article.content }}
-            />
+            <div className="prose prose-slate max-w-none prose-headings:font-bold prose-p:my-2 prose-a:text-blue-600 prose-img:rounded-xl prose-img:shadow-lg prose-li:marker:text-primary prose-hr:border-t-2 prose-hr:border-gray-200 prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:pl-4 prose-blockquote:italic">
+              {sanitizeHtml(article.content)}
+            </div>
           </div>
 
           {/* Barre latérale avec articles récents */}
@@ -84,15 +88,15 @@ const Article = () => {
               Les derniers articles
             </h3>
             <div className="space-y-4">
-              {recentArticles?.articles.map((recentArticle) => (
+              {filteredRecentArticles?.map((recentArticle) => (
                 <Button
                   asChild
                   key={recentArticle.id}
                   variant="outline"
-                  className="w-full"
+                  className="w-full h-auto"
                 >
                   <Link href={`/blog/${recentArticle.slug}`}>
-                    <h4 className="text-xl text-center">
+                    <h4 className="text-xl text-center text-wrap">
                       {recentArticle.title}
                     </h4>
                   </Link>

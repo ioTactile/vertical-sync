@@ -45,7 +45,12 @@ export class ApiArticleGateway implements IArticleGateway {
     slug: string
   ): Promise<GetArticleWithRelationsResponse> {
     const response = await axiosInstance.get<GetArticleWithRelationsResponse>(
-      `/api/blog/${slug}?withRelations=true`
+      `/api/blog/${slug}?withRelations=true`,
+      {
+        params: {
+          slug,
+        },
+      }
     );
     return response.data;
   }
@@ -60,7 +65,12 @@ export class ApiArticleGateway implements IArticleGateway {
     id: string
   ): Promise<GetArticleWithRelationsResponse> {
     const response = await axiosInstance.get<GetArticleWithRelationsResponse>(
-      `/api/blog/${id}?withRelations=true`
+      `/api/blog/${id}?withRelations=true`,
+      {
+        params: {
+          id,
+        },
+      }
     );
     return response.data;
   }

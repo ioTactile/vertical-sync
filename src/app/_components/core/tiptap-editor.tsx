@@ -5,6 +5,7 @@ import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
 import Link from "@tiptap/extension-link";
 import TextAlign from "@tiptap/extension-text-align";
+import Heading from "@tiptap/extension-heading";
 import Placeholder from "@tiptap/extension-placeholder";
 import Underline from "@tiptap/extension-underline";
 import Color from "@tiptap/extension-color";
@@ -101,6 +102,9 @@ export const TipTapEditor = <
       StarterKit,
       TextStyle,
       Color,
+      Heading.configure({
+        levels: [1, 2, 3],
+      }),
       Link.configure({
         openOnClick: true,
         HTMLAttributes: {

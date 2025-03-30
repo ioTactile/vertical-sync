@@ -32,6 +32,8 @@ import { useS3Upload } from "@/app/_hooks/use-s3-upload";
 import * as React from "react";
 import { useFileManager } from "@/app/_hooks/use-file-manager";
 import FilePreview from "@/app/_components/core/file-preview";
+import { ModalCoordinateMap } from "@/modules/react/sections/_components/modal-coordinate-map";
+import { useModalCoordinateMap } from "@/modules/react/sections/_hooks/use-modal-coordinate-map";
 
 interface ClimbingSpotFormProps {
   onSuccess: () => void;
@@ -132,6 +134,19 @@ const ClimbingSpotForm = ({ onSuccess }: ClimbingSpotFormProps) => {
         });
       }
     });
+  };
+
+  const {
+    isMapOpen,
+    selectedCoordinates,
+    setIsMapOpen,
+    handleCoordinateSelection: baseHandleCoordinateSelection,
+  } = useModalCoordinateMap();
+
+  const handleCoordinateSelection = (coords: [number, number]) => {
+    form.setValue("latitude", coords[0]);
+    form.setValue("longitude", coords[1]);
+    baseHandleCoordinateSelection(coords);
   };
 
   return (
@@ -244,6 +259,13 @@ const ClimbingSpotForm = ({ onSuccess }: ClimbingSpotFormProps) => {
                 <FormMessage />
               </FormItem>
             )}
+          />
+
+          <ModalCoordinateMap
+            isMapOpen={isMapOpen}
+            setIsMapOpen={setIsMapOpen}
+            selectedCoordinates={selectedCoordinates}
+            handleCoordinateSelection={handleCoordinateSelection}
           />
         </div>
 

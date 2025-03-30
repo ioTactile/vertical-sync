@@ -35,6 +35,7 @@ import { useFileManager } from "@/app/_hooks/use-file-manager";
 import { UpdateArticleInputs } from "@/modules/react/sections/admin/articles/_schemas/update-article";
 import { updateArticleSchema } from "@/modules/react/sections/admin/articles/_schemas/update-article";
 import { Checkbox } from "@/app/_components/ui/checkbox";
+import TipTapEditor from "@/app/_components/core/tiptap-editor";
 
 interface ArticleFormProps {
   mode: "create" | "update";
@@ -245,13 +246,19 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
         <FormField
           control={form.control}
           name="content"
-          render={({ field }) => (
+          render={() => (
             <FormItem>
+              <FormLabel>Corps*</FormLabel>
               <FormControl>
-                <Textarea
-                  placeholder="Corps*"
-                  {...field}
-                  className="shadow-none"
+                <TipTapEditor
+                  control={control}
+                  name="content"
+                  placeholder={
+                    mode === "create"
+                      ? "Rédigez votre article ici..."
+                      : "Modifier votre article ici..."
+                  }
+                  className="w-full"
                 />
               </FormControl>
               <FormMessage />

@@ -29,6 +29,16 @@ import Image from "next/image";
 import Avatar from "@/modules/react/sections/_components/avatar";
 import * as React from "react";
 import { Button } from "@/app/_components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/app/_components/ui/dialog";
+import CommentForm from "./comment-form";
+import { useComment } from "@/modules/react/sections/spots/_hooks/use-comment";
+import { useUserStore } from "@/modules/core/store/store";
 
 interface ClimbingSpotSelectedProps {
   spot: ExtendedClimbingSpot;
@@ -40,6 +50,14 @@ const ClimbingSpotSelected = ({ spot, onClose }: ClimbingSpotSelectedProps) => {
 
   const { data: comments, isLoading: isCommentsLoading } =
     useClimbingSpotComments(spot.id, tabs === "comments");
+
+  const { isCommentModalOpen, setIsCommentModalOpen } = useComment();
+
+  const { user } = useUserStore();
+
+  const isUserAlreadyCommented = React.useMemo(() => {
+    return comments?.some((comment) => comment.authorId === user?.id);
+  }, [comments, user?.id]);
 
   return (
     <div
@@ -84,11 +102,7 @@ const ClimbingSpotSelected = ({ spot, onClose }: ClimbingSpotSelectedProps) => {
               <TabsTrigger value="infos" className="w-full">
                 Infos
               </TabsTrigger>
-              <TabsTrigger
-                value="comments"
-                className="w-full"
-                disabled={!spot.notationCount}
-              >
+              <TabsTrigger value="comments" className="w-full">
                 Commentaires
               </TabsTrigger>
             </TabsList>
@@ -175,9 +189,32 @@ const ClimbingSpotSelected = ({ spot, onClose }: ClimbingSpotSelectedProps) => {
               </div>
             </TabsContent>
             <TabsContent value="comments" className="flex flex-col gap-4">
+              {!isUserAlreadyCommented && (
+                <Dialog
+                  open={isCommentModalOpen}
+                  onOpenChange={setIsCommentModalOpen}
+                >
+                  <DialogTrigger asChild>
+                    <Button className="w-full">Laisser un commentaire</Button>
+                  </DialogTrigger>
+                  <DialogContent className="z-2000 flex flex-col h-full sm:h-[90dvh] overflow-y-auto">
+                    <DialogHeader>
+                      <DialogTitle>Laisser un commentaire</DialogTitle>
+                    </DialogHeader>
+                    <CommentForm
+                      spotId={spot.id}
+                      onSuccess={() => setIsCommentModalOpen(false)}
+                    />
+                  </DialogContent>
+                </Dialog>
+              )}
               {isCommentsLoading ? (
                 <div className="flex items-center justify-center h-full">
                   <Loader2 className="h-6 w-6 animate-spin" />
+                </div>
+              ) : comments?.length === 0 ? (
+                <div className="text-center text-muted-foreground">
+                  Aucun commentaire pour le moment
                 </div>
               ) : (
                 comments?.map((comment, index) => (

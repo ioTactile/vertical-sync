@@ -107,65 +107,68 @@ const Article = () => {
             </div>
 
             {/* Navigation entre articles */}
-            <div className="mt-12 border-t pt-6">
-              <div className="grid grid-cols-1 xl:grid-cols-2 justify-between gap-4 rounded-md ">
-                {navigation?.previous && (
-                  <div className="relative w-full">
-                    <Image
-                      src={
-                        navigation.previous.imageUrl ||
-                        "/assets/vertical-sync.png"
-                      }
-                      alt={navigation.previous.title}
-                      width={400}
-                      height={300}
-                      className="object-cover w-1/2 h-full aspect-video rounded-lg  shadow-none"
-                    />
-                    <div className="absolute w-1/2  top-1/2 right-10 rounded-md -translate-y-1/2 bg-background shadow-sm  flex items-center justify-center">
-                      <span className="text-foreground md:text-lg font-bold px-4 py-2">
-                        {navigation.previous.title}
-                      </span>
+            {(navigation?.previous || navigation?.next) && (
+              <div className="mt-12 border-t pt-6">
+                <div className="grid grid-cols-1 xl:grid-cols-2 justify-between gap-4 rounded-md ">
+                  {navigation?.previous && (
+                    <div className="relative w-full">
+                      <Image
+                        src={
+                          navigation.previous.imageUrl ||
+                          "/assets/vertical-sync.png"
+                        }
+                        alt={navigation.previous.title}
+                        width={400}
+                        height={300}
+                        className="object-cover w-1/2 h-full aspect-video rounded-lg  shadow-none"
+                      />
+                      <div className="absolute w-1/2  top-1/2 right-10 rounded-md -translate-y-1/2 bg-background shadow-sm  flex items-center justify-center">
+                        <span className="text-foreground md:text-lg font-bold px-4 py-2">
+                          {navigation.previous.title}
+                        </span>
+                      </div>
+                      <Button
+                        variant="outline"
+                        asChild
+                        className="absolute w-16 h-16 rounded-full bg-primary hover:bg-primary/80 text-primary-foreground hover:text-primary-foreground/80  border-8 border-white top-1/2 -translate-y-1/2 -left-4"
+                      >
+                        <Link href={`/blog/${navigation.previous.slug}`}>
+                          <ChevronLeft />
+                        </Link>
+                      </Button>
                     </div>
-                    <Button
-                      variant="outline"
-                      asChild
-                      className="absolute w-16 h-16 rounded-full bg-primary hover:bg-primary/80 text-primary-foreground hover:text-primary-foreground/80  border-8 border-white top-1/2 -translate-y-1/2 -left-4"
-                    >
-                      <Link href={`/blog/${navigation.previous.slug}`}>
-                        <ChevronLeft />
-                      </Link>
-                    </Button>
-                  </div>
-                )}
-                {navigation?.next && (
-                  <div className="relative w-full flex items-center justify-end">
-                    <div className="absolute w-1/2  top-1/2 left-10 rounded-md -translate-y-1/2 bg-background shadow-sm  flex items-center justify-center">
-                      <span className="text-foreground md:text-lg font-bold px-4 py-2">
-                        {navigation.next.title}
-                      </span>
+                  )}
+                  {navigation?.next && (
+                    <div className="relative w-full flex items-center justify-end">
+                      <div className="absolute w-1/2  top-1/2 left-10 rounded-md -translate-y-1/2 bg-background shadow-sm  flex items-center justify-center">
+                        <span className="text-foreground md:text-lg font-bold px-4 py-2">
+                          {navigation.next.title}
+                        </span>
+                      </div>
+                      <Image
+                        src={
+                          navigation.next.imageUrl ||
+                          "/assets/vertical-sync.png"
+                        }
+                        alt={navigation.next.title}
+                        width={400}
+                        height={300}
+                        className="object-cover w-1/2 h-full aspect-video rounded-lg shadow-none"
+                      />
+                      <Button
+                        variant="outline"
+                        asChild
+                        className="absolute w-16 h-16 rounded-full bg-primary hover:bg-primary/80 text-primary-foreground hover:text-primary-foreground/80  border-8 border-white top-1/2 -translate-y-1/2 -right-4"
+                      >
+                        <Link href={`/blog/${navigation.next.slug}`}>
+                          <ChevronRight />
+                        </Link>
+                      </Button>
                     </div>
-                    <Image
-                      src={
-                        navigation.next.imageUrl || "/assets/vertical-sync.png"
-                      }
-                      alt={navigation.next.title}
-                      width={400}
-                      height={300}
-                      className="object-cover w-1/2 h-full aspect-video rounded-lg shadow-none"
-                    />
-                    <Button
-                      variant="outline"
-                      asChild
-                      className="absolute w-16 h-16 rounded-full bg-primary hover:bg-primary/80 text-primary-foreground hover:text-primary-foreground/80  border-8 border-white top-1/2 -translate-y-1/2 -right-4"
-                    >
-                      <Link href={`/blog/${navigation.next.slug}`}>
-                        <ChevronRight />
-                      </Link>
-                    </Button>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
-            </div>
+            )}
           </div>
 
           {/* Barre latérale avec articles récents */}

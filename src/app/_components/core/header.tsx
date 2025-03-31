@@ -94,7 +94,7 @@ const Header = () => {
               <span className="sr-only">Toggle menu</span>
             </Button>
           </SheetTrigger>
-          <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+          <SheetContent side="right" className="z-2000 w-[300px] sm:w-[400px]">
             <SheetHeader>
               <SheetTitle className="text-left">Vertical Sync</SheetTitle>
               <SheetDescription>

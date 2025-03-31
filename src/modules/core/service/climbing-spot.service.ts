@@ -3,6 +3,7 @@ import {
   climbingSpotRepository,
 } from "@/modules/core/repository/climbing-spot.repository";
 import {
+  CreateClimbingSpotCommentDto,
   CreateClimbingSpotDto,
   GetClimbingSpotCommentsResponse,
   GetClimbingSpotResponse,
@@ -59,6 +60,12 @@ export class ClimbingSpotService {
 
   async deleteClimbingSpot(id: string): Promise<void> {
     await this.climbingSpotRepository.delete(id);
+  }
+
+  async createClimbingSpotComment(
+    comment: CreateClimbingSpotCommentDto
+  ): Promise<void> {
+    await this.climbingSpotRepository.createComment(comment);
   }
 }
 

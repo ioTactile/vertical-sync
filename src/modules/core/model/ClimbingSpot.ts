@@ -2,6 +2,7 @@ import { CreateClimbingSpotInputs } from "@/modules/react/sections/spots/_schema
 import { ClimbingSpot, ClimbingSpotComment } from "@prisma/client";
 import { Author } from "@/modules/core/model/User";
 import { UpdateClimbingSpotInputs } from "@/modules/react/sections/admin/spots/_schemas/update-climbing-spot";
+import { CreateClimbingSpotCommentInputs } from "@/modules/react/sections/spots/_schemas/create-climbing-spot-comment";
 
 export type GetClimbingSpotResponse = ClimbingSpot & {
   coords: `POINT(${number} ${number})`;
@@ -56,3 +57,8 @@ export type GetClimbingSpotCommentResponse = ClimbingSpotComment & {
 };
 
 export type GetClimbingSpotCommentsResponse = GetClimbingSpotCommentResponse[];
+
+export type CreateClimbingSpotCommentDto = {
+  authorId: string;
+  climbingSpotId: string;
+} & CreateClimbingSpotCommentInputs;

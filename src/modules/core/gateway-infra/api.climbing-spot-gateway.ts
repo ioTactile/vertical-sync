@@ -1,4 +1,5 @@
 import {
+  CreateClimbingSpotCommentDto,
   CreateClimbingSpotDto,
   GetClimbingSpotCommentsResponse,
   GetClimbingSpotResponse,
@@ -82,6 +83,16 @@ export class ApiClimbingSpotGateway implements IClimbingSpotGateway {
   async deleteClimbingSpot(id: string): Promise<void> {
     const response = await axiosInstance.delete<void>(
       `/api/climbing-spot/${id}`
+    );
+    return response.data;
+  }
+
+  async createClimbingSpotComment(
+    comment: CreateClimbingSpotCommentDto
+  ): Promise<void> {
+    const response = await axiosInstance.post<void>(
+      `/api/climbing-spot/${comment.climbingSpotId}/comments`,
+      comment
     );
     return response.data;
   }

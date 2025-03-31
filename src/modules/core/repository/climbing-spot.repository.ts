@@ -1,4 +1,5 @@
 import {
+  CreateClimbingSpotCommentDto,
   CreateClimbingSpotDto,
   GetClimbingSpotCommentsResponse,
   GetClimbingSpotResponse,
@@ -21,6 +22,7 @@ export interface IClimbingSpotRepository {
   create(climbingSpot: CreateClimbingSpotDto): Promise<void>;
   update(climbingSpot: UpdateClimbingSpotDto): Promise<void>;
   delete(id: string): Promise<void>;
+  createComment(comment: CreateClimbingSpotCommentDto): Promise<void>;
 }
 
 export class PrismaClimbingSpotRepository implements IClimbingSpotRepository {
@@ -226,6 +228,17 @@ export class PrismaClimbingSpotRepository implements IClimbingSpotRepository {
   async delete(id: string): Promise<void> {
     await prisma.climbingSpot.delete({
       where: { id },
+    });
+  }
+
+  async createComment(comment: CreateClimbingSpotCommentDto): Promise<void> {
+    await prisma.climbingSpotComment.create({
+      data: {
+        content: comment.content,
+        notation: comment.notation,
+        authorId: comment.authorId,
+        climbingSpotId: comment.climbingSpotId,
+      },
     });
   }
 }

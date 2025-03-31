@@ -23,3 +23,21 @@ export async function GET(request: NextRequest) {
     );
   }
 }
+
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json();
+
+    await climbingSpotService.createClimbingSpotComment(body);
+
+    return NextResponse.json(
+      { message: "Commentaire créé avec succès" },
+      { status: 201 }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Erreur interne du serveur: " + error },
+      { status: 500 }
+    );
+  }
+}

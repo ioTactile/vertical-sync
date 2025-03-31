@@ -54,12 +54,7 @@ export class ApiClimbingSpotGateway implements IClimbingSpotGateway {
     id: string
   ): Promise<GetClimbingSpotCommentsResponse> {
     const response = await axiosInstance.get<GetClimbingSpotCommentsResponse>(
-      `/api/climbing-spot/${id}/comments`,
-      {
-        params: {
-          id,
-        },
-      }
+      `/api/climbing-spot/${id}/comments`
     );
     return response.data;
   }

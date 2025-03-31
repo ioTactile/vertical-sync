@@ -1,9 +1,11 @@
 import { climbingSpotService } from "@/modules/core/service/climbing-spot.service";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url);
-  const id = searchParams.get("id");
+export async function GET(
+  _request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const id = (await params).id;
 
   if (!id) {
     return NextResponse.json(

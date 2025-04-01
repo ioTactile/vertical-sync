@@ -77,7 +77,12 @@ export class ApiClimbingSpotGateway implements IClimbingSpotGateway {
 
   async deleteClimbingSpot(id: string): Promise<void> {
     const response = await axiosInstance.delete<void>(
-      `/api/climbing-spot/${id}`
+      `/api/climbing-spot/${id}`,
+      {
+        data: {
+          id,
+        },
+      }
     );
     return response.data;
   }

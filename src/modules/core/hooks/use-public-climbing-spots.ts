@@ -3,7 +3,7 @@ import getPublicClimbingSpots from "@/modules/core/queries/get-public-climbing-s
 
 const usePublicClimbingSpots = () => {
   return useQuery({
-    queryKey: ["public-climbing-spots"],
+    queryKey: ["climbing-spots"],
     queryFn: () => getPublicClimbingSpots(),
   });
 };

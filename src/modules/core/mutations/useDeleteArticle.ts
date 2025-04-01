@@ -18,7 +18,10 @@ export function useDeleteArticle() {
         });
       } else {
         await queryClient.invalidateQueries({
-          queryKey: ["admin-articles", "articles"],
+          queryKey: ["admin-articles"],
+        });
+        await queryClient.invalidateQueries({
+          queryKey: ["articles"],
         });
         toast({
           title: "Article supprimé avec succès",

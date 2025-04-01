@@ -20,6 +20,7 @@ import { useCreateTalk } from "@/modules/core/mutations/useCreateTalk";
 import { GetTalkWithCommentsResponse } from "@/modules/core/model/Talk";
 import { useRouter } from "next/navigation";
 import { useAuthAction } from "@/app/_hooks/use-auth-action";
+import TipTapEditor from "@/app/_components/core/tiptap-editor";
 
 interface TalkFormProps {
   mode: "create" | "update";
@@ -137,17 +138,11 @@ const TalkForm = ({ mode, initialData }: TalkFormProps) => {
         <FormField
           control={control}
           name="content"
-          render={({ field }) => (
+          render={() => (
             <FormItem>
               <FormControl>
-                <Textarea
-                  placeholder="Corps*"
-                  {...field}
-                  value={field.value || ""}
-                  className="shadow-none"
-                />
+                <TipTapEditor control={control} name="content" />
               </FormControl>
-
               <FormMessage />
             </FormItem>
           )}

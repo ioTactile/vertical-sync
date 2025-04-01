@@ -9,7 +9,7 @@ export const useGetFetchQuery = (id?: string) => {
   const queryClient = useQueryClient();
 
   return useQuery({
-    queryKey: ["climbing-spot", id],
+    queryKey: ["admin-climbing-spot", id],
     queryFn: () => getClimbingSpot(id!),
     enabled: !!id,
     initialData: () => {
@@ -27,7 +27,7 @@ export const useGetFetchQuery = (id?: string) => {
 
       // Sinon, essayer de récupérer directement le spot individuel
       const cachedSpot = queryClient.getQueryData<GetClimbingSpotResponse>([
-        "climbing-spot",
+        "admin-climbing-spot",
         id,
       ]);
       return cachedSpot ?? undefined;

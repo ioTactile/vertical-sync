@@ -11,8 +11,8 @@ export function useCreateReport() {
     onSettled: (_data, error) => {
       if (error) {
         toast({
-          title: "Erreur",
-          description: "Une erreur est survenue lors de l'envoi du signalement",
+          title: "Erreur lors de l'envoi du signalement",
+          description: error.message,
           variant: "destructive",
         });
       } else {

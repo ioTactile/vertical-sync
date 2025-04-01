@@ -18,7 +18,10 @@ export function useDeleteClimbingSpot() {
         });
       } else {
         await queryClient.invalidateQueries({
-          queryKey: ["climbing-spots", "admin-climbing-spots"],
+          queryKey: ["admin-climbing-spots"],
+        });
+        await queryClient.invalidateQueries({
+          queryKey: ["climbing-spots"],
         });
         toast({
           title: "Spot supprimé avec succès",

@@ -259,6 +259,8 @@ const SpotForm = ({ mode, initialData }: SpotFormProps) => {
   };
 
   const handlePlaceSelect = (place: google.maps.places.PlaceResult) => {
+    console.log(place);
+
     if (!place.geometry?.location) return;
 
     const lat = place.geometry.location.lat();
@@ -282,6 +284,11 @@ const SpotForm = ({ mode, initialData }: SpotFormProps) => {
     setValue("country", country);
     setValue("city", city);
     setValue("address", address);
+    setValue("websiteUrl", place.website || "");
+    setValue(
+      "phoneNumber",
+      place.formatted_phone_number || place.international_phone_number || ""
+    );
   };
 
   return (

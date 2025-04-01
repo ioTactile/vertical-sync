@@ -17,7 +17,16 @@ export const PlaceSearch = ({ onPlaceSelect, isLoaded }: PlaceSearchProps) => {
     if (!isLoaded || !inputRef.current) return;
 
     const options = {
-      fields: ["address_components", "geometry", "name", "formatted_address"],
+      fields: [
+        "address_components",
+        "geometry",
+        "name",
+        "formatted_address",
+        "website",
+        "formatted_phone_number",
+        "international_phone_number",
+        "url",
+      ],
     };
 
     autoCompleteRef.current = new window.google.maps.places.Autocomplete(

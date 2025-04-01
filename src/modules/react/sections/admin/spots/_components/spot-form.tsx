@@ -63,9 +63,7 @@ interface SpotFormProps {
 }
 
 const SpotForm = ({ mode, initialData }: SpotFormProps) => {
-  const { isLoaded, error } = useGoogleMaps();
-
-  console.log(error);
+  const { isLoaded } = useGoogleMaps();
 
   const form = useForm<
     typeof mode extends "update"
@@ -259,8 +257,6 @@ const SpotForm = ({ mode, initialData }: SpotFormProps) => {
   };
 
   const handlePlaceSelect = (place: google.maps.places.PlaceResult) => {
-    console.log(place);
-
     if (!place.geometry?.location) return;
 
     const lat = place.geometry.location.lat();

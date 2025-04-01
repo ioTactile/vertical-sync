@@ -27,6 +27,8 @@ export const PlaceSearch = ({ onPlaceSelect, isLoaded }: PlaceSearchProps) => {
         "international_phone_number",
         "url",
       ],
+      componentRestrictions: { country: "fr" },
+      types: ["establishment"],
     };
 
     autoCompleteRef.current = new window.google.maps.places.Autocomplete(
@@ -56,7 +58,7 @@ export const PlaceSearch = ({ onPlaceSelect, isLoaded }: PlaceSearchProps) => {
     <Input
       ref={inputRef}
       type="text"
-      placeholder="Rechercher un lieu..."
+      placeholder="Rechercher un lieu en France..."
       value={searchInput}
       onChange={handleInputChange}
       className="mb-4"

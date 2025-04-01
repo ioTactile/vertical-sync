@@ -34,12 +34,17 @@ import { useFileManager } from "@/app/_hooks/use-file-manager";
 import FilePreview from "@/app/_components/core/file-preview";
 import { ModalCoordinateMap } from "@/modules/react/sections/_components/modal-coordinate-map";
 import { useModalCoordinateMap } from "@/modules/react/sections/_hooks/use-modal-coordinate-map";
+import { useGoogleMaps } from "@/app/_hooks/use-google-maps";
+import { AddressComponent } from "@/types/google-maps.types";
+import { PlaceSearch } from "@/modules/react/sections/_components/place-search-input";
 
 interface ClimbingSpotFormProps {
   onSuccess: () => void;
 }
 
 const ClimbingSpotForm = ({ onSuccess }: ClimbingSpotFormProps) => {
+  const { isLoaded } = useGoogleMaps();
+
   const form = useForm<CreateClimbingSpotInputs>({
     resolver: zodResolver(createClimbingSpotSchema),
     defaultValues: {
@@ -66,6 +71,7 @@ const ClimbingSpotForm = ({ onSuccess }: ClimbingSpotFormProps) => {
   const {
     control,
     handleSubmit,
+    setValue,
     formState: { isValid },
     reset,
     watch,
@@ -149,12 +155,45 @@ const ClimbingSpotForm = ({ onSuccess }: ClimbingSpotFormProps) => {
     baseHandleCoordinateSelection(coords);
   };
 
+  const handlePlaceSelect = (place: google.maps.places.PlaceResult) => {
+    if (!place.geometry?.location) return;
+
+    const lat = place.geometry.location.lat();
+    const lng = place.geometry.location.lng();
+
+    const country =
+      place.address_components?.find((component: AddressComponent) =>
+        component.types.includes("country")
+      )?.long_name || "";
+
+    const city =
+      place.address_components?.find((component: AddressComponent) =>
+        component.types.includes("locality")
+      )?.long_name || "";
+
+    const address = place.formatted_address || "";
+
+    setValue("name", place.name || "");
+    setValue("latitude", lat);
+    setValue("longitude", lng);
+    setValue("country", country);
+    setValue("city", city);
+    setValue("address", address);
+    setValue("websiteUrl", place.website || "");
+    setValue(
+      "phoneNumber",
+      place.formatted_phone_number || place.international_phone_number || ""
+    );
+  };
+
   return (
     <Form {...form}>
       <form
         onSubmit={handleSubmit(handleCreateClimbingSpotSubmit)}
         className="flex flex-col gap-6"
       >
+        <PlaceSearch onPlaceSelect={handlePlaceSelect} isLoaded={isLoaded} />
+
         <FormField
           control={control}
           name="name"
@@ -301,6 +340,96 @@ const ClimbingSpotForm = ({ onSuccess }: ClimbingSpotFormProps) => {
               ? "Ajouter plus d'images"
               : "Déposer vos images ici"
           }
+        />
+
+        <FormField
+          control={control}
+          name="address"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Adresse</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="Adresse"
+                  {...field}
+                  value={field.value || ""}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={control}
+          name="websiteUrl"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Site web</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="Site web"
+                  {...field}
+                  value={field.value || ""}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={control}
+          name="phoneNumber"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Téléphone</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="Téléphone"
+                  {...field}
+                  value={field.value || ""}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="Email"
+                  {...field}
+                  value={field.value || ""}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={control}
+          name="bestPeriod"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Meilleur moment</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="Meilleur moment"
+                  {...field}
+                  value={field.value || ""}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

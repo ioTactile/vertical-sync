@@ -55,7 +55,7 @@ import { ModalCoordinateMap } from "@/modules/react/sections/_components/modal-c
 import { useModalCoordinateMap } from "@/modules/react/sections/_hooks/use-modal-coordinate-map";
 import { useGoogleMaps } from "@/app/_hooks/use-google-maps";
 import type { AddressComponent } from "@/types/google-maps.types";
-import { PlaceSearch } from "./place-search-input";
+import { PlaceSearch } from "@/modules/react/sections/_components/place-search-input";
 
 interface SpotFormProps {
   mode: "create" | "update";

@@ -11,6 +11,7 @@ import Avatar from "@/modules/react/sections/_components/avatar";
 import Link from "next/link";
 import useTalkWithComments from "@/modules/core/hooks/use-talk-with-comments";
 import TalkActionButton from "@/modules/react/sections/talks/_components/talk-action-button";
+import { sanitizeHtml } from "@/modules/core/utils/helpers";
 
 const Talk = () => {
   const { id } = useParams();
@@ -59,7 +60,9 @@ const Talk = () => {
         <div className="flex flex-col gap-2">
           <h1 className="text-2xl font-bold">{talkWithComments?.title}</h1>
 
-          <p className="text-sm">{talkWithComments?.content}</p>
+          <div className="prose prose-slate max-w-none prose-headings:font-bold prose-p:my-2 prose-a:text-blue-600 prose-img:rounded-xl prose-img:shadow-lg prose-li:marker:text-primary prose-hr:border-t-2 prose-hr:border-gray-200 prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:pl-4 prose-blockquote:italic">
+            {sanitizeHtml(talkWithComments.content ?? "")}
+          </div>
 
           <TalkCommentForm
             talkId={talkWithComments.id}

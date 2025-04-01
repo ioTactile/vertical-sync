@@ -7,6 +7,7 @@ import { Button } from "@/app/_components/ui/button";
 import { MessageCircle, Share2 } from "lucide-react";
 import { useShare } from "@/app/_hooks/use-share";
 import TalkActionButton from "@/modules/react/sections/talks/_components/talk-action-button";
+import { sanitizeHtml } from "@/modules/core/utils/helpers";
 
 interface TalkCardProps {
   talk: TalkWithRelations;
@@ -44,7 +45,9 @@ const TalkCard = ({ talk }: TalkCardProps) => {
 
       <h2 className="text-lg font-semibold">{talk.title}</h2>
 
-      <p className="text-muted-foreground">{talk.content}</p>
+      <div className="prose prose-slate max-w-none prose-headings:font-bold prose-p:my-2 prose-a:text-blue-600 prose-img:rounded-xl prose-img:shadow-lg prose-li:marker:text-primary prose-hr:border-t-2 prose-hr:border-gray-200 prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:pl-4 prose-blockquote:italic line-clamp-4">
+        {sanitizeHtml(talk.content ?? "")}
+      </div>
 
       <div className="flex items-center gap-3">
         <Button variant="outline" size="sm" className="rounded-full">

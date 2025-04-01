@@ -15,7 +15,6 @@ import StoreInitializer from "@/app/_providers/store-initializer";
 import Footer from "@/app/_components/core/footer";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { frFR } from "@clerk/localizations";
-import Script from "next/script";
 
 export const metadata: Metadata = {
   title: SITE_NAME,
@@ -71,12 +70,6 @@ export default async function RootLayout({
             </NuqsAdapter>
           </ReactQueryClientProvider>
         </ClerkProvider>
-
-        <Script
-          async
-          src="https://umami.iotactile.com/script.js"
-          data-website-id="5f7c3375-975d-4378-848b-d038e68baae4"
-        />
       </body>
     </html>
   );

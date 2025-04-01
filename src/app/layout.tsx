@@ -68,7 +68,6 @@ export const metadata: Metadata = {
     title: SITE_NAME,
     description: SITE_META_DESRIPTION,
     images: [DEFAULT_OG_IMAGE_URL],
-    // creator: "@iotactile",
   },
   robots: {
     index: true,
@@ -81,9 +80,9 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  // verification: {
-  //   google: "votre-code-verification-google",
-  // },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+  },
 };
 
 const mainFont = Outfit({ subsets: ["latin"] });

@@ -17,7 +17,18 @@ export const PlaceSearch = ({ onPlaceSelect, isLoaded }: PlaceSearchProps) => {
     if (!isLoaded || !inputRef.current) return;
 
     const options = {
-      fields: ["address_components", "geometry", "name", "formatted_address"],
+      fields: [
+        "address_components",
+        "geometry",
+        "name",
+        "formatted_address",
+        "website",
+        "formatted_phone_number",
+        "international_phone_number",
+        "url",
+      ],
+      componentRestrictions: { country: "fr" },
+      types: ["establishment"],
     };
 
     autoCompleteRef.current = new window.google.maps.places.Autocomplete(
@@ -47,7 +58,7 @@ export const PlaceSearch = ({ onPlaceSelect, isLoaded }: PlaceSearchProps) => {
     <Input
       ref={inputRef}
       type="text"
-      placeholder="Rechercher un lieu..."
+      placeholder="Rechercher un lieu en France..."
       value={searchInput}
       onChange={handleInputChange}
       className="mb-4"

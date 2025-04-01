@@ -63,9 +63,7 @@ interface SpotFormProps {
 }
 
 const SpotForm = ({ mode, initialData }: SpotFormProps) => {
-  const { isLoaded, error } = useGoogleMaps();
-
-  console.log(error);
+  const { isLoaded } = useGoogleMaps();
 
   const form = useForm<
     typeof mode extends "update"
@@ -282,6 +280,11 @@ const SpotForm = ({ mode, initialData }: SpotFormProps) => {
     setValue("country", country);
     setValue("city", city);
     setValue("address", address);
+    setValue("websiteUrl", place.website || "");
+    setValue(
+      "phoneNumber",
+      place.formatted_phone_number || place.international_phone_number || ""
+    );
   };
 
   return (

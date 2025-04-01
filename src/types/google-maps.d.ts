@@ -38,6 +38,10 @@ declare namespace google.maps.places {
       location: google.maps.LatLng;
     };
     address_components?: AddressComponent[];
+    website?: string;
+    formatted_phone_number?: string;
+    international_phone_number?: string;
+    url?: string;
   }
 
   export interface AddressComponent {

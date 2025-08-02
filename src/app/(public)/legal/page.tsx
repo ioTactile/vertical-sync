@@ -29,7 +29,7 @@ export default function MentionsLegales() {
               <h3 className="font-semibold mb-2">Identité</h3>
               <p>Jordan Biesmans - Auto-entrepreneur</p>
               <p className="text-muted-foreground">Adresse non renseignée</p>
-              <p>SIRET : 978 277 978 000 18</p>
+              <p>SIRET : 982 726 697 00013</p>
               <p>Email : {EMAIL_CONTACT}</p>
             </div>
 

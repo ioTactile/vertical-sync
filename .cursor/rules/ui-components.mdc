@@ -1,0 +1,73 @@
+---
+description: Conventions pour les composants UI (shadcn/ui et core)
+globs: src/app/_components/**/*.{ts,tsx}
+alwaysApply: false
+---
+
+## Séparation `ui` vs `core`
+
+- **`src/app/_components/ui`**:
+  - Composants shadcn ou dérivés, très génériques et réutilisables.
+  - Exemple: `Button`, `Table`, `Toast`, `Form`, `Input`, `Sheet`, `Sidebar`, etc.
+  - Utilisent fortement Tailwind, `cn` et éventuellement `cva` pour les variantes.
+  - Ne contiennent pas de logique métier liée à ton domaine.
+
+- **`src/app/_components/core`**:
+  - Composants UI métiers transverses: `Header`, `Footer`, `AppSidebar`, `AppLogo`, `ThemeSwitcherDropdown`, `tiptap-editor`, etc.
+  - Peuvent consommer:
+    - le store global (`useUserStore`),
+    - les constantes (`SITE_NAME`, `GITHUB_URL`),
+    - les types globaux (`NavigationItem`, `FooterLink`).
+
+## Composants `ui` (exemples)
+
+- Utiliser:
+  - `cn` de `@/lib/utils` pour composer les classes.
+  - `cva` pour gérer les variantes (`variant`, `size`, etc.).
+  - `forwardRef` et `displayName` pour une bonne DX.
+
+```tsx
+import * as React from "react";
+import { Slot } from "@radix-ui/react-slot";
+import { cva, type VariantProps } from "class-variance-authority";
+
+import { cn } from "@/lib/utils";
+
+const buttonVariants = cva(
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  { /* variants ... */ }
+);
+
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
+  asChild?: boolean;
+}
+```
+
+## Composants `core` (exemples)
+
+- Exemple: `Header`:
+  - Utilise `NavigationItem`/`FooterLink` depuis `src/types`.
+  - Utilise `useUserStore` pour savoir si l'utilisateur est admin.
+  - Compose des composants `ui` (`NavigationMenu`, `Button`, `Sheet`, etc.).
+
+```tsx
+import { NavigationItem } from "@/types/navigation-item";
+import { useUserStore } from "@/modules/core/store/store";
+// ...
+const mainMenuItems: NavigationItem<string>[] = [ /* ... */ ];
+// ...
+const Header = () => {
+  const { isAdmin, user } = useUserStore();
+  // ...
+};
+```
+
+## Bonnes pratiques générales
+
+- Toujours préférer:
+  - **`ui`** pour les briques de base visuelles.
+  - **`core`** pour l'orchestration globale de ces briques et la navigation.
+- Garder les layouts (`app/(admin)/admin/layout.tsx`, etc.) très fins et basés sur ces composants.
+

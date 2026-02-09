@@ -18,12 +18,14 @@ export function useUpdateClimbingSpot() {
           variant: "destructive",
         });
       } else {
-        await queryClient.invalidateQueries({
-          queryKey: ["admin-climbing-spots"],
-        });
-        await queryClient.invalidateQueries({
-          queryKey: ["climbing-spots"],
-        });
+        await Promise.all([
+          queryClient.invalidateQueries({
+            queryKey: ["admin-climbing-spots"],
+          }),
+          queryClient.invalidateQueries({
+            queryKey: ["climbing-spots"],
+          }),
+        ]);
       }
     },
   });

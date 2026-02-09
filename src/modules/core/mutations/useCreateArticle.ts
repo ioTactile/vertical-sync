@@ -18,8 +18,10 @@ export function useCreateArticle() {
           variant: "destructive",
         });
       } else {
-        await queryClient.invalidateQueries({ queryKey: ["admin-articles"] });
-        await queryClient.invalidateQueries({ queryKey: ["articles"] });
+        await Promise.all([
+          queryClient.invalidateQueries({ queryKey: ["admin-articles"] }),
+          queryClient.invalidateQueries({ queryKey: ["articles"] }),
+        ]);
       }
     },
   });

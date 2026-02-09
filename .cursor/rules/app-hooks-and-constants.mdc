@@ -1,0 +1,48 @@
+---
+description: Conventions pour les hooks partagés et constantes d'app
+globs: |
+  src/app/_hooks/**/*.{ts,tsx}
+  src/app/_constants/**/*.{ts,tsx}
+alwaysApply: false
+---
+
+## Hooks partagés (`src/app/_hooks`)
+
+- Objectif: encapsuler de la logique réutilisable à l'échelle de l'application.
+- Exemples:
+  - `use-auth-action`: s'appuie sur `useUserStore` pour gérer les actions nécessitant un utilisateur connecté (redirection si non connecté).
+  - `use-file-manager`: gère un tableau de `File` avec `maxFiles`, `handleFiles`, `clearFiles`, `removeFile`.
+  - `use-google-maps`: charge le script Google Maps côté client et expose `isLoaded` / `error`.
+  - `use-toast`: centralise la logique de toasts (basé sur `ui/toast`).
+- Bonnes pratiques:
+  - Pas d'accès direct à Prisma / repositories dans ces hooks.
+  - Ces hooks peuvent consommer:
+    - le store (`useUserStore`),
+    - des services/gateways,
+    - des helpers de `src/lib` ou `src/modules/core/utils`.
+
+## Constantes d'app (`src/app/_constants`)
+
+- **`seo.ts`**:
+  - Centraliser les constantes SEO:
+    - `SITE_NAME`,
+    - `SITE_META_DESRIPTION`,
+    - `DEFAULT_OG_IMAGE_URL`.
+  - Utiliser ces constantes dans les `metadata` des pages Next.
+
+- **`app.ts`**:
+  - Constantes fonctionnelles:
+    - longueurs max (`TALK_TITLE_MAX_LENGTH`, `TALK_EXCERPT_MAX_LENGTH`),
+    - URLs externes (`GITHUB_URL`, etc.),
+    - paramètres de carte (`MAP_ZOOM_DEFAULT`, `DEFAULT_LOCATION`, rayons, etc.).
+
+## Utilisation recommandée
+
+- Importer les constantes plutôt que de dupliquer des valeurs magiques:
+  - Ex: utiliser `SITE_NAME` dans toutes les pages pour construire les titres.
+  - Ex: utiliser `MAP_ZOOM_DEFAULT`, `DEFAULT_RADIUS` dans les services / API routes (`/api/climbing-spot`).
+- Utiliser les hooks partagés dans:
+  - les composants `core` (`Header`, `Footer`, etc.),
+  - les sections React,
+  - certains handlers (via wrappers côté serveur si nécessaire).
+

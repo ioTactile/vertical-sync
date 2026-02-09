@@ -1,0 +1,53 @@
+---
+description: Architecture et conventions de l'app (Next.js, modules core/react)
+alwaysApply: true
+---
+
+## Architecture globale
+
+- **Routes API**: placer les routes dans `src/app/api`, organisées par feature (un dossier par domaine fonctionnel).
+- **Pages Next.js**: dans `src/app`, chaque route a un `page.tsx` en anglais, avec:
+  - **`export const metadata`** (statique ou dynamique) si nécessaire.
+  - **`export default function <PageName>()`** où `<PageName>` décrit la page (ex: `/spots` → `Spots`), qui délègue le rendu à un composant de `modules/react`.
+
+## Modules core (`src/modules/core`)
+
+- **Gateway / gateway-infra**: centraliser les appels réseau vers le backend externe ou l'API interne.
+- **Hooks de données**: exposer des hooks basés sur React Query (`useQuery`) avec un **export par défaut** pour chaque hook principal d'une feature.
+- **Model**: définir les modèles de domaine ainsi que les DTO et types de réponse utilisés par gateway, services et UI.
+- **Store global**: centraliser le state partagé de l'app dans `src/modules/core/store` (ex: Zustand/Redux ou équivalent), puis consommer ce store depuis les hooks et composants React.
+- **Mutations**: regrouper les hooks React Query de mutation (`useCreateX`, `useUpdateX`, `useDeleteX`, etc.) par domaine.
+- **Queries**: regrouper les hooks React Query de lecture / requêtes complexes (ex: `get-*-with-relations`) qui appellent le gateway.
+- **Repository**: faire les appels Prisma (ou équivalent) dans des repositories dédiés, un par agrégat / feature.
+- **Service**: appeler le repository, encapsuler la logique métier, et exposer des fonctions claires aux couches supérieures.
+
+## Modules react (`src/modules/react`)
+
+- **Pages de module**: dans `modules/react/pages`, chaque fichier exporte par défaut le composant de la section correspondante (ex: page Next `/spots` → composant `Spots` de `sections/spots`).
+- **Sections par feature**: dans `modules/react/sections/<feature>`:
+  - Un composant principal par "page" métier (ex: `spots.tsx`, `articles.tsx`, `talks.tsx`).
+  - Un dossier `_components` pour les sous-composants spécifiques à la section (formulaires, cartes, headers, etc.).
+  - Un dossier `_schemas` pour les schémas (zod / prisma) utilisés par les formulaires et la validation.
+- **Composants partagés de section**: utiliser `modules/react/sections/_components` pour les composants partagés entre plusieurs sections/features.
+
+## UI dans `src/app/_components`
+
+- **`ui`**: composants shadcn (ou design system externe) réutilisables dans toute l'app.
+- **`core`**: composants UI custom maison, disponibles partout (layout, wrappers, patterns récurrents).
+
+## Hooks, constantes, libs, types et styles globaux
+
+- **Hooks partagés**: placer les hooks réutilisables à l'échelle de l'app dans `src/app/_hooks` (ex: `use-auth-action`, `use-file-manager`).
+- **Constantes**: mettre les constantes pour le SEO et les données statiques de l'app dans `src/app/_constants` (ex: `seo`, `app`).
+- **Libs**: utiliser `src/lib` pour les librairies internes ou adaptateurs de libs externes (helpers transverses non liés à une seule feature).
+- **Prisma / BDD**: centraliser la configuration et les hooks Prisma dans `src/prisma`.
+- **Types globaux**: déclarer les types spécifiques à l'app dans `src/types` (ex: navigation, layout, types pour Google Maps, `globals.d.ts`).
+- **Styles globaux**: gérer le thème global et les styles shadcn dans `src/styles/global.css`.
+- **Helpers**: placer les helpers et fonctions utilitaires partagées de la couche core dans `src/modules/core/utils`.
+
+## Nouvelles features / nouvelles pages
+
+- **Nouvelles routes**: créer d'abord la route dans `src/app/.../page.tsx` avec nom anglais et `export default function <PageName>()`.
+- **Logique métier**: implémenter les repositories/services/mutations/queries dans `modules/core` plutôt que directement dans les composants.
+- **UI**: créer la section correspondante dans `modules/react/sections/<feature>` puis brancher la page Next sur cette section.
+

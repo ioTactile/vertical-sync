@@ -1,0 +1,62 @@
+---
+description: Structure et conventions des sections React par feature
+globs: src/modules/react/sections/**/*
+alwaysApply: false
+---
+
+## Structure d'une section par feature
+
+Pour chaque feature (ex: `articles`, `spots`, `talks`, `admin/...`) dans `src/modules/react/sections/<feature>`:
+
+- **Composant principal**:
+  - Un composant principal par "page" métier, exporté par défaut:
+    ```tsx
+    const Articles = () => { ... };
+    export default Articles;
+    ```
+  - Ce composant compose uniquement de l'UI et des sous-composants, sans logique métier lourde.
+
+- **Dossier `_components`**:
+  - Contient les sous-composants UI spécifiques à la section (forms, cards, headers, skeletons, etc.).
+  - Exemple: `article-cards`, `pagination`, `articles-header`, `article-cards-skeleton`.
+
+- **Dossier `_schemas`**:
+  - Contient les schémas (zod / prisma) pour les formulaires et la validation liés à cette feature.
+
+- **Dossier `_hooks`** (optionnel):
+  - Pour les hooks spécifiques à la section/feature (logique locale à cette UI).
+
+## Exemple de composant de section
+
+```tsx
+import ArticleCards from "@/modules/react/sections/articles/_components/article-cards";
+import Pagination from "@/modules/react/sections/articles/_components/pagination";
+import ArticlesHeader from "@/modules/react/sections/articles/_components/articles-header";
+import * as React from "react";
+import ArticleCardsSkeleton from "@/modules/react/sections/articles/_components/article-cards-skeleton";
+
+const Articles = () => {
+  return (
+    <div className="container min-h-screen-minus-header mx-auto flex flex-col gap-6 pt-2 pb-4 px-4 sm:px-0">
+      <ArticlesHeader />
+      <React.Suspense fallback={<ArticleCardsSkeleton />}>
+        <div className="flex-grow">
+          <ArticleCards />
+        </div>
+        <div className="mt-auto pt-6">
+          <Pagination />
+        </div>
+      </React.Suspense>
+    </div>
+  );
+};
+
+export default Articles;
+```
+
+## Composants partagés
+
+- Placer les composants réutilisés entre plusieurs features dans:
+  - `src/modules/react/sections/_components`.
+- Garder ces composants **purs et réutilisables**, sans dépendre d'un contexte de feature trop spécifique.
+

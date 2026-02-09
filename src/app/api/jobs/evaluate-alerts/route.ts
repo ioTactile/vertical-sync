@@ -8,9 +8,7 @@ function checkCronSecret(request: NextRequest): boolean {
   const secret = process.env.CRON_SECRET;
   if (!secret) return true;
   const authHeader = request.headers.get("authorization");
-  const bearer = authHeader?.startsWith("Bearer ")
-    ? authHeader.slice(7)
-    : null;
+  const bearer = authHeader?.startsWith("Bearer ") ? authHeader.slice(7) : null;
   const headerSecret = request.headers.get("x-cron-secret");
   const provided = bearer ?? headerSecret;
   return provided === secret;

@@ -10,7 +10,7 @@ import useMapControls from "@/modules/react/sections/spots/_hooks/use-map-contro
 import { ExtendedClimbingSpot } from "@/modules/core/model/ClimbingSpot";
 import useGeolocation from "@/modules/react/sections/spots/_hooks/use-geolocation";
 import useSpotFilters from "@/modules/react/sections/spots/_hooks/use-spot-filters";
-import SpotCounter from "@/modules/react/sections/spots/_components/climbing-spot-counter";
+// import SpotCounter from "@/modules/react/sections/spots/_components/climbing-spot-counter";
 import useClimbingSpots from "@/modules/core/hooks/use-public-climbing-spots";
 
 const Map = dynamic(() => import("./map"), {
@@ -21,6 +21,17 @@ const Map = dynamic(() => import("./map"), {
 const ClimbingSpotsMap = () => {
   const [selectedSpot, setSelectedSpot] =
     React.useState<ExtendedClimbingSpot | null>(null);
+
+  const mapWrapperRef = React.useRef<HTMLDivElement>(null);
+  const [, forceUpdate] = React.useReducer((n: number) => n + 1, 0);
+
+  React.useEffect(() => {
+    const el = mapWrapperRef.current;
+    if (!el) return;
+    const onFullscreenChange = () => forceUpdate();
+    el.addEventListener("fullscreenchange", onFullscreenChange);
+    return () => el.removeEventListener("fullscreenchange", onFullscreenChange);
+  }, []);
 
   const { userLocation } = useGeolocation();
 
@@ -56,7 +67,7 @@ const ClimbingSpotsMap = () => {
   } = useSpotFilters(climbingSpots, selectedSpot);
 
   return (
-    <div className="relative">
+    <div ref={mapWrapperRef} className="spots-map-wrapper relative">
       <SpotsFilters
         userLocation={userLocation}
         isSpotSelected={!!selectedSpot}
@@ -65,6 +76,7 @@ const ClimbingSpotsMap = () => {
         updateMapView={updateMapView}
         addSearchSpots={addSearchSpots}
         clearSearchSpots={clearSearchSpots}
+        dropdownContainerRef={mapWrapperRef}
       />
       {selectedSpot && (
         <ClimbingSpotSelected
@@ -80,8 +92,10 @@ const ClimbingSpotsMap = () => {
         onSpotSelect={setSelectedSpot}
         handleZoomChange={handleZoomChange}
         handleMapClick={handleMapClick}
+        spotCount={filteredSpots.length}
+        fullscreenWrapperRef={mapWrapperRef}
       />
-      <SpotCounter count={filteredSpots.length} />
+      {/* {selectedSpot && <SpotCounter count={filteredSpots.length} />} */}
     </div>
   );
 };

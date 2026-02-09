@@ -67,7 +67,16 @@ const CROWD_LEVEL_LABELS: Record<string, string> = {
   PACKED: "Comblé",
 };
 
+const OUTDOOR_SPOT_TYPES = [
+  "OUTDOOR",
+  "OUTDOOR_BOULDER",
+  "OUTDOOR_LEAD",
+] as const;
+
 const ClimbingSpotSelected = ({ spot, onClose }: ClimbingSpotSelectedProps) => {
+  const hasOutdoorType = spot.types.some((t) =>
+    (OUTDOOR_SPOT_TYPES as readonly string[]).includes(t),
+  );
   const [tabs, setTabs] = React.useState<
     "infos" | "comments" | "conditions"
   >("infos");
@@ -100,7 +109,15 @@ const ClimbingSpotSelected = ({ spot, onClose }: ClimbingSpotSelectedProps) => {
   } = useSpotWeather({
     latitude: spot.latitude,
     longitude: spot.longitude,
+    enabled: hasOutdoorType,
   });
+  const showWeatherAndConditions = hasOutdoorType;
+
+  React.useEffect(() => {
+    if (!showWeatherAndConditions && tabs === "conditions") {
+      setTabs("infos");
+    }
+  }, [showWeatherAndConditions, tabs]);
 
   const { isCommentModalOpen, setIsCommentModalOpen } = useComment();
 
@@ -110,7 +127,7 @@ const ClimbingSpotSelected = ({ spot, onClose }: ClimbingSpotSelectedProps) => {
 
   return (
     <div
-      className="absolute top-0 left-0 w-full sm:min-w-[300px] sm:max-w-[400px] h-screen-minus-header sm:h-[600px] border-r border-r-border  
+      className="climbing-spot-selected-panel absolute top-0 left-0 w-full sm:min-w-[300px] sm:max-w-[400px] h-screen-minus-header sm:h-[600px] border-r border-r-border  
       bg-background z-2000 sm:z-500 shadow-[2px_0px_5px_rgba(0,0,0,0.1)]"
     >
       <div className="flex flex-col h-full overflow-y-auto pb-14 md:pb-0">
@@ -153,16 +170,18 @@ const ClimbingSpotSelected = ({ spot, onClose }: ClimbingSpotSelectedProps) => {
               <TabsTrigger value="infos" className="w-full">
                 Infos
               </TabsTrigger>
-              <TabsTrigger value="conditions" className="w-full">
-                Conditions
-              </TabsTrigger>
+              {showWeatherAndConditions && (
+                <TabsTrigger value="conditions" className="w-full">
+                  Conditions
+                </TabsTrigger>
+              )}
               <TabsTrigger value="comments" className="w-full">
                 Commentaires
               </TabsTrigger>
             </TabsList>
             <TabsContent value="infos" className="flex flex-col gap-4">
               <div className="flex flex-col gap-4">
-                {isWeatherError ? null : (
+                {showWeatherAndConditions && !isWeatherError && (
                   <div className="flex flex-col gap-2">
                     <h3 className="text-sm font-bold">Météo</h3>
                     <WeatherPanel weather={weather} isLoading={isWeatherLoading} />
@@ -249,57 +268,60 @@ const ClimbingSpotSelected = ({ spot, onClose }: ClimbingSpotSelectedProps) => {
                 </div>
               </div>
 
-              <div className="flex flex-col gap-2">
-                <h3 className="text-sm font-bold">Alerte bon jour</h3>
-                <p className="text-sm text-muted-foreground">
-                  Soyez notifié quand la météo sera favorable pour grimper ici.
-                </p>
-                <Dialog
-                  open={isAlertModalOpen}
-                  onOpenChange={setIsAlertModalOpen}
-                >
-                  <DialogTrigger asChild>
-                    <Button variant="outline" className="w-full gap-2">
-                      <Bell className="h-4 w-4" />
-                      {existingAlertForSpot
-                        ? "Gérer mon alerte"
-                        : "Créer une alerte"}
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="z-2000 flex flex-col max-h-[90dvh] overflow-y-auto">
-                    <DialogHeader>
-                      <DialogTitle>
+              {showWeatherAndConditions && (
+                <div className="flex flex-col gap-2">
+                  <h3 className="text-sm font-bold">Alerte bon jour</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Soyez notifié quand la météo sera favorable pour grimper ici.
+                  </p>
+                  <Dialog
+                    open={isAlertModalOpen}
+                    onOpenChange={setIsAlertModalOpen}
+                  >
+                    <DialogTrigger asChild>
+                      <Button variant="outline" className="w-full gap-2">
+                        <Bell className="h-4 w-4" />
                         {existingAlertForSpot
-                          ? "Modifier l'alerte"
-                          : "Alerte bon jour"}
-                      </DialogTitle>
-                    </DialogHeader>
-                    <ClimbingSpotAlertForm
-                      spotId={spot.id}
-                      existingAlert={existingAlertForSpot}
-                      onSuccess={() => setIsAlertModalOpen(false)}
-                      onDelete={
-                        existingAlertForSpot
-                          ? () => {
-                              deleteAlert.mutate(existingAlertForSpot.id, {
-                                onSuccess: () => {
-                                  toast({
-                                    title: "Alerte supprimée",
-                                    description:
-                                      "Vous ne recevrez plus de notification pour ce spot.",
-                                  });
-                                  setIsAlertModalOpen(false);
-                                },
-                              });
-                            }
-                          : undefined
-                      }
-                    />
-                  </DialogContent>
-                </Dialog>
-              </div>
+                          ? "Gérer mon alerte"
+                          : "Créer une alerte"}
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="z-2000 flex flex-col max-h-[90dvh] overflow-y-auto">
+                      <DialogHeader>
+                        <DialogTitle>
+                          {existingAlertForSpot
+                            ? "Modifier l'alerte"
+                            : "Alerte bon jour"}
+                        </DialogTitle>
+                      </DialogHeader>
+                      <ClimbingSpotAlertForm
+                        spotId={spot.id}
+                        existingAlert={existingAlertForSpot}
+                        onSuccess={() => setIsAlertModalOpen(false)}
+                        onDelete={
+                          existingAlertForSpot
+                            ? () => {
+                                deleteAlert.mutate(existingAlertForSpot.id, {
+                                  onSuccess: () => {
+                                    toast({
+                                      title: "Alerte supprimée",
+                                      description:
+                                        "Vous ne recevrez plus de notification pour ce spot.",
+                                    });
+                                    setIsAlertModalOpen(false);
+                                  },
+                                });
+                              }
+                            : undefined
+                        }
+                      />
+                    </DialogContent>
+                  </Dialog>
+                </div>
+              )}
             </TabsContent>
-            <TabsContent value="conditions" className="flex flex-col gap-4">
+            {showWeatherAndConditions && (
+              <TabsContent value="conditions" className="flex flex-col gap-4">
               <Dialog
                 open={isConditionsModalOpen}
                 onOpenChange={setIsConditionsModalOpen}
@@ -341,6 +363,7 @@ const ClimbingSpotSelected = ({ spot, onClose }: ClimbingSpotSelectedProps) => {
                 ))
               )}
             </TabsContent>
+            )}
             <TabsContent value="comments" className="flex flex-col gap-4">
               {!isUserAlreadyCommented && (
                 <Dialog

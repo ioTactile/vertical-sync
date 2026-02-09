@@ -4,9 +4,14 @@ import getSpotWeather from "@/modules/core/queries/get-spot-weather";
 type UseSpotWeatherParams = {
   latitude?: number;
   longitude?: number;
+  enabled?: boolean;
 };
 
-const useSpotWeather = ({ latitude, longitude }: UseSpotWeatherParams) => {
+const useSpotWeather = ({
+  latitude,
+  longitude,
+  enabled = true,
+}: UseSpotWeatherParams) => {
   const hasCoords =
     typeof latitude === "number" &&
     !Number.isNaN(latitude) &&
@@ -15,7 +20,7 @@ const useSpotWeather = ({ latitude, longitude }: UseSpotWeatherParams) => {
 
   return useQuery({
     queryKey: ["spot-weather", latitude, longitude],
-    enabled: hasCoords,
+    enabled: enabled && hasCoords,
     queryFn: () =>
       getSpotWeather({
         latitude: latitude as number,
@@ -26,4 +31,3 @@ const useSpotWeather = ({ latitude, longitude }: UseSpotWeatherParams) => {
 };
 
 export default useSpotWeather;
-

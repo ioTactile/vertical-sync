@@ -13,6 +13,7 @@ export const CLIMBING_SPOT_TYPE_LABELS: Record<ClimbingSpotType, string> = {
   INDOOR_BOULDER: "Bloc intérieur",
   INDOOR_LEAD: "Voie intérieure",
   INDOOR_SPEED: "Vitesse intérieure",
+  PSICOBLOC: "Psicobloc",
 };
 
 export const CLIMBING_SPOT_DIFFICULTY_LABELS: Record<

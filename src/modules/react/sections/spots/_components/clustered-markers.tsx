@@ -1,4 +1,5 @@
 import { ExtendedClimbingSpot } from "@/modules/core/model/ClimbingSpot";
+import { getSpotPinColor } from "@/modules/react/sections/spots/_components/spot-pin-color";
 import * as React from "react";
 import { useMap } from "react-leaflet";
 import L from "leaflet";
@@ -54,11 +55,13 @@ const ClusteredMarkers = ({ spots, onSpotSelect }: ClusteredMarkersProps) => {
       markerClusterRef.current.clearLayers();
 
       spots.forEach((spot) => {
+        const color = getSpotPinColor(spot);
         const marker = L.marker([spot.latitude, spot.longitude], {
-          icon: L.icon({
-            iconUrl: "/assets/marker.png",
-            iconSize: [40, 40],
-            iconAnchor: [20, 20],
+          icon: L.divIcon({
+            className: "spot-pin-marker",
+            html: `<span style="background-color:${color};border:2px solid #1e293b;width:20px;height:20px;border-radius:50%;display:block;box-sizing:border-box;"></span>`,
+            iconSize: [20, 20],
+            iconAnchor: [10, 10],
           }),
         });
 
@@ -94,25 +97,24 @@ const ClusteredMarkers = ({ spots, onSpotSelect }: ClusteredMarkersProps) => {
 
       const zoom = map.getZoom();
       markerClusterRef.current.eachLayer((layer) => {
-        if (layer instanceof L.Marker) {
-          if (zoom > 13) {
-            if (!layer.getTooltip()) {
-              const spot = spots.find(
-                (s) =>
-                  s.latitude === layer.getLatLng().lat &&
-                  s.longitude === layer.getLatLng().lng
-              );
-              if (spot) {
-                layer.bindTooltip(spot.name, {
-                  permanent: true,
-                  direction: "right",
-                });
-              }
-            }
-          } else {
-            if (layer.getTooltip()) {
-              layer.unbindTooltip();
-            }
+        if (!(layer instanceof L.Marker)) return;
+        const latLng = layer.getLatLng();
+        const spot = spots.find(
+          (s) =>
+            s.latitude === latLng.lat && s.longitude === latLng.lng
+        );
+        if (!spot) return;
+
+        if (zoom > 13) {
+          if (!layer.getTooltip()) {
+            layer.bindTooltip(spot.name, {
+              permanent: true,
+              direction: "right",
+            });
+          }
+        } else {
+          if (layer.getTooltip()) {
+            layer.unbindTooltip();
           }
         }
       });

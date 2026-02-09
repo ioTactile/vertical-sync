@@ -10,7 +10,7 @@ import useMapControls from "@/modules/react/sections/spots/_hooks/use-map-contro
 import { ExtendedClimbingSpot } from "@/modules/core/model/ClimbingSpot";
 import useGeolocation from "@/modules/react/sections/spots/_hooks/use-geolocation";
 import useSpotFilters from "@/modules/react/sections/spots/_hooks/use-spot-filters";
-import SpotCounter from "@/modules/react/sections/spots/_components/climbing-spot-counter";
+// import SpotCounter from "@/modules/react/sections/spots/_components/climbing-spot-counter";
 import useClimbingSpots from "@/modules/core/hooks/use-public-climbing-spots";
 
 const Map = dynamic(() => import("./map"), {
@@ -80,8 +80,10 @@ const ClimbingSpotsMap = () => {
         onSpotSelect={setSelectedSpot}
         handleZoomChange={handleZoomChange}
         handleMapClick={handleMapClick}
+        isSpotSelected={!!selectedSpot}
+        spotCount={filteredSpots.length}
       />
-      <SpotCounter count={filteredSpots.length} />
+      {/* {selectedSpot && <SpotCounter count={filteredSpots.length} />} */}
     </div>
   );
 };

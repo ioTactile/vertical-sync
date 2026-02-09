@@ -116,6 +116,13 @@ body {
   }
 }
 
+/* Pins spots : cercle coloré (pas d’icône Leaflet par défaut) */
+.spot-pin-marker.leaflet-marker-icon {
+  background: none !important;
+  border: none !important;
+  cursor: pointer;
+}
+
 .leaflet-tooltip {
   background-color: transparent !important;
   border: none !important;

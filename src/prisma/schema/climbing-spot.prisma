@@ -49,6 +49,7 @@ enum ClimbingSpotType {
   INDOOR_BOULDER
   INDOOR_LEAD
   INDOOR_SPEED
+  PSICOBLOC
 }
 
 enum ClimbingSpotDifficulty {

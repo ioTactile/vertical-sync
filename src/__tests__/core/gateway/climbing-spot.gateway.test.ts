@@ -1,6 +1,13 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { climbingSpotGateway } from "@/modules/core/gateway-infra/api.climbing-spot-gateway";
 import { axiosInstance } from "@/lib/globals";
+import type {
+  CreateClimbingSpotCommentDto,
+  CreateClimbingSpotDto,
+  UpdateClimbingSpotDto,
+} from "@/modules/core/model/ClimbingSpot";
+import type { CreateClimbingSpotConditionReportDto } from "@/modules/core/model/ClimbingSpotConditions";
+import type { CreateClimbingSpotAlertDto } from "@/modules/core/model/ClimbingSpotAlert";
 
 vi.mock("@/lib/globals", () => ({
   axiosInstance: {
@@ -101,25 +108,27 @@ describe("ClimbingSpotGateway", () => {
     vi.mocked(axiosInstance.patch).mockResolvedValueOnce({ data: undefined });
     vi.mocked(axiosInstance.delete).mockResolvedValueOnce({ data: undefined });
 
-    const spotDto = { id: "spot_1" } as any;
+    const createSpotDto = {
+      authorId: "user_1",
+      coords: { type: "Point", coordinates: [1, 2] },
+    } as CreateClimbingSpotDto;
+    const updateSpotDto = { id: "spot_1" } as UpdateClimbingSpotDto;
 
-    await climbingSpotGateway.createClimbingSpot(spotDto);
-    await climbingSpotGateway.updateClimbingSpot(spotDto);
+    await climbingSpotGateway.createClimbingSpot(createSpotDto);
+    await climbingSpotGateway.updateClimbingSpot(updateSpotDto);
     await climbingSpotGateway.deleteClimbingSpot("spot_1");
 
     expect(axiosInstance.post).toHaveBeenCalledWith(
       "/api/climbing-spot",
-      spotDto,
+      createSpotDto,
     );
     expect(axiosInstance.patch).toHaveBeenCalledWith(
       "/api/climbing-spot/spot_1",
-      spotDto,
+      updateSpotDto,
     );
     expect(axiosInstance.delete).toHaveBeenCalledWith(
       "/api/climbing-spot/spot_1",
-      {
-        data: { id: "spot_1" },
-      },
+      { data: { id: "spot_1" } },
     );
   });
 
@@ -128,7 +137,7 @@ describe("ClimbingSpotGateway", () => {
 
     const commentDto = {
       climbingSpotId: "spot_1",
-    } as any;
+    } as CreateClimbingSpotCommentDto;
 
     await climbingSpotGateway.createClimbingSpotComment(commentDto);
 
@@ -144,7 +153,8 @@ describe("ClimbingSpotGateway", () => {
       data: mockConditions,
     });
 
-    const result = await climbingSpotGateway.getClimbingSpotConditions("spot_1");
+    const result =
+      await climbingSpotGateway.getClimbingSpotConditions("spot_1");
 
     expect(result).toEqual(mockConditions);
     expect(axiosInstance.get).toHaveBeenCalledWith(
@@ -160,7 +170,7 @@ describe("ClimbingSpotGateway", () => {
       authorId: "user_1",
       rockState: "DRY",
       crowdLevel: "FEW_PEOPLE",
-    } as any;
+    } as CreateClimbingSpotConditionReportDto;
 
     await climbingSpotGateway.createClimbingSpotConditionReport(reportDto);
 
@@ -193,7 +203,7 @@ describe("ClimbingSpotGateway", () => {
       userId: "user_1",
       minTempC: 5,
       maxTempC: 25,
-    } as any;
+    } as CreateClimbingSpotAlertDto;
 
     await climbingSpotGateway.createClimbingSpotAlert("spot_1", alertDto);
 

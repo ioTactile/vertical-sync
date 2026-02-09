@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { getWeatherConditionLabelFr } from "@/modules/core/utils/weather";
+import type { WeatherConditionCode } from "@/modules/core/model/Weather";
 
 describe("weather utils", () => {
   it("devrait retourner le libellé français pour CLEAR", () => {
@@ -15,6 +16,6 @@ describe("weather utils", () => {
   });
 
   it("devrait retourner le libellé pour un code inconnu (fallback)", () => {
-    expect(getWeatherConditionLabelFr("UNKNOWN" as any)).toBe("UNKNOWN");
+    expect(getWeatherConditionLabelFr("UNKNOWN" as WeatherConditionCode)).toBe("UNKNOWN");
   });
 });

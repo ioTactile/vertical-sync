@@ -127,7 +127,7 @@ const ClimbingSpotSelected = ({ spot, onClose }: ClimbingSpotSelectedProps) => {
 
   return (
     <div
-      className="absolute top-0 left-0 w-full sm:min-w-[300px] sm:max-w-[400px] h-screen-minus-header sm:h-[600px] border-r border-r-border  
+      className="climbing-spot-selected-panel absolute top-0 left-0 w-full sm:min-w-[300px] sm:max-w-[400px] h-screen-minus-header sm:h-[600px] border-r border-r-border  
       bg-background z-2000 sm:z-500 shadow-[2px_0px_5px_rgba(0,0,0,0.1)]"
     >
       <div className="flex flex-col h-full overflow-y-auto pb-14 md:pb-0">

@@ -22,6 +22,17 @@ const ClimbingSpotsMap = () => {
   const [selectedSpot, setSelectedSpot] =
     React.useState<ExtendedClimbingSpot | null>(null);
 
+  const mapWrapperRef = React.useRef<HTMLDivElement>(null);
+  const [, forceUpdate] = React.useReducer((n: number) => n + 1, 0);
+
+  React.useEffect(() => {
+    const el = mapWrapperRef.current;
+    if (!el) return;
+    const onFullscreenChange = () => forceUpdate();
+    el.addEventListener("fullscreenchange", onFullscreenChange);
+    return () => el.removeEventListener("fullscreenchange", onFullscreenChange);
+  }, []);
+
   const { userLocation } = useGeolocation();
 
   // const { data: climbingSpots } = useClimbingSpotsByRadiusAndCoords(
@@ -56,7 +67,7 @@ const ClimbingSpotsMap = () => {
   } = useSpotFilters(climbingSpots, selectedSpot);
 
   return (
-    <div className="relative">
+    <div ref={mapWrapperRef} className="spots-map-wrapper relative">
       <SpotsFilters
         userLocation={userLocation}
         isSpotSelected={!!selectedSpot}
@@ -65,6 +76,7 @@ const ClimbingSpotsMap = () => {
         updateMapView={updateMapView}
         addSearchSpots={addSearchSpots}
         clearSearchSpots={clearSearchSpots}
+        dropdownContainerRef={mapWrapperRef}
       />
       {selectedSpot && (
         <ClimbingSpotSelected
@@ -80,8 +92,8 @@ const ClimbingSpotsMap = () => {
         onSpotSelect={setSelectedSpot}
         handleZoomChange={handleZoomChange}
         handleMapClick={handleMapClick}
-        isSpotSelected={!!selectedSpot}
         spotCount={filteredSpots.length}
+        fullscreenWrapperRef={mapWrapperRef}
       />
       {/* {selectedSpot && <SpotCounter count={filteredSpots.length} />} */}
     </div>

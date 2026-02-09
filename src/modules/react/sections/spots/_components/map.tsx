@@ -10,6 +10,7 @@ import {
 import MapEventHandler from "@/modules/react/sections/spots/_components/map-event-handler";
 import ClusteredMarkers from "@/modules/react/sections/spots/_components/clustered-markers";
 import SpotPinLegend from "@/modules/react/sections/spots/_components/spot-pin-legend";
+import MapFullscreenControl from "@/modules/react/sections/spots/_components/map-fullscreen-control";
 
 interface MapProps {
   spots: ExtendedClimbingSpots;
@@ -19,8 +20,8 @@ interface MapProps {
   handleZoomChange: (zoom: number) => void;
   handleMapClick: () => void;
   shouldUpdateView: boolean;
-  isSpotSelected?: boolean;
   spotCount?: number;
+  fullscreenWrapperRef?: React.RefObject<HTMLDivElement | null>;
 }
 
 const Map = ({
@@ -31,8 +32,8 @@ const Map = ({
   handleZoomChange,
   handleMapClick,
   shouldUpdateView,
-  isSpotSelected = false,
   spotCount,
+  fullscreenWrapperRef,
 }: MapProps) => {
   return (
     <MapContainer
@@ -48,7 +49,8 @@ const Map = ({
         shouldUpdateView={shouldUpdateView}
       />
       <ZoomControl position="bottomright" />
-      {!isSpotSelected && <SpotPinLegend spotCount={spotCount} />}
+      <MapFullscreenControl fullscreenWrapperRef={fullscreenWrapperRef} />
+      <SpotPinLegend spotCount={spotCount} />
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

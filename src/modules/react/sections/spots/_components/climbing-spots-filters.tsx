@@ -21,6 +21,7 @@ import { useSpotSearch } from "@/modules/react/sections/spots/_hooks/use-spot-se
 import { useSpotTypeAndDifficulty } from "@/modules/react/sections/spots/_hooks/use-spot-type-and-difficulty";
 import { useSpotSelection } from "@/modules/react/sections/spots/_hooks/use-spot-selection";
 import { MobileFiltersDialog } from "@/modules/react/sections/spots/_components/mobile-filters-dialog";
+import { cn } from "@/lib/utils";
 
 interface SpotsFiltersProps {
   userLocation: [number, number] | null;
@@ -33,6 +34,7 @@ interface SpotsFiltersProps {
   updateMapView: (center: [number, number]) => void;
   addSearchSpots: (spots: ExtendedClimbingSpot[]) => void;
   clearSearchSpots: () => void;
+  dropdownContainerRef?: React.RefObject<HTMLDivElement | null>;
 }
 
 const spotTypes = Object.values(ClimbingSpotType);
@@ -46,7 +48,10 @@ export const SpotsFilters = ({
   updateMapView,
   addSearchSpots,
   clearSearchSpots,
+  dropdownContainerRef,
 }: SpotsFiltersProps) => {
+  const dropdownContainer = dropdownContainerRef?.current ?? undefined;
+
   const {
     searchQuery,
     setSearchQuery,
@@ -86,9 +91,9 @@ export const SpotsFilters = ({
   });
 
   return (
-    <div className="absolute left-4 top-4 flex gap-2 w-[calc(100%-2rem)] max-w-[800px] z-1000">
+    <div className="absolute left-4 top-4 flex gap-2 w-[calc(100%-2rem)] max-w-[800px] z-[1000]">
       <div className="relative flex items-center">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4 z-1000" />
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4 z-[1000]" />
         <div className="relative" ref={searchContainerRef}>
           <Input
             ref={searchInputRef}
@@ -108,10 +113,18 @@ export const SpotsFilters = ({
               {isLoading ? (
                 <div className="p-2">Recherche en cours...</div>
               ) : (
-                extendedSearchResults?.map((spot) => (
+                extendedSearchResults?.map((spot, index) => (
                   <div
                     key={spot.id}
-                    className="p-2 hover:bg-accent cursor-pointer"
+                    className={cn(
+                      "p-2 hover:bg-accent cursor-pointer ",
+                      index === 0 && "rounded-t-lg",
+                      index === extendedSearchResults.length - 1 &&
+                        "rounded-b-lg",
+                      index > 0 &&
+                        index < extendedSearchResults.length - 1 &&
+                        "rounded-none",
+                    )}
                     onClick={() => handleSpotSelect(spot)}
                   >
                     <div className="font-medium">{spot.name}</div>
@@ -146,7 +159,8 @@ export const SpotsFilters = ({
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align="end"
-            className="z-1000 bg-background/95 overflow-y-scroll h-40"
+            container={dropdownContainer}
+            className="z-[1000] bg-background/95 overflow-y-scroll h-40"
           >
             {spotTypes.map((type) => (
               <DropdownMenuItem
@@ -172,7 +186,8 @@ export const SpotsFilters = ({
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align="end"
-            className="z-1000 bg-background/95 overflow-y-scroll h-40"
+            container={dropdownContainer}
+            className="z-[1000] bg-background/95 overflow-y-scroll h-40"
           >
             {spotDifficulties.map((difficulty) => (
               <DropdownMenuItem

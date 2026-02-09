@@ -73,7 +73,7 @@ const SpotPinLegend = ({ spotCount }: SpotPinLegendProps) => {
     "rounded-lg border border-border bg-background/95 px-3 py-2 text-xs shadow-sm backdrop-blur";
 
   return (
-    <div className="absolute bottom-4 left-4 z-[1000]">
+    <div className="absolute bottom-4 left-4 sm:top-4 sm:right-4 sm:bottom-auto sm:left-auto z-[1000]">
       {/* Mobile : bouton rond quand fermé, panel quand ouvert */}
       {!isOpen && (
         <Button

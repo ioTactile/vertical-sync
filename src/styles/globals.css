@@ -160,3 +160,20 @@ body {
 .marker-cluster-large div {
   background-color: hsl(var(--primary) / 0.4) !important;
 }
+
+/* Plein écran : le wrapper spots (filtres + carte) remplit l’écran, la carte s’étire */
+.spots-map-wrapper:fullscreen {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+.spots-map-wrapper:fullscreen .leaflet-container {
+  flex: 1;
+  min-height: 0;
+}
+
+/* Panneau spot sélectionné : 100 % de la hauteur disponible en plein écran */
+.spots-map-wrapper:fullscreen .climbing-spot-selected-panel {
+  height: 100%;
+}

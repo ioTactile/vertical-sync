@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { tagGateway } from "@/modules/core/gateway-infra/api.tag-gateway";
 import { axiosInstance } from "@/lib/globals";
 import {
@@ -7,7 +7,6 @@ import {
   mockTags,
   mockUpdateTagDto,
 } from "@/__tests__/fixtures/tag.fixture";
-import { beforeEach } from "node:test";
 
 vi.mock("@/lib/globals", () => ({
   axiosInstance: {
@@ -71,7 +70,7 @@ describe("TagGateway", () => {
     expect(result).toEqual(mockResponse);
     expect(axiosInstance.patch).toHaveBeenCalledWith(
       `/api/tag/${mockTag.id}`,
-      mockUpdateTagDto
+      mockUpdateTagDto,
     );
   });
 
@@ -90,7 +89,7 @@ describe("TagGateway", () => {
         data: {
           id: mockTag.id,
         },
-      }
+      },
     );
   });
 });

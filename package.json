@@ -15,7 +15,8 @@
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:integration": "vitest integration",
-    "test:watch": "vitest watch"
+    "test:watch": "vitest watch",
+    "prepare": "husky"
   },
   "prisma": {
     "schema": "src/prisma/schema",
@@ -121,6 +122,7 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.0.9"
+    "vitest": "^3.0.9",
+    "husky": "^9.1.7"
   }
 }

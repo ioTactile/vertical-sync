@@ -6,6 +6,15 @@ import {
   GetClimbingSpotsResponse,
   UpdateClimbingSpotDto,
 } from "@/modules/core/model/ClimbingSpot";
+import type {
+  CreateClimbingSpotAlertDto,
+  GetClimbingSpotAlertsResponse,
+  UpdateClimbingSpotAlertDto,
+} from "@/modules/core/model/ClimbingSpotAlert";
+import type {
+  CreateClimbingSpotConditionReportDto,
+  GetClimbingSpotConditionsResponse,
+} from "@/modules/core/model/ClimbingSpotConditions";
 import { IClimbingSpotGateway } from "@/modules/core/gateway/climbing-spot.gateway";
 import { axiosInstance } from "@/lib/globals";
 
@@ -93,6 +102,64 @@ export class ApiClimbingSpotGateway implements IClimbingSpotGateway {
     const response = await axiosInstance.post<void>(
       `/api/climbing-spot/${comment.climbingSpotId}/comments`,
       comment
+    );
+    return response.data;
+  }
+
+  async getClimbingSpotConditions(
+    id: string
+  ): Promise<GetClimbingSpotConditionsResponse> {
+    const response = await axiosInstance.get<GetClimbingSpotConditionsResponse>(
+      `/api/climbing-spot/${id}/conditions`
+    );
+    return response.data;
+  }
+
+  async createClimbingSpotConditionReport(
+    data: CreateClimbingSpotConditionReportDto
+  ): Promise<void> {
+    const response = await axiosInstance.post<void>(
+      `/api/climbing-spot/${data.climbingSpotId}/conditions`,
+      data
+    );
+    return response.data;
+  }
+
+  async getClimbingSpotAlerts(
+    userId: string
+  ): Promise<GetClimbingSpotAlertsResponse> {
+    const response = await axiosInstance.get<GetClimbingSpotAlertsResponse>(
+      "/api/climbing-spot/alerts",
+      { params: { userId } }
+    );
+    return response.data;
+  }
+
+  async createClimbingSpotAlert(
+    spotId: string,
+    data: CreateClimbingSpotAlertDto
+  ): Promise<void> {
+    const response = await axiosInstance.post<void>(
+      `/api/climbing-spot/${spotId}/alerts`,
+      data
+    );
+    return response.data;
+  }
+
+  async updateClimbingSpotAlert(
+    alertId: string,
+    data: UpdateClimbingSpotAlertDto
+  ): Promise<void> {
+    const response = await axiosInstance.patch<void>(
+      `/api/climbing-spot/alerts/${alertId}`,
+      data
+    );
+    return response.data;
+  }
+
+  async deleteClimbingSpotAlert(alertId: string): Promise<void> {
+    const response = await axiosInstance.delete<void>(
+      `/api/climbing-spot/alerts/${alertId}`
     );
     return response.data;
   }

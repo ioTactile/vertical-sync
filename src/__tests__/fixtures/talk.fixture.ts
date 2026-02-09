@@ -2,7 +2,7 @@ import {
   CreateTalkCommentDto,
   CreateTalkDto,
   DeleteTalkCommentDto,
-  GetTalkResponse,
+  GetTalkWithCommentsResponse,
   UpdateTalkDto,
 } from "@/modules/core/model/Talk";
 import { Talk, TalkComment } from "@prisma/client";
@@ -64,7 +64,7 @@ export const mockTalkComments: TalkComment[] = [
   { ...mockTalkComment, id: "2" },
 ];
 
-export const mockTalkWithComments: GetTalkResponse = {
+export const mockTalkWithComments: GetTalkWithCommentsResponse = {
   ...mockTalk,
   author: mockAuthor,
   talkComments: mockTalkComments.map((comment) => ({

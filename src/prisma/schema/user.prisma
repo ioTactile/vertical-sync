@@ -14,6 +14,9 @@ model User {
   articleReceivedReplies ArticleComment[] @relation("ReplyToUser")
   articleLikes ArticleLike[]
   reports Report[] @relation("UserReports")
-  climbingSpots ClimbingSpot[]
-  climbingSpotComments ClimbingSpotComment[]
+  climbingSpots          ClimbingSpot[]
+  climbingSpotComments   ClimbingSpotComment[]
+  climbingSpotConditionReports ClimbingSpotConditionReport[]
+  climbingSpotAlerts           ClimbingSpotAlert[]
+  notifications                Notification[]
 }

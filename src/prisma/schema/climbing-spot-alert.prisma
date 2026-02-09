@@ -1,0 +1,19 @@
+model ClimbingSpotAlert {
+  id             String   @id @default(cuid())
+  userId         String
+  climbingSpotId String
+  minTempC       Float?
+  maxTempC       Float?
+  maxWindKmh     Float?
+  onlyWeekends   Boolean  @default(false)
+  avoidRain     Boolean  @default(true)
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+
+  user         User         @relation(fields: [userId], references: [clerkId], onDelete: Cascade)
+  climbingSpot ClimbingSpot @relation(fields: [climbingSpotId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, climbingSpotId])
+  @@index([userId])
+  @@index([climbingSpotId])
+}

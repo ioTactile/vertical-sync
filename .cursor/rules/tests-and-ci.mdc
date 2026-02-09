@@ -1,0 +1,53 @@
+---
+description: Conventions pour les tests (Vitest, structure, exécution)
+globs: |
+  src/__tests__/**/*.{ts,tsx}
+  **/*.test.{ts,tsx}
+alwaysApply: false
+---
+
+## Stack de test
+
+- **Runner**: Vitest (`pnpm test` → `vitest`).
+- **Couverture**: `pnpm run test:coverage` (`vitest run --coverage`).
+- **Types de tests**:
+  - Tests de gateway (API client): `src/__tests__/core/gateway/*.test.ts`.
+  - Tests de hooks/mutations React Query: `src/__tests__/core/mutations/*.test.ts`.
+
+## Organisation des fichiers
+
+- Placer les tests dans `src/__tests__` en reflétant la structure des modules:
+  - `src/__tests__/core/gateway/article.gateway.test.ts`
+  - `src/__tests__/core/gateway/talk.gateway.test.ts`
+  - `src/__tests__/core/gateway/tag.gateway.test.ts`
+  - `src/__tests__/core/mutations/use-create-talk.test.ts`
+- Autoriser aussi les tests à côté des fichiers sous la forme `*.test.ts(x)` quand pertinent, mais rester cohérent:
+  - Pour le core (`gateway`, `mutations`, `service`, `repository`), privilégier `src/__tests__/core/...`.
+
+## Ce qui doit être testé en priorité
+
+- **Gateways**:
+  - Appel des bonnes routes (`/api/...`) avec les bons paramètres/query string.
+  - Mapping correct des réponses API vers les types de modèle (`GetArticlesResponse`, etc.).
+- **Mutations React Query**:
+  - Que `mutationFn` appelle bien le gateway/service avec les bons DTO.
+  - Que les invalidations de cache sont correctes (clés de cache conformes aux conventions, usage de `Promise.all` pour plusieurs `invalidateQueries`).
+- **Helpers critiques**:
+  - Helpers de `src/modules/core/utils` (dates, string/slug, `sanitizeHtml`, etc.).
+
+## Exécution locale
+
+- **Tests rapides**:
+  - `pnpm test` pour lancer Vitest.
+  - `pnpm run test:watch` pendant le développement.
+- **Couverture**:
+  - `pnpm run test:coverage` pour s'assurer que les modules critiques sont bien couverts.
+
+## Intégration avec Husky / CI
+
+- Avant chaque commit, les tests unitaires doivent **passer**:
+  - Le hook Husky `pre-commit` exécute `pnpm test`.
+- En CI (pipeline GitHub Actions ou autre), exécuter au minimum:
+  - `pnpm ci`
+  - `pnpm run lint`
+  - `pnpm test`

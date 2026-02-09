@@ -1,8 +1,9 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { Library, Map, Menu, MessageSquareText, Settings } from "lucide-react";
+import { Bell, Library, Map, Menu, MessageSquareText, Settings } from "lucide-react";
 import AppLogo from "@/app/_components/core/app-logo";
+import NotificationDropdown from "@/app/_components/core/notification-dropdown";
 import { UserButton } from "@clerk/nextjs";
 import { ThemeSwitcherDropdown } from "@/app/_components/core/theme-switcher-dropdown";
 import Link from "next/link";
@@ -72,6 +73,7 @@ const Header = () => {
         {/* User Navigation */}
         <div className="hidden items-center space-x-2 md:flex">
           <ThemeSwitcherDropdown />
+          {user && <NotificationDropdown userId={user.id} />}
           <div className="flex">
             {user ? (
               <UserButton
@@ -119,6 +121,23 @@ const Header = () => {
                   </SheetClose>
                 ))}
               </div>
+
+              {user && (
+                <div>
+                  <h2 className="mb-2 text-sm font-semibold text-muted-foreground">
+                    Compte
+                  </h2>
+                  <SheetClose asChild>
+                    <Link
+                      href="/spots"
+                      className="flex items-center rounded-xl px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
+                    >
+                      <Bell className="mr-3 h-5 w-5" />
+                      Notifications
+                    </Link>
+                  </SheetClose>
+                </div>
+              )}
 
               <Separator />
 

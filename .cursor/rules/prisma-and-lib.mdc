@@ -1,0 +1,62 @@
+---
+description: Conventions Prisma, hooks Prisma et lib (axios, s3, helpers)
+globs: |
+  src/prisma/**/*.{ts,tsx}
+  src/lib/**/*.{ts,tsx}
+  src/modules/core/utils/**/*.{ts,tsx}
+alwaysApply: false
+---
+
+## Prisma et `src/prisma`
+
+- **Client Prisma**:
+  - Centraliser l'instance Prisma dans `src/prisma/index.ts`.
+  - Utiliser `prisma` partout dans les repositories, jamais recréer un client.
+- **Hooks Prisma**:
+  - Encapsuler la logique liée aux événements (ex: recalcul de notation) dans des hooks comme `src/prisma/hooks/climbing-spot-hooks.ts`.
+  - Étendre Prisma via `$extends` pour appliquer automatiquement ces hooks (`create`, `update`, `delete`, etc.).
+
+```ts
+import { PrismaClient } from "@prisma/client";
+import updateSpotNotation from "@/prisma/hooks/climbing-spot-hooks";
+
+const prismaClientSingleton = () => {
+  return new PrismaClient().$extends({
+    query: {
+      climbingSpotComment: {
+        async create({ args, query }) {
+          const result = await query(args);
+          if (result?.climbingSpotId) {
+            await updateSpotNotation(result.climbingSpotId);
+          }
+          return result;
+        },
+        // ...
+      },
+    },
+  });
+};
+```
+
+## `src/lib`: intégrations et helpers transverses
+
+- **HTTP / axios**:
+  - Utiliser `axiosInstance` de `src/lib/globals.ts` pour tous les appels API dans les gateways.
+- **S3 / stockage**:
+  - Configurer le client S3 dans `src/lib/s3.ts` avec les env vars.
+- **Auth / user**:
+  - Utiliser `checkUser` et `userMiddleware` (Clerk, Next) dans les contextes serveur appropriés.
+- **Utilitaires génériques**:
+  - `src/lib/utils.ts`: helpers génériques (ex: `cn`, `extractCoords`) utilisables dans toute l'app.
+
+## `src/modules/core/utils`: helpers métier
+
+- Placer ici les helpers liés au domaine / affichage de données métier:
+  - `date.ts`: formatage de dates (`getTimeBetweenDateAndNow`, `getFormatedDate`).
+  - `string.ts`: helpers liés aux slugs/chaînes (`getCapitalize`, `getIdFromSlug`).
+  - `helpers.ts`: helpers pour le rendu HTML (`sanitizeHtml`, etc.).
+- Ces helpers peuvent être utilisés:
+  - dans les sections React,
+  - dans les services,
+  - dans les pages quand nécessaire (sans toucher directement à Prisma).
+

@@ -1,0 +1,17 @@
+model Notification {
+  id             String   @id @default(cuid())
+  userId         String
+  climbingSpotId String
+  title          String
+  message        String   @db.Text
+  goodDayDate    DateTime @db.Date
+  isRead         Boolean  @default(false)
+  createdAt      DateTime @default(now())
+
+  user         User         @relation(fields: [userId], references: [clerkId], onDelete: Cascade)
+  climbingSpot ClimbingSpot @relation(fields: [climbingSpotId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, climbingSpotId, goodDayDate])
+  @@index([userId])
+  @@index([isRead])
+}

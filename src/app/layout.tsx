@@ -4,7 +4,6 @@ import "@/styles/globals.css";
 
 import { ClerkProvider } from "@clerk/nextjs";
 import ReactQueryClientProvider from "@/app/_providers/rqc-provider";
-import { checkUser } from "@/lib/check-user";
 import { ThemeProvider } from "@/app/_providers/theme-provider";
 import Header from "@/app/_components/core/header";
 import { Toaster } from "@/app/_components/ui/toaster";
@@ -93,8 +92,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  await checkUser();
-
   return (
     <html
       lang="en"

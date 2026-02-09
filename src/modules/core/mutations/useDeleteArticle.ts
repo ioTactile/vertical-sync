@@ -17,12 +17,14 @@ export function useDeleteArticle() {
           variant: "destructive",
         });
       } else {
-        await queryClient.invalidateQueries({
-          queryKey: ["admin-articles"],
-        });
-        await queryClient.invalidateQueries({
-          queryKey: ["articles"],
-        });
+        await Promise.all([
+          queryClient.invalidateQueries({
+            queryKey: ["admin-articles"],
+          }),
+          queryClient.invalidateQueries({
+            queryKey: ["articles"],
+          }),
+        ]);
         toast({
           title: "Article supprimé avec succès",
           description: "L'article a été supprimé avec succès",

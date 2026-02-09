@@ -1,0 +1,71 @@
+---
+description: Conventions pour les segments (public, admin, auth) et layouts
+globs: src/app/**/layout.tsx
+alwaysApply: false
+---
+
+## Segments d'app et intention
+
+- **`(public)`**:
+  - Pages accessibles publiquement (home, blog public, talks publics, spots, pages légales, etc.).
+  - Utilisent le layout racine de `app` (ou un layout dédié si nécessaire) avec `Header` + `Footer`.
+- **`(admin)`**:
+  - Espace d'administration: `/admin`, gestion des articles, tags, spots, talks, etc.
+  - Utilise un layout spécifique basé sur la `Sidebar` (`AppSidebar`, `SidebarProvider`, etc.).
+- **`(auth)`**:
+  - Pages d’authentification Clerk (`/auth/sign-in`, `/auth/sign-up`, etc.).
+  - Peuvent avoir un layout plus simple ou réutiliser certains composants `core` (logo, etc.).
+
+## Layout admin (`app/(admin)/admin/layout.tsx`)
+
+- Pattern recommandé:
+
+```tsx
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/app/_components/ui/sidebar";
+import { AppSidebar } from "@/app/_components/core/app-sidebar";
+
+export default function AdminLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset>
+        <div className="p-2">
+          <SidebarTrigger className="-ml-1" />
+        </div>
+        <div className="p-2">{children}</div>
+      </SidebarInset>
+    </SidebarProvider>
+  );
+}
+```
+
+- Le layout admin:
+  - Ne contient pas de logique métier.
+  - Se contente de composer les composants `core` et `ui` administratifs.
+
+## Pages légales et statiques `(public)`
+
+- Les pages comme `/legal`, `/privacy`, `/terms`:
+  - Définissent un `metadata` propre (`SITE_NAME`, description).
+  - Utilisent les composants `ui` (`Card`, `CardHeader`, `CardContent`, etc.).
+  - Respectent la grille/container globale:
+    - `container mx-auto py-8 px-4 sm:px-6 lg:px-8`,
+    - `grid gap-*` pour les sections.
+
+## Bonnes pratiques
+
+- Garder les `layout.tsx`:
+  - **fins**, composables, sans logique métier.
+  - Basés sur des composants `core` (Header, Footer, AppSidebar, etc.) pour rester cohérents.
+- Mettre la logique métier dans:
+  - `modules/core` (services, repository, store),
+  - `modules/react` (sections/pages).
+

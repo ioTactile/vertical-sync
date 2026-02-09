@@ -1,0 +1,28 @@
+model ClimbingSpotConditionReport {
+  id             String     @id @default(cuid())
+  climbingSpotId String
+  authorId       String
+  rockState      RockState
+  crowdLevel     CrowdLevel
+  comment        String?    @db.Text
+  createdAt      DateTime   @default(now())
+
+  climbingSpot ClimbingSpot @relation(fields: [climbingSpotId], references: [id], onDelete: Cascade)
+  author       User         @relation(fields: [authorId], references: [clerkId], onDelete: NoAction)
+
+  @@index([climbingSpotId])
+  @@index([authorId])
+}
+
+enum RockState {
+  DRY
+  DAMP
+  WET
+}
+
+enum CrowdLevel {
+  EMPTY
+  FEW_PEOPLE
+  BUSY
+  PACKED
+}

@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { articleGateway } from "@/modules/core/gateway-infra/api.article-gateway";
 import { axiosInstance } from "@/lib/globals";
 import {
@@ -11,7 +11,6 @@ import {
   mockUpdateArticleDto,
   mockDeleteArticleCommentDto,
 } from "@/__tests__/fixtures/article.fixture";
-import { beforeEach } from "node:test";
 import { mockUser } from "@/__tests__/fixtures/user.fixture";
 import { ArticleFilters } from "@/modules/core/repository/article.repository";
 

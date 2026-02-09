@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { talkGateway } from "@/modules/core/gateway-infra/api.talk-gateway";
 import { axiosInstance } from "@/lib/globals";
 import {
@@ -10,7 +10,6 @@ import {
   mockDeleteTalkCommentDto,
   mockTalkWithComments,
 } from "@/__tests__/fixtures/talk.fixture";
-import { beforeEach } from "node:test";
 
 vi.mock("@/lib/globals", () => ({
   axiosInstance: {
@@ -47,7 +46,7 @@ describe("TalkGateway", () => {
     );
     expect(result).toEqual(mockTalkWithComments);
     expect(axiosInstance.get).toHaveBeenCalledWith(
-      `/api/talk/${mockTalkWithComments.id}`
+      `/api/talk/${mockTalkWithComments.id}?includeComments=true`
     );
   });
 

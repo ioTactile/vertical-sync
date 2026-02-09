@@ -1,0 +1,49 @@
+---
+description: Thème, Tailwind et conventions de mise en page
+globs: src/styles/**/*.css
+alwaysApply: false
+---
+
+## Fichier global de styles
+
+- Utiliser **un seul fichier** global pour Tailwind et le thème:
+  - `src/styles/globals.css`
+- Contenu minimal:
+  - Directives Tailwind:
+    - `@tailwind base;`
+    - `@tailwind components;`
+    - `@tailwind utilities;`
+  - Définition du thème et des variables CSS (`--background`, `--foreground`, `--primary`, etc.) dans `:root` et `.dark`.
+
+## Thème Vertical Sync
+
+- Palette définie dans `globals.css`:
+  - Couleurs nature/escalade (beige, brun, vert forêt) pour:
+    - `--background`, `--foreground`, `--primary`, `--secondary`, `--accent`, `--muted`, `--destructive`, etc.
+  - Variables spécifiques:
+    - `--radius` pour les arrondis par défaut.
+    - `--header-height` pour la hauteur de header.
+    - Variables `--sidebar-*` pour le thème de la sidebar admin.
+- Conserver ces variables comme **source de vérité** pour:
+  - les composants shadcn (`bg-background`, `text-foreground`, etc.),
+  - les layouts (header, sidebar, containers).
+
+## Conventions Tailwind dans les pages/sections
+
+- Utiliser la classe utilitaire `container` avec:
+  - `mx-auto` pour centrer,
+  - `px-4 sm:px-0` pour les padding horizontaux responsive.
+- Pour la hauteur disponible:
+  - Utiliser des utilitaires dédiés comme `min-h-screen-minus-header` (si définis) ou combiner `min-h-screen` avec `pt-[var(--header-height)]` selon le besoin.
+- Garder la structure générale:
+  - `flex flex-col gap-*` pour l’empilement vertical,
+  - `border-b` / `border-t` pour séparer `Header` / `Footer`,
+  - `space-y-*` à l’intérieur des `Card` ou sections de texte (comme dans la page légale).
+
+## Bonnes pratiques
+
+- Éviter d’ajouter des styles globaux spécifiques à une seule feature dans `globals.css`:
+  - Préférer les classes utilitaires Tailwind dans les composants.
+- Garder le thème cohérent:
+  - Ne pas hardcoder des couleurs hexadécimales dans les composants; utiliser les classes Tailwind basées sur les variables (`bg-primary`, `text-muted-foreground`, etc.).
+

@@ -1,0 +1,59 @@
+---
+description: Conventions pour le store global (Zustand) dans modules/core
+globs: src/modules/core/store/**/*.ts
+alwaysApply: false
+---
+
+## Objectif du store
+
+- Centraliser le **state global** (utilisateur, pagination, etc.) dans `src/modules/core/store`.
+- Exposer des hooks Zustand nommés `useSomethingStore` consommables partout (UI, hooks partagés, sections React).
+
+## Conventions de nommage
+
+- Nommer les hooks de store sous la forme:
+  - `useUserStore`, `usePaginationStore`, `useThemeStore`, etc.
+- Interfaces de state:
+  - Utiliser le suffixe `State` (ex: `UserState`, `PaginationState`).
+
+## Exemple
+
+```ts
+import { create } from "zustand";
+import type { UserResource } from "@clerk/types";
+
+interface UserState {
+  user: UserResource | null;
+  isLoaded: boolean;
+  isAdmin: boolean;
+  isRedactor: boolean;
+  setUser: (user: UserResource) => void;
+  setIsLoaded: (isLoaded: boolean) => void;
+  resetUser: () => void;
+}
+
+export const useUserStore = create<UserState>((set) => ({
+  user: null,
+  isLoaded: false,
+  isAdmin: false,
+  isRedactor: false,
+  setUser: (user) =>
+    set({
+      user,
+      isAdmin: user?.publicMetadata?.role === "admin",
+      isRedactor:
+        user?.publicMetadata?.role === "redactor" ||
+        user?.publicMetadata?.role === "admin",
+    }),
+  setIsLoaded: (isLoaded) => set({ isLoaded }),
+  resetUser: () => set({ user: null, isAdmin: false, isRedactor: false }),
+}));
+```
+
+## Bonnes pratiques
+
+- Garder le store **sans dépendance UI** (pas de composants React, pas de DOM).
+- Utiliser le store:
+  - dans `src/app/_hooks` pour créer des hooks dérivés (`useAuthAction`, etc.),
+  - dans les composants `core` (header, sidebar…) qui ont besoin de l’état global.
+

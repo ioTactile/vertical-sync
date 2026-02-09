@@ -1,0 +1,64 @@
+---
+description: Conventions pour les routes API Next (App Router)
+globs: src/app/api/**/*.ts
+alwaysApply: false
+---
+
+## Structure générale des routes API
+
+- Les routes API sont organisées dans `src/app/api` par feature:
+  - `blog`, `climbing-spot`, `talk`, `tag`, `upload`, `report`, `admin/...`, etc.
+- Chaque fichier `route.ts`:
+  - Exporte les handlers HTTP (`GET`, `POST`, `PATCH`, `DELETE`, etc.).
+  - Délègue **toute la logique métier** aux services de `src/modules/core/service`.
+
+## Pattern handler → service
+
+- Exemple `GET /api/blog`:
+
+```ts
+import { NextResponse } from "next/server";
+import { articleService } from "@/modules/core/service/article.service";
+
+export async function GET(request: Request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const userId = searchParams.get("userId") ?? undefined;
+    const page = searchParams.get("page") as string;
+
+    const articles = await articleService.getPublicArticles({
+      userId: userId,
+      page: parseInt(page),
+    });
+
+    return NextResponse.json(articles, { status: 200 });
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Erreur interne du serveur: " + error },
+      { status: 500 }
+    );
+  }
+}
+```
+
+## Règles d'erreur et status
+
+- Toujours encapsuler les handlers dans un `try/catch`.
+- En cas de succès:
+  - `200` pour les reads et updates simples.
+  - `201` pour les créations (`POST`).
+- En cas d'erreur:
+  - Retourner un `NextResponse.json` avec:
+    - un message d'erreur en français,
+    - un `status: 400` pour les erreurs de validation/paramètres manquants,
+    - un `status: 500` pour les erreurs internes.
+
+## Connexion avec services / repository / Prisma
+
+- Les handlers API appellent:
+  - les **services** (`articleService`, `climbingSpotService`, etc.).
+- Les services appellent:
+  - les **repositories Prisma** (`PrismaArticleRepository`, etc.) qui eux seuls utilisent `prisma` ou les hooks Prisma.
+- Les repositories manipulent:
+  - les modèles et DTO de `src/modules/core/model`.
+

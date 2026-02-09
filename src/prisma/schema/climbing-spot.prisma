@@ -11,7 +11,10 @@ model ClimbingSpot {
   notation Decimal? @default(0) @db.Decimal(3,2)
   notationCount Int? @default(0)
   bestPeriod String? 
-  comments ClimbingSpotComment[]
+  comments         ClimbingSpotComment[]
+  conditionReports ClimbingSpotConditionReport[]
+  alerts           ClimbingSpotAlert[]
+  notifications    Notification[]
 
   address String?
   websiteUrl String?

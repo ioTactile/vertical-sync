@@ -1,0 +1,46 @@
+---
+description: Conventions pour les fichiers page.tsx (Next.js App Router)
+globs: src/app/**/page.tsx
+alwaysApply: false
+---
+
+## Conventions générales pour les pages
+
+- **Nom de fichier**: toujours `page.tsx` dans la hiérarchie `src/app`.
+- **Nom de la fonction par défaut**:
+  - Utiliser un nom en **anglais** qui reflète la route (ex: `/spots` → `Spots`).
+  - Signature recommandée:
+    ```tsx
+    export default function Spots() {
+      return <SpotsPage />;
+    }
+    ```
+- **Délégation à modules/react**:
+  - La page Next doit rester très fine et déléguer l'UI à un composant de `@/modules/react/pages` ou `@/modules/react/sections/...`.
+
+## SEO et metadata
+
+- Déclarer les metadata via `export const metadata` quand la page a un SEO spécifique:
+  ```tsx
+  import { SITE_NAME } from "@/app/_constants/seo";
+  import { Metadata } from "next";
+
+  export const metadata: Metadata = {
+    title: `${SITE_NAME} - Spots`,
+    description: "Découvrez les meilleurs spots d'escalade",
+  };
+  ```
+- Utiliser `SITE_NAME` et les constantes de `@/app/_constants/seo` pour garder des titres cohérents.
+
+## Import des sections/pages React
+
+- Préférer l'import d'un composant dédié:
+  ```tsx
+  import SpotsPage from "@/modules/react/pages/SpotsPage";
+
+  export default function Spots() {
+    return <SpotsPage />;
+  }
+  ```
+- Éviter de mettre la logique métier directement dans `page.tsx` (la déplacer dans `modules/core` + `modules/react`).
+

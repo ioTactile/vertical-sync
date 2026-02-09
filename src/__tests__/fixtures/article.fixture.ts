@@ -32,6 +32,7 @@ export const mockArticleDto: CreateArticleDto = {
   imageUrl: "https://example.com/image.jpg",
   excerpt: "Test excerpt",
   articleTags: [],
+  published: true,
 };
 
 export const mockUpdateArticleDto: UpdateArticleDto = {

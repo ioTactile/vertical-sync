@@ -1,0 +1,46 @@
+---
+description: Organisation des types globaux de l'app
+globs: src/types/**/*.{ts,tsx,d.ts}
+alwaysApply: false
+---
+
+## Organisation des types
+
+- **Types transverses**:
+  - Placer les types utilisés dans plusieurs modules/sections dans `src/types`.
+  - Exemples: types de navigation, props de layout, intégrations externes (Google Maps), types globaux Next, etc.
+
+- **Fichiers dédiés**:
+  - `navigation-item.ts`: types liés aux liens de navigation (topbar, footer, etc.).
+  - `layout-props.ts`: types de props utilisés par les layouts.
+  - `google-maps.types.ts`: types spécifiques à l'intégration Google Maps.
+  - `globals.d.ts`: déclarations globales (types fournis à l'échelle du projet).
+
+## Exemple: navigation
+
+```ts
+import { LucideProps } from "lucide-react";
+import { Route } from "next";
+import { ComponentType } from "react";
+
+export type NavigationItem<T extends string> = {
+  title: string;
+  url: Route<T> | URL;
+  icon?: ComponentType<LucideProps>;
+};
+
+export type FooterLink = {
+  title: string;
+  links: NavigationItem<string>[];
+};
+```
+
+## Bonnes pratiques
+
+- **Éviter** les types anonymes complexes directement dans le JSX ou les props:
+  - Extraire en `type` ou `interface` dans `src/types` si réutilisables.
+- **Nommer clairement** les types (`SomethingDto`, `SomethingResponse`, `SomethingProps`, etc.).
+- **Séparer** les préoccupations:
+  - Types de domaine: `src/modules/core/model`.
+  - Types globaux/transverses: `src/types`.
+

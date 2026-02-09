@@ -1,0 +1,64 @@
+---
+description: Conventions pour queries et mutations React Query dans modules/core
+globs: src/modules/core/{queries,mutations}/**/*.{ts,tsx}
+alwaysApply: false
+---
+
+## Nommage des hooks
+
+- **Mutations**:
+  - Utiliser le préfixe `useCreateX`, `useUpdateX`, `useDeleteX`, `usePublishX`, etc.
+  - Exemple:
+    ```ts
+    export function useCreateArticle() { ... }
+    ```
+- **Queries**:
+  - Utiliser `useGetX`, `useGetXById`, `useGetXWithRelations`, etc.
+
+## Règles d'implémentation
+
+- Toujours:
+  - Utiliser `useMutation` / `useQuery` de `@tanstack/react-query`.
+  - Appeler un **gateway** ou un **service** (ex: `articleGateway`) et **jamais Prisma directement**.
+  - Centraliser les effets secondaires (toast, invalidation de cache…) dans le hook.
+
+### Exemple de mutation
+
+```ts
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { articleGateway } from "@/modules/core/gateway-infra/api.article-gateway";
+import { CreateArticleDto } from "@/modules/core/model/Article";
+import { toast } from "@/app/_hooks/use-toast";
+
+export function useCreateArticle() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (article: CreateArticleDto) =>
+      articleGateway.createArticle(article),
+    onSettled: async (_data, error) => {
+      if (error) {
+        console.error(error);
+        toast({
+          title: "Erreur lors de la création de l'article",
+          description: error.message,
+          variant: "destructive",
+        });
+      } else {
+        await Promise.all([
+          queryClient.invalidateQueries({ queryKey: ["admin-articles"] }),
+          queryClient.invalidateQueries({ queryKey: ["articles"] }),
+        ]);
+      }
+    },
+  });
+}
+```
+
+## Clés de cache et invalidation
+
+- Utiliser des clés de cache structurées, stables, et cohérentes par domaine:
+  - Exemples: `["articles"]`, `["admin-articles"]`, `["spots"]`, `["talks", id]`.
+- Lors d'une mutation réussie:
+  - Invalider explicitement les queries concernées par la ressource modifiée.
+

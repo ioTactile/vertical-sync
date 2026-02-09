@@ -137,4 +137,93 @@ describe("ClimbingSpotGateway", () => {
       commentDto,
     );
   });
+
+  it("devrait récupérer les conditions d'un spot", async () => {
+    const mockConditions = [{ id: "cond_1", rockState: "DRY" }];
+    vi.mocked(axiosInstance.get).mockResolvedValueOnce({
+      data: mockConditions,
+    });
+
+    const result = await climbingSpotGateway.getClimbingSpotConditions("spot_1");
+
+    expect(result).toEqual(mockConditions);
+    expect(axiosInstance.get).toHaveBeenCalledWith(
+      "/api/climbing-spot/spot_1/conditions",
+    );
+  });
+
+  it("devrait créer un report de conditions pour un spot", async () => {
+    vi.mocked(axiosInstance.post).mockResolvedValueOnce({ data: undefined });
+
+    const reportDto = {
+      climbingSpotId: "spot_1",
+      authorId: "user_1",
+      rockState: "DRY",
+      crowdLevel: "FEW_PEOPLE",
+    } as any;
+
+    await climbingSpotGateway.createClimbingSpotConditionReport(reportDto);
+
+    expect(axiosInstance.post).toHaveBeenCalledWith(
+      "/api/climbing-spot/spot_1/conditions",
+      reportDto,
+    );
+  });
+
+  it("devrait récupérer les alertes d'un utilisateur", async () => {
+    const mockAlerts = [{ id: "alert_1", climbingSpotId: "spot_1" }];
+    vi.mocked(axiosInstance.get).mockResolvedValueOnce({
+      data: mockAlerts,
+    });
+
+    const result = await climbingSpotGateway.getClimbingSpotAlerts("user_1");
+
+    expect(result).toEqual(mockAlerts);
+    expect(axiosInstance.get).toHaveBeenCalledWith(
+      "/api/climbing-spot/alerts",
+      { params: { userId: "user_1" } },
+    );
+  });
+
+  it("devrait créer une alerte pour un spot", async () => {
+    vi.mocked(axiosInstance.post).mockResolvedValueOnce({ data: undefined });
+
+    const alertDto = {
+      climbingSpotId: "spot_1",
+      userId: "user_1",
+      minTempC: 5,
+      maxTempC: 25,
+    } as any;
+
+    await climbingSpotGateway.createClimbingSpotAlert("spot_1", alertDto);
+
+    expect(axiosInstance.post).toHaveBeenCalledWith(
+      "/api/climbing-spot/spot_1/alerts",
+      alertDto,
+    );
+  });
+
+  it("devrait mettre à jour une alerte", async () => {
+    vi.mocked(axiosInstance.patch).mockResolvedValueOnce({ data: undefined });
+
+    await climbingSpotGateway.updateClimbingSpotAlert("alert_1", {
+      id: "alert_1",
+      isActive: false,
+    });
+
+    expect(axiosInstance.patch).toHaveBeenCalledWith(
+      "/api/climbing-spot/alerts/alert_1",
+      { id: "alert_1", isActive: false },
+    );
+  });
+
+  it("devrait supprimer une alerte", async () => {
+    vi.mocked(axiosInstance.delete).mockResolvedValueOnce({ data: undefined });
+
+    await climbingSpotGateway.deleteClimbingSpotAlert("alert_1");
+
+    expect(axiosInstance.delete).toHaveBeenCalledWith(
+      "/api/climbing-spot/alerts/alert_1",
+    );
+  });
 });

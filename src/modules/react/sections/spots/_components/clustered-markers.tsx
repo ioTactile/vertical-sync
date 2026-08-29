@@ -2,8 +2,8 @@ import { ExtendedClimbingSpot } from "@/modules/core/model/ClimbingSpot";
 import { getSpotPinColor } from "@/modules/react/sections/spots/_components/spot-pin-color";
 import * as React from "react";
 import { useMap } from "react-leaflet";
-import L from "leaflet";
-import "leaflet.markercluster/dist/leaflet.markercluster";
+import * as L from "leaflet";
+import "leaflet.markercluster";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 
@@ -12,9 +12,11 @@ interface ClusteredMarkersProps {
   onSpotSelect: (spot: ExtendedClimbingSpot) => void;
 }
 
+type MarkerClusterGroup = ReturnType<typeof L.markerClusterGroup>;
+
 const ClusteredMarkers = ({ spots, onSpotSelect }: ClusteredMarkersProps) => {
   const map = useMap();
-  const markerClusterRef = React.useRef<L.MarkerClusterGroup | null>(null);
+  const markerClusterRef = React.useRef<MarkerClusterGroup | null>(null);
   const isInitializedRef = React.useRef(false);
 
   // Création du groupe de clusters mémorisé

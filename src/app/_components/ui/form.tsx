@@ -16,7 +16,7 @@ import {
 
 import { cn } from "@/lib/utils";
 import { Label } from "@/app/_components/ui/label";
-import { TypeOf, ZodSchema } from "zod";
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const Form = FormProvider;
@@ -171,18 +171,21 @@ const FormMessage = React.forwardRef<
 });
 FormMessage.displayName = "FormMessage";
 
-type UseZodFormProps<Z extends ZodSchema> = Exclude<
-  UseFormProps<TypeOf<Z>>,
-  "resolver"
-> & {
-  schema: Z;
+type UseZodFormProps<
+  TFieldValues extends FieldValues,
+  TTransformedValues extends FieldValues = TFieldValues,
+> = Omit<UseFormProps<TFieldValues, unknown, TTransformedValues>, "resolver"> & {
+  schema: z.ZodType<TTransformedValues, TFieldValues>;
 };
 
-const useZodForm = <Z extends ZodSchema>({
+const useZodForm = <
+  TFieldValues extends FieldValues,
+  TTransformedValues extends FieldValues = TFieldValues,
+>({
   schema,
   ...formProps
-}: UseZodFormProps<Z>) =>
-  useForm({
+}: UseZodFormProps<TFieldValues, TTransformedValues>) =>
+  useForm<TFieldValues, unknown, TTransformedValues>({
     ...formProps,
     resolver: zodResolver(schema),
   });

@@ -9,7 +9,7 @@ const Articles = () => {
     <div className="container min-h-screen-minus-header mx-auto flex flex-col gap-6 pt-2 pb-4 px-4 sm:px-0">
       <ArticlesHeader />
       <React.Suspense fallback={<ArticleCardsSkeleton />}>
-        <div className="flex-grow">
+        <div className="grow">
           <ArticleCards />
         </div>
         <div className="mt-auto pt-6">

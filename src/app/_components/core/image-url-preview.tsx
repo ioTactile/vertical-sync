@@ -24,7 +24,7 @@ const ImageUrlPreview = ({ imageUrls, onRemove }: ImageUrlPreviewProps) => {
 
   return (
     <Carousel className="w-full">
-      <CarouselContent className="-ml-0">
+      <CarouselContent className="ml-0">
         {imageUrls.map((url) => (
           <CarouselItem key={url} className="pl-0">
             <ImageWithDelete url={url} onRemove={onRemove} />

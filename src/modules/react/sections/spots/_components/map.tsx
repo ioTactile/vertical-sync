@@ -38,8 +38,10 @@ const Map = ({
   return (
     <MapContainer
       zoomControl={false}
-      className="w-full h-screen-minus-header sm:h-[600px]"
+      className="w-full h-screen-minus-header sm:h-150"
       preferCanvas={true}
+      center={center}
+      zoom={zoom}
     >
       <MapEventHandler
         onZoomChange={handleZoomChange}

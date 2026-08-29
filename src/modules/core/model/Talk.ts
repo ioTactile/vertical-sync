@@ -1,4 +1,4 @@
-import { Talk, TalkComment } from "@prisma/client";
+import { Talk, TalkComment } from "@/prisma/client";
 import { CreateTalkInputs } from "@/modules/react/sections/talks/_schemas/create-talk";
 import { UpdateTalkInputs } from "@/modules/react/sections/talks/_schemas/update-talk";
 import { CreateTalkCommentInputs } from "@/modules/react/sections/talks/_schemas/create-talk-comment";

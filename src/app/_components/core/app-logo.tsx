@@ -13,11 +13,11 @@ const AppLogo = ({ className, ...props }: Props) => {
     <Link
       href="/"
       className={cn(
-        "bg-gradient-to-r from-primary via-accent to-secondary",
+        "bg-linear-to-r from-primary via-accent to-secondary",
         "dark:from-primary dark:via-accent dark:to-secondary",
         "bg-clip-text text-transparent",
         "hover:opacity-80 transition-opacity",
-        className
+        className,
       )}
       {...props}
     >
@@ -27,7 +27,7 @@ const AppLogo = ({ className, ...props }: Props) => {
         height={64}
         width={86}
         priority
-        className="w-auto h-[64px]"
+        className="w-auto h-16"
       />
     </Link>
   );

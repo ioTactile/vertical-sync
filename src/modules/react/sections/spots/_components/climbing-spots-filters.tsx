@@ -6,7 +6,7 @@ import {
   CLIMBING_SPOT_TYPE_LABELS,
   CLIMBING_SPOT_DIFFICULTY_LABELS,
 } from "@/types/enum";
-import { ClimbingSpotType, ClimbingSpotDifficulty } from "@prisma/client";
+import { ClimbingSpotType, ClimbingSpotDifficulty } from "@/prisma/client";
 import { Search } from "lucide-react";
 import * as React from "react";
 import {
@@ -91,9 +91,9 @@ export const SpotsFilters = ({
   });
 
   return (
-    <div className="absolute left-4 top-4 flex gap-2 w-[calc(100%-2rem)] max-w-[800px] z-[1000]">
+    <div className="absolute left-4 top-4 flex gap-2 w-[calc(100%-2rem)] max-w-[800px] z-1000">
       <div className="relative flex items-center">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4 z-[1000]" />
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4 z-1000" />
         <div className="relative" ref={searchContainerRef}>
           <Input
             ref={searchInputRef}
@@ -153,14 +153,14 @@ export const SpotsFilters = ({
       <div className="hidden md:flex gap-2">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="rounded-full shadow-sm">
+            <Button variant="outline" className="rounded-full shadow-xs">
               Types
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align="end"
             container={dropdownContainer}
-            className="z-[1000] bg-background/95 overflow-y-scroll h-40"
+            className="z-1000 bg-background/95 overflow-y-scroll h-40"
           >
             {spotTypes.map((type) => (
               <DropdownMenuItem
@@ -180,14 +180,14 @@ export const SpotsFilters = ({
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="rounded-full shadow-sm">
+            <Button variant="outline" className="rounded-full shadow-xs">
               Difficultés
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align="end"
             container={dropdownContainer}
-            className="z-[1000] bg-background/95 overflow-y-scroll h-40"
+            className="z-1000 bg-background/95 overflow-y-scroll h-40"
           >
             {spotDifficulties.map((difficulty) => (
               <DropdownMenuItem

@@ -2,7 +2,7 @@ import {
   ClimbingSpotDifficulty,
   ClimbingSpotStatus,
   ClimbingSpotType,
-} from "@prisma/client";
+} from "@/prisma/client";
 import { z } from "zod";
 
 export const createClimbingSpotSchema = z.object({
@@ -20,10 +20,10 @@ export const createClimbingSpotSchema = z.object({
     .max(180, "Veuillez saisir une valeur valide"),
   imageUrls: z.array(z.string().url()),
   types: z
-    .array(z.nativeEnum(ClimbingSpotType))
+    .array(z.enum(ClimbingSpotType))
     .min(1, "Veuillez remplir ce champ"),
   difficulties: z
-    .array(z.nativeEnum(ClimbingSpotDifficulty))
+    .array(z.enum(ClimbingSpotDifficulty))
     .min(1, "Veuillez remplir ce champ"),
   bestPeriod: z.string().nullable(),
   address: z.string().nullable(),
@@ -32,7 +32,7 @@ export const createClimbingSpotSchema = z.object({
   email: z.string().email().nullable(),
   parkingAvailable: z.boolean().nullable(),
   toiletsAvailable: z.boolean().nullable(),
-  status: z.nativeEnum(ClimbingSpotStatus).default(ClimbingSpotStatus.PENDING),
+  status: z.enum(ClimbingSpotStatus).default(ClimbingSpotStatus.PENDING),
 });
 
 export type CreateClimbingSpotInputs = z.infer<typeof createClimbingSpotSchema>;

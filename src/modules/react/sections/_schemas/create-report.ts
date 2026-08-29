@@ -1,4 +1,4 @@
-import { ReportEntityType } from "@prisma/client";
+import { ReportEntityType } from "@/prisma/client";
 import { z } from "zod";
 
 export const createReportSchema = z.object({
@@ -6,7 +6,7 @@ export const createReportSchema = z.object({
     .string()
     .min(1, "Veuillez remplir ce champ")
     .max(100, "Le message ne doit pas dépasser 100 caractères"),
-  entityType: z.nativeEnum(ReportEntityType),
+  entityType: z.enum(ReportEntityType),
   entityId: z.string().cuid(),
 });
 

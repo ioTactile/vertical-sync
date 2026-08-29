@@ -2,7 +2,7 @@
 
 import { Textarea } from "@/app/_components/ui/textarea";
 import { Button } from "@/app/_components/ui/button";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Resolver, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CreateTalkInputs } from "@/modules/react/sections/talks/_schemas/create-talk";
 import { createTalkSchema } from "@/modules/react/sections/talks/_schemas/create-talk";
@@ -29,7 +29,7 @@ interface TalkFormProps {
 
 const TalkForm = ({ mode, initialData }: TalkFormProps) => {
   const form = useForm<CreateTalkInputs>({
-    resolver: zodResolver(createTalkSchema),
+    resolver: zodResolver(createTalkSchema) as Resolver<any>,
     defaultValues: {
       title: "",
       content: "",

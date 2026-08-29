@@ -1,5 +1,5 @@
 import { Author } from "@/modules/core/model/User";
-import { User } from "@prisma/client";
+import { User } from "@/prisma/client";
 
 export const mockUser: User = {
   id: "user_1",

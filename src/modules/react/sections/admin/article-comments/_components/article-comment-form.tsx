@@ -1,6 +1,6 @@
 "use client";
 
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Resolver, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useParams, useRouter } from "next/navigation";
 import {
@@ -23,7 +23,7 @@ const ArticleCommentForm = () => {
   const { id } = useParams();
 
   const form = useForm<CreateArticleCommentInputs>({
-    resolver: zodResolver(createArticleCommentSchema),
+    resolver: zodResolver(createArticleCommentSchema) as Resolver<any>,
     defaultValues: {
       content: "",
     },

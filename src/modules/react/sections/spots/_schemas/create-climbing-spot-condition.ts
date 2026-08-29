@@ -2,10 +2,10 @@ import { z } from "zod";
 
 export const createClimbingSpotConditionSchema = z.object({
   rockState: z.enum(["DRY", "DAMP", "WET"], {
-    required_error: "Veuillez sélectionner l'état de la roche",
+    error: "Veuillez sélectionner l'état de la roche",
   }),
   crowdLevel: z.enum(["EMPTY", "FEW_PEOPLE", "BUSY", "PACKED"], {
-    required_error: "Veuillez sélectionner l'affluence",
+    error: "Veuillez sélectionner l'affluence",
   }),
   comment: z.string().max(500).optional().nullable(),
 });

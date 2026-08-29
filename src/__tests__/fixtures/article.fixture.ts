@@ -5,7 +5,7 @@ import {
   DeleteArticleCommentDto,
   UpdateArticleDto,
 } from "@/modules/core/model/Article";
-import { Article, ArticleComment, ArticleLike } from "@prisma/client";
+import { Article, ArticleComment, ArticleLike } from "@/prisma/client";
 
 export const mockArticle: Article = {
   id: "1",

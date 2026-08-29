@@ -1,7 +1,14 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { Bell, Library, Map, Menu, MessageSquareText, Settings } from "lucide-react";
+import {
+  Bell,
+  Library,
+  Map,
+  Menu,
+  MessageSquareText,
+  Settings,
+} from "lucide-react";
 import AppLogo from "@/app/_components/core/app-logo";
 import NotificationDropdown from "@/app/_components/core/notification-dropdown";
 import { UserButton } from "@clerk/nextjs";
@@ -26,7 +33,6 @@ import {
 } from "@/app/_components/ui/sheet";
 import { Button } from "@/app/_components/ui/button";
 import { NavigationItem } from "@/types/navigation-item";
-import * as React from "react";
 import { useUserStore } from "@/modules/core/store/store";
 
 const mainMenuItems: NavigationItem<string>[] = [
@@ -54,16 +60,17 @@ const Header = () => {
             <NavigationMenuList className="space-x-2">
               {menuItems.map((item, index) => (
                 <NavigationMenuItem key={index}>
-                  <Link href={item.url} legacyBehavior passHref>
-                    <NavigationMenuLink
+                  <NavigationMenuLink asChild>
+                    <Link
+                      href={item.url}
                       className={cn(
                         navigationMenuTriggerStyle(),
-                        "rounded-full"
+                        "rounded-full",
                       )}
                     >
                       {item.title}
-                    </NavigationMenuLink>
-                  </Link>
+                    </Link>
+                  </NavigationMenuLink>
                 </NavigationMenuItem>
               ))}
             </NavigationMenuList>
@@ -96,7 +103,7 @@ const Header = () => {
               <span className="sr-only">Toggle menu</span>
             </Button>
           </SheetTrigger>
-          <SheetContent side="right" className="z-2000 w-[300px] sm:w-[400px]">
+          <SheetContent side="right" className="z-2000 w-75 sm:w-100">
             <SheetHeader>
               <SheetTitle className="text-left">Vertical Sync</SheetTitle>
               <SheetDescription>

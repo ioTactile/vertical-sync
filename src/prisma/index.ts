@@ -1,8 +1,13 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@/prisma/generated/client/client";
+import { PrismaNeon } from "@prisma/adapter-neon";
 import updateSpotNotation from "@/prisma/hooks/climbing-spot-hooks";
 
 const prismaClientSingleton = () => {
-  return new PrismaClient().$extends({
+  const adapter = new PrismaNeon({
+    connectionString: process.env.DATABASE_URL!,
+  });
+
+  return new PrismaClient({ adapter }).$extends({
     query: {
       climbingSpotComment: {
         async create({ args, query }) {

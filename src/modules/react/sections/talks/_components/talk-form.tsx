@@ -2,7 +2,7 @@
 
 import { Textarea } from "@/app/_components/ui/textarea";
 import { Button } from "@/app/_components/ui/button";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Resolver, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCreateTalk } from "@/modules/core/mutations/useCreateTalk";
 import {
@@ -27,7 +27,7 @@ const TalkForm = () => {
   const router = useRouter();
 
   const form = useForm<CreateTalkInputs>({
-    resolver: zodResolver(createTalkSchema),
+    resolver: zodResolver(createTalkSchema) as Resolver<any>,
     defaultValues: {
       title: "",
       content: null,

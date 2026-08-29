@@ -9,7 +9,7 @@ import {
 } from "@/modules/react/sections/_schemas/create-report";
 import { CreateReportDto } from "@/modules/core/model/Report";
 import * as React from "react";
-import { ReportEntityType } from "@prisma/client";
+import { ReportEntityType } from "@/prisma/client";
 import { useUserStore } from "@/modules/core/store/store";
 
 export const useTalkActions = (talkId: string) => {

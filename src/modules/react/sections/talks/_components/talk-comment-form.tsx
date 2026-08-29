@@ -1,4 +1,4 @@
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Resolver, SubmitHandler, useForm } from "react-hook-form";
 import { useCreateTalkComment } from "@/modules/core/mutations/useCreateTalkComment";
 import * as React from "react";
 import {
@@ -33,7 +33,7 @@ const TalkCommentForm = ({
   isExpandedFromParent,
 }: TalkCommentFormProps) => {
   const form = useForm<CreateTalkCommentInputs>({
-    resolver: zodResolver(createTalkCommentSchema),
+    resolver: zodResolver(createTalkCommentSchema) as Resolver<any>,
     defaultValues: {
       content: "",
     },

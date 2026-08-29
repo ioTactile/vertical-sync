@@ -19,9 +19,8 @@ export const useGetFetchQuery = (id?: string) => {
           "admin-climbing-spots",
         ]);
       if (cachedClimbingSpots) {
-        console.log("cachedClimbingSpots", cachedClimbingSpots);
         return cachedClimbingSpots.find(
-          (climbingSpot) => climbingSpot.id === id
+          (climbingSpot) => climbingSpot.id === id,
         );
       }
 

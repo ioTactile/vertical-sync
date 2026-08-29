@@ -2,7 +2,7 @@
 
 import { Input } from "@/app/_components/ui/input";
 import { Button } from "@/app/_components/ui/button";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Resolver, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -33,7 +33,7 @@ import {
   ClimbingSpotDifficulty,
   ClimbingSpotStatus,
   ClimbingSpotType,
-} from "@prisma/client";
+} from "@/prisma/client";
 import FilePreview from "@/app/_components/core/file-preview";
 import { FileUpload } from "@/app/_components/ui/file-upload";
 import { Checkbox } from "@/app/_components/ui/checkbox";
@@ -72,7 +72,7 @@ const SpotForm = ({ mode, initialData }: SpotFormProps) => {
   >({
     resolver: zodResolver(
       mode === "update" ? updateClimbingSpotSchema : createClimbingSpotSchema
-    ),
+    ) as Resolver<any>,
     defaultValues: {
       name: "",
       description: null,

@@ -1,8 +1,11 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@/prisma/generated/client/client";
+import { PrismaNeon } from "@prisma/adapter-neon";
 import seedData from "../../public/seed.json";
 import { createId } from "@paralleldrive/cuid2";
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+  adapter: new PrismaNeon({ connectionString: process.env.DATABASE_URL! }),
+});
 
 async function main() {
   await prisma.tag.createMany({
@@ -45,8 +48,8 @@ async function main() {
         ${spot.country},
         ${spot.city},
         ST_SetSRID(ST_MakePoint(${spot.coords.coordinates[0]}, ${
-      spot.coords.coordinates[1]
-    }), 4326),
+          spot.coords.coordinates[1]
+        }), 4326),
         ${spot.imageUrls},
         ${spot.types}::\"ClimbingSpotType\"[],
         ${spot.difficulties}::\"ClimbingSpotDifficulty\"[],

@@ -26,7 +26,7 @@ import {
   createClimbingSpotConditionSchema,
 } from "@/modules/react/sections/spots/_schemas/create-climbing-spot-condition";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Resolver, SubmitHandler, useForm } from "react-hook-form";
 
 const ROCK_STATE_OPTIONS: RockState[] = ["DRY", "DAMP", "WET"];
 const CROWD_LEVEL_OPTIONS: CrowdLevel[] = [
@@ -56,7 +56,7 @@ interface SpotConditionsFormProps {
 
 const SpotConditionsForm = ({ spotId, onSuccess }: SpotConditionsFormProps) => {
   const form = useForm<CreateClimbingSpotConditionInputs>({
-    resolver: zodResolver(createClimbingSpotConditionSchema),
+    resolver: zodResolver(createClimbingSpotConditionSchema) as Resolver<any>,
     defaultValues: {
       rockState: undefined,
       crowdLevel: undefined,
@@ -119,7 +119,7 @@ const SpotConditionsForm = ({ spotId, onSuccess }: SpotConditionsFormProps) => {
                     <SelectValue placeholder="Sélectionnez..." />
                   </SelectTrigger>
                 </FormControl>
-                <SelectContent className="z-[3000]">
+                <SelectContent className="z-3000">
                   {ROCK_STATE_OPTIONS.map((value) => (
                     <SelectItem key={value} value={value}>
                       {ROCK_STATE_LABELS[value]}
@@ -147,7 +147,7 @@ const SpotConditionsForm = ({ spotId, onSuccess }: SpotConditionsFormProps) => {
                     <SelectValue placeholder="Sélectionnez..." />
                   </SelectTrigger>
                 </FormControl>
-                <SelectContent className="z-[3000]">
+                <SelectContent className="z-3000">
                   {CROWD_LEVEL_OPTIONS.map((value) => (
                     <SelectItem key={value} value={value}>
                       {CROWD_LEVEL_LABELS[value]}

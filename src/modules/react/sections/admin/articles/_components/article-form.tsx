@@ -2,7 +2,7 @@
 
 import { Textarea } from "@/app/_components/ui/textarea";
 import { Button } from "@/app/_components/ui/button";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Resolver, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   createArticleSchema,
@@ -49,8 +49,8 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
     typeof mode extends "create" ? CreateArticleInputs : UpdateArticleInputs
   >({
     resolver: zodResolver(
-      mode === "create" ? createArticleSchema : updateArticleSchema
-    ),
+      mode === "create" ? createArticleSchema : updateArticleSchema,
+    ) as Resolver<any>,
     defaultValues: {
       title: "",
       content: "",
@@ -70,8 +70,6 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
     reset,
   } = form;
 
-  console.log(watch("content"));
-
   React.useEffect(() => {
     if (initialData) {
       setValue("title", initialData.title);
@@ -83,13 +81,11 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
         initialData.articleTags.map((tag) => ({
           id: tag.tagId,
           name: tag.tag.name,
-        }))
+        })),
       );
       setValue("published", initialData.published);
     }
   }, [initialData, setValue]);
-
-  console.log(form.formState.errors);
 
   const router = useRouter();
 
@@ -102,8 +98,6 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
     maxFiles: 5,
   });
   const { files, handleFiles, clearFiles, removeFile } = useFileManager(5);
-
-  console.log(watch("imageUrl"));
 
   const handleCreateArticleSubmit: SubmitHandler<
     typeof mode extends "create" ? CreateArticleInputs : UpdateArticleInputs
@@ -148,7 +142,7 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
                 reset();
                 router.push("/admin/articles");
               },
-            }
+            },
           );
         } else {
           updateArticleMutation.mutate(
@@ -164,7 +158,7 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
                 reset();
                 router.push("/admin/articles");
               },
-            }
+            },
           );
         }
       } catch (error: unknown) {

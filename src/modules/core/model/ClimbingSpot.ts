@@ -1,5 +1,5 @@
 import { CreateClimbingSpotInputs } from "@/modules/react/sections/spots/_schemas/create-climbing-spot";
-import { ClimbingSpot, ClimbingSpotComment } from "@prisma/client";
+import { ClimbingSpot, ClimbingSpotComment } from "@/prisma/client";
 import { Author } from "@/modules/core/model/User";
 import { UpdateClimbingSpotInputs } from "@/modules/react/sections/admin/spots/_schemas/update-climbing-spot";
 import { CreateClimbingSpotCommentInputs } from "@/modules/react/sections/spots/_schemas/create-climbing-spot-comment";

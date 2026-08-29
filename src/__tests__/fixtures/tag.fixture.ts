@@ -1,5 +1,5 @@
 import { CreateTagDto, UpdateTagDto } from "@/modules/core/model/Tag";
-import { Tag } from "@prisma/client";
+import { Tag } from "@/prisma/client";
 
 export const mockTag: Tag = {
   id: "tag_1",

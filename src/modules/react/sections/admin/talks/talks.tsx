@@ -16,8 +16,6 @@ const Talks = () => {
     updatedAt: getFormatedDate(talk.updatedAt),
   }));
 
-  console.log(talksFormated);
-
   if (!talksFormated) return null;
 
   return (

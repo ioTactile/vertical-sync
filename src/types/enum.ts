@@ -2,7 +2,7 @@ import {
   ClimbingSpotDifficulty,
   ClimbingSpotStatus,
   ClimbingSpotType,
-} from "@prisma/client";
+} from "@/prisma/client";
 
 export const CLIMBING_SPOT_TYPE_LABELS: Record<ClimbingSpotType, string> = {
   ALL: "Tous les types",

@@ -2,7 +2,7 @@
 
 import { Textarea } from "@/app/_components/ui/textarea";
 import { Button } from "@/app/_components/ui/button";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Resolver, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   createArticleSchema,
@@ -57,8 +57,8 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
     typeof mode extends "create" ? CreateArticleInputs : UpdateArticleInputs
   >({
     resolver: zodResolver(
-      mode === "create" ? createArticleSchema : updateArticleSchema
-    ),
+      mode === "create" ? createArticleSchema : updateArticleSchema,
+    ) as Resolver<any>,
     defaultValues: {
       title: "",
       content: "",
@@ -69,8 +69,6 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
     },
     mode: "onChange",
   });
-
-  console.log(form.watch("content"));
 
   const {
     control,
@@ -92,7 +90,7 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
         initialData.articleTags.map((tag) => ({
           id: tag.tagId,
           name: tag.tag.name,
-        }))
+        })),
       );
       setValue("published", initialData.published);
     }
@@ -142,7 +140,7 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
                 reset();
                 router.push("/blog");
               },
-            }
+            },
           );
         } catch (error: unknown) {
           console.error(error);
@@ -167,7 +165,7 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
               reset();
               router.push("/blog");
             },
-          }
+          },
         );
       }
     });

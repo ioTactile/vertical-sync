@@ -1,20 +1,21 @@
 "use client";
 
-import { useEditor, EditorContent, BubbleMenu } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import Image from "@tiptap/extension-image";
-import Link from "@tiptap/extension-link";
-import TextAlign from "@tiptap/extension-text-align";
-import Heading from "@tiptap/extension-heading";
-import Placeholder from "@tiptap/extension-placeholder";
-import Underline from "@tiptap/extension-underline";
-import Color from "@tiptap/extension-color";
-import Highlight from "@tiptap/extension-highlight";
-import Table from "@tiptap/extension-table";
-import TableRow from "@tiptap/extension-table-row";
-import TableCell from "@tiptap/extension-table-cell";
-import TableHeader from "@tiptap/extension-table-header";
-import TextStyle from "@tiptap/extension-text-style";
+import { useEditor, EditorContent } from "@tiptap/react";
+import { BubbleMenu } from "@tiptap/react/menus";
+import { StarterKit } from "@tiptap/starter-kit";
+import { Image } from "@tiptap/extension-image";
+import { TextAlign } from "@tiptap/extension-text-align";
+import { Placeholder } from "@tiptap/extension-placeholder";
+import { TextStyle } from "@tiptap/extension-text-style";
+import { Highlight } from "@tiptap/extension-highlight";
+import { Color } from "@tiptap/extension-color";
+import {
+  Table,
+  TableRow,
+  TableCell,
+  TableHeader,
+} from "@tiptap/extension-table";
+
 import * as React from "react";
 import { Control, FieldValues, Path, useController } from "react-hook-form";
 import { cn } from "@/lib/utils";
@@ -55,7 +56,7 @@ import {
 
 interface TipTapEditorProps<
   TFieldValues extends FieldValues = FieldValues,
-  TName extends Path<TFieldValues> = Path<TFieldValues>
+  TName extends Path<TFieldValues> = Path<TFieldValues>,
 > {
   control: Control<TFieldValues>;
   name: TName;
@@ -64,9 +65,44 @@ interface TipTapEditorProps<
   editorClassName?: string;
 }
 
+const baseExtensions = [
+  StarterKit.configure({
+    heading: {
+      levels: [1, 2, 3],
+    },
+    link: {
+      openOnClick: true,
+      HTMLAttributes: {
+        rel: "noopener noreferrer",
+        class: "text-primary underline",
+      },
+    },
+  }),
+  TextStyle,
+  Color,
+  Image.configure({
+    HTMLAttributes: {
+      class: "rounded-md max-w-full mx-auto my-4",
+      draggable: false,
+    },
+  }),
+  TextAlign.configure({
+    types: ["heading", "paragraph"],
+  }),
+  Highlight.configure({
+    multicolor: true,
+  }),
+  Table.configure({
+    resizable: true,
+  }),
+  TableRow,
+  TableCell,
+  TableHeader,
+];
+
 export const TipTapEditor = <
   TFieldValues extends FieldValues = FieldValues,
-  TName extends Path<TFieldValues> = Path<TFieldValues>
+  TName extends Path<TFieldValues> = Path<TFieldValues>,
 >({
   control,
   name,
@@ -97,45 +133,22 @@ export const TipTapEditor = <
     React.useState<boolean>(false);
   const [colorValue, setColorValue] = React.useState<string>("#000000");
 
-  const editor = useEditor({
-    extensions: [
-      StarterKit,
-      TextStyle,
-      Color,
-      Heading.configure({
-        levels: [1, 2, 3],
-      }),
-      Link.configure({
-        openOnClick: true,
-        HTMLAttributes: {
-          rel: "noopener noreferrer",
-          class: "text-primary underline",
-        },
-      }),
-      Image.configure({
-        HTMLAttributes: {
-          class: "rounded-md max-w-full mx-auto my-4",
-          draggable: false,
-        },
-      }),
-      TextAlign.configure({
-        types: ["heading", "paragraph"],
-      }),
+  const extensions = React.useMemo(
+    () => [
+      ...baseExtensions,
       Placeholder.configure({
         placeholder,
       }),
-      Underline,
-      Highlight.configure({
-        multicolor: true,
-      }),
-      Table.configure({
-        resizable: true,
-      }),
-      TableRow,
-      TableCell,
-      TableHeader,
     ],
-    content: value,
+    [placeholder],
+  );
+
+  const initialContent = React.useRef(value ?? "");
+
+  const editor = useEditor({
+    immediatelyRender: false,
+    extensions,
+    content: initialContent.current,
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());
     },
@@ -176,7 +189,7 @@ export const TipTapEditor = <
         editor.commands.focus("end");
 
         const editorElement = document.querySelector(
-          ".tiptap-editor .ProseMirror"
+          ".tiptap-editor .ProseMirror",
         );
         if (editorElement) {
           editorElement.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -208,12 +221,11 @@ export const TipTapEditor = <
       {editor && (
         <BubbleMenu
           editor={editor}
-          tippyOptions={{
-            duration: 100,
-            zIndex: 10,
-            appendTo: () => document.body,
+          options={{
+            offset: 6,
+            placement: "top",
           }}
-          className="bg-background border border-border rounded-md p-1 shadow-md flex items-center gap-1"
+          className="bg-background border border-border rounded-md p-1 shadow-md flex items-center gap-1 z-10"
         >
           <TooltipProvider>
             <Tooltip>
@@ -518,7 +530,7 @@ export const TipTapEditor = <
                   onClick={() => {
                     if (
                       window.confirm(
-                        "Êtes-vous sûr de vouloir effacer tout le contenu ?"
+                        "Êtes-vous sûr de vouloir effacer tout le contenu ?",
                       )
                     ) {
                       editor.chain().focus().clearContent().run();
@@ -801,7 +813,7 @@ export const TipTapEditor = <
                 onClick={() => {
                   if (
                     window.confirm(
-                      "Êtes-vous sûr de vouloir effacer tout le contenu ?"
+                      "Êtes-vous sûr de vouloir effacer tout le contenu ?",
                     )
                   ) {
                     editor.chain().focus().clearContent().run();
@@ -819,12 +831,12 @@ export const TipTapEditor = <
       <EditorContent
         editor={editor}
         className={cn(
-          "min-h-[350px] max-h-[600px] border rounded-md p-3 focus-visible:outline-none overflow-y-auto tiptap-editor",
+          "min-h-87.5 max-h-150 border rounded-md p-3 focus-visible:outline-hidden overflow-y-auto tiptap-editor",
           {
             "border-destructive": error,
             "focus-visible:ring-1 focus-visible:ring-ring": !error,
           },
-          editorClassName
+          editorClassName,
         )}
       />
       <style jsx>{`

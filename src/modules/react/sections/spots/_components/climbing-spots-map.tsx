@@ -15,7 +15,7 @@ import useClimbingSpots from "@/modules/core/hooks/use-public-climbing-spots";
 
 const Map = dynamic(() => import("./map"), {
   ssr: false, // Désactive le rendu côté serveur
-  loading: () => <Skeleton className="h-[600px] w-full" />,
+  loading: () => <Skeleton className="h-150 w-full" />,
 });
 
 const ClimbingSpotsMap = () => {

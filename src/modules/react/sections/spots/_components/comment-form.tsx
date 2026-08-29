@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Resolver, SubmitHandler, useForm } from "react-hook-form";
 import { Button } from "@/app/_components/ui/button";
 import {
   Form,
@@ -31,7 +31,7 @@ const CommentForm = ({ spotId, onSuccess }: CommentFormProps) => {
   const [hoveredRating, setHoveredRating] = React.useState<number | null>(null);
 
   const form = useForm<CreateClimbingSpotCommentInputs>({
-    resolver: zodResolver(createClimbingSpotCommentSchema),
+    resolver: zodResolver(createClimbingSpotCommentSchema) as Resolver<any>,
     defaultValues: {
       content: "",
       notation: 5,
@@ -69,7 +69,7 @@ const CommentForm = ({ spotId, onSuccess }: CommentFormProps) => {
                 "Une erreur est survenue lors de la publication du commentaire",
             });
           },
-        }
+        },
       );
     });
   };
@@ -115,7 +115,7 @@ const CommentForm = ({ spotId, onSuccess }: CommentFormProps) => {
                 <Textarea
                   placeholder="Partagez votre expérience..."
                   {...field}
-                  className="min-h-[100px] shadow-none"
+                  className="min-h-25 shadow-none"
                 />
               </FormControl>
               <FormMessage />

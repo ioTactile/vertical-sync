@@ -67,7 +67,7 @@ const CoordinateMap = ({
 
   return (
     <div className="w-full h-[400px] relative">
-      <div className="absolute bottom-4 left-4 z-[1000] bg-background text-foreground p-2 rounded-md shadow-md text-xs">
+      <div className="absolute bottom-4 left-4 z-1000 bg-background text-foreground p-2 rounded-md shadow-md text-xs">
         <p>Latitude: {selectedPosition[0].toFixed(6)}</p>
         <p>Longitude: {selectedPosition[1].toFixed(6)}</p>
         <p className="text-xs text-muted-foreground mt-1">

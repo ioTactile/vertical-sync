@@ -8,7 +8,32 @@ import {
 } from "@/modules/core/model/ClimbingSpot";
 import prisma from "@/prisma";
 import { createId } from "@paralleldrive/cuid2";
-import { ClimbingSpotStatus, Prisma } from "@prisma/client";
+import {
+  ClimbingSpotDifficulty,
+  ClimbingSpotStatus,
+  ClimbingSpotType,
+} from "@/prisma/client";
+import { Prisma } from "@/prisma/generated/client/client";
+
+/** Neon/$queryRaw renvoie les tableaux d'enums Postgres sous forme `{INDOOR,OUTDOOR}`. */
+function parsePgArray<T extends string>(value: unknown): T[] {
+  if (Array.isArray(value)) return value as T[];
+  if (typeof value !== "string") return [];
+  const inner = value.replace(/^{|}$/g, "").trim();
+  if (!inner) return [];
+  return inner.split(",").map((item) => item.replace(/^"|"$/g, "").trim()) as T[];
+}
+
+function normalizeClimbingSpot(
+  spot: GetClimbingSpotResponse,
+): GetClimbingSpotResponse {
+  return {
+    ...spot,
+    types: parsePgArray<ClimbingSpotType>(spot.types),
+    difficulties: parsePgArray<ClimbingSpotDifficulty>(spot.difficulties),
+    imageUrls: parsePgArray<string>(spot.imageUrls),
+  };
+}
 
 export interface IClimbingSpotRepository {
   findById(id: string): Promise<GetClimbingSpotResponse>;
@@ -40,7 +65,7 @@ export class PrismaClimbingSpotRepository implements IClimbingSpotRepository {
       WHERE id = ${id}
       LIMIT 1
     `;
-    return spot as GetClimbingSpotResponse;
+    return spot ? normalizeClimbingSpot(spot) : spot;
   }
 
   async findMany(publishedOnly: boolean): Promise<GetClimbingSpotsResponse> {
@@ -62,7 +87,7 @@ export class PrismaClimbingSpotRepository implements IClimbingSpotRepository {
           WHERE status = ${ClimbingSpotStatus.APPROVED}::"ClimbingSpotStatus"
         `
       : await prisma.$queryRaw`${baseQuery}`;
-    return spots as GetClimbingSpotsResponse;
+    return (spots as GetClimbingSpotsResponse).map(normalizeClimbingSpot);
   }
 
   async findByRadiusAndCoords(
@@ -87,7 +112,7 @@ export class PrismaClimbingSpotRepository implements IClimbingSpotRepository {
     AND status = 'APPROVED';
   `;
 
-    return spots as GetClimbingSpotsResponse;
+    return (spots as GetClimbingSpotsResponse).map(normalizeClimbingSpot);
   }
 
   async findBySearch(searchQuery: string): Promise<GetClimbingSpotsResponse> {
@@ -120,7 +145,7 @@ export class PrismaClimbingSpotRepository implements IClimbingSpotRepository {
       LIMIT 5;
     `;
 
-    return spots as GetClimbingSpotsResponse;
+    return (spots as GetClimbingSpotsResponse).map(normalizeClimbingSpot);
   }
 
   async findComments(id: string): Promise<GetClimbingSpotCommentsResponse> {

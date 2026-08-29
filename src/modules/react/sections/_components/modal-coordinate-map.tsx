@@ -23,8 +23,8 @@ const CoordinateMap = dynamic(
   () => import("@/modules/react/sections/_components/coordinate-map"),
   {
     ssr: false,
-    loading: () => <Skeleton className="h-[400px] w-full" />,
-  }
+    loading: () => <Skeleton className="h-100 w-full" />,
+  },
 );
 
 export const ModalCoordinateMap = ({
@@ -45,7 +45,7 @@ export const ModalCoordinateMap = ({
           Utiliser la carte
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-200 max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Sélectionner les coordonnées sur la carte</DialogTitle>
         </DialogHeader>

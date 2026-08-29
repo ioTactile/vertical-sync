@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { UserResource } from "@clerk/types";
+import type { UserResource } from "@clerk/shared/types";
 
 interface UserState {
   user: UserResource | null;

@@ -18,7 +18,7 @@ import {
   CLIMBING_SPOT_TYPE_LABELS,
 } from "@/types/enum";
 import { useDeleteClimbingSpot } from "@/modules/core/mutations/useDeleteClimbingSpot";
-import { ClimbingSpotStatus } from "@prisma/client";
+import { ClimbingSpotStatus } from "@/prisma/client";
 
 export type Spot = {
   id: string;

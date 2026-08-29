@@ -122,7 +122,7 @@ const Article = () => {
                         height={300}
                         className="object-cover w-1/2 h-full aspect-video rounded-lg  shadow-none"
                       />
-                      <div className="absolute w-1/2  top-1/2 right-10 rounded-md -translate-y-1/2 bg-background shadow-sm  flex items-center justify-center">
+                      <div className="absolute w-1/2  top-1/2 right-10 rounded-md -translate-y-1/2 bg-background shadow-xs  flex items-center justify-center">
                         <span className="text-foreground md:text-lg font-bold px-4 py-2">
                           {navigation.previous.title}
                         </span>
@@ -140,7 +140,7 @@ const Article = () => {
                   )}
                   {navigation?.next && (
                     <div className="relative w-full flex items-center justify-end">
-                      <div className="absolute w-1/2  top-1/2 left-10 rounded-md -translate-y-1/2 bg-background shadow-sm  flex items-center justify-center">
+                      <div className="absolute w-1/2  top-1/2 left-10 rounded-md -translate-y-1/2 bg-background shadow-xs  flex items-center justify-center">
                         <span className="text-foreground md:text-lg font-bold px-4 py-2">
                           {navigation.next.title}
                         </span>

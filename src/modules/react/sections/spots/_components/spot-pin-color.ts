@@ -1,4 +1,4 @@
-import { ClimbingSpotType } from "@prisma/client";
+import { ClimbingSpotType } from "@/prisma/client";
 import { ExtendedClimbingSpot } from "@/modules/core/model/ClimbingSpot";
 
 export type SpotPinCategory =
@@ -26,7 +26,9 @@ export const SPOT_PIN_COLORS: Record<SpotPinCategory, string> = {
 export function getSpotPinCategory(
   spot: ExtendedClimbingSpot,
 ): SpotPinCategory {
-  const types = (spot.types ?? []).filter((t) => t !== ClimbingSpotType.ALL);
+  const types = (Array.isArray(spot.types) ? spot.types : []).filter(
+    (t) => t !== ClimbingSpotType.ALL,
+  );
 
   if (types.includes(ClimbingSpotType.PSICOBLOC)) return "psicobloc";
   if (types.length > 1) return "multi";

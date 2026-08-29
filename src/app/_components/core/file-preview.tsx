@@ -37,7 +37,7 @@ const FilePreview = ({ files, onRemove }: FilePreviewProps) => {
 
   return (
     <Carousel className="w-full">
-      <CarouselContent className="-ml-0">
+      <CarouselContent className="ml-0">
         {files.map((file, index) => (
           <CarouselItem key={file.name} className="pl-0">
             <ImageWithDelete

@@ -1,4 +1,4 @@
-import { Article, ArticleComment, ArticleTag } from "@prisma/client";
+import { Article, ArticleComment, ArticleTag } from "@/prisma/client";
 import { CreateArticleInputs } from "@/modules/react/sections/admin/articles/_schemas/create-article";
 import { UpdateArticleInputs } from "@/modules/react/sections/admin/articles/_schemas/update-article";
 import { CreateArticleCommentInputs } from "@/modules/react/sections/articles/_schemas/create-article-comment";

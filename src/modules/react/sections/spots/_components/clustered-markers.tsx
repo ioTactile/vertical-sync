@@ -2,8 +2,8 @@ import { ExtendedClimbingSpot } from "@/modules/core/model/ClimbingSpot";
 import { getSpotPinColor } from "@/modules/react/sections/spots/_components/spot-pin-color";
 import * as React from "react";
 import { useMap } from "react-leaflet";
-import * as L from "leaflet";
-import "leaflet.markercluster";
+import L from "leaflet";
+import "leaflet.markercluster/dist/leaflet.markercluster";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 
@@ -12,18 +12,17 @@ interface ClusteredMarkersProps {
   onSpotSelect: (spot: ExtendedClimbingSpot) => void;
 }
 
-type MarkerClusterGroup = ReturnType<typeof L.markerClusterGroup>;
-
 const ClusteredMarkers = ({ spots, onSpotSelect }: ClusteredMarkersProps) => {
   const map = useMap();
-  const markerClusterRef = React.useRef<MarkerClusterGroup | null>(null);
+  const markerClusterRef = React.useRef<L.MarkerClusterGroup | null>(null);
   const isInitializedRef = React.useRef(false);
 
-  // Création du groupe de clusters mémorisé
   const markerClusterGroup = React.useMemo(() => {
-    return L.markerClusterGroup({
+    // leaflet.markercluster patche l'instance globale (window.L), pas le namespace ESM Turbopack
+    const leaflet = window.L;
+    return leaflet.markerClusterGroup({
       chunkedLoading: true,
-      maxClusterRadius: (zoom) => {
+      maxClusterRadius: (zoom: number) => {
         if (zoom <= 7) return 80;
         if (zoom <= 10) return 60;
         if (zoom <= 13) return 40;
@@ -102,8 +101,7 @@ const ClusteredMarkers = ({ spots, onSpotSelect }: ClusteredMarkersProps) => {
         if (!(layer instanceof L.Marker)) return;
         const latLng = layer.getLatLng();
         const spot = spots.find(
-          (s) =>
-            s.latitude === latLng.lat && s.longitude === latLng.lng
+          (s) => s.latitude === latLng.lat && s.longitude === latLng.lng,
         );
         if (!spot) return;
 

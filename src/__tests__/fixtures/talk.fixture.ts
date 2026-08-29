@@ -5,7 +5,7 @@ import {
   GetTalkWithCommentsResponse,
   UpdateTalkDto,
 } from "@/modules/core/model/Talk";
-import { Talk, TalkComment } from "@prisma/client";
+import { Talk, TalkComment } from "@/prisma/client";
 import { mockAuthor } from "@/__tests__/fixtures/user.fixture";
 
 export const mockTalk: Talk = {

@@ -22,7 +22,7 @@ import {
   createClimbingSpotAlertSchema,
 } from "@/modules/react/sections/spots/_schemas/create-climbing-spot-alert";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Resolver, SubmitHandler, useForm } from "react-hook-form";
 
 interface ClimbingSpotAlertFormProps {
   spotId: string;
@@ -38,7 +38,7 @@ const ClimbingSpotAlertForm = ({
   onDelete,
 }: ClimbingSpotAlertFormProps) => {
   const form = useForm<CreateClimbingSpotAlertInputs>({
-    resolver: zodResolver(createClimbingSpotAlertSchema),
+    resolver: zodResolver(createClimbingSpotAlertSchema) as Resolver<any>,
     defaultValues: {
       minTempC: existingAlert?.minTempC ?? undefined,
       maxTempC: existingAlert?.maxTempC ?? undefined,

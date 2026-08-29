@@ -1,12 +1,12 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Resolver, SubmitHandler, useForm } from "react-hook-form";
 import {
   createClimbingSpotSchema,
   CreateClimbingSpotInputs,
 } from "@/modules/react/sections/spots/_schemas/create-climbing-spot";
-import { ClimbingSpotDifficulty, ClimbingSpotType } from "@prisma/client";
+import { ClimbingSpotDifficulty, ClimbingSpotType } from "@/prisma/client";
 import { useAuthAction } from "@/app/_hooks/use-auth-action";
 import { useCreateClimbingSpot } from "@/modules/core/mutations/useCreateClimbingSpot";
 import { useToast } from "@/app/_hooks/use-toast";
@@ -46,7 +46,7 @@ const ClimbingSpotForm = ({ onSuccess }: ClimbingSpotFormProps) => {
   const { isLoaded } = useGoogleMaps();
 
   const form = useForm<CreateClimbingSpotInputs>({
-    resolver: zodResolver(createClimbingSpotSchema),
+    resolver: zodResolver(createClimbingSpotSchema) as Resolver<any>,
     defaultValues: {
       name: "",
       description: null,

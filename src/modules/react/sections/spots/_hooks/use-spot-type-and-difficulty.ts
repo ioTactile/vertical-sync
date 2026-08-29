@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ClimbingSpotType, ClimbingSpotDifficulty } from "@prisma/client";
+import { ClimbingSpotType, ClimbingSpotDifficulty } from "@/prisma/client";
 
 interface UseSpotTypeAndDifficultyProps {
   onFilterChange: (filters: {

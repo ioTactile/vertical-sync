@@ -2,7 +2,7 @@
 
 import { Input } from "@/app/_components/ui/input";
 import { Button } from "@/app/_components/ui/button";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Resolver, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   CreateTagInputs,
@@ -37,7 +37,7 @@ const TagForm = ({ mode, initialData }: TagFormProps) => {
   >({
     resolver: zodResolver(
       mode === "create" ? createTagSchema : updateTagSchema
-    ),
+    ) as Resolver<any>,
     defaultValues: {
       name: "",
     },

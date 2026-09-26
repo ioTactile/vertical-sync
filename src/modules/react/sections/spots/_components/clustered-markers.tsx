@@ -1,9 +1,9 @@
 import { ExtendedClimbingSpot } from "@/modules/core/model/ClimbingSpot";
 import { getSpotPinColor } from "@/modules/react/sections/spots/_components/spot-pin-color";
-import * as React from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useMap } from "react-leaflet";
 import L from "leaflet";
-import "leaflet.markercluster/dist/leaflet.markercluster";
+import "leaflet.markercluster";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 
@@ -14,12 +14,11 @@ interface ClusteredMarkersProps {
 
 const ClusteredMarkers = ({ spots, onSpotSelect }: ClusteredMarkersProps) => {
   const map = useMap();
-  const markerClusterRef = React.useRef<L.MarkerClusterGroup | null>(null);
-  const isInitializedRef = React.useRef(false);
+  const markerClusterRef = useRef<L.MarkerClusterGroup | null>(null);
 
-  const markerClusterGroup = React.useMemo(() => {
+  const markerClusterGroup = useMemo(() => {
     // leaflet.markercluster patche l'instance globale (window.L), pas le namespace ESM Turbopack
-    const leaflet = window.L;
+    const leaflet = (window as typeof globalThis & { L: typeof L }).L;
     return leaflet.markerClusterGroup({
       chunkedLoading: true,
       maxClusterRadius: (zoom: number) => {
@@ -36,7 +35,7 @@ const ClusteredMarkers = ({ spots, onSpotSelect }: ClusteredMarkersProps) => {
   }, []);
 
   // Initialisation du cluster
-  React.useEffect(() => {
+  useEffect(() => {
     markerClusterRef.current = markerClusterGroup;
     map.addLayer(markerClusterGroup);
 
@@ -48,8 +47,7 @@ const ClusteredMarkers = ({ spots, onSpotSelect }: ClusteredMarkersProps) => {
   }, [map, markerClusterGroup]);
 
   // Mise à jour des markers
-  React.useEffect(() => {
-    // Attendre que la carte soit initialisée
+  useEffect(() => {
     const updateMarkers = () => {
       if (!markerClusterRef.current || !map) return;
 
@@ -80,24 +78,18 @@ const ClusteredMarkers = ({ spots, onSpotSelect }: ClusteredMarkersProps) => {
       });
     };
 
-    // S'assurer que la carte est prête
-    if (!isInitializedRef.current) {
-      map.once("load", () => {
-        isInitializedRef.current = true;
-        updateMarkers();
-      });
-    } else {
-      updateMarkers();
-    }
+    // whenReady s'exécute tout de suite si la map est déjà chargée
+    // (contrairement à once("load") qui rate l'événement déjà émis)
+    map.whenReady(updateMarkers);
   }, [spots, map, onSpotSelect]);
 
   // Gestion du zoom pour les tooltips
-  React.useEffect(() => {
+  useEffect(() => {
     const handleZoomEnd = () => {
       if (!markerClusterRef.current) return;
 
       const zoom = map.getZoom();
-      markerClusterRef.current.eachLayer((layer) => {
+      markerClusterRef.current.eachLayer((layer: L.Layer) => {
         if (!(layer instanceof L.Marker)) return;
         const latLng = layer.getLatLng();
         const spot = spots.find(

@@ -3,10 +3,9 @@ export {};
 declare global {
   interface CustomJwtSessionClaims {
     metadata: {
-      role: "admin" | "user" | "redactor";
+      role: 'admin' | 'user' | 'redactor';
     };
   }
 }
 
-declare module "*.css";
-
+declare module '*.css';

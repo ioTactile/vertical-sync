@@ -1,31 +1,25 @@
-"use client";
+'use client';
 
-import { Button } from "@/app/_components/ui/button";
-import { usePaginationStore } from "@/modules/core/store/store";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useQueryState } from "nuqs";
-import { useCallback, useEffect, useMemo } from "react";
-import useArticles from "@/modules/core/hooks/use-public-articles-page";
-import PaginationSkeleton from "@/modules/react/sections/articles/_components/pagination-skeleton";
-import { useUserStore } from "@/modules/core/store/store";
+import { Button } from '@/app/_components/ui/button';
+import { usePaginationStore } from '@/modules/core/store/store';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useQueryState } from 'nuqs';
+import { useCallback, useEffect, useMemo } from 'react';
+import useArticles from '@/modules/core/hooks/use-public-articles-page';
+import PaginationSkeleton from '@/modules/react/sections/articles/_components/pagination-skeleton';
+import { useUserStore } from '@/modules/core/store/store';
 
 const Pagination = () => {
   const { user } = useUserStore();
   const { page } = usePaginationStore();
   const { data, isPending } = useArticles(user?.id, page);
 
-  const totalPages = useMemo(
-    () => Math.ceil((data?.total || 0) / 10),
-    [data?.total]
-  );
+  const totalPages = useMemo(() => Math.ceil((data?.total || 0) / 10), [data?.total]);
 
-  const disabledNextPage = useMemo(
-    () => page >= totalPages,
-    [page, totalPages]
-  );
+  const disabledNextPage = useMemo(() => page >= totalPages, [page, totalPages]);
   const disabledPreviousPage = useMemo(() => page <= 1, [page]);
 
-  const [urlPage, setUrlPage] = useQueryState("page", {
+  const [urlPage, setUrlPage] = useQueryState('page', {
     parse: (value) => parseInt(value),
     serialize: (value) => value.toString(),
     scroll: true,
@@ -69,12 +63,7 @@ const Pagination = () => {
 
       <span className="text-sm">Page {storePage}</span>
 
-      <Button
-        variant="outline"
-        size="sm"
-        onClick={handleNextPage}
-        disabled={disabledNextPage}
-      >
+      <Button variant="outline" size="sm" onClick={handleNextPage} disabled={disabledNextPage}>
         Suivant
         <ChevronRight className="h-4 w-4" />
       </Button>

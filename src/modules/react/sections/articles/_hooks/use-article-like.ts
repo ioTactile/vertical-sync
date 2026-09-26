@@ -1,7 +1,7 @@
-import * as React from "react";
-import { useCreateArticleLike } from "@/modules/core/mutations/useCreateArticleLike";
-import { useDeleteArticleLike } from "@/modules/core/mutations/useDeleteArticleLike";
-import { useAuthAction } from "@/app/_hooks/use-auth-action";
+import * as React from 'react';
+import { useCreateArticleLike } from '@/modules/core/mutations/useCreateArticleLike';
+import { useDeleteArticleLike } from '@/modules/core/mutations/useDeleteArticleLike';
+import { useAuthAction } from '@/app/_hooks/use-auth-action';
 
 const useArticleLike = (articleId: string, isLiked: boolean) => {
   const createLikeMutation = useCreateArticleLike();
@@ -20,13 +20,7 @@ const useArticleLike = (articleId: string, isLiked: boolean) => {
         }
       });
     },
-    [
-      articleId,
-      isLiked,
-      createLikeMutation,
-      deleteLikeMutation,
-      handleAuthAction,
-    ]
+    [articleId, isLiked, createLikeMutation, deleteLikeMutation, handleAuthAction],
   );
 
   return { handletoggleLike };

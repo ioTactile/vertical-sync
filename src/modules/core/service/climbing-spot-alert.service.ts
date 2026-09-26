@@ -2,19 +2,13 @@ import type {
   CreateClimbingSpotAlertDto,
   GetClimbingSpotAlertsResponse,
   UpdateClimbingSpotAlertDto,
-} from "@/modules/core/model/ClimbingSpotAlert";
-import {
-  IClimbingSpotAlertRepository,
-} from "@/modules/core/repository/climbing-spot-alert.repository";
+} from '@/modules/core/model/ClimbingSpotAlert';
+import { IClimbingSpotAlertRepository } from '@/modules/core/repository/climbing-spot-alert.repository';
 
 export class ClimbingSpotAlertService {
-  constructor(
-    private readonly repository: IClimbingSpotAlertRepository,
-  ) {}
+  constructor(private readonly repository: IClimbingSpotAlertRepository) {}
 
-  async getAlertsByUserId(
-    userId: string,
-  ): Promise<GetClimbingSpotAlertsResponse> {
+  async getAlertsByUserId(userId: string): Promise<GetClimbingSpotAlertsResponse> {
     return this.repository.findManyByUserId(userId);
   }
 
@@ -37,4 +31,3 @@ export class ClimbingSpotAlertService {
     return this.repository.findByUserAndSpot(userId, climbingSpotId);
   }
 }
-

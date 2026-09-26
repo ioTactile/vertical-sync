@@ -1,24 +1,19 @@
-"use client";
+'use client';
 
-import { useEditor, EditorContent } from "@tiptap/react";
-import { BubbleMenu } from "@tiptap/react/menus";
-import { StarterKit } from "@tiptap/starter-kit";
-import { Image } from "@tiptap/extension-image";
-import { TextAlign } from "@tiptap/extension-text-align";
-import { Placeholder } from "@tiptap/extension-placeholder";
-import { TextStyle } from "@tiptap/extension-text-style";
-import { Highlight } from "@tiptap/extension-highlight";
-import { Color } from "@tiptap/extension-color";
-import {
-  Table,
-  TableRow,
-  TableCell,
-  TableHeader,
-} from "@tiptap/extension-table";
+import { useEditor, EditorContent } from '@tiptap/react';
+import { BubbleMenu } from '@tiptap/react/menus';
+import { StarterKit } from '@tiptap/starter-kit';
+import { Image } from '@tiptap/extension-image';
+import { TextAlign } from '@tiptap/extension-text-align';
+import { Placeholder } from '@tiptap/extension-placeholder';
+import { TextStyle } from '@tiptap/extension-text-style';
+import { Highlight } from '@tiptap/extension-highlight';
+import { Color } from '@tiptap/extension-color';
+import { Table, TableRow, TableCell, TableHeader } from '@tiptap/extension-table';
 
-import * as React from "react";
-import { Control, FieldValues, Path, useController } from "react-hook-form";
-import { cn } from "@/lib/utils";
+import * as React from 'react';
+import { Control, FieldValues, Path, useController } from 'react-hook-form';
+import { cn } from '@/lib/utils';
 import {
   Bold,
   Italic,
@@ -39,20 +34,16 @@ import {
   FileX,
   HighlighterIcon,
   Check,
-} from "lucide-react";
-import { Button } from "@/app/_components/ui/button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/app/_components/ui/popover";
-import { Input } from "@/app/_components/ui/input";
+} from 'lucide-react';
+import { Button } from '@/app/_components/ui/button';
+import { Popover, PopoverContent, PopoverTrigger } from '@/app/_components/ui/popover';
+import { Input } from '@/app/_components/ui/input';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/app/_components/ui/tooltip";
+} from '@/app/_components/ui/tooltip';
 
 interface TipTapEditorProps<
   TFieldValues extends FieldValues = FieldValues,
@@ -73,8 +64,8 @@ const baseExtensions = [
     link: {
       openOnClick: true,
       HTMLAttributes: {
-        rel: "noopener noreferrer",
-        class: "text-primary underline",
+        rel: 'noopener noreferrer',
+        class: 'text-primary underline',
       },
     },
   }),
@@ -82,12 +73,12 @@ const baseExtensions = [
   Color,
   Image.configure({
     HTMLAttributes: {
-      class: "rounded-md max-w-full mx-auto my-4",
+      class: 'rounded-md max-w-full mx-auto my-4',
       draggable: false,
     },
   }),
   TextAlign.configure({
-    types: ["heading", "paragraph"],
+    types: ['heading', 'paragraph'],
   }),
   Highlight.configure({
     multicolor: true,
@@ -106,7 +97,7 @@ export const TipTapEditor = <
 >({
   control,
   name,
-  placeholder = "Entrez votre contenu ici...",
+  placeholder = 'Entrez votre contenu ici...',
   className,
   editorClassName,
 }: TipTapEditorProps<TFieldValues, TName>) => {
@@ -118,20 +109,15 @@ export const TipTapEditor = <
     control,
   });
 
-  const [linkUrl, setLinkUrl] = React.useState<string>("");
-  const [imageUrl, setImageUrl] = React.useState<string>("");
-  const [isSubmittingLink, setIsSubmittingLink] =
-    React.useState<boolean>(false);
-  const [isSubmittingImage, setIsSubmittingImage] =
-    React.useState<boolean>(false);
+  const [linkUrl, setLinkUrl] = React.useState<string>('');
+  const [imageUrl, setImageUrl] = React.useState<string>('');
+  const [isSubmittingLink, setIsSubmittingLink] = React.useState<boolean>(false);
+  const [isSubmittingImage, setIsSubmittingImage] = React.useState<boolean>(false);
   const [showLinkPopover, setShowLinkPopover] = React.useState<boolean>(false);
-  const [showImagePopover, setShowImagePopover] =
-    React.useState<boolean>(false);
-  const [showColorPopover, setShowColorPopover] =
-    React.useState<boolean>(false);
-  const [showHighlightPopover, setShowHighlightPopover] =
-    React.useState<boolean>(false);
-  const [colorValue, setColorValue] = React.useState<string>("#000000");
+  const [showImagePopover, setShowImagePopover] = React.useState<boolean>(false);
+  const [showColorPopover, setShowColorPopover] = React.useState<boolean>(false);
+  const [showHighlightPopover, setShowHighlightPopover] = React.useState<boolean>(false);
+  const [colorValue, setColorValue] = React.useState<string>('#000000');
 
   const extensions = React.useMemo(
     () => [
@@ -146,7 +132,7 @@ export const TipTapEditor = <
   const editor = useEditor({
     immediatelyRender: false,
     extensions,
-    content: value ?? "",
+    content: value ?? '',
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());
     },
@@ -154,7 +140,7 @@ export const TipTapEditor = <
 
   React.useEffect(() => {
     if (editor && value !== editor.getHTML()) {
-      editor.commands.setContent(value || "");
+      editor.commands.setContent(value || '');
     }
   }, [editor, value]);
 
@@ -163,11 +149,7 @@ export const TipTapEditor = <
   }
 
   const createTableHandler = () => {
-    editor
-      .chain()
-      .focus()
-      .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
-      .run();
+    editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run();
   };
 
   const handleColorChange = (color: string) => {
@@ -184,17 +166,15 @@ export const TipTapEditor = <
       editor.chain().focus().setImage({ src: imageUrl }).run();
 
       setTimeout(() => {
-        editor.commands.focus("end");
+        editor.commands.focus('end');
 
-        const editorElement = document.querySelector(
-          ".tiptap-editor .ProseMirror",
-        );
+        const editorElement = document.querySelector('.tiptap-editor .ProseMirror');
         if (editorElement) {
-          editorElement.scrollIntoView({ behavior: "smooth", block: "center" });
+          editorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
       }, 100);
 
-      setImageUrl("");
+      setImageUrl('');
       setShowImagePopover(false);
       setIsSubmittingImage(false);
     }
@@ -202,26 +182,21 @@ export const TipTapEditor = <
 
   const addLink = () => {
     if (linkUrl) {
-      editor
-        .chain()
-        .focus()
-        .extendMarkRange("link")
-        .setLink({ href: linkUrl })
-        .run();
-      setLinkUrl("");
+      editor.chain().focus().extendMarkRange('link').setLink({ href: linkUrl }).run();
+      setLinkUrl('');
       setShowLinkPopover(false);
       setIsSubmittingLink(false);
     }
   };
 
   return (
-    <div className={cn("relative", className)}>
+    <div className={cn('relative', className)}>
       {editor && (
         <BubbleMenu
           editor={editor}
           options={{
             offset: 6,
-            placement: "top",
+            placement: 'top',
           }}
           className="bg-background border border-border rounded-md p-1 shadow-md flex items-center gap-1 z-10"
         >
@@ -231,8 +206,8 @@ export const TipTapEditor = <
                 <Button
                   size="icon"
                   variant="ghost"
-                  className={cn("h-8 w-8", {
-                    "bg-muted": editor.isActive("bold"),
+                  className={cn('h-8 w-8', {
+                    'bg-muted': editor.isActive('bold'),
                   })}
                   onClick={() => editor.chain().focus().toggleBold().run()}
                 >
@@ -249,8 +224,8 @@ export const TipTapEditor = <
                 <Button
                   size="icon"
                   variant="ghost"
-                  className={cn("h-8 w-8", {
-                    "bg-muted": editor.isActive("italic"),
+                  className={cn('h-8 w-8', {
+                    'bg-muted': editor.isActive('italic'),
                   })}
                   onClick={() => editor.chain().focus().toggleItalic().run()}
                 >
@@ -267,8 +242,8 @@ export const TipTapEditor = <
                 <Button
                   size="icon"
                   variant="ghost"
-                  className={cn("h-8 w-8", {
-                    "bg-muted": editor.isActive("underline"),
+                  className={cn('h-8 w-8', {
+                    'bg-muted': editor.isActive('underline'),
                   })}
                   onClick={() => editor.chain().focus().toggleUnderline().run()}
                 >
@@ -282,16 +257,13 @@ export const TipTapEditor = <
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Popover
-                  open={showLinkPopover}
-                  onOpenChange={setShowLinkPopover}
-                >
+                <Popover open={showLinkPopover} onOpenChange={setShowLinkPopover}>
                   <PopoverTrigger asChild>
                     <Button
                       size="icon"
                       variant="ghost"
-                      className={cn("h-8 w-8", {
-                        "bg-muted": editor.isActive("link"),
+                      className={cn('h-8 w-8', {
+                        'bg-muted': editor.isActive('link'),
                       })}
                       onClick={(e) => {
                         e.preventDefault();
@@ -310,7 +282,7 @@ export const TipTapEditor = <
                         value={linkUrl}
                         onChange={(e) => setLinkUrl(e.target.value)}
                         onKeyDown={(e) => {
-                          if (e.key === "Enter") {
+                          if (e.key === 'Enter') {
                             e.preventDefault();
                             setIsSubmittingLink(true);
                             addLink();
@@ -333,7 +305,7 @@ export const TipTapEditor = <
                           }}
                           disabled={isSubmittingLink || !linkUrl}
                         >
-                          {isSubmittingLink ? "Ajout..." : "Ajouter"}
+                          {isSubmittingLink ? 'Ajout...' : 'Ajouter'}
                         </Button>
                       </div>
                     </div>
@@ -347,10 +319,7 @@ export const TipTapEditor = <
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Popover
-                  open={showImagePopover}
-                  onOpenChange={setShowImagePopover}
-                >
+                <Popover open={showImagePopover} onOpenChange={setShowImagePopover}>
                   <PopoverTrigger asChild>
                     <Button
                       size="icon"
@@ -373,7 +342,7 @@ export const TipTapEditor = <
                         value={imageUrl}
                         onChange={(e) => setImageUrl(e.target.value)}
                         onKeyDown={(e) => {
-                          if (e.key === "Enter") {
+                          if (e.key === 'Enter') {
                             e.preventDefault();
                             setIsSubmittingImage(true);
                             addImage();
@@ -396,7 +365,7 @@ export const TipTapEditor = <
                           }}
                           disabled={isSubmittingImage || !imageUrl}
                         >
-                          {isSubmittingImage ? "Ajout..." : "Ajouter"}
+                          {isSubmittingImage ? 'Ajout...' : 'Ajouter'}
                         </Button>
                       </div>
                     </div>
@@ -410,10 +379,7 @@ export const TipTapEditor = <
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Popover
-                  open={showColorPopover}
-                  onOpenChange={setShowColorPopover}
-                >
+                <Popover open={showColorPopover} onOpenChange={setShowColorPopover}>
                   <PopoverTrigger asChild>
                     <Button
                       size="icon"
@@ -432,27 +398,22 @@ export const TipTapEditor = <
                     <div className="flex flex-col gap-2">
                       <h3 className="font-medium">Couleur du texte</h3>
                       <div className="flex flex-wrap gap-2">
-                        {[
-                          "#000000",
-                          "#EF4444",
-                          "#3B82F6",
-                          "#10B981",
-                          "#F59E0B",
-                          "#8B5CF6",
-                        ].map((color) => (
-                          <Button
-                            key={color}
-                            size="icon"
-                            variant="outline"
-                            className="h-8 w-8 p-0 relative"
-                            style={{ backgroundColor: color }}
-                            onClick={() => handleColorChange(color)}
-                          >
-                            {colorValue === color && (
-                              <Check className="h-4 w-4 text-white absolute" />
-                            )}
-                          </Button>
-                        ))}
+                        {['#000000', '#EF4444', '#3B82F6', '#10B981', '#F59E0B', '#8B5CF6'].map(
+                          (color) => (
+                            <Button
+                              key={color}
+                              size="icon"
+                              variant="outline"
+                              className="h-8 w-8 p-0 relative"
+                              style={{ backgroundColor: color }}
+                              onClick={() => handleColorChange(color)}
+                            >
+                              {colorValue === color && (
+                                <Check className="h-4 w-4 text-white absolute" />
+                              )}
+                            </Button>
+                          ),
+                        )}
                         <Input
                           type="color"
                           value={colorValue}
@@ -471,10 +432,7 @@ export const TipTapEditor = <
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Popover
-                  open={showHighlightPopover}
-                  onOpenChange={setShowHighlightPopover}
-                >
+                <Popover open={showHighlightPopover} onOpenChange={setShowHighlightPopover}>
                   <PopoverTrigger asChild>
                     <Button
                       size="icon"
@@ -493,13 +451,7 @@ export const TipTapEditor = <
                     <div className="flex flex-col gap-2">
                       <h3 className="font-medium">Couleur de surlignage</h3>
                       <div className="flex flex-wrap gap-2">
-                        {[
-                          "#FFFF00",
-                          "#FF9966",
-                          "#CCCCFF",
-                          "#99FFCC",
-                          "#FFCC99",
-                        ].map((color) => (
+                        {['#FFFF00', '#FF9966', '#CCCCFF', '#99FFCC', '#FFCC99'].map((color) => (
                           <Button
                             key={color}
                             size="icon"
@@ -526,11 +478,7 @@ export const TipTapEditor = <
                   variant="ghost"
                   className="h-8 w-8"
                   onClick={() => {
-                    if (
-                      window.confirm(
-                        "Êtes-vous sûr de vouloir effacer tout le contenu ?",
-                      )
-                    ) {
+                    if (window.confirm('Êtes-vous sûr de vouloir effacer tout le contenu ?')) {
                       editor.chain().focus().clearContent().run();
                     }
                   }}
@@ -551,8 +499,8 @@ export const TipTapEditor = <
               <Button
                 size="icon"
                 variant="ghost"
-                className={cn("h-8 w-8", {
-                  "bg-muted": editor.isActive("bold"),
+                className={cn('h-8 w-8', {
+                  'bg-muted': editor.isActive('bold'),
                 })}
                 onClick={() => editor.chain().focus().toggleBold().run()}
               >
@@ -569,8 +517,8 @@ export const TipTapEditor = <
               <Button
                 size="icon"
                 variant="ghost"
-                className={cn("h-8 w-8", {
-                  "bg-muted": editor.isActive("italic"),
+                className={cn('h-8 w-8', {
+                  'bg-muted': editor.isActive('italic'),
                 })}
                 onClick={() => editor.chain().focus().toggleItalic().run()}
               >
@@ -587,8 +535,8 @@ export const TipTapEditor = <
               <Button
                 size="icon"
                 variant="ghost"
-                className={cn("h-8 w-8", {
-                  "bg-muted": editor.isActive("underline"),
+                className={cn('h-8 w-8', {
+                  'bg-muted': editor.isActive('underline'),
                 })}
                 onClick={() => editor.chain().focus().toggleUnderline().run()}
               >
@@ -607,12 +555,10 @@ export const TipTapEditor = <
               <Button
                 size="icon"
                 variant="ghost"
-                className={cn("h-8 w-8", {
-                  "bg-muted": editor.isActive({ textAlign: "left" }),
+                className={cn('h-8 w-8', {
+                  'bg-muted': editor.isActive({ textAlign: 'left' }),
                 })}
-                onClick={() =>
-                  editor.chain().focus().setTextAlign("left").run()
-                }
+                onClick={() => editor.chain().focus().setTextAlign('left').run()}
               >
                 <AlignLeft className="h-4 w-4" />
               </Button>
@@ -627,12 +573,10 @@ export const TipTapEditor = <
               <Button
                 size="icon"
                 variant="ghost"
-                className={cn("h-8 w-8", {
-                  "bg-muted": editor.isActive({ textAlign: "center" }),
+                className={cn('h-8 w-8', {
+                  'bg-muted': editor.isActive({ textAlign: 'center' }),
                 })}
-                onClick={() =>
-                  editor.chain().focus().setTextAlign("center").run()
-                }
+                onClick={() => editor.chain().focus().setTextAlign('center').run()}
               >
                 <AlignCenter className="h-4 w-4" />
               </Button>
@@ -647,12 +591,10 @@ export const TipTapEditor = <
               <Button
                 size="icon"
                 variant="ghost"
-                className={cn("h-8 w-8", {
-                  "bg-muted": editor.isActive({ textAlign: "right" }),
+                className={cn('h-8 w-8', {
+                  'bg-muted': editor.isActive({ textAlign: 'right' }),
                 })}
-                onClick={() =>
-                  editor.chain().focus().setTextAlign("right").run()
-                }
+                onClick={() => editor.chain().focus().setTextAlign('right').run()}
               >
                 <AlignRight className="h-4 w-4" />
               </Button>
@@ -667,12 +609,10 @@ export const TipTapEditor = <
               <Button
                 size="icon"
                 variant="ghost"
-                className={cn("h-8 w-8", {
-                  "bg-muted": editor.isActive({ textAlign: "justify" }),
+                className={cn('h-8 w-8', {
+                  'bg-muted': editor.isActive({ textAlign: 'justify' }),
                 })}
-                onClick={() =>
-                  editor.chain().focus().setTextAlign("justify").run()
-                }
+                onClick={() => editor.chain().focus().setTextAlign('justify').run()}
               >
                 <AlignJustify className="h-4 w-4" />
               </Button>
@@ -689,12 +629,10 @@ export const TipTapEditor = <
               <Button
                 size="icon"
                 variant="ghost"
-                className={cn("h-8 w-8", {
-                  "bg-muted": editor.isActive("heading", { level: 1 }),
+                className={cn('h-8 w-8', {
+                  'bg-muted': editor.isActive('heading', { level: 1 }),
                 })}
-                onClick={() =>
-                  editor.chain().focus().toggleHeading({ level: 1 }).run()
-                }
+                onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
               >
                 <Heading1 className="h-4 w-4" />
               </Button>
@@ -709,12 +647,10 @@ export const TipTapEditor = <
               <Button
                 size="icon"
                 variant="ghost"
-                className={cn("h-8 w-8", {
-                  "bg-muted": editor.isActive("heading", { level: 2 }),
+                className={cn('h-8 w-8', {
+                  'bg-muted': editor.isActive('heading', { level: 2 }),
                 })}
-                onClick={() =>
-                  editor.chain().focus().toggleHeading({ level: 2 }).run()
-                }
+                onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
               >
                 <Heading2 className="h-4 w-4" />
               </Button>
@@ -729,12 +665,10 @@ export const TipTapEditor = <
               <Button
                 size="icon"
                 variant="ghost"
-                className={cn("h-8 w-8", {
-                  "bg-muted": editor.isActive("heading", { level: 3 }),
+                className={cn('h-8 w-8', {
+                  'bg-muted': editor.isActive('heading', { level: 3 }),
                 })}
-                onClick={() =>
-                  editor.chain().focus().toggleHeading({ level: 3 }).run()
-                }
+                onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
               >
                 <Heading3 className="h-4 w-4" />
               </Button>
@@ -751,8 +685,8 @@ export const TipTapEditor = <
               <Button
                 size="icon"
                 variant="ghost"
-                className={cn("h-8 w-8", {
-                  "bg-muted": editor.isActive("bulletList"),
+                className={cn('h-8 w-8', {
+                  'bg-muted': editor.isActive('bulletList'),
                 })}
                 onClick={() => editor.chain().focus().toggleBulletList().run()}
               >
@@ -769,8 +703,8 @@ export const TipTapEditor = <
               <Button
                 size="icon"
                 variant="ghost"
-                className={cn("h-8 w-8", {
-                  "bg-muted": editor.isActive("orderedList"),
+                className={cn('h-8 w-8', {
+                  'bg-muted': editor.isActive('orderedList'),
                 })}
                 onClick={() => editor.chain().focus().toggleOrderedList().run()}
               >
@@ -786,12 +720,7 @@ export const TipTapEditor = <
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button
-                size="icon"
-                variant="ghost"
-                className="h-8 w-8"
-                onClick={createTableHandler}
-              >
+              <Button size="icon" variant="ghost" className="h-8 w-8" onClick={createTableHandler}>
                 <TableIcon className="h-4 w-4" />
               </Button>
             </TooltipTrigger>
@@ -809,11 +738,7 @@ export const TipTapEditor = <
                 variant="ghost"
                 className="h-8 w-8"
                 onClick={() => {
-                  if (
-                    window.confirm(
-                      "Êtes-vous sûr de vouloir effacer tout le contenu ?",
-                    )
-                  ) {
+                  if (window.confirm('Êtes-vous sûr de vouloir effacer tout le contenu ?')) {
                     editor.chain().focus().clearContent().run();
                   }
                 }}
@@ -829,10 +754,10 @@ export const TipTapEditor = <
       <EditorContent
         editor={editor}
         className={cn(
-          "min-h-87.5 max-h-150 border rounded-md p-3 focus-visible:outline-hidden overflow-y-auto tiptap-editor",
+          'min-h-87.5 max-h-150 border rounded-md p-3 focus-visible:outline-hidden overflow-y-auto tiptap-editor',
           {
-            "border-destructive": error,
-            "focus-visible:ring-1 focus-visible:ring-ring": !error,
+            'border-destructive': error,
+            'focus-visible:ring-1 focus-visible:ring-ring': !error,
           },
           editorClassName,
         )}

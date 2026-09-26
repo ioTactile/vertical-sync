@@ -1,8 +1,5 @@
-import prisma from "@/prisma";
-import {
-  CreateReportDto,
-  UpdateReportStatusDto,
-} from "@/modules/core/model/Report";
+import prisma from '@/prisma';
+import { CreateReportDto, UpdateReportStatusDto } from '@/modules/core/model/Report';
 
 export interface IReportRepository {
   createReport(data: CreateReportDto): Promise<void>;
@@ -31,4 +28,3 @@ export class PrismaReportRepository implements IReportRepository {
     });
   }
 }
-

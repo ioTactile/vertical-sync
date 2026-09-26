@@ -1,5 +1,5 @@
-import ClimbingSpotsMap from "@/modules/react/sections/spots/_components/climbing-spots-map";
-import ClimbingSpotsHeader from "@/modules/react/sections/spots/_components/climbing-spots-header";
+import ClimbingSpotsMap from '@/modules/react/sections/spots/_components/climbing-spots-map';
+import ClimbingSpotsHeader from '@/modules/react/sections/spots/_components/climbing-spots-header';
 
 const Spots = () => {
   return (

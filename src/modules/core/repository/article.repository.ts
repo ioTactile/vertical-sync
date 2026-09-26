@@ -1,4 +1,4 @@
-import prisma from "@/prisma";
+import prisma from '@/prisma';
 import {
   ArticleFilters,
   DeleteArticleCommentDto,
@@ -9,7 +9,7 @@ import {
   UpdateArticleDto,
   CreateArticleDto,
   CreateArticleCommentDto,
-} from "@/modules/core/model/Article";
+} from '@/modules/core/model/Article';
 
 export type { ArticleFilters };
 
@@ -17,11 +17,11 @@ export interface IArticleRepository {
   findMany(filters: ArticleFilters): Promise<GetArticlesResponse>;
   findBySlug(
     slug: string,
-    withRelations?: boolean
+    withRelations?: boolean,
   ): Promise<GetArticleResponse | GetArticleWithRelationsResponse | null>;
   findById(
     id: string,
-    withRelations?: boolean
+    withRelations?: boolean,
   ): Promise<GetArticleResponse | GetArticleWithRelationsResponse | null>;
   create(data: CreateArticleDto & { slug: string }): Promise<void>;
   update(data: UpdateArticleDto & { slug: string }): Promise<void>;
@@ -75,7 +75,7 @@ export class PrismaArticleRepository implements IArticleRepository {
         },
       },
       orderBy: {
-        createdAt: "desc",
+        createdAt: 'desc',
       },
       where: {
         ...(publishedOnly && { published: true }),
@@ -91,10 +91,7 @@ export class PrismaArticleRepository implements IArticleRepository {
         },
       });
 
-      const [articles, total] = await Promise.all([
-        articlesPromise,
-        totalPromise,
-      ]);
+      const [articles, total] = await Promise.all([articlesPromise, totalPromise]);
 
       return {
         articles,
@@ -111,7 +108,7 @@ export class PrismaArticleRepository implements IArticleRepository {
 
   async findBySlug(
     slug: string,
-    withRelations?: boolean
+    withRelations?: boolean,
   ): Promise<GetArticleResponse | GetArticleWithRelationsResponse | null> {
     if (withRelations) {
       return await prisma.article.findUnique({
@@ -156,7 +153,7 @@ export class PrismaArticleRepository implements IArticleRepository {
 
   async findById(
     id: string,
-    withRelations?: boolean
+    withRelations?: boolean,
   ): Promise<GetArticleResponse | GetArticleWithRelationsResponse | null> {
     if (withRelations) {
       return await prisma.article.findUnique({
@@ -266,9 +263,7 @@ export class PrismaArticleRepository implements IArticleRepository {
     });
   }
 
-  async getArticleComments(
-    articleId: string
-  ): Promise<GetArticleCommentsResponse> {
+  async getArticleComments(articleId: string): Promise<GetArticleCommentsResponse> {
     return await prisma.articleComment.findMany({
       where: { articleId },
       include: {
@@ -336,4 +331,3 @@ export class PrismaArticleRepository implements IArticleRepository {
     });
   }
 }
-

@@ -1,23 +1,17 @@
-"use client";
+'use client';
 
-import {
-  MapContainer,
-  TileLayer,
-  ZoomControl,
-  Marker,
-  useMapEvents,
-} from "react-leaflet";
-import "leaflet/dist/leaflet.css";
-import * as React from "react";
-import L from "leaflet";
-import { DEFAULT_LOCATION, MAP_ZOOM_DEFAULT } from "@/app/_constants/app";
+import { MapContainer, TileLayer, ZoomControl, Marker, useMapEvents } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import * as React from 'react';
+import L from 'leaflet';
+import { DEFAULT_LOCATION, MAP_ZOOM_DEFAULT } from '@/app/_constants/app';
 
 const icon = L.icon({
-  iconUrl: "/assets/marker.png",
+  iconUrl: '/assets/marker.png',
   iconSize: [40, 40], // taille en pixels [largeur, hauteur]
-  iconAnchor: [20, 20], // point d'ancrage de l'icône [x, y] par rapport au coin supérieur gauche
-  popupAnchor: [0, -40], // point d'ancrage du popup par rapport au coin supérieur gauche
-  tooltipAnchor: [10, 0], // point d'ancrage du tooltip par rapport au coin supérieur gauche
+  iconAnchor: [20, 20], // icon anchor [x, y] relative to the top-left corner
+  popupAnchor: [0, -40], // popup anchor relative to the top-left corner
+  tooltipAnchor: [10, 0], // tooltip anchor relative to the top-left corner
 });
 
 interface MarkerSelectorProps {
@@ -25,12 +19,8 @@ interface MarkerSelectorProps {
   initialPosition: [number, number];
 }
 
-const MarkerSelector: React.FC<MarkerSelectorProps> = ({
-  onSelectPosition,
-  initialPosition,
-}) => {
-  const [position, setPosition] =
-    React.useState<[number, number]>(initialPosition);
+const MarkerSelector: React.FC<MarkerSelectorProps> = ({ onSelectPosition, initialPosition }) => {
+  const [position, setPosition] = React.useState<[number, number]>(initialPosition);
 
   const map = useMapEvents({
     click: (e) => {
@@ -57,8 +47,7 @@ const CoordinateMap = ({
   initialCoords = DEFAULT_LOCATION,
   onSelectCoords,
 }: CoordinateMapProps) => {
-  const [selectedPosition, setSelectedPosition] =
-    React.useState<[number, number]>(initialCoords);
+  const [selectedPosition, setSelectedPosition] = React.useState<[number, number]>(initialCoords);
 
   const handlePositionSelect = (position: [number, number]) => {
     setSelectedPosition(position);
@@ -88,10 +77,7 @@ const CoordinateMap = ({
           updateWhenIdle={true}
           updateWhenZooming={false}
         />
-        <MarkerSelector
-          onSelectPosition={handlePositionSelect}
-          initialPosition={initialCoords}
-        />
+        <MarkerSelector onSelectPosition={handlePositionSelect} initialPosition={initialCoords} />
       </MapContainer>
     </div>
   );

@@ -1,11 +1,5 @@
 export type WeatherConditionCode =
-  | "CLEAR"
-  | "FEW_CLOUDS"
-  | "CLOUDS"
-  | "RAIN"
-  | "THUNDERSTORM"
-  | "SNOW"
-  | "MIST";
+  'CLEAR' | 'FEW_CLOUDS' | 'CLOUDS' | 'RAIN' | 'THUNDERSTORM' | 'SNOW' | 'MIST';
 
 export type WeatherSnapshot = {
   at: Date;
@@ -26,4 +20,3 @@ export type WeatherData = {
   nextHours: WeatherForecastEntry[];
   nextDays: WeatherForecastEntry[];
 };
-

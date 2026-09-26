@@ -1,4 +1,4 @@
-import TagForm from "@/modules/react/sections/admin/tags/_components/tag-form";
+import TagForm from '@/modules/react/sections/admin/tags/_components/tag-form';
 
 const CreateTag = () => {
   return (

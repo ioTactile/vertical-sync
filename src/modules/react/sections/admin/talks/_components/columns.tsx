@@ -1,6 +1,6 @@
-import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-import { Button } from "@/app/_components/ui/button";
+import { ColumnDef } from '@tanstack/react-table';
+import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
+import { Button } from '@/app/_components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,10 +8,10 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/app/_components/ui/dropdown-menu";
-import Link from "next/link";
-import { useDeleteTalk } from "@/modules/core/mutations/useDeleteTalk";
-import { DataTableFeatures } from "@/modules/react/sections/_components/data-table";
+} from '@/app/_components/ui/dropdown-menu';
+import Link from 'next/link';
+import { useDeleteTalk } from '@/modules/core/mutations/useDeleteTalk';
+import { DataTableFeatures } from '@/modules/react/sections/_components/data-table';
 
 export type Talk = {
   id: string;
@@ -24,25 +24,25 @@ export type Talk = {
 
 export const columns: ColumnDef<DataTableFeatures, Talk>[] = [
   {
-    accessorKey: "title",
-    header: "Titre",
+    accessorKey: 'title',
+    header: 'Titre',
     cell: ({ row }) => {
-      const title = row.getValue("title") as string;
+      const title = row.getValue('title') as string;
       return (
         <div title={title}>
           {title.slice(0, 20)}
-          {title.length > 20 && "..."}
+          {title.length > 20 && '...'}
         </div>
       );
     },
   },
   {
-    accessorKey: "talkComments",
+    accessorKey: 'talkComments',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Commentaires
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -55,12 +55,12 @@ export const columns: ColumnDef<DataTableFeatures, Talk>[] = [
     },
   },
   {
-    accessorKey: "updatedAt",
+    accessorKey: 'updatedAt',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Date de mise à jour
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -69,8 +69,8 @@ export const columns: ColumnDef<DataTableFeatures, Talk>[] = [
     },
   },
   {
-    id: "actions",
-    header: "Actions",
+    id: 'actions',
+    header: 'Actions',
     cell: ({ row }) => {
       const talk = row.original;
       return <ActionCell talk={talk} />;
@@ -92,9 +92,7 @@ const ActionCell = ({ talk }: { talk: Talk }) => {
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
         <DropdownMenuItem asChild>
-          <Link href={`/talks/${talk.id}/${talk.title}`}>
-            Voir la discussion
-          </Link>
+          <Link href={`/talks/${talk.id}/${talk.title}`}>Voir la discussion</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>

@@ -1,7 +1,7 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { UpdateClimbingSpotDto } from "@/modules/core/model/ClimbingSpot";
-import { climbingSpotGateway } from "@/modules/core/gateway-infra/api.climbing-spot-gateway";
-import { notify } from "@/modules/core/ports/notifier";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { UpdateClimbingSpotDto } from '@/modules/core/model/ClimbingSpot';
+import { climbingSpotGateway } from '@/modules/core/gateway-infra/api.climbing-spot-gateway';
+import { notify } from '@/modules/core/ports/notifier';
 
 export function useUpdateClimbingSpot() {
   const queryClient = useQueryClient();
@@ -13,17 +13,17 @@ export function useUpdateClimbingSpot() {
       if (error) {
         console.error(error);
         notify({
-          title: "Erreur lors de la mise à jour du spot",
+          title: 'Erreur lors de la mise à jour du spot',
           description: error.message,
-          variant: "destructive",
+          variant: 'destructive',
         });
       } else {
         await Promise.all([
           queryClient.invalidateQueries({
-            queryKey: ["admin-climbing-spots"],
+            queryKey: ['admin-climbing-spots'],
           }),
           queryClient.invalidateQueries({
-            queryKey: ["climbing-spots"],
+            queryKey: ['climbing-spots'],
           }),
         ]);
       }

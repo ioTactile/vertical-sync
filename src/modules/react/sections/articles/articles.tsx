@@ -1,8 +1,8 @@
-import ArticleCards from "@/modules/react/sections/articles/_components/article-cards";
-import Pagination from "@/modules/react/sections/articles/_components/pagination";
-import ArticlesHeader from "@/modules/react/sections/articles/_components/articles-header";
-import * as React from "react";
-import ArticleCardsSkeleton from "@/modules/react/sections/articles/_components/article-cards-skeleton";
+import ArticleCards from '@/modules/react/sections/articles/_components/article-cards';
+import Pagination from '@/modules/react/sections/articles/_components/pagination';
+import ArticlesHeader from '@/modules/react/sections/articles/_components/articles-header';
+import * as React from 'react';
+import ArticleCardsSkeleton from '@/modules/react/sections/articles/_components/article-cards-skeleton';
 
 const Articles = () => {
   return (

@@ -1,9 +1,9 @@
-import getTalks from "@/modules/core/queries/get-talks";
-import { useQuery } from "@tanstack/react-query";
+import getTalks from '@/modules/core/queries/get-talks';
+import { useQuery } from '@tanstack/react-query';
 
 const useTalks = () => {
   return useQuery({
-    queryKey: ["talks"],
+    queryKey: ['talks'],
     queryFn: () => getTalks(),
   });
 };

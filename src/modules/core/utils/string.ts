@@ -3,17 +3,17 @@ export const getCapitalize = (str: string) => {
 };
 
 export const getIdFromSlug = (slug: string) => {
-  return slug.split("-").pop()!;
+  return slug.split('-').pop()!;
 };
 
-/** Génère un slug unique pour un article à partir du titre. */
+/** Generates a unique article slug from the title. */
 export function buildArticleSlug(title: string): string {
   const base = title
     .trim()
     .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
-  return `${base || "article"}-${Date.now()}`;
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+  return `${base || 'article'}-${Date.now()}`;
 }

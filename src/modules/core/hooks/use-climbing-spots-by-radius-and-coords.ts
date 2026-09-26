@@ -1,13 +1,13 @@
-import { useQuery } from "@tanstack/react-query";
-import getClimbingSpotsByRadiusAndCoords from "@/modules/core/queries/get-climbing-spots-by-radius-and-coors";
+import { useQuery } from '@tanstack/react-query';
+import getClimbingSpotsByRadiusAndCoords from '@/modules/core/queries/get-climbing-spots-by-radius-and-coors';
 
 const useClimbingSpotsByRadiusAndCoords = (
   radius: number,
   coords: [number, number],
-  { enabled }: { enabled: boolean }
+  { enabled }: { enabled: boolean },
 ) => {
   return useQuery({
-    queryKey: ["climbing-spots"],
+    queryKey: ['climbing-spots'],
     queryFn: () => getClimbingSpotsByRadiusAndCoords(radius, coords),
     enabled,
   });

@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-import { Button } from "@/app/_components/ui/button";
+import { ColumnDef } from '@tanstack/react-table';
+import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
+import { Button } from '@/app/_components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,11 +10,11 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/app/_components/ui/dropdown-menu";
-import Link from "next/link";
-import { useShare } from "@/app/_hooks/use-share";
-import { useDeleteTag } from "@/modules/core/mutations/useDeleteTag";
-import { DataTableFeatures } from "@/modules/react/sections/_components/data-table";
+} from '@/app/_components/ui/dropdown-menu';
+import Link from 'next/link';
+import { useShare } from '@/app/_hooks/use-share';
+import { useDeleteTag } from '@/modules/core/mutations/useDeleteTag';
+import { DataTableFeatures } from '@/modules/react/sections/_components/data-table';
 
 export type Tag = {
   id: string;
@@ -24,25 +24,25 @@ export type Tag = {
 
 export const columns: ColumnDef<DataTableFeatures, Tag>[] = [
   {
-    accessorKey: "name",
-    header: "Nom",
+    accessorKey: 'name',
+    header: 'Nom',
     cell: ({ row }) => {
-      const name = row.getValue("name") as string;
+      const name = row.getValue('name') as string;
       return (
         <div title={name}>
           {name.slice(0, 20)}
-          {name.length > 20 && "..."}
+          {name.length > 20 && '...'}
         </div>
       );
     },
   },
   {
-    accessorKey: "updatedAt",
+    accessorKey: 'updatedAt',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Date de mise à jour
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -51,8 +51,8 @@ export const columns: ColumnDef<DataTableFeatures, Tag>[] = [
     },
   },
   {
-    id: "actions",
-    header: "Actions",
+    id: 'actions',
+    header: 'Actions',
     cell: ({ row }) => {
       const tag = row.original;
 
@@ -76,9 +76,7 @@ const ActionCell = ({ tag }: { tag: Tag }) => {
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>{tag.name}</DropdownMenuLabel>
         <DropdownMenuItem
-          onClick={() =>
-            handleShare(tag.name, "Le tag a été copié dans le presse-papiers")
-          }
+          onClick={() => handleShare(tag.name, 'Le tag a été copié dans le presse-papiers')}
         >
           Copier le tag
         </DropdownMenuItem>

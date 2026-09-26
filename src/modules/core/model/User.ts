@@ -1,4 +1,4 @@
-/** Auteur public (sans email / timestamps). */
+/** Public author (no email / timestamps). */
 export type Author = {
   id: string;
   clerkId: string;

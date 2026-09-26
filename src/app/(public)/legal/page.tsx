@@ -1,17 +1,12 @@
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/app/_components/ui/card";
-import { EMAIL_CONTACT } from "@/app/_constants/app";
-import { SITE_NAME } from "@/app/_constants/seo";
-import { Metadata } from "next";
-import Link from "next/link";
+import { Card, CardContent, CardHeader, CardTitle } from '@/app/_components/ui/card';
+import { EMAIL_CONTACT } from '@/app/_constants/app';
+import { SITE_NAME } from '@/app/_constants/seo';
+import { Metadata } from 'next';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: `${SITE_NAME} - Mentions Légales`,
-  description: "Mentions légales et informations juridiques",
+  description: 'Mentions légales et informations juridiques',
 };
 
 export default function MentionsLegales() {
@@ -34,9 +29,7 @@ export default function MentionsLegales() {
             </div>
 
             <div>
-              <h3 className="font-semibold mb-2">
-                Directeur de la publication
-              </h3>
+              <h3 className="font-semibold mb-2">Directeur de la publication</h3>
               <p>Jordan Biesmans</p>
             </div>
 
@@ -69,16 +62,15 @@ export default function MentionsLegales() {
           </CardHeader>
           <CardContent className="space-y-4">
             <p>
-              L&apos;ensemble de ce site relève de la législation française et
-              internationale sur le droit d&apos;auteur et la propriété
-              intellectuelle. Tous les droits de reproduction sont réservés, y
-              compris pour les documents téléchargeables et les représentations
+              L&apos;ensemble de ce site relève de la législation française et internationale sur le
+              droit d&apos;auteur et la propriété intellectuelle. Tous les droits de reproduction
+              sont réservés, y compris pour les documents téléchargeables et les représentations
               iconographiques et photographiques.
             </p>
             <p>
-              La reproduction de tout ou partie de ce site sur un support
-              électronique quel qu&apos;il soit est formellement interdite sauf
-              autorisation expresse du directeur de la publication.
+              La reproduction de tout ou partie de ce site sur un support électronique quel
+              qu&apos;il soit est formellement interdite sauf autorisation expresse du directeur de
+              la publication.
             </p>
           </CardContent>
         </Card>
@@ -89,16 +81,16 @@ export default function MentionsLegales() {
           </CardHeader>
           <CardContent className="space-y-4">
             <p>
-              Pour plus d&apos;informations sur le traitement de vos données
-              personnelles, veuillez consulter notre{" "}
+              Pour plus d&apos;informations sur le traitement de vos données personnelles, veuillez
+              consulter notre{' '}
               <Link href="/privacy" className="text-primary hover:underline">
                 Politique de Confidentialité
               </Link>
               .
             </p>
             <p>
-              Pour connaître les conditions d&apos;utilisation de nos services,
-              veuillez consulter nos{" "}
+              Pour connaître les conditions d&apos;utilisation de nos services, veuillez consulter
+              nos{' '}
               <Link href="/terms" className="text-primary hover:underline">
                 Conditions Générales d&apos;Utilisation
               </Link>
@@ -113,11 +105,10 @@ export default function MentionsLegales() {
           </CardHeader>
           <CardContent className="space-y-4">
             <p>
-              Conformément aux articles L.616-1 et R.616-1 du code de la
-              consommation, notre entreprise a mis en place un dispositif de
-              médiation de la consommation. L&apos;entité de médiation retenue
-              est : CNPM - MÉDIATION - CONSOMMATION. En cas de litige, vous
-              pouvez déposer votre réclamation sur son site :{" "}
+              Conformément aux articles L.616-1 et R.616-1 du code de la consommation, notre
+              entreprise a mis en place un dispositif de médiation de la consommation. L&apos;entité
+              de médiation retenue est : CNPM - MÉDIATION - CONSOMMATION. En cas de litige, vous
+              pouvez déposer votre réclamation sur son site :{' '}
               <a
                 href="https://cnpm-mediation-consommation.eu"
                 target="_blank"
@@ -136,8 +127,8 @@ export default function MentionsLegales() {
           </CardHeader>
           <CardContent className="space-y-4">
             <p>
-              Les présentes mentions légales sont régies par le droit français.
-              En cas de litige, les tribunaux français seront compétents.
+              Les présentes mentions légales sont régies par le droit français. En cas de litige,
+              les tribunaux français seront compétents.
             </p>
             <p>Dernière mise à jour : {new Date().toLocaleDateString()}</p>
           </CardContent>

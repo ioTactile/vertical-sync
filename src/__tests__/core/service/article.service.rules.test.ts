@@ -1,10 +1,10 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { ArticleService } from "@/modules/core/service/article.service";
-import type { IArticleRepository } from "@/modules/core/repository/article.repository";
-import { DomainError } from "@/modules/core/domain/errors";
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { ArticleService } from '@/modules/core/service/article.service';
+import type { IArticleRepository } from '@/modules/core/repository/article.repository';
+import { DomainError } from '@/modules/core/domain/errors';
 
 function createFakeArticleRepository(
-  overrides: Partial<IArticleRepository> = {}
+  overrides: Partial<IArticleRepository> = {},
 ): IArticleRepository {
   return {
     findMany: vi.fn(),
@@ -23,7 +23,7 @@ function createFakeArticleRepository(
   };
 }
 
-describe("ArticleService (règles métier)", () => {
+describe('ArticleService (règles métier)', () => {
   let repository: IArticleRepository;
   let service: ArticleService;
 
@@ -32,23 +32,23 @@ describe("ArticleService (règles métier)", () => {
     service = new ArticleService(repository);
   });
 
-  it("createArticle génère un slug et valide le titre", async () => {
+  it('createArticle génère un slug et valide le titre', async () => {
     await expect(
       service.createArticle({
-        authorId: "user_1",
-        title: "",
-        content: "x",
+        authorId: 'user_1',
+        title: '',
+        content: 'x',
         imageUrl: null,
         excerpt: null,
         published: false,
         articleTags: [],
-      })
+      }),
     ).rejects.toBeInstanceOf(DomainError);
 
     await service.createArticle({
-      authorId: "user_1",
-      title: "Mon Article Cool",
-      content: "contenu",
+      authorId: 'user_1',
+      title: 'Mon Article Cool',
+      content: 'contenu',
       imageUrl: null,
       excerpt: null,
       published: false,
@@ -57,24 +57,24 @@ describe("ArticleService (règles métier)", () => {
 
     expect(repository.create).toHaveBeenCalledWith(
       expect.objectContaining({
-        title: "Mon Article Cool",
+        title: 'Mon Article Cool',
         slug: expect.stringMatching(/^mon-article-cool-\d+$/),
-      })
+      }),
     );
   });
 
-  it("updateArticle exige un titre", async () => {
+  it('updateArticle exige un titre', async () => {
     await expect(
       service.updateArticle({
-        id: "a1",
-        title: "",
-        content: "x",
+        id: 'a1',
+        title: '',
+        content: 'x',
         imageUrl: null,
         excerpt: null,
         published: false,
         articleTags: [],
         updatedAt: new Date(),
-      })
-    ).rejects.toMatchObject({ code: "VALIDATION" });
+      }),
+    ).rejects.toMatchObject({ code: 'VALIDATION' });
   });
 });

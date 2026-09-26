@@ -1,29 +1,19 @@
-import { climbingSpotConditionService } from "@/modules/core/di/container";
-import { NextRequest, NextResponse } from "next/server";
+import { climbingSpotConditionService } from '@/modules/core/di/container';
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET(
-  _request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
-) {
+export async function GET(_request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const id = (await params).id;
 
   if (!id) {
-    return NextResponse.json(
-      { error: "L'id du spot est requis" },
-      { status: 400 },
-    );
+    return NextResponse.json({ error: "L'id du spot est requis" }, { status: 400 });
   }
 
   try {
-    const conditions =
-      await climbingSpotConditionService.getConditions(id);
+    const conditions = await climbingSpotConditionService.getConditions(id);
 
     return NextResponse.json(conditions, { status: 200 });
   } catch (error) {
-    return NextResponse.json(
-      { error: "Erreur interne du serveur: " + error },
-      { status: 500 },
-    );
+    return NextResponse.json({ error: 'Erreur interne du serveur: ' + error }, { status: 500 });
   }
 }
 
@@ -33,14 +23,8 @@ export async function POST(request: NextRequest) {
 
     await climbingSpotConditionService.createReport(body);
 
-    return NextResponse.json(
-      { message: "Conditions signalées avec succès" },
-      { status: 201 },
-    );
+    return NextResponse.json({ message: 'Conditions signalées avec succès' }, { status: 201 });
   } catch (error) {
-    return NextResponse.json(
-      { error: "Erreur interne du serveur: " + error },
-      { status: 500 },
-    );
+    return NextResponse.json({ error: 'Erreur interne du serveur: ' + error }, { status: 500 });
   }
 }

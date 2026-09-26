@@ -1,27 +1,24 @@
-"use client";
+'use client';
 
-import { Button } from "@/app/_components/ui/button";
-import { Input } from "@/app/_components/ui/input";
-import {
-  CLIMBING_SPOT_TYPE_LABELS,
-  CLIMBING_SPOT_DIFFICULTY_LABELS,
-} from "@/types/enum";
-import { ClimbingSpotType, ClimbingSpotDifficulty } from "@/modules/core/domain/enums";
-import { Search } from "lucide-react";
-import * as React from "react";
+import { Button } from '@/app/_components/ui/button';
+import { Input } from '@/app/_components/ui/input';
+import { CLIMBING_SPOT_TYPE_LABELS, CLIMBING_SPOT_DIFFICULTY_LABELS } from '@/types/enum';
+import { ClimbingSpotType, ClimbingSpotDifficulty } from '@/modules/core/domain/enums';
+import { Search } from 'lucide-react';
+import * as React from 'react';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/app/_components/ui/dropdown-menu";
-import { Check } from "lucide-react";
-import { ExtendedClimbingSpot } from "@/modules/core/model/ClimbingSpot";
-import { useSpotSearch } from "@/modules/react/sections/spots/_hooks/use-spot-search";
-import { useSpotTypeAndDifficulty } from "@/modules/react/sections/spots/_hooks/use-spot-type-and-difficulty";
-import { useSpotSelection } from "@/modules/react/sections/spots/_hooks/use-spot-selection";
-import { MobileFiltersDialog } from "@/modules/react/sections/spots/_components/mobile-filters-dialog";
-import { cn } from "@/lib/utils";
+} from '@/app/_components/ui/dropdown-menu';
+import { Check } from 'lucide-react';
+import { ExtendedClimbingSpot } from '@/modules/core/model/ClimbingSpot';
+import { useSpotSearch } from '@/modules/react/sections/spots/_hooks/use-spot-search';
+import { useSpotTypeAndDifficulty } from '@/modules/react/sections/spots/_hooks/use-spot-type-and-difficulty';
+import { useSpotSelection } from '@/modules/react/sections/spots/_hooks/use-spot-selection';
+import { MobileFiltersDialog } from '@/modules/react/sections/spots/_components/mobile-filters-dialog';
+import { cn } from '@/lib/utils';
 
 interface SpotsFiltersProps {
   userLocation: [number, number] | null;
@@ -34,7 +31,7 @@ interface SpotsFiltersProps {
   updateMapView: (center: [number, number]) => void;
   addSearchSpots: (spots: ExtendedClimbingSpot[]) => void;
   clearSearchSpots: () => void;
-  dropdownContainerRef?: React.RefObject<HTMLDivElement | null>;
+  dropdownContainer?: HTMLElement | null;
 }
 
 const spotTypes = Object.values(ClimbingSpotType);
@@ -48,10 +45,8 @@ export const SpotsFilters = ({
   updateMapView,
   addSearchSpots,
   clearSearchSpots,
-  dropdownContainerRef,
+  dropdownContainer,
 }: SpotsFiltersProps) => {
-  const dropdownContainer = dropdownContainerRef?.current ?? undefined;
-
   const {
     searchQuery,
     setSearchQuery,
@@ -75,20 +70,16 @@ export const SpotsFilters = ({
     isNotDefaultFilters,
   } = useSpotTypeAndDifficulty({ onFilterChange });
 
-  const {
-    handleSpotSelect,
-    handleEnterPress,
-    searchInputRef,
-    searchContainerRef,
-  } = useSpotSelection({
-    userLocation,
-    onSpotSelect,
-    updateMapView,
-    setSearchQuery,
-    setIsSearchOpen,
-    addSearchSpots,
-    clearSearchSpots,
-  });
+  const { handleSpotSelect, handleEnterPress, searchInputRef, searchContainerRef } =
+    useSpotSelection({
+      userLocation,
+      onSpotSelect,
+      updateMapView,
+      setSearchQuery,
+      setIsSearchOpen,
+      addSearchSpots,
+      clearSearchSpots,
+    });
 
   return (
     <div className="absolute left-4 top-4 flex gap-2 w-[calc(100%-2rem)] max-w-[800px] z-1000">
@@ -102,7 +93,7 @@ export const SpotsFilters = ({
             value={searchQuery}
             onChange={handleSearch}
             onKeyDown={(e) => {
-              if (e.key === "Enter") {
+              if (e.key === 'Enter') {
                 handleEnterPress(extendedSearchResults || []);
               }
             }}
@@ -117,21 +108,16 @@ export const SpotsFilters = ({
                   <div
                     key={spot.id}
                     className={cn(
-                      "p-2 hover:bg-accent cursor-pointer ",
-                      index === 0 && "rounded-t-lg",
-                      index === extendedSearchResults.length - 1 &&
-                        "rounded-b-lg",
-                      index > 0 &&
-                        index < extendedSearchResults.length - 1 &&
-                        "rounded-none",
+                      'p-2 hover:bg-accent cursor-pointer ',
+                      index === 0 && 'rounded-t-lg',
+                      index === extendedSearchResults.length - 1 && 'rounded-b-lg',
+                      index > 0 && index < extendedSearchResults.length - 1 && 'rounded-none',
                     )}
                     onClick={() => handleSpotSelect(spot)}
                   >
                     <div className="font-medium">{spot.name}</div>
                     <div className="text-sm text-muted-foreground">
-                      {spot.types
-                        .map((type) => CLIMBING_SPOT_TYPE_LABELS[type])
-                        .join(", ")}
+                      {spot.types.map((type) => CLIMBING_SPOT_TYPE_LABELS[type]).join(', ')}
                     </div>
                   </div>
                 ))
@@ -163,13 +149,10 @@ export const SpotsFilters = ({
             className="z-1000 bg-background/95 overflow-y-scroll h-40"
           >
             {spotTypes.map((type) => (
-              <DropdownMenuItem
-                key={type}
-                onClick={() => handleTypeSelect(type)}
-              >
+              <DropdownMenuItem key={type} onClick={() => handleTypeSelect(type)}>
                 <Check
                   className={`mr-2 h-4 w-4 ${
-                    selectedTypes.includes(type) ? "opacity-100" : "opacity-0"
+                    selectedTypes.includes(type) ? 'opacity-100' : 'opacity-0'
                   }`}
                 />
                 {CLIMBING_SPOT_TYPE_LABELS[type]}
@@ -190,15 +173,10 @@ export const SpotsFilters = ({
             className="z-1000 bg-background/95 overflow-y-scroll h-40"
           >
             {spotDifficulties.map((difficulty) => (
-              <DropdownMenuItem
-                key={difficulty}
-                onClick={() => handleDifficultySelect(difficulty)}
-              >
+              <DropdownMenuItem key={difficulty} onClick={() => handleDifficultySelect(difficulty)}>
                 <Check
                   className={`mr-2 h-4 w-4 ${
-                    selectedDifficulties.includes(difficulty)
-                      ? "opacity-100"
-                      : "opacity-0"
+                    selectedDifficulties.includes(difficulty) ? 'opacity-100' : 'opacity-0'
                   }`}
                 />
                 {CLIMBING_SPOT_DIFFICULTY_LABELS[difficulty]}

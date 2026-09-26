@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useToast } from "@/app/_hooks/use-toast";
+import { useToast } from '@/app/_hooks/use-toast';
 
 export const useShare = () => {
   const { toast } = useToast();
@@ -8,7 +8,7 @@ export const useShare = () => {
   const handleShare = (
     text: string,
     toastTitle: string,
-    e?: React.MouseEvent<HTMLButtonElement>
+    e?: React.MouseEvent<HTMLButtonElement>,
   ) => {
     e?.preventDefault();
     e?.stopPropagation();

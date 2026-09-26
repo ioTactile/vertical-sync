@@ -1,6 +1,6 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { tagGateway } from "@/modules/core/gateway-infra/api.tag-gateway";
-import { notify } from "@/modules/core/ports/notifier";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { tagGateway } from '@/modules/core/gateway-infra/api.tag-gateway';
+import { notify } from '@/modules/core/ports/notifier';
 
 export function useDeleteTag() {
   const queryClient = useQueryClient();
@@ -11,17 +11,17 @@ export function useDeleteTag() {
       if (error) {
         console.error(error);
         notify({
-          title: "Erreur lors de la suppression du tag",
+          title: 'Erreur lors de la suppression du tag',
           description: error.message,
-          variant: "destructive",
+          variant: 'destructive',
         });
       } else {
         await queryClient.invalidateQueries({
-          queryKey: ["tags"],
+          queryKey: ['tags'],
         });
         notify({
-          title: "Tag supprimé avec succès",
-          description: "Le tag a été supprimé avec succès",
+          title: 'Tag supprimé avec succès',
+          description: 'Le tag a été supprimé avec succès',
         });
       }
     },

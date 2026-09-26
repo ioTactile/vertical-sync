@@ -1,5 +1,5 @@
-import { create } from "zustand";
-import type { UserResource } from "@clerk/shared/types";
+import { create } from 'zustand';
+import type { UserResource } from '@clerk/shared/types';
 
 interface UserState {
   user: UserResource | null;
@@ -19,10 +19,9 @@ export const useUserStore = create<UserState>((set) => ({
   setUser: (user) =>
     set({
       user,
-      isAdmin: user?.publicMetadata?.role === "admin",
+      isAdmin: user?.publicMetadata?.role === 'admin',
       isRedactor:
-        user?.publicMetadata?.role === "redactor" ||
-        user?.publicMetadata?.role === "admin",
+        user?.publicMetadata?.role === 'redactor' || user?.publicMetadata?.role === 'admin',
     }),
   setIsLoaded: (isLoaded) => set({ isLoaded }),
   resetUser: () => set({ user: null, isAdmin: false, isRedactor: false }),

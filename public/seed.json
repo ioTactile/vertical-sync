@@ -6,20 +6,11 @@
     "city": "Osny",
     "coords": {
       "type": "Point",
-      "coordinates": [
-        2.0723,
-        49.0458
-      ]
+      "coordinates": [2.0723, 49.0458]
     },
     "imageUrls": [],
-    "types": [
-      "INDOOR"
-    ],
-    "difficulties": [
-      "BEGINNER",
-      "INTERMEDIATE",
-      "ADVANCED"
-    ],
+    "types": ["INDOOR"],
+    "difficulties": ["BEGINNER", "INTERMEDIATE", "ADVANCED"],
     "bestPeriod": null,
     "address": "9 Chaussée Jules César, 95520 Osny",
     "websiteUrl": "https://www.blockout.fr/bo1-cergy",
@@ -37,20 +28,11 @@
     "city": "Lisses",
     "coords": {
       "type": "Point",
-      "coordinates": [
-        2.4264,
-        48.6091
-      ]
+      "coordinates": [2.4264, 48.6091]
     },
     "imageUrls": [],
-    "types": [
-      "INDOOR"
-    ],
-    "difficulties": [
-      "BEGINNER",
-      "INTERMEDIATE",
-      "ADVANCED"
-    ],
+    "types": ["INDOOR"],
+    "difficulties": ["BEGINNER", "INTERMEDIATE", "ADVANCED"],
     "bestPeriod": null,
     "address": "20-22 Rue du Cantal, 91090 Lisses",
     "websiteUrl": "https://www.blockout.fr/bo3-evry",
@@ -67,20 +49,11 @@
     "city": "Bordeaux",
     "coords": {
       "type": "Point",
-      "coordinates": [
-        -0.5669,
-        44.8685
-      ]
+      "coordinates": [-0.5669, 44.8685]
     },
     "imageUrls": [],
-    "types": [
-      "INDOOR"
-    ],
-    "difficulties": [
-      "BEGINNER",
-      "INTERMEDIATE",
-      "ADVANCED"
-    ],
+    "types": ["INDOOR"],
+    "difficulties": ["BEGINNER", "INTERMEDIATE", "ADVANCED"],
     "bestPeriod": null,
     "address": "3 Rue Georges Barres, 33300 Bordeaux",
     "websiteUrl": "https://www.blockout.fr/bo-bordeaux",
@@ -98,20 +71,11 @@
     "city": "Rouen",
     "coords": {
       "type": "Point",
-      "coordinates": [
-        1.0986,
-        49.4314
-      ]
+      "coordinates": [1.0986, 49.4314]
     },
     "imageUrls": [],
-    "types": [
-      "INDOOR"
-    ],
-    "difficulties": [
-      "BEGINNER",
-      "INTERMEDIATE",
-      "ADVANCED"
-    ],
+    "types": ["INDOOR"],
+    "difficulties": ["BEGINNER", "INTERMEDIATE", "ADVANCED"],
     "bestPeriod": null,
     "address": "181 Quai du Cours la Reine, 76100 Rouen",
     "websiteUrl": "https://planetgrimpe.com/sae/arkose-rouen/",
@@ -129,20 +93,11 @@
     "city": "Massy",
     "coords": {
       "type": "Point",
-      "coordinates": [
-        2.2749,
-        48.7302
-      ]
+      "coordinates": [2.2749, 48.7302]
     },
     "imageUrls": [],
-    "types": [
-      "INDOOR"
-    ],
-    "difficulties": [
-      "BEGINNER",
-      "INTERMEDIATE",
-      "ADVANCED"
-    ],
+    "types": ["INDOOR"],
+    "difficulties": ["BEGINNER", "INTERMEDIATE", "ADVANCED"],
     "bestPeriod": null,
     "address": "4 Rue Galvani, 91300 Massy",
     "websiteUrl": "https://arkose.com/massy",
@@ -160,20 +115,11 @@
     "city": "Bordeaux",
     "coords": {
       "type": "Point",
-      "coordinates": [
-        -0.5754,
-        44.863
-      ]
+      "coordinates": [-0.5754, 44.863]
     },
     "imageUrls": [],
-    "types": [
-      "INDOOR"
-    ],
-    "difficulties": [
-      "BEGINNER",
-      "INTERMEDIATE",
-      "ADVANCED"
-    ],
+    "types": ["INDOOR"],
+    "difficulties": ["BEGINNER", "INTERMEDIATE", "ADVANCED"],
     "bestPeriod": null,
     "address": "170 Cr du Médoc Galerie Tatry, 33300 Bordeaux",
     "websiteUrl": "https://arkose.com/bordeaux",

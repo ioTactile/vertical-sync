@@ -1,9 +1,9 @@
 import type {
   CreateNotificationDto,
   GetNotificationsResponse,
-} from "@/modules/core/model/Notification";
-import prisma from "@/prisma";
-import { createId } from "@paralleldrive/cuid2";
+} from '@/modules/core/model/Notification';
+import prisma from '@/prisma';
+import { createId } from '@paralleldrive/cuid2';
 
 export interface INotificationRepository {
   findManyByUserId(userId: string): Promise<GetNotificationsResponse>;
@@ -26,7 +26,7 @@ export class PrismaNotificationRepository implements INotificationRepository {
   async findManyByUserId(userId: string): Promise<GetNotificationsResponse> {
     const list = await prisma.notification.findMany({
       where: { userId },
-      orderBy: { createdAt: "desc" },
+      orderBy: { createdAt: 'desc' },
       take: 50,
       include: {
         climbingSpot: {
@@ -76,4 +76,3 @@ export class PrismaNotificationRepository implements INotificationRepository {
     return !!existing;
   }
 }
-

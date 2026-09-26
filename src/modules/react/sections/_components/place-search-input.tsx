@@ -1,5 +1,5 @@
-import { Input } from "@/app/_components/ui/input";
-import * as React from "react";
+import { Input } from '@/app/_components/ui/input';
+import * as React from 'react';
 
 interface PlaceSearchProps {
   onPlaceSelect: (place: google.maps.places.PlaceResult) => void;
@@ -7,10 +7,8 @@ interface PlaceSearchProps {
 }
 
 export const PlaceSearch = ({ onPlaceSelect, isLoaded }: PlaceSearchProps) => {
-  const [searchInput, setSearchInput] = React.useState<string>("");
-  const autoCompleteRef = React.useRef<google.maps.places.Autocomplete | null>(
-    null
-  );
+  const [searchInput, setSearchInput] = React.useState<string>('');
+  const autoCompleteRef = React.useRef<google.maps.places.Autocomplete | null>(null);
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   React.useEffect(() => {
@@ -18,40 +16,35 @@ export const PlaceSearch = ({ onPlaceSelect, isLoaded }: PlaceSearchProps) => {
 
     const options = {
       fields: [
-        "address_components",
-        "geometry",
-        "name",
-        "formatted_address",
-        "website",
-        "formatted_phone_number",
-        "international_phone_number",
-        "url",
+        'address_components',
+        'geometry',
+        'name',
+        'formatted_address',
+        'website',
+        'formatted_phone_number',
+        'international_phone_number',
+        'url',
       ],
-      componentRestrictions: { country: "fr" },
-      types: ["establishment"],
+      componentRestrictions: { country: 'fr' },
+      types: ['establishment'],
     };
 
-    autoCompleteRef.current = new window.google.maps.places.Autocomplete(
-      inputRef.current,
-      options
-    );
+    autoCompleteRef.current = new window.google.maps.places.Autocomplete(inputRef.current, options);
 
-    autoCompleteRef.current.addListener("place_changed", () => {
+    autoCompleteRef.current.addListener('place_changed', () => {
       if (!autoCompleteRef.current) return;
       const place = autoCompleteRef.current.getPlace();
       onPlaceSelect(place);
-      setSearchInput("");
+      setSearchInput('');
     });
   }, [onPlaceSelect, isLoaded]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchInput(e.target.value || "");
+    setSearchInput(e.target.value || '');
   };
 
   if (!isLoaded) {
-    return (
-      <Input disabled placeholder="Chargement de Google Maps..." value="" />
-    );
+    return <Input disabled placeholder="Chargement de Google Maps..." value="" />;
   }
 
   return (

@@ -1,4 +1,4 @@
 export {
   updateClimbingSpotSchema,
   type UpdateClimbingSpotInputs,
-} from "@/modules/core/schemas/climbing-spot/update-climbing-spot";
+} from '@/modules/core/schemas/climbing-spot/update-climbing-spot';

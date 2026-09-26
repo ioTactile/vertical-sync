@@ -1,14 +1,14 @@
-import Image from "next/image";
-import { Button } from "@/app/_components/ui/button";
-import { Trash2 } from "lucide-react";
+import Image from 'next/image';
+import { Button } from '@/app/_components/ui/button';
+import { Trash2 } from 'lucide-react';
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/app/_components/ui/carousel";
-import * as React from "react";
+} from '@/app/_components/ui/carousel';
+import * as React from 'react';
 
 interface ImageUrlPreviewProps {
   imageUrls: string[];
@@ -56,9 +56,9 @@ const ImageWithDelete = React.memo(
         <Trash2 className="w-4 h-4" />
       </Button>
     </div>
-  )
+  ),
 );
 
-ImageWithDelete.displayName = "ImageWithDelete";
+ImageWithDelete.displayName = 'ImageWithDelete';
 
 export default ImageUrlPreview;

@@ -1,30 +1,28 @@
-import { ITalkGateway } from "@/modules/core/gateway/talk.gateway";
+import { ITalkGateway } from '@/modules/core/gateway/talk.gateway';
 import {
   CreateTalkDto,
   GetTalkResponse,
   GetTalksResponse,
   GetTalkWithCommentsResponse,
   UpdateTalkDto,
-} from "@/modules/core/model/Talk";
-import { CreateTalkCommentDto } from "@/modules/core/model/Talk";
-import { axiosInstance } from "@/lib/globals";
+} from '@/modules/core/model/Talk';
+import { CreateTalkCommentDto } from '@/modules/core/model/Talk';
+import { axiosInstance } from '@/lib/globals';
 
 export class ApiTalkGateway implements ITalkGateway {
   async getTalks(): Promise<GetTalksResponse> {
-    const response = await axiosInstance.get<GetTalksResponse>("/api/talk");
+    const response = await axiosInstance.get<GetTalksResponse>('/api/talk');
     return response.data;
   }
 
   async getTalk(id: string): Promise<GetTalkResponse> {
-    const response = await axiosInstance.get<GetTalkResponse>(
-      `/api/talk/${id}`
-    );
+    const response = await axiosInstance.get<GetTalkResponse>(`/api/talk/${id}`);
     return response.data;
   }
 
   async getTalkWithComments(id: string): Promise<GetTalkWithCommentsResponse> {
     const response = await axiosInstance.get<GetTalkWithCommentsResponse>(
-      `/api/talk/${id}?includeComments=true`
+      `/api/talk/${id}?includeComments=true`,
     );
     return response.data;
   }
@@ -32,7 +30,7 @@ export class ApiTalkGateway implements ITalkGateway {
   async createTalk(talk: CreateTalkDto): Promise<{
     message: string;
   }> {
-    const response = await axiosInstance.post("/api/talk", talk);
+    const response = await axiosInstance.post('/api/talk', talk);
     return response.data;
   }
 
@@ -59,26 +57,23 @@ export class ApiTalkGateway implements ITalkGateway {
   }> {
     const response = await axiosInstance.post(
       `/api/talk/${talkComment.talkId}/comment`,
-      talkComment
+      talkComment,
     );
     return response.data;
   }
 
   async deleteTalkComment(
     talkId: string,
-    talkCommentId: string
+    talkCommentId: string,
   ): Promise<{
     message: string;
   }> {
-    const response = await axiosInstance.delete(
-      `/api/talk/${talkId}/comment/${talkCommentId}`,
-      {
-        data: {
-          talkId,
-          talkCommentId,
-        },
-      }
-    );
+    const response = await axiosInstance.delete(`/api/talk/${talkId}/comment/${talkCommentId}`, {
+      data: {
+        talkId,
+        talkCommentId,
+      },
+    });
     return response.data;
   }
 }

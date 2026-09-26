@@ -1,5 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
-import getSpotWeather from "@/modules/core/queries/get-spot-weather";
+import { useQuery } from '@tanstack/react-query';
+import getSpotWeather from '@/modules/core/queries/get-spot-weather';
 
 type UseSpotWeatherParams = {
   latitude?: number;
@@ -7,19 +7,15 @@ type UseSpotWeatherParams = {
   enabled?: boolean;
 };
 
-const useSpotWeather = ({
-  latitude,
-  longitude,
-  enabled = true,
-}: UseSpotWeatherParams) => {
+const useSpotWeather = ({ latitude, longitude, enabled = true }: UseSpotWeatherParams) => {
   const hasCoords =
-    typeof latitude === "number" &&
+    typeof latitude === 'number' &&
     !Number.isNaN(latitude) &&
-    typeof longitude === "number" &&
+    typeof longitude === 'number' &&
     !Number.isNaN(longitude);
 
   return useQuery({
-    queryKey: ["spot-weather", latitude, longitude],
+    queryKey: ['spot-weather', latitude, longitude],
     enabled: enabled && hasCoords,
     queryFn: () =>
       getSpotWeather({

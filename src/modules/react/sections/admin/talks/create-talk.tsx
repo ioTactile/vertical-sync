@@ -1,4 +1,4 @@
-import TalkForm from "@/modules/react/sections/admin/talks/_components/talk-form";
+import TalkForm from '@/modules/react/sections/admin/talks/_components/talk-form';
 
 const CreateTalk = () => {
   return (

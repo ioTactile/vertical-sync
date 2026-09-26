@@ -1,10 +1,10 @@
-import prisma from "@/prisma";
+import prisma from '@/prisma';
 import {
   CreateTagDto,
   GetTagResponse,
   GetTagsResponse,
   UpdateTagDto,
-} from "@/modules/core/model/Tag";
+} from '@/modules/core/model/Tag';
 
 export interface ITagRepository {
   findMany(): Promise<GetTagsResponse>;
@@ -26,7 +26,7 @@ export class PrismaTagRepository implements ITagRepository {
 
   async findByName(name: string): Promise<GetTagResponse | null> {
     return await prisma.tag.findFirst({
-      where: { name: { equals: name, mode: "insensitive" } },
+      where: { name: { equals: name, mode: 'insensitive' } },
     });
   }
 
@@ -48,4 +48,3 @@ export class PrismaTagRepository implements ITagRepository {
     await prisma.tag.delete({ where: { id } });
   }
 }
-

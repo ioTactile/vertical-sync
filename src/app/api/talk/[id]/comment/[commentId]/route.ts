@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
-import { talkService } from "@/modules/core/di/container";
+import { NextResponse } from 'next/server';
+import { talkService } from '@/modules/core/di/container';
 
 export async function DELETE(request: Request) {
   try {
@@ -7,14 +7,8 @@ export async function DELETE(request: Request) {
 
     await talkService.deleteTalkComment(talkId, talkCommentId);
 
-    return NextResponse.json(
-      { message: "Commentaire supprimé" },
-      { status: 200 }
-    );
+    return NextResponse.json({ message: 'Commentaire supprimé' }, { status: 200 });
   } catch (error) {
-    return NextResponse.json(
-      { error: "Erreur interne du serveur: " + error },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Erreur interne du serveur: ' + error }, { status: 500 });
   }
 }

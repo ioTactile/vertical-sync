@@ -1,37 +1,21 @@
-"use client";
+'use client';
 
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/app/_components/ui/tabs";
-import {
-  CLIMBING_SPOT_DIFFICULTY_LABELS,
-  CLIMBING_SPOT_TYPE_LABELS,
-} from "@/types/enum";
-import {
-  CircleParking,
-  CircleParkingOff,
-  Globe,
-  Mail,
-  MapPin,
-  Phone,
-  Toilet,
-} from "lucide-react";
-import Image from "next/image";
-import * as React from "react";
-import { useGetFetchQuery } from "@/modules/core/hooks/use-get-fetch-climbing-spot";
-import { redirect, useParams } from "next/navigation";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/app/_components/ui/tabs';
+import { CLIMBING_SPOT_DIFFICULTY_LABELS, CLIMBING_SPOT_TYPE_LABELS } from '@/types/enum';
+import { CircleParking, CircleParkingOff, Globe, Mail, MapPin, Phone, Toilet } from 'lucide-react';
+import Image from 'next/image';
+import * as React from 'react';
+import { useGetFetchQuery } from '@/modules/core/hooks/use-get-fetch-climbing-spot';
+import { redirect, useParams } from 'next/navigation';
 
 const Spot = () => {
-  const [activeTab, setActiveTab] = React.useState<"infos" | "images">("infos");
+  const [activeTab, setActiveTab] = React.useState<'infos' | 'images'>('infos');
 
   const { id } = useParams();
   const { data: spot, isError } = useGetFetchQuery(id as string);
 
   if (!spot && isError) {
-    redirect("/admin/spots");
+    redirect('/admin/spots');
   }
 
   if (!spot) return null;
@@ -49,7 +33,7 @@ const Spot = () => {
 
           <Tabs
             value={activeTab}
-            onValueChange={(value) => setActiveTab(value as "infos" | "images")}
+            onValueChange={(value) => setActiveTab(value as 'infos' | 'images')}
           >
             <TabsList className="w-full">
               <TabsTrigger value="infos" className="w-full">
@@ -67,8 +51,8 @@ const Spot = () => {
                   <div className="flex flex-wrap gap-2">
                     {spot.difficulties.map((difficulty, index) => (
                       <span key={difficulty} className="text-muted-foreground">
-                        {CLIMBING_SPOT_DIFFICULTY_LABELS[difficulty]}{" "}
-                        {index < spot.difficulties.length - 1 && ", "}
+                        {CLIMBING_SPOT_DIFFICULTY_LABELS[difficulty]}{' '}
+                        {index < spot.difficulties.length - 1 && ', '}
                       </span>
                     ))}
                   </div>
@@ -79,8 +63,7 @@ const Spot = () => {
                   <div className="flex flex-wrap gap-2">
                     {spot.types.map((type, index) => (
                       <span key={type} className="text-muted-foreground">
-                        {CLIMBING_SPOT_TYPE_LABELS[type]}{" "}
-                        {index < spot.types.length - 1 && ", "}
+                        {CLIMBING_SPOT_TYPE_LABELS[type]} {index < spot.types.length - 1 && ', '}
                       </span>
                     ))}
                   </div>
@@ -88,10 +71,7 @@ const Spot = () => {
 
                 <div className="flex flex-col gap-2">
                   <h3 className="font-semibold">Contact</h3>
-                  {spot.address ||
-                  spot.websiteUrl ||
-                  spot.phoneNumber ||
-                  spot.email ? (
+                  {spot.address || spot.websiteUrl || spot.phoneNumber || spot.email ? (
                     <div className="space-y-2">
                       {spot.address && (
                         <div className="flex items-center gap-2">
@@ -102,11 +82,7 @@ const Spot = () => {
                       {spot.websiteUrl && (
                         <div className="flex items-center gap-2">
                           <Globe className="h-5 w-5 text-primary" />
-                          <a
-                            href={spot.websiteUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
+                          <a href={spot.websiteUrl} target="_blank" rel="noopener noreferrer">
                             {spot.websiteUrl}
                           </a>
                         </div>
@@ -125,18 +101,14 @@ const Spot = () => {
                       )}
                     </div>
                   ) : (
-                    <span className="text-muted-foreground">
-                      Aucun contact disponible
-                    </span>
+                    <span className="text-muted-foreground">Aucun contact disponible</span>
                   )}
                 </div>
 
                 <div className="flex flex-col gap-2">
                   <h3 className="font-semibold">Équipements</h3>
                   <div className="flex gap-4">
-                    {spot.toiletsAvailable && (
-                      <Toilet className="h-6 w-6 text-primary" />
-                    )}
+                    {spot.toiletsAvailable && <Toilet className="h-6 w-6 text-primary" />}
                     {spot.parkingAvailable ? (
                       <CircleParking className="h-6 w-6 text-primary" />
                     ) : (
@@ -147,10 +119,7 @@ const Spot = () => {
               </div>
             </TabsContent>
 
-            <TabsContent
-              value="images"
-              className="grid grid-cols-1 md:grid-cols-2 gap-4"
-            >
+            <TabsContent value="images" className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {spot.imageUrls.length > 0 ? (
                 spot.imageUrls.map((imageUrl, index) => (
                   <Image
@@ -163,9 +132,7 @@ const Spot = () => {
                   />
                 ))
               ) : (
-                <span className="text-muted-foreground">
-                  Aucune image disponible
-                </span>
+                <span className="text-muted-foreground">Aucune image disponible</span>
               )}
             </TabsContent>
           </Tabs>

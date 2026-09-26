@@ -1,17 +1,11 @@
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/app/_components/ui/card";
-import { EMAIL_CONTACT } from "@/app/_constants/app";
-import { SITE_NAME } from "@/app/_constants/seo";
-import { Metadata } from "next";
+import { Card, CardContent, CardHeader, CardTitle } from '@/app/_components/ui/card';
+import { EMAIL_CONTACT } from '@/app/_constants/app';
+import { SITE_NAME } from '@/app/_constants/seo';
+import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: `${SITE_NAME} - Politique de Confidentialité`,
-  description:
-    "Politique de confidentialité et protection des données personnelles",
+  description: 'Politique de confidentialité et protection des données personnelles',
 };
 
 export default function PolitiqueConfidentialite() {
@@ -26,8 +20,8 @@ export default function PolitiqueConfidentialite() {
           </CardHeader>
           <CardContent className="space-y-4">
             <p>
-              Dans le cadre de l&apos;utilisation de nos services, nous sommes
-              amenés à collecter les données personnelles suivantes :
+              Dans le cadre de l&apos;utilisation de nos services, nous sommes amenés à collecter
+              les données personnelles suivantes :
             </p>
             <ul className="list-disc pl-6 space-y-2">
               <li>Données d&apos;identification (nom, prénom, email)</li>
@@ -59,9 +53,8 @@ export default function PolitiqueConfidentialite() {
           </CardHeader>
           <CardContent className="space-y-4">
             <p>
-              Vos données personnelles sont conservées pendant la durée
-              nécessaire aux finalités pour lesquelles elles sont collectées,
-              notamment :
+              Vos données personnelles sont conservées pendant la durée nécessaire aux finalités
+              pour lesquelles elles sont collectées, notamment :
             </p>
             <ul className="list-disc pl-6 space-y-2">
               <li>Données de compte : pendant la durée de votre inscription</li>
@@ -77,8 +70,8 @@ export default function PolitiqueConfidentialite() {
           </CardHeader>
           <CardContent className="space-y-4">
             <p>
-              Conformément au RGPD, vous disposez des droits suivants concernant
-              vos données personnelles :
+              Conformément au RGPD, vous disposez des droits suivants concernant vos données
+              personnelles :
             </p>
             <ul className="list-disc pl-6 space-y-2">
               <li>Droit d&apos;accès à vos données</li>
@@ -88,9 +81,7 @@ export default function PolitiqueConfidentialite() {
               <li>Droit à la portabilité des données</li>
               <li>Droit d&apos;opposition au traitement</li>
             </ul>
-            <p className="mt-4">
-              Pour exercer ces droits, contactez-nous à : {EMAIL_CONTACT}
-            </p>
+            <p className="mt-4">Pour exercer ces droits, contactez-nous à : {EMAIL_CONTACT}</p>
           </CardContent>
         </Card>
 
@@ -100,9 +91,8 @@ export default function PolitiqueConfidentialite() {
           </CardHeader>
           <CardContent className="space-y-4">
             <p>
-              Nous mettons en œuvre des mesures techniques et organisationnelles
-              appropriées pour assurer la sécurité de vos données personnelles,
-              notamment :
+              Nous mettons en œuvre des mesures techniques et organisationnelles appropriées pour
+              assurer la sécurité de vos données personnelles, notamment :
             </p>
             <ul className="list-disc pl-6 space-y-2">
               <li>Chiffrement des données sensibles</li>
@@ -135,9 +125,8 @@ export default function PolitiqueConfidentialite() {
           </CardHeader>
           <CardContent className="space-y-4">
             <p>
-              Nous nous réservons le droit de modifier cette politique de
-              confidentialité à tout moment. Les modifications prennent effet
-              dès leur publication sur le site.
+              Nous nous réservons le droit de modifier cette politique de confidentialité à tout
+              moment. Les modifications prennent effet dès leur publication sur le site.
             </p>
             <p>Dernière mise à jour : {new Date().toLocaleDateString()}</p>
           </CardContent>

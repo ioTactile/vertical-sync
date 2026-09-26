@@ -2,9 +2,9 @@ import type {
   CreateClimbingSpotAlertDto,
   GetClimbingSpotAlertsResponse,
   UpdateClimbingSpotAlertDto,
-} from "@/modules/core/model/ClimbingSpotAlert";
-import prisma from "@/prisma";
-import { createId } from "@paralleldrive/cuid2";
+} from '@/modules/core/model/ClimbingSpotAlert';
+import prisma from '@/prisma';
+import { createId } from '@paralleldrive/cuid2';
 
 export type ActiveAlertForEvaluation = {
   id: string;
@@ -23,21 +23,14 @@ export interface IClimbingSpotAlertRepository {
   create(data: CreateClimbingSpotAlertDto): Promise<void>;
   update(data: UpdateClimbingSpotAlertDto): Promise<void>;
   delete(id: string): Promise<void>;
-  findByUserAndSpot(
-    userId: string,
-    climbingSpotId: string,
-  ): Promise<{ id: string } | null>;
+  findByUserAndSpot(userId: string, climbingSpotId: string): Promise<{ id: string } | null>;
 }
 
-export class PrismaClimbingSpotAlertRepository
-  implements IClimbingSpotAlertRepository
-{
-  async findManyByUserId(
-    userId: string,
-  ): Promise<GetClimbingSpotAlertsResponse> {
+export class PrismaClimbingSpotAlertRepository implements IClimbingSpotAlertRepository {
+  async findManyByUserId(userId: string): Promise<GetClimbingSpotAlertsResponse> {
     const alerts = await prisma.climbingSpotAlert.findMany({
       where: { userId },
-      orderBy: { createdAt: "desc" },
+      orderBy: { createdAt: 'desc' },
       include: {
         climbingSpot: {
           select: { id: true, name: true },
@@ -98,7 +91,7 @@ export class PrismaClimbingSpotAlertRepository
     await prisma.climbingSpotAlert.update({
       where: { id: data.id },
       data: {
-        ...(typeof data.isActive === "boolean" && { isActive: data.isActive }),
+        ...(typeof data.isActive === 'boolean' && { isActive: data.isActive }),
       },
     });
   }
@@ -109,10 +102,7 @@ export class PrismaClimbingSpotAlertRepository
     });
   }
 
-  async findByUserAndSpot(
-    userId: string,
-    climbingSpotId: string,
-  ): Promise<{ id: string } | null> {
+  async findByUserAndSpot(userId: string, climbingSpotId: string): Promise<{ id: string } | null> {
     const alert = await prisma.climbingSpotAlert.findUnique({
       where: {
         userId_climbingSpotId: { userId, climbingSpotId },

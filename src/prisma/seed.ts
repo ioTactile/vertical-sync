@@ -1,7 +1,7 @@
-import { PrismaClient } from "@/prisma/generated/client/client";
-import { PrismaNeon } from "@prisma/adapter-neon";
-import seedData from "../../public/seed.json";
-import { createId } from "@paralleldrive/cuid2";
+import { PrismaClient } from '@/prisma/generated/client/client';
+import { PrismaNeon } from '@prisma/adapter-neon';
+import seedData from '../../public/seed.json';
+import { createId } from '@paralleldrive/cuid2';
 
 const prisma = new PrismaClient({
   adapter: new PrismaNeon({ connectionString: process.env.DATABASE_URL! }),
@@ -10,12 +10,12 @@ const prisma = new PrismaClient({
 async function main() {
   await prisma.tag.createMany({
     data: [
-      { name: "Nutrition" },
-      { name: "Bloc" },
-      { name: "Voie" },
-      { name: "Vitesse" },
-      { name: "Santé mentale" },
-      { name: "Méditation" },
+      { name: 'Nutrition' },
+      { name: 'Bloc' },
+      { name: 'Voie' },
+      { name: 'Vitesse' },
+      { name: 'Santé mentale' },
+      { name: 'Méditation' },
     ],
   });
   seedData.forEach(async (spot) => {

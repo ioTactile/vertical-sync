@@ -1,5 +1,5 @@
-import * as React from "react";
-import { ExtendedClimbingSpot } from "@/modules/core/model/ClimbingSpot";
+import * as React from 'react';
+import { ExtendedClimbingSpot } from '@/modules/core/model/ClimbingSpot';
 
 interface UseSpotSelectionProps {
   userLocation: [number, number] | null;
@@ -42,11 +42,11 @@ export const useSpotSelection = ({
         selectedSpot = spots.reduce((closest, current) => {
           const distanceToCurrent = Math.sqrt(
             Math.pow(current.latitude - userLocation[0], 2) +
-              Math.pow(current.longitude - userLocation[1], 2)
+              Math.pow(current.longitude - userLocation[1], 2),
           );
           const distanceToClosest = Math.sqrt(
             Math.pow(closest.latitude - userLocation[0], 2) +
-              Math.pow(closest.longitude - userLocation[1], 2)
+              Math.pow(closest.longitude - userLocation[1], 2),
           );
           return distanceToCurrent < distanceToClosest ? current : closest;
         }, spots[0]);
@@ -66,7 +66,7 @@ export const useSpotSelection = ({
       addSearchSpots,
       clearSearchSpots,
       userLocation,
-    ]
+    ],
   );
 
   const handleSpotSelect = React.useCallback(
@@ -77,7 +77,7 @@ export const useSpotSelection = ({
       updateMapView([spot.latitude, spot.longitude], 15);
       searchInputRef.current?.blur();
     },
-    [onSpotSelect, updateMapView, setSearchQuery, setIsSearchOpen]
+    [onSpotSelect, updateMapView, setSearchQuery, setIsSearchOpen],
   );
 
   React.useEffect(() => {
@@ -90,9 +90,9 @@ export const useSpotSelection = ({
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [setIsSearchOpen]);
 

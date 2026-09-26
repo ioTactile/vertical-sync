@@ -1,9 +1,9 @@
-import getArticleComments from "@/modules/core/queries/get-article-comments";
-import { useQuery } from "@tanstack/react-query";
+import getArticleComments from '@/modules/core/queries/get-article-comments';
+import { useQuery } from '@tanstack/react-query';
 
 const useArticleComments = (id: string) => {
   return useQuery({
-    queryKey: ["article-comments", id],
+    queryKey: ['article-comments', id],
     queryFn: () => getArticleComments(id),
   });
 };

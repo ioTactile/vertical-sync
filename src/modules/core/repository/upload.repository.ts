@@ -1,10 +1,5 @@
-import {
-  DeleteObjectCommand,
-  PutObjectCommand,
-  S3Client,
-} from "@aws-sdk/client-s3";
-import { s3Client } from "@/lib/s3";
-import { createId } from "@paralleldrive/cuid2";
+import { DeleteObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { createId } from '@paralleldrive/cuid2';
 
 export interface IUploadRepository {
   uploadFile(file: Buffer, contentType: string): Promise<string>;
@@ -31,10 +26,9 @@ export class S3UploadRepository implements IUploadRepository {
   async deleteFile(key: string): Promise<void> {
     const command = new DeleteObjectCommand({
       Bucket: process.env.AWS_BUCKET_NAME,
-      Key: key.split("/").pop(),
+      Key: key.split('/').pop(),
     });
 
     await this.s3Client.send(command);
   }
 }
-

@@ -3,7 +3,7 @@ import {
   GetTagResponse,
   GetTagsResponse,
   UpdateTagDto,
-} from "@/modules/core/model/Tag";
+} from '@/modules/core/model/Tag';
 
 export interface ITagGateway {
   getTags: () => Promise<GetTagsResponse>;

@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { uploadGateway } from "@/modules/core/gateway-infra/api.upload-gateway";
-import { useToast } from "./use-toast";
+import { useState } from 'react';
+import { uploadGateway } from '@/modules/core/gateway-infra/api.upload-gateway';
+import { useToast } from './use-toast';
 
 interface UseS3UploadOptions {
   maxFiles?: number;
@@ -30,9 +30,9 @@ export const useS3Upload = ({ maxFiles = 1 }: UseS3UploadOptions = {}) => {
     } catch (error) {
       console.error(error);
       toast({
-        title: "Erreur lors de la suppression des fichiers",
-        description: "Veuillez réessayer plus tard",
-        variant: "destructive",
+        title: 'Erreur lors de la suppression des fichiers',
+        description: 'Veuillez réessayer plus tard',
+        variant: 'destructive',
       });
     }
   };

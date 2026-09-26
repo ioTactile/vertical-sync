@@ -1,6 +1,6 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { UpdateClimbingSpotAlertDto } from "@/modules/core/model/ClimbingSpotAlert";
-import { climbingSpotGateway } from "@/modules/core/gateway-infra/api.climbing-spot-gateway";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import type { UpdateClimbingSpotAlertDto } from '@/modules/core/model/ClimbingSpotAlert';
+import { climbingSpotGateway } from '@/modules/core/gateway-infra/api.climbing-spot-gateway';
 
 export function useUpdateClimbingSpotAlert() {
   const queryClient = useQueryClient();
@@ -10,7 +10,7 @@ export function useUpdateClimbingSpotAlert() {
       climbingSpotGateway.updateClimbingSpotAlert(alertId, data),
     onSettled: async () => {
       await queryClient.invalidateQueries({
-        queryKey: ["climbing-spot-alerts"],
+        queryKey: ['climbing-spot-alerts'],
       });
     },
   });

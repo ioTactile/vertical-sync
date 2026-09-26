@@ -1,33 +1,27 @@
-"use client";
+'use client';
 
-import { Resolver, SubmitHandler, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useParams, useRouter } from "next/navigation";
+import { Resolver, SubmitHandler, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useParams, useRouter } from 'next/navigation';
 import {
   createArticleCommentSchema,
   CreateArticleCommentInputs,
-} from "@/modules/react/sections/admin/article-comments/_schemas/create-article-comment";
-import { useCreateArticleComment } from "@/modules/core/mutations/useCreateArticleComment";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/app/_components/ui/form";
-import { Textarea } from "@/app/_components/ui/textarea";
-import { Button } from "@/app/_components/ui/button";
-import { useAuthAction } from "@/app/_hooks/use-auth-action";
+} from '@/modules/react/sections/admin/article-comments/_schemas/create-article-comment';
+import { useCreateArticleComment } from '@/modules/core/mutations/useCreateArticleComment';
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/app/_components/ui/form';
+import { Textarea } from '@/app/_components/ui/textarea';
+import { Button } from '@/app/_components/ui/button';
+import { useAuthAction } from '@/app/_hooks/use-auth-action';
 
 const ArticleCommentForm = () => {
   const { id } = useParams();
 
   const form = useForm<CreateArticleCommentInputs>({
-    resolver: zodResolver(createArticleCommentSchema) as Resolver<any>,
+    resolver: zodResolver(createArticleCommentSchema) as Resolver<CreateArticleCommentInputs>,
     defaultValues: {
-      content: "",
+      content: '',
     },
-    mode: "onChange",
+    mode: 'onChange',
   });
 
   const {
@@ -43,9 +37,7 @@ const ArticleCommentForm = () => {
 
   const { handleAuthAction } = useAuthAction();
 
-  const handleCreateArticleCommentSubmit: SubmitHandler<
-    CreateArticleCommentInputs
-  > = (data) => {
+  const handleCreateArticleCommentSubmit: SubmitHandler<CreateArticleCommentInputs> = (data) => {
     handleAuthAction((user) => {
       const articleComment = {
         content: data.content,
@@ -64,7 +56,7 @@ const ArticleCommentForm = () => {
             reset();
             router.push(`/admin/articles/${id as string}/comments`);
           },
-        }
+        },
       );
     });
   };
@@ -88,11 +80,7 @@ const ArticleCommentForm = () => {
           )}
         />
 
-        <Button
-          type="submit"
-          disabled={!isValid}
-          className="rounded-full self-end"
-        >
+        <Button type="submit" disabled={!isValid} className="rounded-full self-end">
           Créer
         </Button>
       </form>

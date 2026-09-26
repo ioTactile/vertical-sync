@@ -1,7 +1,7 @@
-import { useCallback } from "react";
-import { redirect } from "next/navigation";
-import type { UserResource } from "@clerk/shared/types";
-import { useUserStore } from "@/modules/core/store/store";
+import { useCallback } from 'react';
+import { redirect } from 'next/navigation';
+import type { UserResource } from '@clerk/shared/types';
+import { useUserStore } from '@/modules/core/store/store';
 
 export const useAuthAction = () => {
   const { user, isLoaded } = useUserStore();
@@ -11,7 +11,7 @@ export const useAuthAction = () => {
       if (!isLoaded) return;
 
       if (!user) {
-        redirect("/auth/sign-in");
+        redirect('/auth/sign-in');
       }
 
       action(user);

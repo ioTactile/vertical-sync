@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 
 export const useFileManager = (maxFiles: number = Infinity) => {
   const [files, setFiles] = React.useState<File[]>([]);

@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-import { Button } from "@/app/_components/ui/button";
+import { ColumnDef } from '@tanstack/react-table';
+import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
+import { Button } from '@/app/_components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,16 +10,16 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/app/_components/ui/dropdown-menu";
-import Link from "next/link";
+} from '@/app/_components/ui/dropdown-menu';
+import Link from 'next/link';
 import {
   CLIMBING_SPOT_DIFFICULTY_LABELS,
   CLIMBING_SPOT_STATUS_LABELS,
   CLIMBING_SPOT_TYPE_LABELS,
-} from "@/types/enum";
-import { useDeleteClimbingSpot } from "@/modules/core/mutations/useDeleteClimbingSpot";
-import { ClimbingSpotStatus } from "@/modules/core/domain/enums";
-import { DataTableFeatures } from "@/modules/react/sections/_components/data-table";
+} from '@/types/enum';
+import { useDeleteClimbingSpot } from '@/modules/core/mutations/useDeleteClimbingSpot';
+import { ClimbingSpotStatus } from '@/modules/core/domain/enums';
+import { DataTableFeatures } from '@/modules/react/sections/_components/data-table';
 
 export type Spot = {
   id: string;
@@ -33,12 +33,12 @@ export type Spot = {
 
 export const columns: ColumnDef<DataTableFeatures, Spot>[] = [
   {
-    accessorKey: "name",
+    accessorKey: 'name',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Nom
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -46,39 +46,36 @@ export const columns: ColumnDef<DataTableFeatures, Spot>[] = [
       );
     },
     cell: ({ row }) => {
-      const name = row.getValue("name") as string;
+      const name = row.getValue('name') as string;
       return (
         <div title={name}>
           {name.slice(0, 20)}
-          {name.length > 20 && "..."}
+          {name.length > 20 && '...'}
         </div>
       );
     },
   },
   {
-    accessorKey: "types",
-    header: "Types",
+    accessorKey: 'types',
+    header: 'Types',
     cell: ({ row }) => {
-      const types = row.getValue("types") as string[];
+      const types = row.getValue('types') as string[];
       return (
         <div>
           {types
             .map(
-              (type) =>
-                CLIMBING_SPOT_TYPE_LABELS[
-                  type as keyof typeof CLIMBING_SPOT_TYPE_LABELS
-                ]
+              (type) => CLIMBING_SPOT_TYPE_LABELS[type as keyof typeof CLIMBING_SPOT_TYPE_LABELS],
             )
-            .join(", ")}
+            .join(', ')}
         </div>
       );
     },
   },
   {
-    accessorKey: "difficulties",
-    header: "Difficultés",
+    accessorKey: 'difficulties',
+    header: 'Difficultés',
     cell: ({ row }) => {
-      const difficulties = row.getValue("difficulties") as string[];
+      const difficulties = row.getValue('difficulties') as string[];
       return (
         <div>
           {difficulties
@@ -86,20 +83,20 @@ export const columns: ColumnDef<DataTableFeatures, Spot>[] = [
               (diff) =>
                 CLIMBING_SPOT_DIFFICULTY_LABELS[
                   diff as keyof typeof CLIMBING_SPOT_DIFFICULTY_LABELS
-                ]
+                ],
             )
-            .join(", ")}
+            .join(', ')}
         </div>
       );
     },
   },
   {
-    accessorKey: "notation",
+    accessorKey: 'notation',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Note
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -108,20 +105,20 @@ export const columns: ColumnDef<DataTableFeatures, Spot>[] = [
     },
   },
   {
-    accessorKey: "status",
-    header: "Statut",
+    accessorKey: 'status',
+    header: 'Statut',
     cell: ({ row }) => {
-      const status = row.getValue("status") as ClimbingSpotStatus;
+      const status = row.getValue('status') as ClimbingSpotStatus;
       return <div>{CLIMBING_SPOT_STATUS_LABELS[status]}</div>;
     },
   },
   {
-    accessorKey: "updatedAt",
-    header: "Date de mise à jour",
+    accessorKey: 'updatedAt',
+    header: 'Date de mise à jour',
   },
   {
-    id: "actions",
-    header: "Actions",
+    id: 'actions',
+    header: 'Actions',
     cell: ({ row }) => {
       const spot = row.original;
 

@@ -1,15 +1,15 @@
-import { alertEvaluationService } from "@/modules/core/di/container";
-import { NextRequest, NextResponse } from "next/server";
+import { alertEvaluationService } from '@/modules/core/di/container';
+import { NextRequest, NextResponse } from 'next/server';
 
 /**
- * Vérifie le secret cron (Vercel envoie Authorization: Bearer CRON_SECRET).
+ * Verifies the cron secret (Vercel sends Authorization: Bearer CRON_SECRET).
  */
 function checkCronSecret(request: NextRequest): boolean {
   const secret = process.env.CRON_SECRET;
   if (!secret) return true;
-  const authHeader = request.headers.get("authorization");
-  const bearer = authHeader?.startsWith("Bearer ") ? authHeader.slice(7) : null;
-  const headerSecret = request.headers.get("x-cron-secret");
+  const authHeader = request.headers.get('authorization');
+  const bearer = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null;
+  const headerSecret = request.headers.get('x-cron-secret');
   const provided = bearer ?? headerSecret;
   return provided === secret;
 }
@@ -18,21 +18,21 @@ async function runEvaluation() {
   const result = await alertEvaluationService.evaluateAlertsForAllUsers();
   return NextResponse.json(
     {
-      message: "Évaluation terminée",
+      message: 'Évaluation terminée',
       notificationsCreated: result.notificationsCreated,
       errors: result.errors,
     },
-    { status: 200 }
+    { status: 200 },
   );
 }
 
 /**
- * Job à appeler par un cron (1 à 2 fois par jour).
- * GET : utilisé par Vercel Cron. POST : pour appels manuels (curl).
+ * Job intended for a cron (1–2 times per day).
+ * GET: used by Vercel Cron. POST: for manual calls (curl).
  */
 export async function GET(request: NextRequest) {
   if (!checkCronSecret(request)) {
-    return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
+    return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });
   }
   try {
     return await runEvaluation();
@@ -49,7 +49,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   if (!checkCronSecret(request)) {
-    return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
+    return NextResponse.json({ error: 'Non autorisé' }, { status: 401 });
   }
   try {
     return await runEvaluation();

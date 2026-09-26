@@ -1,6 +1,4 @@
-import {
-  IUploadRepository,
-} from "@/modules/core/repository/upload.repository";
+import { IUploadRepository } from '@/modules/core/repository/upload.repository';
 
 export class UploadService {
   constructor(private readonly uploadRepository: IUploadRepository) {}
@@ -13,4 +11,3 @@ export class UploadService {
     return this.uploadRepository.deleteFile(url);
   }
 }
-

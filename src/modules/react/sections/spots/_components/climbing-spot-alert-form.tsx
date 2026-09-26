@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { Button } from "@/app/_components/ui/button";
-import { Checkbox } from "@/app/_components/ui/checkbox";
+import * as React from 'react';
+import { Button } from '@/app/_components/ui/button';
+import { Checkbox } from '@/app/_components/ui/checkbox';
 import {
   Form,
   FormControl,
@@ -11,18 +11,18 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/app/_components/ui/form";
-import { Input } from "@/app/_components/ui/input";
-import { useAuthAction } from "@/app/_hooks/use-auth-action";
-import { useToast } from "@/app/_hooks/use-toast";
-import { useCreateClimbingSpotAlert } from "@/modules/core/mutations/useCreateClimbingSpotAlert";
-import type { GetClimbingSpotAlertResponse } from "@/modules/core/model/ClimbingSpotAlert";
+} from '@/app/_components/ui/form';
+import { Input } from '@/app/_components/ui/input';
+import { useAuthAction } from '@/app/_hooks/use-auth-action';
+import { useToast } from '@/app/_hooks/use-toast';
+import { useCreateClimbingSpotAlert } from '@/modules/core/mutations/useCreateClimbingSpotAlert';
+import type { GetClimbingSpotAlertResponse } from '@/modules/core/model/ClimbingSpotAlert';
 import {
   CreateClimbingSpotAlertInputs,
   createClimbingSpotAlertSchema,
-} from "@/modules/react/sections/spots/_schemas/create-climbing-spot-alert";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Resolver, SubmitHandler, useForm } from "react-hook-form";
+} from '@/modules/react/sections/spots/_schemas/create-climbing-spot-alert';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Resolver, SubmitHandler, useForm } from 'react-hook-form';
 
 interface ClimbingSpotAlertFormProps {
   spotId: string;
@@ -38,7 +38,7 @@ const ClimbingSpotAlertForm = ({
   onDelete,
 }: ClimbingSpotAlertFormProps) => {
   const form = useForm<CreateClimbingSpotAlertInputs>({
-    resolver: zodResolver(createClimbingSpotAlertSchema) as Resolver<any>,
+    resolver: zodResolver(createClimbingSpotAlertSchema) as Resolver<CreateClimbingSpotAlertInputs>,
     defaultValues: {
       minTempC: existingAlert?.minTempC ?? undefined,
       maxTempC: existingAlert?.maxTempC ?? undefined,
@@ -46,7 +46,7 @@ const ClimbingSpotAlertForm = ({
       onlyWeekends: existingAlert?.onlyWeekends ?? false,
       avoidRain: existingAlert?.avoidRain ?? true,
     },
-    mode: "onChange",
+    mode: 'onChange',
   });
 
   React.useEffect(() => {
@@ -81,18 +81,17 @@ const ClimbingSpotAlertForm = ({
         {
           onSuccess: () => {
             toast({
-              title: existingAlert ? "Alerte mise à jour" : "Alerte créée",
-              description:
-                "Vous serez notifié quand les conditions seront favorables.",
+              title: existingAlert ? 'Alerte mise à jour' : 'Alerte créée',
+              description: 'Vous serez notifié quand les conditions seront favorables.',
             });
             form.reset(form.getValues());
             onSuccess();
           },
           onError: () => {
             toast({
-              title: "Erreur",
+              title: 'Erreur',
               description: "Impossible d'enregistrer l'alerte",
-              variant: "destructive",
+              variant: 'destructive',
             });
           },
         },
@@ -116,10 +115,10 @@ const ClimbingSpotAlertForm = ({
                     step={1}
                     placeholder="ex. 5"
                     {...field}
-                    value={field.value ?? ""}
+                    value={field.value ?? ''}
                     onChange={(e) => {
                       const v = e.target.value;
-                      field.onChange(v === "" ? undefined : Number(v));
+                      field.onChange(v === '' ? undefined : Number(v));
                     }}
                   />
                 </FormControl>
@@ -139,10 +138,10 @@ const ClimbingSpotAlertForm = ({
                     step={1}
                     placeholder="ex. 25"
                     {...field}
-                    value={field.value ?? ""}
+                    value={field.value ?? ''}
                     onChange={(e) => {
                       const v = e.target.value;
-                      field.onChange(v === "" ? undefined : Number(v));
+                      field.onChange(v === '' ? undefined : Number(v));
                     }}
                   />
                 </FormControl>
@@ -165,16 +164,14 @@ const ClimbingSpotAlertForm = ({
                   min={0}
                   placeholder="ex. 30"
                   {...field}
-                  value={field.value ?? ""}
+                  value={field.value ?? ''}
                   onChange={(e) => {
                     const v = e.target.value;
-                    field.onChange(v === "" ? undefined : Number(v));
+                    field.onChange(v === '' ? undefined : Number(v));
                   }}
                 />
               </FormControl>
-              <FormDescription>
-                Alerte uniquement si le vent reste sous ce seuil.
-              </FormDescription>
+              <FormDescription>Alerte uniquement si le vent reste sous ce seuil.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -186,10 +183,7 @@ const ClimbingSpotAlertForm = ({
           render={({ field }) => (
             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
               <FormControl>
-                <Checkbox
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
+                <Checkbox checked={field.value} onCheckedChange={field.onChange} />
               </FormControl>
               <div className="space-y-1 leading-none">
                 <FormLabel>Uniquement les week-ends</FormLabel>
@@ -204,10 +198,7 @@ const ClimbingSpotAlertForm = ({
           render={({ field }) => (
             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
               <FormControl>
-                <Checkbox
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
+                <Checkbox checked={field.value} onCheckedChange={field.onChange} />
               </FormControl>
               <div className="space-y-1 leading-none">
                 <FormLabel>Éviter la pluie</FormLabel>
@@ -221,12 +212,7 @@ const ClimbingSpotAlertForm = ({
             {existingAlert ? "Mettre à jour l'alerte" : "Créer l'alerte"}
           </Button>
           {existingAlert && onDelete && (
-            <Button
-              type="button"
-              variant="outline"
-              onClick={onDelete}
-              className="rounded-full"
-            >
+            <Button type="button" variant="outline" onClick={onDelete} className="rounded-full">
               Supprimer
             </Button>
           )}

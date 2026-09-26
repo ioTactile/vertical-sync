@@ -4,64 +4,64 @@ import {
   DeleteTalkCommentDto,
   GetTalkWithCommentsResponse,
   UpdateTalkDto,
-} from "@/modules/core/model/Talk";
-import { Talk, TalkComment } from "@/prisma/client";
-import { mockAuthor } from "@/__tests__/fixtures/user.fixture";
+} from '@/modules/core/model/Talk';
+import { Talk, TalkComment } from '@/prisma/client';
+import { mockAuthor } from '@/__tests__/fixtures/user.fixture';
 
 export const mockTalk: Talk = {
-  id: "talk_1",
-  title: "Talk 1",
-  content: "Talk 1 content",
+  id: 'talk_1',
+  title: 'Talk 1',
+  content: 'Talk 1 content',
   createdAt: new Date(),
   updatedAt: new Date(),
-  authorId: "user_1",
+  authorId: 'user_1',
 };
 
 export const mockTalks: Talk[] = [
-  { ...mockTalk, id: "1" },
-  { ...mockTalk, id: "2" },
+  { ...mockTalk, id: '1' },
+  { ...mockTalk, id: '2' },
 ];
 
 export const mockTalkDto: CreateTalkDto = {
-  title: "Talk 1",
-  content: "Talk 1 content",
-  authorId: "user_1",
+  title: 'Talk 1',
+  content: 'Talk 1 content',
+  authorId: 'user_1',
 };
 
 export const mockUpdateTalkDto: UpdateTalkDto = {
-  id: "talk_1",
-  title: "Talk 1",
-  content: "Talk 1 content",
+  id: 'talk_1',
+  title: 'Talk 1',
+  content: 'Talk 1 content',
   updatedAt: new Date(),
 };
 
 export const mockTalkComment: TalkComment = {
-  id: "talk_comment_1",
-  content: "Talk comment 1 content",
+  id: 'talk_comment_1',
+  content: 'Talk comment 1 content',
   createdAt: new Date(),
   updatedAt: new Date(),
-  authorId: "user_1",
-  talkId: "talk_1",
+  authorId: 'user_1',
+  talkId: 'talk_1',
   replyToId: null,
   replyToUserId: null,
 };
 
 export const mockCreateTalkCommentDto: CreateTalkCommentDto = {
-  content: "Talk comment 1 content",
-  authorId: "user_1",
-  talkId: "talk_1",
+  content: 'Talk comment 1 content',
+  authorId: 'user_1',
+  talkId: 'talk_1',
   replyToId: null,
   replyToUserId: null,
 };
 
 export const mockDeleteTalkCommentDto: DeleteTalkCommentDto = {
-  talkId: "talk_1",
-  talkCommentId: "talk_comment_1",
+  talkId: 'talk_1',
+  talkCommentId: 'talk_comment_1',
 };
 
 export const mockTalkComments: TalkComment[] = [
-  { ...mockTalkComment, id: "1" },
-  { ...mockTalkComment, id: "2" },
+  { ...mockTalkComment, id: '1' },
+  { ...mockTalkComment, id: '2' },
 ];
 
 export const mockTalkWithComments: GetTalkWithCommentsResponse = {

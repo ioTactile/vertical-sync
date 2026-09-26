@@ -1,7 +1,5 @@
-import { WeatherData } from "@/modules/core/model/Weather";
-import {
-  IWeatherRepository,
-} from "@/modules/core/repository/weather.repository";
+import { WeatherData } from '@/modules/core/model/Weather';
+import { IWeatherRepository } from '@/modules/core/repository/weather.repository';
 
 export class WeatherService {
   constructor(private readonly repository: IWeatherRepository) {}
@@ -10,5 +8,3 @@ export class WeatherService {
     return this.repository.getByCoords(lat, lng);
   }
 }
-
-

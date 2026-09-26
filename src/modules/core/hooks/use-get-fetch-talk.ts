@@ -1,29 +1,23 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  GetTalksResponse,
-  GetTalkWithCommentsResponse,
-} from "@/modules/core/model/Talk";
-import getTalkWithComments from "@/modules/core/queries/get-talk-with-comments";
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { GetTalksResponse, GetTalkWithCommentsResponse } from '@/modules/core/model/Talk';
+import getTalkWithComments from '@/modules/core/queries/get-talk-with-comments';
 
 export const useGetFetchQuery = (id?: string) => {
   const queryClient = useQueryClient();
 
   return useQuery({
-    queryKey: ["talks", id],
+    queryKey: ['talks', id],
     queryFn: () => getTalkWithComments(id!),
     enabled: !!id,
     initialData: () => {
-      // Essayer de récupérer le talk depuis la liste complète des talks
-      const cachedTalks = queryClient.getQueryData<GetTalksResponse>(["talks"]);
+      // Try the full talks list first
+      const cachedTalks = queryClient.getQueryData<GetTalksResponse>(['talks']);
       if (cachedTalks) {
         return cachedTalks.find((talk) => talk.id === id);
       }
 
-      // Sinon, essayer de récupérer directement le talk individuel
-      const cachedTalk = queryClient.getQueryData<GetTalkWithCommentsResponse>([
-        "talks",
-        id,
-      ]);
+      // Otherwise fetch the individual talk
+      const cachedTalk = queryClient.getQueryData<GetTalkWithCommentsResponse>(['talks', id]);
       return cachedTalk ?? undefined;
     },
   });

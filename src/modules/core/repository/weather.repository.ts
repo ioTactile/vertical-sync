@@ -3,7 +3,7 @@ import {
   WeatherData,
   WeatherForecastEntry,
   WeatherSnapshot,
-} from "@/modules/core/model/Weather";
+} from '@/modules/core/model/Weather';
 
 export interface IWeatherRepository {
   getByCoords(lat: number, lng: number): Promise<WeatherData>;
@@ -14,18 +14,17 @@ export interface IWeatherRepository {
  * @see https://open-meteo.com/en/docs#api-documentation (WMO codes table)
  */
 function wmoCodeToCondition(wmo: number): WeatherConditionCode {
-  if (wmo === 0) return "CLEAR";
-  if (wmo === 1 || wmo === 2) return "FEW_CLOUDS";
-  if (wmo === 3) return "CLOUDS";
-  if (wmo === 45 || wmo === 48) return "MIST";
-  if ([51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82].includes(wmo))
-    return "RAIN";
-  if ([71, 73, 75, 77, 85, 86].includes(wmo)) return "SNOW";
-  if ([95, 96, 99].includes(wmo)) return "THUNDERSTORM";
-  return "CLEAR";
+  if (wmo === 0) return 'CLEAR';
+  if (wmo === 1 || wmo === 2) return 'FEW_CLOUDS';
+  if (wmo === 3) return 'CLOUDS';
+  if (wmo === 45 || wmo === 48) return 'MIST';
+  if ([51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82].includes(wmo)) return 'RAIN';
+  if ([71, 73, 75, 77, 85, 86].includes(wmo)) return 'SNOW';
+  if ([95, 96, 99].includes(wmo)) return 'THUNDERSTORM';
+  return 'CLEAR';
 }
 
-const OPEN_METEO_BASE = "https://api.open-meteo.com/v1/forecast";
+const OPEN_METEO_BASE = 'https://api.open-meteo.com/v1/forecast';
 
 type OpenMeteoResponse = {
   current: {
@@ -61,32 +60,30 @@ type OpenMeteoResponse = {
 export class OpenMeteoRepository implements IWeatherRepository {
   async getByCoords(lat: number, lng: number): Promise<WeatherData> {
     const url = new URL(OPEN_METEO_BASE);
-    url.searchParams.set("latitude", lat.toString());
-    url.searchParams.set("longitude", lng.toString());
-    url.searchParams.set("timezone", "auto");
-    url.searchParams.set("temperature_unit", "celsius");
-    url.searchParams.set("wind_speed_unit", "kmh");
-    url.searchParams.set("precipitation_unit", "mm");
+    url.searchParams.set('latitude', lat.toString());
+    url.searchParams.set('longitude', lng.toString());
+    url.searchParams.set('timezone', 'auto');
+    url.searchParams.set('temperature_unit', 'celsius');
+    url.searchParams.set('wind_speed_unit', 'kmh');
+    url.searchParams.set('precipitation_unit', 'mm');
     url.searchParams.set(
-      "current",
-      "temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m,wind_gusts_10m",
+      'current',
+      'temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m,wind_gusts_10m',
     );
     url.searchParams.set(
-      "daily",
-      "weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,wind_speed_10m_max",
+      'daily',
+      'weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,wind_speed_10m_max',
     );
     url.searchParams.set(
-      "hourly",
-      "temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m,is_day",
+      'hourly',
+      'temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m,is_day',
     );
-    url.searchParams.set("forecast_days", "7");
+    url.searchParams.set('forecast_days', '7');
 
     const response = await fetch(url.toString());
 
     if (!response.ok) {
-      throw new Error(
-        `Erreur lors de l'appel à l'API météo Open-Meteo: ${response.statusText}`,
-      );
+      throw new Error(`Erreur lors de l'appel à l'API météo Open-Meteo: ${response.statusText}`);
     }
 
     const data = (await response.json()) as OpenMeteoResponse;
@@ -98,8 +95,7 @@ export class OpenMeteoRepository implements IWeatherRepository {
       windSpeedKmh: data.current.wind_speed_10m,
       humidity: data.current.relative_humidity_2m,
       condition: wmoCodeToCondition(data.current.weather_code),
-      precipitationMm:
-        data.current.precipitation > 0 ? data.current.precipitation : undefined,
+      precipitationMm: data.current.precipitation > 0 ? data.current.precipitation : undefined,
     };
 
     const nextHours: WeatherForecastEntry[] = [];
@@ -114,9 +110,7 @@ export class OpenMeteoRepository implements IWeatherRepository {
           humidity: data.hourly.relative_humidity_2m[i],
           condition: wmoCodeToCondition(data.hourly.weather_code[i]),
           precipitationMm:
-            data.hourly.precipitation[i] > 0
-              ? data.hourly.precipitation[i]
-              : undefined,
+            data.hourly.precipitation[i] > 0 ? data.hourly.precipitation[i] : undefined,
           isDaytime: data.hourly.is_day[i] === 1,
         });
       }
@@ -137,9 +131,7 @@ export class OpenMeteoRepository implements IWeatherRepository {
           humidity: 0,
           condition: wmoCodeToCondition(data.daily.weather_code[i]),
           precipitationMm:
-            data.daily.precipitation_sum[i] > 0
-              ? data.daily.precipitation_sum[i]
-              : undefined,
+            data.daily.precipitation_sum[i] > 0 ? data.daily.precipitation_sum[i] : undefined,
           isDaytime: true,
         });
       }
@@ -152,4 +144,3 @@ export class OpenMeteoRepository implements IWeatherRepository {
     };
   }
 }
-

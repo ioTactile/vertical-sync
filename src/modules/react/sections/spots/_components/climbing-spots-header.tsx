@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import { Button } from "@/app/_components/ui/button";
-import { Plus } from "lucide-react";
+import { Button } from '@/app/_components/ui/button';
+import { Plus } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/app/_components/ui/dialog";
-import ClimbingSpotForm from "@/modules/react/sections/spots/_components/climbing-spot-form";
-import * as React from "react";
+} from '@/app/_components/ui/dialog';
+import ClimbingSpotForm from '@/modules/react/sections/spots/_components/climbing-spot-form';
+import * as React from 'react';
 
 const ClimbingSpotsHeader = () => {
   const [open, setOpen] = React.useState<boolean>(false);
@@ -30,9 +30,7 @@ const ClimbingSpotsHeader = () => {
       </div>
 
       <div className="flex justify-between items-center px-2">
-        <h1 className="text-2xl lg:text-3xl font-bold">
-          Spots d&apos;escalade
-        </h1>
+        <h1 className="text-2xl lg:text-3xl font-bold">Spots d&apos;escalade</h1>
 
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>

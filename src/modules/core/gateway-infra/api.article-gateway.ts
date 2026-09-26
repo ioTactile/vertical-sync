@@ -1,4 +1,4 @@
-import { IArticleGateway } from "@/modules/core/gateway/article.gateway";
+import { IArticleGateway } from '@/modules/core/gateway/article.gateway';
 import {
   ArticleFilters,
   CreateArticleDto,
@@ -9,89 +9,74 @@ import {
   GetArticlesResponse,
   UpdateArticleDto,
   CreateArticleCommentDto,
-} from "@/modules/core/model/Article";
-import { axiosInstance } from "@/lib/globals";
+} from '@/modules/core/model/Article';
+import { axiosInstance } from '@/lib/globals';
 
 export class ApiArticleGateway implements IArticleGateway {
   async getPublicArticles(
-    filters: Omit<ArticleFilters, "publishedOnly">
+    filters: Omit<ArticleFilters, 'publishedOnly'>,
   ): Promise<GetArticlesResponse> {
     const params = {
       ...(filters.userId && { userId: filters.userId }),
       ...(filters.page && { page: filters.page }),
     };
 
-    const response = await axiosInstance.get<GetArticlesResponse>("/api/blog", {
+    const response = await axiosInstance.get<GetArticlesResponse>('/api/blog', {
       params,
     });
     return response.data;
   }
 
   async getAdminArticles(): Promise<GetArticlesResponse> {
-    const response = await axiosInstance.get<GetArticlesResponse>(
-      "/api/admin/blog"
-    );
+    const response = await axiosInstance.get<GetArticlesResponse>('/api/admin/blog');
     return response.data;
   }
 
   async getArticleBySlug(slug: string): Promise<GetArticleResponse> {
-    const response = await axiosInstance.get<GetArticleResponse>(
-      `/api/blog/${slug}`
-    );
+    const response = await axiosInstance.get<GetArticleResponse>(`/api/blog/${slug}`);
     return response.data;
   }
 
-  async getArticleBySlugWithRelations(
-    slug: string
-  ): Promise<GetArticleWithRelationsResponse> {
+  async getArticleBySlugWithRelations(slug: string): Promise<GetArticleWithRelationsResponse> {
     const response = await axiosInstance.get<GetArticleWithRelationsResponse>(
-      `/api/blog/${slug}?withRelations=true`
+      `/api/blog/${slug}?withRelations=true`,
     );
     return response.data;
   }
   async getArticleById(id: string): Promise<GetArticleResponse> {
-    const response = await axiosInstance.get<GetArticleResponse>(
-      `/api/blog/${id}`
-    );
+    const response = await axiosInstance.get<GetArticleResponse>(`/api/blog/${id}`);
     return response.data;
   }
 
-  async getArticleByIdWithRelations(
-    id: string
-  ): Promise<GetArticleWithRelationsResponse> {
+  async getArticleByIdWithRelations(id: string): Promise<GetArticleWithRelationsResponse> {
     const response = await axiosInstance.get<GetArticleWithRelationsResponse>(
-      `/api/blog/${id}?withRelations=true`
+      `/api/blog/${id}?withRelations=true`,
     );
     return response.data;
   }
 
   async getArticleComments(id: string): Promise<GetArticleCommentsResponse> {
-    const response = await axiosInstance.get<GetArticleCommentsResponse>(
-      `/api/blog/${id}/comment`
-    );
+    const response = await axiosInstance.get<GetArticleCommentsResponse>(`/api/blog/${id}/comment`);
     return response.data;
   }
 
   async createArticle(article: CreateArticleDto): Promise<{
     message: string;
   }> {
-    const response = await axiosInstance.post("/api/blog", article);
+    const response = await axiosInstance.post('/api/blog', article);
     return response.data;
   }
 
   async updateArticle(article: UpdateArticleDto): Promise<{
     message: string;
   }> {
-    const response = await axiosInstance.patch(
-      `/api/blog/${article.id}`,
-      article
-    );
+    const response = await axiosInstance.patch(`/api/blog/${article.id}`, article);
     return response.data;
   }
 
   async updateArticlePublishStatus(
     id: string,
-    published: boolean
+    published: boolean,
   ): Promise<{
     message: string;
   }> {
@@ -116,14 +101,14 @@ export class ApiArticleGateway implements IArticleGateway {
   }> {
     const response = await axiosInstance.post(
       `/api/blog/${articleComment.articleId}/comment`,
-      articleComment
+      articleComment,
     );
     return response.data;
   }
 
   async deleteArticleComment(
     articleId: string,
-    articleCommentId: string
+    articleCommentId: string,
   ): Promise<{
     message: string;
   }> {
@@ -131,7 +116,7 @@ export class ApiArticleGateway implements IArticleGateway {
       `/api/blog/${articleId}/comment/${articleCommentId}`,
       {
         data: { articleId, articleCommentId },
-      }
+      },
     );
     return response.data;
   }
@@ -141,14 +126,14 @@ export class ApiArticleGateway implements IArticleGateway {
   }> {
     const response = await axiosInstance.post(
       `/api/blog/${articleLike.articleId}/like`,
-      articleLike
+      articleLike,
     );
     return response.data;
   }
 
   async deleteArticleLike(
     articleId: string,
-    userId: string
+    userId: string,
   ): Promise<{
     message: string;
   }> {

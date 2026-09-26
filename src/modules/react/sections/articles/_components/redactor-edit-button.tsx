@@ -1,17 +1,14 @@
-import { Button } from "@/app/_components/ui/button";
-import Link from "next/link";
-import { Pencil } from "lucide-react";
-import { useUserStore } from "@/modules/core/store/store";
+import { Button } from '@/app/_components/ui/button';
+import Link from 'next/link';
+import { Pencil } from 'lucide-react';
+import { useUserStore } from '@/modules/core/store/store';
 
 interface RedactorEditButtonProps {
   articleId: string;
   articleAuthorId: string;
 }
 
-const RedactorEditButton = ({
-  articleId,
-  articleAuthorId,
-}: RedactorEditButtonProps) => {
+const RedactorEditButton = ({ articleId, articleAuthorId }: RedactorEditButtonProps) => {
   const { isRedactor, user } = useUserStore();
 
   if (!isRedactor || !user) return null;

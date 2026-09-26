@@ -1,4 +1,4 @@
-import RedactorCreateButton from "@/modules/react/sections/articles/_components/redactor-create-button";
+import RedactorCreateButton from '@/modules/react/sections/articles/_components/redactor-create-button';
 
 const ArticlesHeader = () => {
   return (

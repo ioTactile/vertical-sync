@@ -1,6 +1,6 @@
-import { SITE_NAME } from "@/app/_constants/seo";
-import ArticlesPage from "@/modules/react/pages/ArticlesPage";
-import { Metadata } from "next";
+import { SITE_NAME } from '@/app/_constants/seo';
+import ArticlesPage from '@/modules/react/pages/ArticlesPage';
+import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: `${SITE_NAME} - Blog`,

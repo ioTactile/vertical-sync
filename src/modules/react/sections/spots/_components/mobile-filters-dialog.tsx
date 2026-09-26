@@ -1,20 +1,17 @@
-import { Button } from "@/app/_components/ui/button";
+import { Button } from '@/app/_components/ui/button';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/app/_components/ui/dialog";
-import { Input } from "@/app/_components/ui/input";
-import { Search, SlidersHorizontal } from "lucide-react";
-import { ClimbingSpotType, ClimbingSpotDifficulty } from "@/modules/core/domain/enums";
-import {
-  CLIMBING_SPOT_TYPE_LABELS,
-  CLIMBING_SPOT_DIFFICULTY_LABELS,
-} from "@/types/enum";
-import { Check } from "lucide-react";
-import * as React from "react";
+} from '@/app/_components/ui/dialog';
+import { Input } from '@/app/_components/ui/input';
+import { Search, SlidersHorizontal } from 'lucide-react';
+import { ClimbingSpotType, ClimbingSpotDifficulty } from '@/modules/core/domain/enums';
+import { CLIMBING_SPOT_TYPE_LABELS, CLIMBING_SPOT_DIFFICULTY_LABELS } from '@/types/enum';
+import { Check } from 'lucide-react';
+import * as React from 'react';
 
 interface MobileFiltersDialogProps {
   selectedTypes: ClimbingSpotType[];
@@ -33,15 +30,15 @@ export const MobileFiltersDialog = ({
   resetFilters,
   isNotDefaultFilters,
 }: MobileFiltersDialogProps) => {
-  const [search, setSearch] = React.useState<string>("");
+  const [search, setSearch] = React.useState<string>('');
 
-  const filteredTypes = Object.entries(CLIMBING_SPOT_TYPE_LABELS).filter(
-    ([, label]) => label.toLowerCase().includes(search.toLowerCase())
+  const filteredTypes = Object.entries(CLIMBING_SPOT_TYPE_LABELS).filter(([, label]) =>
+    label.toLowerCase().includes(search.toLowerCase()),
   );
 
-  const filteredDifficulties = Object.entries(
-    CLIMBING_SPOT_DIFFICULTY_LABELS
-  ).filter(([, label]) => label.toLowerCase().includes(search.toLowerCase()));
+  const filteredDifficulties = Object.entries(CLIMBING_SPOT_DIFFICULTY_LABELS).filter(([, label]) =>
+    label.toLowerCase().includes(search.toLowerCase()),
+  );
 
   return (
     <Dialog>
@@ -57,11 +54,7 @@ export const MobileFiltersDialog = ({
         </DialogHeader>
         <div className="flex flex-col gap-4">
           {isNotDefaultFilters && (
-            <Button
-              variant="secondary"
-              className="rounded-xl"
-              onClick={resetFilters}
-            >
+            <Button variant="secondary" className="rounded-xl" onClick={resetFilters}>
               Réinitialiser
             </Button>
           )}
@@ -89,8 +82,8 @@ export const MobileFiltersDialog = ({
                     <Check
                       className={`h-4 w-4 ${
                         selectedTypes.includes(type as ClimbingSpotType)
-                          ? "opacity-100"
-                          : "opacity-0"
+                          ? 'opacity-100'
+                          : 'opacity-0'
                       }`}
                     />
                     <span>{label}</span>
@@ -106,19 +99,13 @@ export const MobileFiltersDialog = ({
                   <div
                     key={difficulty}
                     className="flex items-center gap-2 p-2 hover:bg-accent rounded-lg cursor-pointer"
-                    onClick={() =>
-                      handleDifficultySelect(
-                        difficulty as ClimbingSpotDifficulty
-                      )
-                    }
+                    onClick={() => handleDifficultySelect(difficulty as ClimbingSpotDifficulty)}
                   >
                     <Check
                       className={`h-4 w-4 ${
-                        selectedDifficulties.includes(
-                          difficulty as ClimbingSpotDifficulty
-                        )
-                          ? "opacity-100"
-                          : "opacity-0"
+                        selectedDifficulties.includes(difficulty as ClimbingSpotDifficulty)
+                          ? 'opacity-100'
+                          : 'opacity-0'
                       }`}
                     />
                     <span>{label}</span>

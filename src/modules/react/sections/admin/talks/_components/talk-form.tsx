@@ -1,46 +1,39 @@
-"use client";
+'use client';
 
-import { Textarea } from "@/app/_components/ui/textarea";
-import { Button } from "@/app/_components/ui/button";
-import { Resolver, SubmitHandler, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { CreateTalkInputs } from "@/modules/react/sections/talks/_schemas/create-talk";
-import { createTalkSchema } from "@/modules/react/sections/talks/_schemas/create-talk";
-import * as React from "react";
-import { TALK_TITLE_MAX_LENGTH } from "@/app/_constants/app";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/app/_components/ui/form";
-import { useUpdateTalk } from "@/modules/core/mutations/useUpdateTalk";
-import { useCreateTalk } from "@/modules/core/mutations/useCreateTalk";
-import { GetTalkWithCommentsResponse } from "@/modules/core/model/Talk";
-import { useRouter } from "next/navigation";
-import { useAuthAction } from "@/app/_hooks/use-auth-action";
-import TipTapEditor from "@/app/_components/core/tiptap-editor";
+import { Textarea } from '@/app/_components/ui/textarea';
+import { Button } from '@/app/_components/ui/button';
+import { Resolver, SubmitHandler, useForm, useWatch } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { CreateTalkInputs } from '@/modules/react/sections/talks/_schemas/create-talk';
+import { createTalkSchema } from '@/modules/react/sections/talks/_schemas/create-talk';
+import * as React from 'react';
+import { TALK_TITLE_MAX_LENGTH } from '@/app/_constants/app';
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/app/_components/ui/form';
+import { useUpdateTalk } from '@/modules/core/mutations/useUpdateTalk';
+import { useCreateTalk } from '@/modules/core/mutations/useCreateTalk';
+import { GetTalkWithCommentsResponse } from '@/modules/core/model/Talk';
+import { useRouter } from 'next/navigation';
+import { useAuthAction } from '@/app/_hooks/use-auth-action';
+import TipTapEditor from '@/app/_components/core/tiptap-editor';
 
 interface TalkFormProps {
-  mode: "create" | "update";
+  mode: 'create' | 'update';
   initialData?: GetTalkWithCommentsResponse;
 }
 
 const TalkForm = ({ mode, initialData }: TalkFormProps) => {
   const form = useForm<CreateTalkInputs>({
-    resolver: zodResolver(createTalkSchema) as Resolver<any>,
+    resolver: zodResolver(createTalkSchema) as Resolver<CreateTalkInputs>,
     defaultValues: {
-      title: "",
-      content: "",
+      title: '',
+      content: '',
     },
-    mode: "onChange",
+    mode: 'onChange',
   });
 
   const {
     control,
     setValue,
-    watch,
     handleSubmit,
     formState: { isValid },
     reset,
@@ -48,8 +41,8 @@ const TalkForm = ({ mode, initialData }: TalkFormProps) => {
 
   React.useEffect(() => {
     if (initialData) {
-      setValue("title", initialData.title);
-      setValue("content", initialData.content);
+      setValue('title', initialData.title);
+      setValue('content', initialData.content);
     }
   }, [initialData, setValue]);
 
@@ -67,7 +60,7 @@ const TalkForm = ({ mode, initialData }: TalkFormProps) => {
         content: data.content,
       };
 
-      if (mode === "create") {
+      if (mode === 'create') {
         createTalkMutation.mutate(
           {
             ...talk,
@@ -76,9 +69,9 @@ const TalkForm = ({ mode, initialData }: TalkFormProps) => {
           {
             onSuccess: () => {
               reset();
-              router.push("/admin/talks");
+              router.push('/admin/talks');
             },
-          }
+          },
         );
       } else {
         updateTalkMutation.mutate(
@@ -90,28 +83,20 @@ const TalkForm = ({ mode, initialData }: TalkFormProps) => {
           {
             onSuccess: () => {
               reset();
-              router.push("/admin/talks");
+              router.push('/admin/talks');
             },
-          }
+          },
         );
       }
     });
   };
 
-  const [titleSize, setTitleSize] = React.useState<number>(0);
-
-  const title = watch("title");
-
-  React.useEffect(() => {
-    setTitleSize(title.length);
-  }, [title]);
+  const title = useWatch({ control, name: 'title' }) ?? '';
+  const titleSize = title.length;
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={handleSubmit(handleCreateTalkSubmit)}
-        className="flex flex-col gap-6"
-      >
+      <form onSubmit={handleSubmit(handleCreateTalkSubmit)} className="flex flex-col gap-6">
         <FormField
           control={control}
           name="title"
@@ -148,12 +133,8 @@ const TalkForm = ({ mode, initialData }: TalkFormProps) => {
           )}
         />
 
-        <Button
-          type="submit"
-          disabled={!isValid}
-          className="rounded-full self-end"
-        >
-          {mode === "create" ? "Créer" : "Mettre à jour"}
+        <Button type="submit" disabled={!isValid} className="rounded-full self-end">
+          {mode === 'create' ? 'Créer' : 'Mettre à jour'}
         </Button>
       </form>
     </Form>

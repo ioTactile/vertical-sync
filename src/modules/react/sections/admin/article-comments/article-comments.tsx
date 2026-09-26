@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import ArticleCommentsHeader from "@/modules/react/sections/admin/article-comments/_components/article-comments-header";
-import { DataTable } from "@/modules/react/sections/_components/data-table";
-import { columns } from "@/modules/react/sections/admin/article-comments/_components/columns";
-import { getFormatedDate } from "@/modules/core/utils/date";
-import useArticleComments from "@/modules/core/hooks/use-article-comments";
-import { useParams } from "next/navigation";
-import TableSkeleton from "@/app/_components/ui/table-skeleton";
+import ArticleCommentsHeader from '@/modules/react/sections/admin/article-comments/_components/article-comments-header';
+import { DataTable } from '@/modules/react/sections/_components/data-table';
+import { columns } from '@/modules/react/sections/admin/article-comments/_components/columns';
+import { getFormatedDate } from '@/modules/core/utils/date';
+import useArticleComments from '@/modules/core/hooks/use-article-comments';
+import { useParams } from 'next/navigation';
+import TableSkeleton from '@/app/_components/ui/table-skeleton';
 
 const ArticleComments = () => {
   const { id } = useParams();

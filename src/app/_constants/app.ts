@@ -1,13 +1,13 @@
 export {
   TALK_TITLE_MAX_LENGTH,
   TALK_EXCERPT_MAX_LENGTH,
-} from "@/modules/core/constants/validation";
+} from '@/modules/core/constants/validation';
 
-export const GITHUB_URL = "https://github.com/ioTactile";
-export const EMAIL_CONTACT = "jbs.io@protonmail.com";
+export const GITHUB_URL = 'https://github.com/ioTactile';
+export const EMAIL_CONTACT = 'jbs.io@protonmail.com';
 
 export const MAP_ZOOM_DEFAULT = 6;
-export const MAP_ZOOM_RADIUS = 11; // Zoom approximatif pour un rayon de 20km
+export const MAP_ZOOM_RADIUS = 11; // Approximate zoom for a ~20 km radius
 
 export const DEFAULT_LOCATION: [number, number] = [48.8589385, 2.264634];
 

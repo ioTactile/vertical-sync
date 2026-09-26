@@ -1,5 +1,5 @@
-import Link from "next/link";
-import { Button } from "@/app/_components/ui/button";
+import Link from 'next/link';
+import { Button } from '@/app/_components/ui/button';
 
 export default function NotFoundPage() {
   return (
@@ -9,9 +9,7 @@ export default function NotFoundPage() {
           <div className="space-y-3 text-center">
             <span className="text-4xl font-bold">404</span>
             <h1 className="text-2xl font-bold">Page non trouvée</h1>
-            <p>
-              Désolé, nous n&apos;avons pas trouvé la page que vous cherchez.
-            </p>
+            <p>Désolé, nous n&apos;avons pas trouvé la page que vous cherchez.</p>
           </div>
           <div className="flex items-center gap-4">
             <Button asChild>

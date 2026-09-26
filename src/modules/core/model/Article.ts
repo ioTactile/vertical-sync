@@ -1,9 +1,9 @@
-import { CreateArticleInputs } from "@/modules/core/schemas/article/create-article";
-import { UpdateArticleInputs } from "@/modules/core/schemas/article/update-article";
-import { CreateArticleCommentInputs } from "@/modules/core/schemas/article/create-article-comment";
-import { CreateArticleLikeInputs } from "@/modules/core/schemas/article/create-article-like";
-import { DeleteArticleCommentInputs } from "@/modules/core/schemas/article/delete-article-comment";
-import { Author } from "@/modules/core/model/User";
+import { CreateArticleInputs } from '@/modules/core/schemas/article/create-article';
+import { UpdateArticleInputs } from '@/modules/core/schemas/article/update-article';
+import { CreateArticleCommentInputs } from '@/modules/core/schemas/article/create-article-comment';
+import { CreateArticleLikeInputs } from '@/modules/core/schemas/article/create-article-like';
+import { DeleteArticleCommentInputs } from '@/modules/core/schemas/article/delete-article-comment';
+import { Author } from '@/modules/core/model/User';
 
 export type ArticleFilters = {
   userId?: string;
@@ -11,7 +11,7 @@ export type ArticleFilters = {
   publishedOnly?: boolean;
 };
 
-/** Entité Article (domaine). */
+/** Article entity (domain). */
 export type Article = {
   id: string;
   title: string;

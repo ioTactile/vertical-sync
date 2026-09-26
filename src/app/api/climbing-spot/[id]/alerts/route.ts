@@ -1,17 +1,11 @@
-import { climbingSpotAlertService } from "@/modules/core/di/container";
-import { NextRequest, NextResponse } from "next/server";
+import { climbingSpotAlertService } from '@/modules/core/di/container';
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
-) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const climbingSpotId = (await params).id;
 
   if (!climbingSpotId) {
-    return NextResponse.json(
-      { error: "L'id du spot est requis" },
-      { status: 400 },
-    );
+    return NextResponse.json({ error: "L'id du spot est requis" }, { status: 400 });
   }
 
   try {
@@ -19,10 +13,7 @@ export async function POST(
     const { userId, ...criteria } = body;
 
     if (!userId) {
-      return NextResponse.json(
-        { error: "Le champ userId est requis" },
-        { status: 400 },
-      );
+      return NextResponse.json({ error: 'Le champ userId est requis' }, { status: 400 });
     }
 
     await climbingSpotAlertService.createAlert({
@@ -35,14 +26,8 @@ export async function POST(
       avoidRain: criteria.avoidRain ?? true,
     });
 
-    return NextResponse.json(
-      { message: "Alerte créée avec succès" },
-      { status: 201 },
-    );
+    return NextResponse.json({ message: 'Alerte créée avec succès' }, { status: 201 });
   } catch (error) {
-    return NextResponse.json(
-      { error: "Erreur interne du serveur: " + error },
-      { status: 500 },
-    );
+    return NextResponse.json({ error: 'Erreur interne du serveur: ' + error }, { status: 500 });
   }
 }

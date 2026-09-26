@@ -1,21 +1,15 @@
-import { Resolver, SubmitHandler, useForm } from "react-hook-form";
-import { useCreateTalkComment } from "@/modules/core/mutations/useCreateTalkComment";
-import * as React from "react";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/app/_components/ui/form";
+import { Resolver, SubmitHandler, useForm } from 'react-hook-form';
+import { useCreateTalkComment } from '@/modules/core/mutations/useCreateTalkComment';
+import * as React from 'react';
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/app/_components/ui/form';
 import {
   CreateTalkCommentInputs,
   createTalkCommentSchema,
-} from "@/modules/react/sections/talks/_schemas/create-talk-comment";
-import { Textarea } from "@/app/_components/ui/textarea";
-import { Button } from "@/app/_components/ui/button";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useAuthAction } from "@/app/_hooks/use-auth-action";
+} from '@/modules/react/sections/talks/_schemas/create-talk-comment';
+import { Textarea } from '@/app/_components/ui/textarea';
+import { Button } from '@/app/_components/ui/button';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useAuthAction } from '@/app/_hooks/use-auth-action';
 
 interface TalkCommentFormProps {
   talkId: string;
@@ -33,9 +27,9 @@ const TalkCommentForm = ({
   isExpandedFromParent,
 }: TalkCommentFormProps) => {
   const form = useForm<CreateTalkCommentInputs>({
-    resolver: zodResolver(createTalkCommentSchema) as Resolver<any>,
+    resolver: zodResolver(createTalkCommentSchema) as Resolver<CreateTalkCommentInputs>,
     defaultValues: {
-      content: "",
+      content: '',
     },
   });
 
@@ -50,9 +44,7 @@ const TalkCommentForm = ({
 
   const { handleAuthAction } = useAuthAction();
 
-  const handleCreateTalkCommentSubmit: SubmitHandler<
-    CreateTalkCommentInputs
-  > = (data) => {
+  const handleCreateTalkCommentSubmit: SubmitHandler<CreateTalkCommentInputs> = (data) => {
     handleAuthAction((user) => {
       const talkComment = {
         content: data.content,
@@ -112,12 +104,7 @@ const TalkCommentForm = ({
                       >
                         Annuler
                       </Button>
-                      <Button
-                        type="submit"
-                        disabled={!isValid}
-                        size="sm"
-                        className="rounded-full"
-                      >
+                      <Button type="submit" disabled={!isValid} size="sm" className="rounded-full">
                         Commentaire
                       </Button>
                     </div>

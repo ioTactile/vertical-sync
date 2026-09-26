@@ -1,13 +1,13 @@
-import { TalkWithRelations } from "@/modules/core/model/Talk";
-import { getTimeBetweenDateAndNow } from "@/modules/core/utils/date";
-import { getCapitalize } from "@/modules/core/utils/string";
-import { useRouter } from "next/navigation";
-import Avatar from "@/modules/react/sections/_components/avatar";
-import { Button } from "@/app/_components/ui/button";
-import { MessageCircle, Share2 } from "lucide-react";
-import { useShare } from "@/app/_hooks/use-share";
-import TalkActionButton from "@/modules/react/sections/talks/_components/talk-action-button";
-import { sanitizeHtml } from "@/modules/core/utils/helpers";
+import { TalkWithRelations } from '@/modules/core/model/Talk';
+import { getTimeBetweenDateAndNow } from '@/modules/core/utils/date';
+import { getCapitalize } from '@/modules/core/utils/string';
+import { useRouter } from 'next/navigation';
+import Avatar from '@/modules/react/sections/_components/avatar';
+import { Button } from '@/app/_components/ui/button';
+import { MessageCircle, Share2 } from 'lucide-react';
+import { useShare } from '@/app/_hooks/use-share';
+import TalkActionButton from '@/modules/react/sections/talks/_components/talk-action-button';
+import { sanitizeHtml } from '@/modules/core/utils/helpers';
 
 interface TalkCardProps {
   talk: TalkWithRelations;
@@ -26,15 +26,9 @@ const TalkCard = ({ talk }: TalkCardProps) => {
       <TalkActionButton talkId={talk.id} talkAuthorId={talk.author.clerkId} />
 
       <div className="flex items-center gap-2 text-xs">
-        <Avatar
-          alt={talk.author.name}
-          src={talk.author.imageUrl}
-          className="w-6 h-6"
-        />
+        <Avatar alt={talk.author.name} src={talk.author.imageUrl} className="w-6 h-6" />
 
-        <span className="font-bold">
-          {getCapitalize(talk.author.name ?? "")}
-        </span>
+        <span className="font-bold">{getCapitalize(talk.author.name ?? '')}</span>
 
         <span>•</span>
 
@@ -46,7 +40,7 @@ const TalkCard = ({ talk }: TalkCardProps) => {
       <h2 className="text-lg font-semibold">{talk.title}</h2>
 
       <div className="prose prose-slate max-w-none prose-headings:font-bold prose-p:my-2 prose-a:text-blue-600 prose-img:rounded-xl prose-img:shadow-lg prose-li:marker:text-primary prose-hr:border-t-2 prose-hr:border-gray-200 prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:pl-4 prose-blockquote:italic line-clamp-4">
-        {sanitizeHtml(talk.content ?? "")}
+        {sanitizeHtml(talk.content ?? '')}
       </div>
 
       <div className="flex items-center gap-3">
@@ -61,8 +55,8 @@ const TalkCard = ({ talk }: TalkCardProps) => {
           onClick={(e) =>
             handleShare(
               `${window.location.origin}/talks/${talk.id}/${talk.title}`,
-              "Le lien a été copié dans le presse-papiers",
-              e
+              'Le lien a été copié dans le presse-papiers',
+              e,
             )
           }
         >

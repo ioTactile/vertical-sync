@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import { useGetFetchQuery } from "@/modules/core/hooks/use-get-fetch-tag";
-import TagForm from "@/modules/react/sections/admin/tags/_components/tag-form";
-import { redirect, useSearchParams } from "next/navigation";
+import { useGetFetchQuery } from '@/modules/core/hooks/use-get-fetch-tag';
+import TagForm from '@/modules/react/sections/admin/tags/_components/tag-form';
+import { redirect, useSearchParams } from 'next/navigation';
 
 const UpdateTag = () => {
   const searchParams = useSearchParams();
-  const id = searchParams.get("id");
+  const id = searchParams.get('id');
 
   const { data: tag, isError } = useGetFetchQuery(id as string);
 
   if (!tag && isError) {
-    redirect("/admin/tags");
+    redirect('/admin/tags');
   }
 
   if (!tag) return null;

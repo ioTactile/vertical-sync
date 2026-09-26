@@ -1,6 +1,6 @@
-import { PrismaClient } from "@/prisma/generated/client/client";
-import { PrismaNeon } from "@prisma/adapter-neon";
-import updateSpotNotation from "@/prisma/hooks/climbing-spot-hooks";
+import { PrismaClient } from '@/prisma/generated/client/client';
+import { PrismaNeon } from '@prisma/adapter-neon';
+import updateSpotNotation from '@/prisma/hooks/climbing-spot-hooks';
 
 const prismaClientSingleton = () => {
   const adapter = new PrismaNeon({
@@ -47,4 +47,4 @@ const prisma = globalThis.prisma ?? prismaClientSingleton();
 
 export default prisma;
 
-if (process.env.NODE_ENV !== "production") globalThis.prisma = prisma;
+if (process.env.NODE_ENV !== 'production') globalThis.prisma = prisma;

@@ -1,27 +1,21 @@
-import { Button } from "@/app/_components/ui/button";
+import { Button } from '@/app/_components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/app/_components/ui/dropdown-menu";
+} from '@/app/_components/ui/dropdown-menu';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/app/_components/ui/dialog";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/app/_components/ui/form";
-import { Textarea } from "@/app/_components/ui/textarea";
-import { Flag, MoreHorizontal, Trash2 } from "lucide-react";
-import { useTalkActions } from "@/modules/react/sections/talks/_hooks/use-talk-actions";
+} from '@/app/_components/ui/dialog';
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/app/_components/ui/form';
+import { Textarea } from '@/app/_components/ui/textarea';
+import { Flag, MoreHorizontal, Trash2 } from 'lucide-react';
+import { useTalkActions } from '@/modules/react/sections/talks/_hooks/use-talk-actions';
 
 interface TalkActionButtonProps {
   talkId: string;
@@ -70,10 +64,7 @@ const TalkActionButton = ({ talkId, talkAuthorId }: TalkActionButtonProps) => {
                 <DialogTitle>Signaler le contenu</DialogTitle>
               </DialogHeader>
               <Form {...form}>
-                <form
-                  onSubmit={form.handleSubmit(handleReport)}
-                  className="space-y-4"
-                >
+                <form onSubmit={form.handleSubmit(handleReport)} className="space-y-4">
                   <FormField
                     control={form.control}
                     name="reason"

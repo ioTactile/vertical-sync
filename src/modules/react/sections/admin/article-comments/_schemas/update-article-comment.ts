@@ -1,4 +1,4 @@
 export {
   updateArticleCommentSchema,
   type UpdateArticleCommentInputs,
-} from "@/modules/core/schemas/article/admin-update-article-comment";
+} from '@/modules/core/schemas/article/admin-update-article-comment';

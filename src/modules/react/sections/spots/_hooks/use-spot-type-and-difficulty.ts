@@ -1,5 +1,5 @@
-import * as React from "react";
-import { ClimbingSpotType, ClimbingSpotDifficulty } from "@/modules/core/domain/enums";
+import * as React from 'react';
+import { ClimbingSpotType, ClimbingSpotDifficulty } from '@/modules/core/domain/enums';
 
 interface UseSpotTypeAndDifficultyProps {
   onFilterChange: (filters: {
@@ -23,9 +23,9 @@ export const useSpotTypeAndDifficulty = ({
   const [selectedTypes, setSelectedTypes] = React.useState<ClimbingSpotType[]>([
     ClimbingSpotType.ALL,
   ]);
-  const [selectedDifficulties, setSelectedDifficulties] = React.useState<
-    ClimbingSpotDifficulty[]
-  >([]);
+  const [selectedDifficulties, setSelectedDifficulties] = React.useState<ClimbingSpotDifficulty[]>(
+    [],
+  );
 
   const handleTypeSelect = React.useCallback(
     (type: ClimbingSpotType) => {
@@ -50,7 +50,7 @@ export const useSpotTypeAndDifficulty = ({
         return newTypes;
       });
     },
-    [selectedDifficulties, onFilterChange]
+    [selectedDifficulties, onFilterChange],
   );
 
   const handleDifficultySelect = React.useCallback(
@@ -66,7 +66,7 @@ export const useSpotTypeAndDifficulty = ({
         return newDifficulties;
       });
     },
-    [selectedTypes, onFilterChange]
+    [selectedTypes, onFilterChange],
   );
 
   const resetFilters = React.useCallback(() => {

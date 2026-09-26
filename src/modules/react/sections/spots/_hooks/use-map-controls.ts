@@ -1,7 +1,7 @@
-import { MAP_ZOOM_RADIUS } from "@/app/_constants/app";
-import throttle from "lodash.throttle";
-import { ExtendedClimbingSpot } from "@/modules/core/model/ClimbingSpot";
-import * as React from "react";
+import { MAP_ZOOM_RADIUS } from '@/app/_constants/app';
+import throttle from 'lodash.throttle';
+import { ExtendedClimbingSpot } from '@/modules/core/model/ClimbingSpot';
+import * as React from 'react';
 
 interface MapControlsState {
   zoom: number;
@@ -41,12 +41,12 @@ const useMapControls = ({
     (newZoom: number) => {
       setState((prev) => ({ ...prev, zoom: newZoom }));
     },
-    [setState]
+    [setState],
   );
 
   const throttledZoomChange = React.useCallback(
     () => throttle(handleZoomChange, 100),
-    [handleZoomChange]
+    [handleZoomChange],
   );
 
   const handleMapClick = React.useCallback(() => {
@@ -61,14 +61,18 @@ const useMapControls = ({
         shouldUpdateView: true,
       });
     },
-    [setState]
+    [setState],
   );
 
-  React.useEffect(() => {
-    if (userLocation) {
-      updateMapView(userLocation);
-    }
-  }, [userLocation, updateMapView]);
+  const [appliedUserLocation, setAppliedUserLocation] = React.useState(userLocation);
+  if (userLocation && userLocation !== appliedUserLocation) {
+    setAppliedUserLocation(userLocation);
+    setState({
+      zoom: MAP_ZOOM_RADIUS,
+      center: userLocation,
+      shouldUpdateView: true,
+    });
+  }
 
   React.useEffect(() => {
     if (state.shouldUpdateView) {

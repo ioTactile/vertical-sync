@@ -1,5 +1,5 @@
-import { WeatherData } from "@/modules/core/model/Weather";
-import { weatherGateway } from "@/modules/core/gateway-infra/api.weather-gateway";
+import { WeatherData } from '@/modules/core/model/Weather';
+import { weatherGateway } from '@/modules/core/gateway-infra/api.weather-gateway';
 
 type GetSpotWeatherParams = {
   latitude: number;
@@ -14,4 +14,3 @@ const getSpotWeather = async ({
 };
 
 export default getSpotWeather;
-

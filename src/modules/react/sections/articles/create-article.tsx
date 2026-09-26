@@ -1,4 +1,4 @@
-import ArticleForm from "@/modules/react/sections/articles/_components/article-form";
+import ArticleForm from '@/modules/react/sections/articles/_components/article-form';
 
 const CreateArticle = () => {
   return (

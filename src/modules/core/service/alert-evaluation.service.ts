@@ -1,13 +1,11 @@
-import type { WeatherData, WeatherForecastEntry } from "@/modules/core/model/Weather";
-import type {
-  IClimbingSpotAlertRepository,
-} from "@/modules/core/repository/climbing-spot-alert.repository";
-import type { IClimbingSpotRepository } from "@/modules/core/repository/climbing-spot.repository";
-import type { NotificationService } from "@/modules/core/service/notification.service";
-import type { WeatherService } from "@/modules/core/service/weather.service";
-import { extractCoords } from "@/lib/utils";
+import type { WeatherData, WeatherForecastEntry } from '@/modules/core/model/Weather';
+import type { IClimbingSpotAlertRepository } from '@/modules/core/repository/climbing-spot-alert.repository';
+import type { IClimbingSpotRepository } from '@/modules/core/repository/climbing-spot.repository';
+import type { NotificationService } from '@/modules/core/service/notification.service';
+import type { WeatherService } from '@/modules/core/service/weather.service';
+import { extractCoords } from '@/lib/utils';
 
-const RAIN_CONDITIONS = ["RAIN", "THUNDERSTORM"] as const;
+const RAIN_CONDITIONS = ['RAIN', 'THUNDERSTORM'] as const;
 const PRECIPITATION_THRESHOLD_MM = 0.5;
 
 function toDateOnly(d: Date): Date {
@@ -22,7 +20,7 @@ function isWeekend(d: Date): boolean {
 }
 
 /**
- * Retourne le premier jour des prévisions qui respecte les critères de l'alerte.
+ * Returns the first forecast day that matches the alert criteria.
  */
 export function findFirstGoodDay(
   alert: {
@@ -32,7 +30,7 @@ export function findFirstGoodDay(
     onlyWeekends: boolean;
     avoidRain: boolean;
   },
-  weather: WeatherData
+  weather: WeatherData,
 ): { date: Date; entry: WeatherForecastEntry } | null {
   const days = weather.nextDays;
   if (!days?.length) return null;
@@ -42,21 +40,13 @@ export function findFirstGoodDay(
 
     if (alert.onlyWeekends && !isWeekend(dayDate)) continue;
 
-    if (alert.minTempC != null && entry.temperatureC < alert.minTempC)
-      continue;
-    if (alert.maxTempC != null && entry.temperatureC > alert.maxTempC)
-      continue;
-    if (alert.maxWindKmh != null && entry.windSpeedKmh > alert.maxWindKmh)
-      continue;
+    if (alert.minTempC != null && entry.temperatureC < alert.minTempC) continue;
+    if (alert.maxTempC != null && entry.temperatureC > alert.maxTempC) continue;
+    if (alert.maxWindKmh != null && entry.windSpeedKmh > alert.maxWindKmh) continue;
     if (alert.avoidRain) {
       const precip = entry.precipitationMm ?? 0;
       if (precip > PRECIPITATION_THRESHOLD_MM) continue;
-      if (
-        RAIN_CONDITIONS.includes(
-          entry.condition as (typeof RAIN_CONDITIONS)[number]
-        )
-      )
-        continue;
+      if (RAIN_CONDITIONS.includes(entry.condition as (typeof RAIN_CONDITIONS)[number])) continue;
     }
 
     return { date: dayDate, entry };
@@ -81,8 +71,7 @@ export class AlertEvaluationService {
     const errors: string[] = [];
     let notificationsCreated = 0;
 
-    const alerts =
-      await this.deps.climbingSpotAlertRepository.findAllActive();
+    const alerts = await this.deps.climbingSpotAlertRepository.findAllActive();
     const bySpot = new Map<string, typeof alerts>();
     for (const a of alerts) {
       const list = bySpot.get(a.climbingSpotId) ?? [];
@@ -100,8 +89,7 @@ export class AlertEvaluationService {
       let weather: WeatherData | null = null;
 
       try {
-        const row =
-          await this.deps.climbingSpotRepository.findById(climbingSpotId);
+        const row = await this.deps.climbingSpotRepository.findById(climbingSpotId);
         if (!row) {
           errors.push(`Spot ${climbingSpotId}: introuvable`);
           continue;
@@ -115,19 +103,17 @@ export class AlertEvaluationService {
         }
         spot = {
           id: climbingSpotId,
-          name: row.name ?? "Spot",
+          name: row.name ?? 'Spot',
           latitude: lat,
           longitude: lng,
         };
         weather = await this.deps.weatherService.getWeatherForCoords(lat, lng);
       } catch (e) {
-        errors.push(
-          `Spot ${climbingSpotId}: ${e instanceof Error ? e.message : String(e)}`
-        );
+        errors.push(`Spot ${climbingSpotId}: ${e instanceof Error ? e.message : String(e)}`);
         continue;
       }
 
-      const spotName = spot?.name ?? "Ce spot";
+      const spotName = spot?.name ?? 'Ce spot';
       if (!weather) continue;
       for (const alert of spotAlerts) {
         try {
@@ -137,25 +123,23 @@ export class AlertEvaluationService {
           const already = await this.deps.notificationService.alreadyNotified(
             alert.userId,
             climbingSpotId,
-            match.date
+            match.date,
           );
           if (already) continue;
 
           await this.deps.notificationService.create({
             userId: alert.userId,
             climbingSpotId,
-            title: "Bon jour pour grimper",
+            title: 'Bon jour pour grimper',
             message: `Les conditions sont favorables à ${spotName} pour le ${match.date.toLocaleDateString(
-              "fr-FR",
-              { weekday: "long", day: "numeric", month: "long" }
+              'fr-FR',
+              { weekday: 'long', day: 'numeric', month: 'long' },
             )}.`,
             goodDayDate: match.date,
           });
           notificationsCreated++;
         } catch (e) {
-          errors.push(
-            `Alert ${alert.id}: ${e instanceof Error ? e.message : String(e)}`
-          );
+          errors.push(`Alert ${alert.id}: ${e instanceof Error ? e.message : String(e)}`);
         }
       }
     }

@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Resolver, SubmitHandler, useForm } from "react-hook-form";
-import { Button } from "@/app/_components/ui/button";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Resolver, SubmitHandler, useForm } from 'react-hook-form';
+import { Button } from '@/app/_components/ui/button';
 import {
   Form,
   FormControl,
@@ -10,17 +10,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/app/_components/ui/form";
-import { Textarea } from "@/app/_components/ui/textarea";
-import { Star } from "lucide-react";
-import * as React from "react";
-import { useAuthAction } from "@/app/_hooks/use-auth-action";
-import { useToast } from "@/app/_hooks/use-toast";
-import { useCreateClimbingSpotComment } from "@/modules/core/mutations/useCreateClimbingSpotComment";
+} from '@/app/_components/ui/form';
+import { Textarea } from '@/app/_components/ui/textarea';
+import { Star } from 'lucide-react';
+import * as React from 'react';
+import { useAuthAction } from '@/app/_hooks/use-auth-action';
+import { useToast } from '@/app/_hooks/use-toast';
+import { useCreateClimbingSpotComment } from '@/modules/core/mutations/useCreateClimbingSpotComment';
 import {
   CreateClimbingSpotCommentInputs,
   createClimbingSpotCommentSchema,
-} from "@/modules/react/sections/spots/_schemas/create-climbing-spot-comment";
+} from '@/modules/react/sections/spots/_schemas/create-climbing-spot-comment';
 
 interface CommentFormProps {
   spotId: string;
@@ -31,12 +31,14 @@ const CommentForm = ({ spotId, onSuccess }: CommentFormProps) => {
   const [hoveredRating, setHoveredRating] = React.useState<number | null>(null);
 
   const form = useForm<CreateClimbingSpotCommentInputs>({
-    resolver: zodResolver(createClimbingSpotCommentSchema) as Resolver<any>,
+    resolver: zodResolver(
+      createClimbingSpotCommentSchema,
+    ) as Resolver<CreateClimbingSpotCommentInputs>,
     defaultValues: {
-      content: "",
+      content: '',
       notation: 5,
     },
-    mode: "onChange",
+    mode: 'onChange',
   });
 
   const createClimbingSpotComment = useCreateClimbingSpotComment();
@@ -56,17 +58,16 @@ const CommentForm = ({ spotId, onSuccess }: CommentFormProps) => {
         {
           onSuccess: () => {
             toast({
-              title: "Succès",
-              description: "Votre commentaire a été ajouté avec succès",
+              title: 'Succès',
+              description: 'Votre commentaire a été ajouté avec succès',
             });
             form.reset();
             onSuccess();
           },
           onError: () => {
             toast({
-              title: "Erreur",
-              description:
-                "Une erreur est survenue lors de la publication du commentaire",
+              title: 'Erreur',
+              description: 'Une erreur est survenue lors de la publication du commentaire',
             });
           },
         },
@@ -90,8 +91,8 @@ const CommentForm = ({ spotId, onSuccess }: CommentFormProps) => {
                       key={rating}
                       className={`h-6 w-6 cursor-pointer ${
                         (hoveredRating || field.value) >= rating
-                          ? "text-yellow-500 fill-yellow-500"
-                          : "text-gray-300"
+                          ? 'text-yellow-500 fill-yellow-500'
+                          : 'text-gray-300'
                       }`}
                       onMouseEnter={() => setHoveredRating(rating)}
                       onMouseLeave={() => setHoveredRating(null)}

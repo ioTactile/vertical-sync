@@ -1,30 +1,23 @@
-"use client";
+'use client';
 
 import {
   SPOT_PIN_COLORS,
   type SpotPinCategory,
-} from "@/modules/react/sections/spots/_components/spot-pin-color";
-import { Layers } from "lucide-react";
-import * as React from "react";
-import { Button } from "@/app/_components/ui/button";
+} from '@/modules/react/sections/spots/_components/spot-pin-color';
+import { Layers } from 'lucide-react';
+import * as React from 'react';
+import { Button } from '@/app/_components/ui/button';
 
 const LEGEND_LABELS: Record<SpotPinCategory, string> = {
-  indoor: "Salle indoor",
-  boulder: "Bloc",
-  lead: "Voie",
-  psicobloc: "Psicobloc",
-  multi: "Multi types",
-  outdoor: "Extérieur",
+  indoor: 'Salle indoor',
+  boulder: 'Bloc',
+  lead: 'Voie',
+  psicobloc: 'Psicobloc',
+  multi: 'Multi types',
+  outdoor: 'Extérieur',
 };
 
-const ORDER: SpotPinCategory[] = [
-  "indoor",
-  "boulder",
-  "lead",
-  "psicobloc",
-  "multi",
-  "outdoor",
-];
+const ORDER: SpotPinCategory[] = ['indoor', 'boulder', 'lead', 'psicobloc', 'multi', 'outdoor'];
 
 interface SpotPinLegendProps {
   spotCount?: number;
@@ -38,11 +31,11 @@ const SpotPinLegend = ({ spotCount }: SpotPinLegendProps) => {
     if (!isOpen) return;
     const handlePointerDown = (e: PointerEvent) => {
       if (containerRef.current?.contains(e.target as Node)) return;
-      if (typeof window !== "undefined" && window.innerWidth >= 640) return;
+      if (typeof window !== 'undefined' && window.innerWidth >= 640) return;
       setIsOpen(false);
     };
-    document.addEventListener("pointerdown", handlePointerDown);
-    return () => document.removeEventListener("pointerdown", handlePointerDown);
+    document.addEventListener('pointerdown', handlePointerDown);
+    return () => document.removeEventListener('pointerdown', handlePointerDown);
   }, [isOpen]);
 
   const legendContent = (
@@ -60,21 +53,21 @@ const SpotPinLegend = ({ spotCount }: SpotPinLegendProps) => {
           </li>
         ))}
       </ul>
-      {typeof spotCount === "number" && spotCount > 0 && (
+      {typeof spotCount === 'number' && spotCount > 0 && (
         <p className="mt-2 pt-2 border-t border-border font-medium text-foreground">
-          {spotCount} spot{spotCount > 1 ? "s" : ""} trouvé
-          {spotCount > 1 ? "s" : ""}
+          {spotCount} spot{spotCount > 1 ? 's' : ''} trouvé
+          {spotCount > 1 ? 's' : ''}
         </p>
       )}
     </>
   );
 
   const panelClassName =
-    "rounded-lg border border-border bg-background/95 px-3 py-2 text-xs shadow-xs backdrop-blur-sm";
+    'rounded-lg border border-border bg-background/95 px-3 py-2 text-xs shadow-xs backdrop-blur-sm';
 
   return (
     <div className="absolute bottom-4 left-4 sm:top-4 sm:right-4 sm:bottom-auto sm:left-auto z-1000">
-      {/* Mobile : bouton rond quand fermé, panel quand ouvert */}
+      {/* Mobile: round button when closed, panel when open */}
       {!isOpen && (
         <Button
           type="button"
@@ -88,14 +81,10 @@ const SpotPinLegend = ({ spotCount }: SpotPinLegendProps) => {
           <Layers className="h-5 w-5" />
         </Button>
       )}
-      {/* Panel : visible quand ouvert (mobile) ou toujours (desktop). Ref pour fermer au clic extérieur (mobile). */}
+      {/* Panel: visible when open (mobile) or always (desktop). Ref closes on outside click (mobile). */}
       <div
         ref={isOpen ? containerRef : undefined}
-        className={
-          isOpen
-            ? `sm:block ${panelClassName}`
-            : `hidden sm:block ${panelClassName}`
-        }
+        className={isOpen ? `sm:block ${panelClassName}` : `hidden sm:block ${panelClassName}`}
       >
         {legendContent}
       </div>

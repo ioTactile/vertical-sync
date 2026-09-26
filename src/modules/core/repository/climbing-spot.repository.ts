@@ -5,28 +5,26 @@ import {
   GetClimbingSpotResponse,
   GetClimbingSpotsResponse,
   UpdateClimbingSpotDto,
-} from "@/modules/core/model/ClimbingSpot";
-import prisma from "@/prisma";
-import { createId } from "@paralleldrive/cuid2";
+} from '@/modules/core/model/ClimbingSpot';
+import prisma from '@/prisma';
+import { createId } from '@paralleldrive/cuid2';
 import {
   ClimbingSpotDifficulty,
   ClimbingSpotStatus,
   ClimbingSpotType,
-} from "@/modules/core/domain/enums";
-import { Prisma } from "@/prisma/generated/client/client";
+} from '@/modules/core/domain/enums';
+import { Prisma } from '@/prisma/generated/client/client';
 
-/** Neon/$queryRaw renvoie les tableaux d'enums Postgres sous forme `{INDOOR,OUTDOOR}`. */
+/** Neon/$queryRaw returns Postgres enum arrays as `{INDOOR,OUTDOOR}`. */
 function parsePgArray<T extends string>(value: unknown): T[] {
   if (Array.isArray(value)) return value as T[];
-  if (typeof value !== "string") return [];
-  const inner = value.replace(/^{|}$/g, "").trim();
+  if (typeof value !== 'string') return [];
+  const inner = value.replace(/^{|}$/g, '').trim();
   if (!inner) return [];
-  return inner.split(",").map((item) => item.replace(/^"|"$/g, "").trim()) as T[];
+  return inner.split(',').map((item) => item.replace(/^"|"$/g, '').trim()) as T[];
 }
 
-function normalizeClimbingSpot(
-  spot: GetClimbingSpotResponse,
-): GetClimbingSpotResponse {
+function normalizeClimbingSpot(spot: GetClimbingSpotResponse): GetClimbingSpotResponse {
   return {
     ...spot,
     types: parsePgArray<ClimbingSpotType>(spot.types),
@@ -40,7 +38,7 @@ export interface IClimbingSpotRepository {
   findMany(publishedOnly: boolean): Promise<GetClimbingSpotsResponse>;
   findByRadiusAndCoords(
     radius: number,
-    coords: [number, number]
+    coords: [number, number],
   ): Promise<GetClimbingSpotsResponse>;
   findBySearch(searchQuery: string): Promise<GetClimbingSpotsResponse>;
   findComments(id: string): Promise<GetClimbingSpotCommentsResponse>;
@@ -92,7 +90,7 @@ export class PrismaClimbingSpotRepository implements IClimbingSpotRepository {
 
   async findByRadiusAndCoords(
     radius: number,
-    coords: [number, number]
+    coords: [number, number],
   ): Promise<GetClimbingSpotsResponse> {
     const spots = await prisma.$queryRaw`  
     SELECT 
@@ -202,9 +200,7 @@ export class PrismaClimbingSpotRepository implements IClimbingSpotRepository {
         ${rest.description},
         ${rest.country},
         ${rest.city},
-        ST_SetSRID(ST_MakePoint(${coords.coordinates[0]}, ${
-      coords.coordinates[1]
-    }), 4326),
+        ST_SetSRID(ST_MakePoint(${coords.coordinates[0]}, ${coords.coordinates[1]}), 4326),
         ${rest.imageUrls},
         ${rest.types}::\"ClimbingSpotType\"[],
         ${rest.difficulties}::\"ClimbingSpotDifficulty\"[],
@@ -267,4 +263,3 @@ export class PrismaClimbingSpotRepository implements IClimbingSpotRepository {
     });
   }
 }
-

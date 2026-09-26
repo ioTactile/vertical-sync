@@ -1,6 +1,6 @@
-import { Check, X } from "lucide-react";
-import { Badge } from "@/app/_components/ui/badge";
-import { Button } from "@/app/_components/ui/button";
+import { Check, X } from 'lucide-react';
+import { Badge } from '@/app/_components/ui/badge';
+import { Button } from '@/app/_components/ui/button';
 import {
   Command,
   CommandEmpty,
@@ -8,23 +8,14 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/app/_components/ui/command";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/app/_components/ui/form";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/app/_components/ui/popover";
-import { cn } from "@/lib/utils";
-import { Control } from "react-hook-form";
-import useTags from "@/modules/core/hooks/use-tags";
-import { CreateArticleInputs } from "@/modules/react/sections/admin/articles/_schemas/create-article";
-import { UpdateArticleInputs } from "@/modules/react/sections/admin/articles/_schemas/update-article";
+} from '@/app/_components/ui/command';
+import { FormControl, FormField, FormItem, FormMessage } from '@/app/_components/ui/form';
+import { Popover, PopoverContent, PopoverTrigger } from '@/app/_components/ui/popover';
+import { cn } from '@/lib/utils';
+import { Control } from 'react-hook-form';
+import useTags from '@/modules/core/hooks/use-tags';
+import { CreateArticleInputs } from '@/modules/react/sections/admin/articles/_schemas/create-article';
+import { UpdateArticleInputs } from '@/modules/react/sections/admin/articles/_schemas/update-article';
 
 interface MultiSelectTagsProps {
   control: Control<CreateArticleInputs | UpdateArticleInputs>;
@@ -47,13 +38,13 @@ const MultiSelectTags = ({ control }: MultiSelectTagsProps) => {
                   role="combobox"
                   disabled={isLoading}
                   className={cn(
-                    "w-full justify-between",
-                    !field.value?.length && "text-muted-foreground"
+                    'w-full justify-between',
+                    !field.value?.length && 'text-muted-foreground',
                   )}
                 >
                   {field.value?.length > 0
                     ? `${field.value.length} tag(s) sélectionné(s)`
-                    : "Sélectionner des tags"}
+                    : 'Sélectionner des tags'}
                 </Button>
               </FormControl>
             </PopoverTrigger>
@@ -65,7 +56,7 @@ const MultiSelectTags = ({ control }: MultiSelectTagsProps) => {
                   <CommandGroup className="max-h-64 overflow-auto">
                     {tags?.map((tag) => {
                       const isSelected = field.value?.some(
-                        (selectedTag) => selectedTag.id === tag.id
+                        (selectedTag) => selectedTag.id === tag.id,
                       );
 
                       return (
@@ -75,9 +66,7 @@ const MultiSelectTags = ({ control }: MultiSelectTagsProps) => {
                           onSelect={() => {
                             if (isSelected) {
                               field.onChange(
-                                field.value.filter(
-                                  (selectedTag) => selectedTag.id !== tag.id
-                                )
+                                field.value.filter((selectedTag) => selectedTag.id !== tag.id),
                               );
                             } else {
                               field.onChange([
@@ -88,10 +77,7 @@ const MultiSelectTags = ({ control }: MultiSelectTagsProps) => {
                           }}
                         >
                           <Check
-                            className={cn(
-                              "mr-2 h-4 w-4",
-                              isSelected ? "opacity-100" : "opacity-0"
-                            )}
+                            className={cn('mr-2 h-4 w-4', isSelected ? 'opacity-100' : 'opacity-0')}
                           />
                           {tag.name}
                         </CommandItem>
@@ -106,11 +92,7 @@ const MultiSelectTags = ({ control }: MultiSelectTagsProps) => {
           {field.value?.length > 0 && (
             <div className="flex flex-wrap gap-1 mt-2">
               {field.value.map((tag) => (
-                <Badge
-                  key={tag.id}
-                  variant="secondary"
-                  className="flex items-center gap-1"
-                >
+                <Badge key={tag.id} variant="secondary" className="flex items-center gap-1">
                   {tag.name}
                   <Button
                     type="button"
@@ -119,9 +101,7 @@ const MultiSelectTags = ({ control }: MultiSelectTagsProps) => {
                     className="h-3 w-3 p-0 hover:bg-transparent"
                     onClick={() => {
                       field.onChange(
-                        field.value.filter(
-                          (selectedTag) => selectedTag.id !== tag.id
-                        )
+                        field.value.filter((selectedTag) => selectedTag.id !== tag.id),
                       );
                     }}
                   >

@@ -1,7 +1,7 @@
-import { SITE_NAME } from "@/app/_constants/seo";
-import getTalk from "@/modules/core/queries/get-talk";
-import TalkPage from "@/modules/react/pages/TalkPage";
-import { PageProps } from "@/types/pages-props";
+import { SITE_NAME } from '@/app/_constants/seo';
+import getTalk from '@/modules/core/queries/get-talk';
+import TalkPage from '@/modules/react/pages/TalkPage';
+import { PageProps } from '@/types/pages-props';
 
 export async function generateMetadata({ params }: PageProps) {
   const id = (await params).id;
@@ -17,9 +17,7 @@ export async function generateMetadata({ params }: PageProps) {
 
   return {
     title: `${SITE_NAME} - ${talk.title}`,
-    description:
-      talk.content?.slice(0, 155) ??
-      "Découvrez la discussion et les commentaires",
+    description: talk.content?.slice(0, 155) ?? 'Découvrez la discussion et les commentaires',
   };
 }
 

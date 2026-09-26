@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Resolver, SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Resolver, SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import {
   createClimbingSpotSchema,
   CreateClimbingSpotInputs,
-} from "@/modules/react/sections/spots/_schemas/create-climbing-spot";
-import { ClimbingSpotDifficulty, ClimbingSpotType } from "@/modules/core/domain/enums";
-import { useAuthAction } from "@/app/_hooks/use-auth-action";
-import { useCreateClimbingSpot } from "@/modules/core/mutations/useCreateClimbingSpot";
-import { useToast } from "@/app/_hooks/use-toast";
+} from '@/modules/react/sections/spots/_schemas/create-climbing-spot';
+import { ClimbingSpotDifficulty, ClimbingSpotType } from '@/modules/core/domain/enums';
+import { useAuthAction } from '@/app/_hooks/use-auth-action';
+import { useCreateClimbingSpot } from '@/modules/core/mutations/useCreateClimbingSpot';
+import { useToast } from '@/app/_hooks/use-toast';
 import {
   Form,
   FormControl,
@@ -17,26 +17,23 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/app/_components/ui/form";
-import { Input } from "@/app/_components/ui/input";
-import { Textarea } from "@/app/_components/ui/textarea";
-import { FileUpload } from "@/app/_components/ui/file-upload";
-import { Button } from "@/app/_components/ui/button";
-import { Checkbox } from "@/app/_components/ui/checkbox";
-import MultiSelectClimbing from "@/modules/react/sections/spots/_components/multi-select-climbing";
-import {
-  CLIMBING_SPOT_DIFFICULTY_LABELS,
-  CLIMBING_SPOT_TYPE_LABELS,
-} from "@/types/enum";
-import { useS3Upload } from "@/app/_hooks/use-s3-upload";
-import * as React from "react";
-import { useFileManager } from "@/app/_hooks/use-file-manager";
-import FilePreview from "@/app/_components/core/file-preview";
-import { ModalCoordinateMap } from "@/modules/react/sections/_components/modal-coordinate-map";
-import { useModalCoordinateMap } from "@/modules/react/sections/_hooks/use-modal-coordinate-map";
-import { useGoogleMaps } from "@/app/_hooks/use-google-maps";
-import { AddressComponent } from "@/types/google-maps.types";
-import { PlaceSearch } from "@/modules/react/sections/_components/place-search-input";
+} from '@/app/_components/ui/form';
+import { Input } from '@/app/_components/ui/input';
+import { Textarea } from '@/app/_components/ui/textarea';
+import { FileUpload } from '@/app/_components/ui/file-upload';
+import { Button } from '@/app/_components/ui/button';
+import { Checkbox } from '@/app/_components/ui/checkbox';
+import MultiSelectClimbing from '@/modules/react/sections/spots/_components/multi-select-climbing';
+import { CLIMBING_SPOT_DIFFICULTY_LABELS, CLIMBING_SPOT_TYPE_LABELS } from '@/types/enum';
+import { useS3Upload } from '@/app/_hooks/use-s3-upload';
+import * as React from 'react';
+import { useFileManager } from '@/app/_hooks/use-file-manager';
+import FilePreview from '@/app/_components/core/file-preview';
+import { ModalCoordinateMap } from '@/modules/react/sections/_components/modal-coordinate-map';
+import { useModalCoordinateMap } from '@/modules/react/sections/_hooks/use-modal-coordinate-map';
+import { useGoogleMaps } from '@/app/_hooks/use-google-maps';
+import { AddressComponent } from '@/types/google-maps.types';
+import { PlaceSearch } from '@/modules/react/sections/_components/place-search-input';
 
 interface ClimbingSpotFormProps {
   onSuccess: () => void;
@@ -46,9 +43,9 @@ const ClimbingSpotForm = ({ onSuccess }: ClimbingSpotFormProps) => {
   const { isLoaded } = useGoogleMaps();
 
   const form = useForm<CreateClimbingSpotInputs>({
-    resolver: zodResolver(createClimbingSpotSchema) as Resolver<any>,
+    resolver: zodResolver(createClimbingSpotSchema) as Resolver<CreateClimbingSpotInputs>,
     defaultValues: {
-      name: "",
+      name: '',
       description: null,
       country: null,
       city: null,
@@ -65,7 +62,7 @@ const ClimbingSpotForm = ({ onSuccess }: ClimbingSpotFormProps) => {
       parkingAvailable: null,
       toiletsAvailable: null,
     },
-    mode: "onChange",
+    mode: 'onChange',
   });
 
   const {
@@ -74,8 +71,9 @@ const ClimbingSpotForm = ({ onSuccess }: ClimbingSpotFormProps) => {
     setValue,
     formState: { isValid },
     reset,
-    watch,
   } = form;
+
+  const imageUrls = useWatch({ control, name: 'imageUrls' }) ?? [];
 
   const createClimbingSpotMutation = useCreateClimbingSpot();
 
@@ -87,9 +85,7 @@ const ClimbingSpotForm = ({ onSuccess }: ClimbingSpotFormProps) => {
   });
   const { files, handleFiles, clearFiles, removeFile } = useFileManager(5);
 
-  const handleCreateClimbingSpotSubmit: SubmitHandler<
-    CreateClimbingSpotInputs
-  > = (data) => {
+  const handleCreateClimbingSpotSubmit: SubmitHandler<CreateClimbingSpotInputs> = (data) => {
     handleAuthAction(async (user) => {
       try {
         let imageUrls: string[] = [];
@@ -105,14 +101,14 @@ const ClimbingSpotForm = ({ onSuccess }: ClimbingSpotFormProps) => {
             imageUrls,
             authorId: user.id,
             coords: {
-              type: "Point",
+              type: 'Point',
               coordinates: [longitude, latitude],
             },
           },
           {
             onSuccess: () => {
               toast({
-                title: "Succès",
+                title: 'Succès',
                 description: "Le spot d'escalade a été créé avec succès",
               });
               clearFiles();
@@ -121,12 +117,11 @@ const ClimbingSpotForm = ({ onSuccess }: ClimbingSpotFormProps) => {
             },
             onError: () => {
               toast({
-                title: "Erreur",
-                description:
-                  "Une erreur est survenue lors de la création du spot d'escalade",
+                title: 'Erreur',
+                description: "Une erreur est survenue lors de la création du spot d'escalade",
               });
             },
-          }
+          },
         );
       } catch (error: unknown) {
         console.error(error);
@@ -134,9 +129,9 @@ const ClimbingSpotForm = ({ onSuccess }: ClimbingSpotFormProps) => {
           await deleteFromS3(files.map((file) => file.name));
         }
         toast({
-          title: "Erreur",
+          title: 'Erreur',
           description: "Une erreur est survenue lors de l'upload des images",
-          variant: "destructive",
+          variant: 'destructive',
         });
       }
     });
@@ -150,8 +145,8 @@ const ClimbingSpotForm = ({ onSuccess }: ClimbingSpotFormProps) => {
   } = useModalCoordinateMap();
 
   const handleCoordinateSelection = (coords: [number, number]) => {
-    form.setValue("latitude", coords[0]);
-    form.setValue("longitude", coords[1]);
+    form.setValue('latitude', coords[0]);
+    form.setValue('longitude', coords[1]);
     baseHandleCoordinateSelection(coords);
   };
 
@@ -163,35 +158,29 @@ const ClimbingSpotForm = ({ onSuccess }: ClimbingSpotFormProps) => {
 
     const country =
       place.address_components?.find((component: AddressComponent) =>
-        component.types.includes("country")
-      )?.long_name || "";
+        component.types.includes('country'),
+      )?.long_name || '';
 
     const city =
       place.address_components?.find((component: AddressComponent) =>
-        component.types.includes("locality")
-      )?.long_name || "";
+        component.types.includes('locality'),
+      )?.long_name || '';
 
-    const address = place.formatted_address || "";
+    const address = place.formatted_address || '';
 
-    setValue("name", place.name || "");
-    setValue("latitude", lat);
-    setValue("longitude", lng);
-    setValue("country", country);
-    setValue("city", city);
-    setValue("address", address);
-    setValue("websiteUrl", place.website || "");
-    setValue(
-      "phoneNumber",
-      place.formatted_phone_number || place.international_phone_number || ""
-    );
+    setValue('name', place.name || '');
+    setValue('latitude', lat);
+    setValue('longitude', lng);
+    setValue('country', country);
+    setValue('city', city);
+    setValue('address', address);
+    setValue('websiteUrl', place.website || '');
+    setValue('phoneNumber', place.formatted_phone_number || place.international_phone_number || '');
   };
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={handleSubmit(handleCreateClimbingSpotSubmit)}
-        className="flex flex-col gap-6"
-      >
+      <form onSubmit={handleSubmit(handleCreateClimbingSpotSubmit)} className="flex flex-col gap-6">
         <PlaceSearch onPlaceSelect={handlePlaceSelect} isLoaded={isLoaded} />
 
         <FormField
@@ -216,7 +205,7 @@ const ClimbingSpotForm = ({ onSuccess }: ClimbingSpotFormProps) => {
                 <Textarea
                   placeholder="Description du spot"
                   {...field}
-                  value={field.value || ""}
+                  value={field.value || ''}
                   className="shadow-none"
                 />
               </FormControl>
@@ -232,11 +221,7 @@ const ClimbingSpotForm = ({ onSuccess }: ClimbingSpotFormProps) => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input
-                    placeholder="Pays"
-                    {...field}
-                    value={field.value || ""}
-                  />
+                  <Input placeholder="Pays" {...field} value={field.value || ''} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -249,11 +234,7 @@ const ClimbingSpotForm = ({ onSuccess }: ClimbingSpotFormProps) => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input
-                    placeholder="Ville"
-                    {...field}
-                    value={field.value || ""}
-                  />
+                  <Input placeholder="Ville" {...field} value={field.value || ''} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -335,11 +316,7 @@ const ClimbingSpotForm = ({ onSuccess }: ClimbingSpotFormProps) => {
           onUpload={handleFiles}
           isLoading={isUploading}
           className="rounded-xl"
-          label={
-            watch("imageUrls").length > 0
-              ? "Ajouter plus d'images"
-              : "Déposer vos images ici"
-          }
+          label={imageUrls.length > 0 ? "Ajouter plus d'images" : 'Déposer vos images ici'}
         />
 
         <FormField
@@ -349,11 +326,7 @@ const ClimbingSpotForm = ({ onSuccess }: ClimbingSpotFormProps) => {
             <FormItem>
               <FormLabel>Adresse</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="Adresse"
-                  {...field}
-                  value={field.value || ""}
-                />
+                <Input placeholder="Adresse" {...field} value={field.value || ''} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -367,11 +340,7 @@ const ClimbingSpotForm = ({ onSuccess }: ClimbingSpotFormProps) => {
             <FormItem>
               <FormLabel>Site web</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="Site web"
-                  {...field}
-                  value={field.value || ""}
-                />
+                <Input placeholder="Site web" {...field} value={field.value || ''} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -385,11 +354,7 @@ const ClimbingSpotForm = ({ onSuccess }: ClimbingSpotFormProps) => {
             <FormItem>
               <FormLabel>Téléphone</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="Téléphone"
-                  {...field}
-                  value={field.value || ""}
-                />
+                <Input placeholder="Téléphone" {...field} value={field.value || ''} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -403,11 +368,7 @@ const ClimbingSpotForm = ({ onSuccess }: ClimbingSpotFormProps) => {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="Email"
-                  {...field}
-                  value={field.value || ""}
-                />
+                <Input placeholder="Email" {...field} value={field.value || ''} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -421,11 +382,7 @@ const ClimbingSpotForm = ({ onSuccess }: ClimbingSpotFormProps) => {
             <FormItem>
               <FormLabel>Meilleur moment</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="Meilleur moment"
-                  {...field}
-                  value={field.value || ""}
-                />
+                <Input placeholder="Meilleur moment" {...field} value={field.value || ''} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -439,10 +396,7 @@ const ClimbingSpotForm = ({ onSuccess }: ClimbingSpotFormProps) => {
             render={({ field }) => (
               <FormItem className="flex items-center space-x-2">
                 <FormControl>
-                  <Checkbox
-                    checked={field.value || false}
-                    onCheckedChange={field.onChange}
-                  />
+                  <Checkbox checked={field.value || false} onCheckedChange={field.onChange} />
                 </FormControl>
                 <label>Parking disponible</label>
                 <FormMessage />
@@ -456,10 +410,7 @@ const ClimbingSpotForm = ({ onSuccess }: ClimbingSpotFormProps) => {
             render={({ field }) => (
               <FormItem className="flex items-center space-x-2">
                 <FormControl>
-                  <Checkbox
-                    checked={field.value || false}
-                    onCheckedChange={field.onChange}
-                  />
+                  <Checkbox checked={field.value || false} onCheckedChange={field.onChange} />
                 </FormControl>
                 <label>Toilettes disponibles</label>
                 <FormMessage />
@@ -468,11 +419,7 @@ const ClimbingSpotForm = ({ onSuccess }: ClimbingSpotFormProps) => {
           />
         </div>
 
-        <Button
-          type="submit"
-          disabled={!isValid || isUploading}
-          className="rounded-full self-end"
-        >
+        <Button type="submit" disabled={!isValid || isUploading} className="rounded-full self-end">
           Créer le spot
         </Button>
       </form>

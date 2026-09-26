@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
 /**
- * Configuration Playwright pour les tests e2e.
+ * Playwright configuration for e2e tests.
  * @see https://playwright.dev/docs/test-configuration
  */
 export default defineConfig({

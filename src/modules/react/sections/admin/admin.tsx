@@ -1,48 +1,42 @@
-import Link from "next/link";
-import {
-  Library,
-  MessageSquareText,
-  Tag,
-  AlertTriangle,
-  MapPin,
-} from "lucide-react";
-import { Card } from "@/app/_components/ui/card";
+import Link from 'next/link';
+import { Library, MessageSquareText, Tag, AlertTriangle, MapPin } from 'lucide-react';
+import { Card } from '@/app/_components/ui/card';
 
 const cards = [
   {
-    title: "Articles",
-    description: "Gérer les articles du blog",
+    title: 'Articles',
+    description: 'Gérer les articles du blog',
     icon: Library,
-    href: "/admin/articles",
-    color: "text-green-600",
+    href: '/admin/articles',
+    color: 'text-green-600',
   },
   {
-    title: "Discussions",
-    description: "Gérer les discussions de la communauté",
+    title: 'Discussions',
+    description: 'Gérer les discussions de la communauté',
     icon: MessageSquareText,
-    href: "/admin/talks",
-    color: "text-blue-600",
+    href: '/admin/talks',
+    color: 'text-blue-600',
   },
   {
-    title: "Spots",
+    title: 'Spots',
     description: "Gérer les spots d'escalade",
     icon: MapPin,
-    href: "/admin/spots",
-    color: "text-purple-600",
+    href: '/admin/spots',
+    color: 'text-purple-600',
   },
   {
-    title: "Tags",
-    description: "Gérer les tags du site",
+    title: 'Tags',
+    description: 'Gérer les tags du site',
     icon: Tag,
-    href: "/admin/tags",
-    color: "text-orange-600",
+    href: '/admin/tags',
+    color: 'text-orange-600',
   },
   {
-    title: "Signalements",
-    description: "Gérer les contenus signalés",
+    title: 'Signalements',
+    description: 'Gérer les contenus signalés',
     icon: AlertTriangle,
-    href: "/admin/reports",
-    color: "text-red-600",
+    href: '/admin/reports',
+    color: 'text-red-600',
   },
 ];
 
@@ -59,9 +53,7 @@ const Admin = () => {
                 <card.icon className={`w-8 h-8 ${card.color}`} />
                 <div>
                   <h2 className="font-semibold">{card.title}</h2>
-                  <p className="text-sm text-muted-foreground">
-                    {card.description}
-                  </p>
+                  <p className="text-sm text-muted-foreground">{card.description}</p>
                 </div>
               </div>
             </Card>

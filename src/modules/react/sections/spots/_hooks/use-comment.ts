@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 
 export const useComment = () => {
   const [isCommentModalOpen, setIsCommentModalOpen] = React.useState(false);

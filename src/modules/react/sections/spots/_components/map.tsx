@@ -1,16 +1,13 @@
-"use client";
+'use client';
 
-import { MapContainer, TileLayer, ZoomControl } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
-import * as React from "react";
-import {
-  ExtendedClimbingSpot,
-  ExtendedClimbingSpots,
-} from "@/modules/core/model/ClimbingSpot";
-import MapEventHandler from "@/modules/react/sections/spots/_components/map-event-handler";
-import ClusteredMarkers from "@/modules/react/sections/spots/_components/clustered-markers";
-import SpotPinLegend from "@/modules/react/sections/spots/_components/spot-pin-legend";
-import MapFullscreenControl from "@/modules/react/sections/spots/_components/map-fullscreen-control";
+import { MapContainer, TileLayer, ZoomControl } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import * as React from 'react';
+import { ExtendedClimbingSpot, ExtendedClimbingSpots } from '@/modules/core/model/ClimbingSpot';
+import MapEventHandler from '@/modules/react/sections/spots/_components/map-event-handler';
+import ClusteredMarkers from '@/modules/react/sections/spots/_components/clustered-markers';
+import SpotPinLegend from '@/modules/react/sections/spots/_components/spot-pin-legend';
+import MapFullscreenControl from '@/modules/react/sections/spots/_components/map-fullscreen-control';
 
 interface MapProps {
   spots: ExtendedClimbingSpots;

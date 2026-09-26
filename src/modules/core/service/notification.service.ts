@@ -1,15 +1,11 @@
 import type {
   CreateNotificationDto,
   GetNotificationsResponse,
-} from "@/modules/core/model/Notification";
-import {
-  INotificationRepository,
-} from "@/modules/core/repository/notification.repository";
+} from '@/modules/core/model/Notification';
+import { INotificationRepository } from '@/modules/core/repository/notification.repository';
 
 export class NotificationService {
-  constructor(
-    private readonly repository: INotificationRepository,
-  ) {}
+  constructor(private readonly repository: INotificationRepository) {}
 
   async getByUserId(userId: string): Promise<GetNotificationsResponse> {
     return this.repository.findManyByUserId(userId);
@@ -28,11 +24,6 @@ export class NotificationService {
     climbingSpotId: string,
     goodDayDate: Date,
   ): Promise<boolean> {
-    return this.repository.existsForUserAndSpotAndDay(
-      userId,
-      climbingSpotId,
-      goodDayDate,
-    );
+    return this.repository.existsForUserAndSpotAndDay(userId, climbingSpotId, goodDayDate);
   }
 }
-

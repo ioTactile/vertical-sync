@@ -1,11 +1,11 @@
-import { ExtendedClimbingSpot } from "@/modules/core/model/ClimbingSpot";
-import { getSpotPinColor } from "@/modules/react/sections/spots/_components/spot-pin-color";
-import { useEffect, useMemo, useRef } from "react";
-import { useMap } from "react-leaflet";
-import L from "leaflet";
-import "leaflet.markercluster";
-import "leaflet.markercluster/dist/MarkerCluster.css";
-import "leaflet.markercluster/dist/MarkerCluster.Default.css";
+import { ExtendedClimbingSpot } from '@/modules/core/model/ClimbingSpot';
+import { getSpotPinColor } from '@/modules/react/sections/spots/_components/spot-pin-color';
+import { useEffect, useMemo, useRef } from 'react';
+import { useMap } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet.markercluster';
+import 'leaflet.markercluster/dist/MarkerCluster.css';
+import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 
 interface ClusteredMarkersProps {
   spots: ExtendedClimbingSpot[];
@@ -17,7 +17,7 @@ const ClusteredMarkers = ({ spots, onSpotSelect }: ClusteredMarkersProps) => {
   const markerClusterRef = useRef<L.MarkerClusterGroup | null>(null);
 
   const markerClusterGroup = useMemo(() => {
-    // leaflet.markercluster patche l'instance globale (window.L), pas le namespace ESM Turbopack
+    // leaflet.markercluster patches the global instance (window.L), not the Turbopack ESM namespace
     const leaflet = (window as typeof globalThis & { L: typeof L }).L;
     return leaflet.markerClusterGroup({
       chunkedLoading: true,
@@ -34,7 +34,6 @@ const ClusteredMarkers = ({ spots, onSpotSelect }: ClusteredMarkersProps) => {
     });
   }, []);
 
-  // Initialisation du cluster
   useEffect(() => {
     markerClusterRef.current = markerClusterGroup;
     map.addLayer(markerClusterGroup);
@@ -46,7 +45,6 @@ const ClusteredMarkers = ({ spots, onSpotSelect }: ClusteredMarkersProps) => {
     };
   }, [map, markerClusterGroup]);
 
-  // Mise à jour des markers
   useEffect(() => {
     const updateMarkers = () => {
       if (!markerClusterRef.current || !map) return;
@@ -57,20 +55,20 @@ const ClusteredMarkers = ({ spots, onSpotSelect }: ClusteredMarkersProps) => {
         const color = getSpotPinColor(spot);
         const marker = L.marker([spot.latitude, spot.longitude], {
           icon: L.divIcon({
-            className: "spot-pin-marker",
+            className: 'spot-pin-marker',
             html: `<span style="background-color:${color};border:2px solid #1e293b;width:20px;height:20px;border-radius:50%;display:block;box-sizing:border-box;"></span>`,
             iconSize: [20, 20],
             iconAnchor: [10, 10],
           }),
         });
 
-        marker.on("click", () => onSpotSelect(spot));
+        marker.on('click', () => onSpotSelect(spot));
 
         const zoom = map.getZoom();
         if (zoom > 13) {
           marker.bindTooltip(spot.name, {
             permanent: true,
-            direction: "right",
+            direction: 'right',
           });
         }
 
@@ -78,12 +76,11 @@ const ClusteredMarkers = ({ spots, onSpotSelect }: ClusteredMarkersProps) => {
       });
     };
 
-    // whenReady s'exécute tout de suite si la map est déjà chargée
-    // (contrairement à once("load") qui rate l'événement déjà émis)
+    // whenReady runs immediately if the map is already loaded
+    // (unlike once("load"), which misses an already-emitted event)
     map.whenReady(updateMarkers);
   }, [spots, map, onSpotSelect]);
 
-  // Gestion du zoom pour les tooltips
   useEffect(() => {
     const handleZoomEnd = () => {
       if (!markerClusterRef.current) return;
@@ -92,16 +89,14 @@ const ClusteredMarkers = ({ spots, onSpotSelect }: ClusteredMarkersProps) => {
       markerClusterRef.current.eachLayer((layer: L.Layer) => {
         if (!(layer instanceof L.Marker)) return;
         const latLng = layer.getLatLng();
-        const spot = spots.find(
-          (s) => s.latitude === latLng.lat && s.longitude === latLng.lng,
-        );
+        const spot = spots.find((s) => s.latitude === latLng.lat && s.longitude === latLng.lng);
         if (!spot) return;
 
         if (zoom > 13) {
           if (!layer.getTooltip()) {
             layer.bindTooltip(spot.name, {
               permanent: true,
-              direction: "right",
+              direction: 'right',
             });
           }
         } else {
@@ -112,10 +107,10 @@ const ClusteredMarkers = ({ spots, onSpotSelect }: ClusteredMarkersProps) => {
       });
     };
 
-    map.on("zoomend", handleZoomEnd);
+    map.on('zoomend', handleZoomEnd);
 
     return () => {
-      map.off("zoomend", handleZoomEnd);
+      map.off('zoomend', handleZoomEnd);
     };
   }, [map, spots]);
 

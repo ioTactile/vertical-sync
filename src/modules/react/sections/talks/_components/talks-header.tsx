@@ -1,4 +1,4 @@
-import UserCreateButton from "@/modules/react/sections/talks/_components/user-create-button";
+import UserCreateButton from '@/modules/react/sections/talks/_components/user-create-button';
 
 const TalksHeader = () => {
   return (

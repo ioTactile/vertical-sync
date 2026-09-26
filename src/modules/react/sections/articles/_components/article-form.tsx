@@ -1,18 +1,15 @@
-"use client";
+'use client';
 
-import { Textarea } from "@/app/_components/ui/textarea";
-import { Button } from "@/app/_components/ui/button";
-import { Resolver, SubmitHandler, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { Textarea } from '@/app/_components/ui/textarea';
+import { Button } from '@/app/_components/ui/button';
+import { Resolver, SubmitHandler, useForm, useWatch } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import {
   createArticleSchema,
   CreateArticleInputs,
-} from "@/modules/react/sections/admin/articles/_schemas/create-article";
-import * as React from "react";
-import {
-  TALK_TITLE_MAX_LENGTH,
-  TALK_EXCERPT_MAX_LENGTH,
-} from "@/app/_constants/app";
+} from '@/modules/react/sections/admin/articles/_schemas/create-article';
+import * as React from 'react';
+import { TALK_TITLE_MAX_LENGTH, TALK_EXCERPT_MAX_LENGTH } from '@/app/_constants/app';
 import {
   Form,
   FormControl,
@@ -20,31 +17,28 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/app/_components/ui/form";
-import { useToast } from "@/app/_hooks/use-toast";
-import { useUpdateArticle } from "@/modules/core/mutations/useUpdateArticle";
-import { useCreateArticle } from "@/modules/core/mutations/useCreateArticle";
-import {
-  CreateArticleDto,
-  GetArticleWithRelationsResponse,
-} from "@/modules/core/model/Article";
-import { useRouter } from "next/navigation";
-import MultiSelectTags from "@/modules/react/sections/admin/articles/_components/multi-select-tags";
-import { useAuthAction } from "@/app/_hooks/use-auth-action";
-import { useS3Upload } from "@/app/_hooks/use-s3-upload";
-import { useFileManager } from "@/app/_hooks/use-file-manager";
-import { FileUpload } from "@/app/_components/ui/file-upload";
-import FilePreview from "@/app/_components/core/file-preview";
+} from '@/app/_components/ui/form';
+import { useToast } from '@/app/_hooks/use-toast';
+import { useUpdateArticle } from '@/modules/core/mutations/useUpdateArticle';
+import { useCreateArticle } from '@/modules/core/mutations/useCreateArticle';
+import { CreateArticleDto, GetArticleWithRelationsResponse } from '@/modules/core/model/Article';
+import { useRouter } from 'next/navigation';
+import MultiSelectTags from '@/modules/react/sections/admin/articles/_components/multi-select-tags';
+import { useAuthAction } from '@/app/_hooks/use-auth-action';
+import { useS3Upload } from '@/app/_hooks/use-s3-upload';
+import { useFileManager } from '@/app/_hooks/use-file-manager';
+import { FileUpload } from '@/app/_components/ui/file-upload';
+import FilePreview from '@/app/_components/core/file-preview';
 import {
   UpdateArticleInputs,
   updateArticleSchema,
-} from "@/modules/react/sections/admin/articles/_schemas/update-article";
-import { Checkbox } from "@/app/_components/ui/checkbox";
-import { useUserStore } from "@/modules/core/store/store";
-import TipTapEditor from "@/app/_components/core/tiptap-editor";
+} from '@/modules/react/sections/admin/articles/_schemas/update-article';
+import { Checkbox } from '@/app/_components/ui/checkbox';
+import { useUserStore } from '@/modules/core/store/store';
+import TipTapEditor from '@/app/_components/core/tiptap-editor';
 
 interface ArticleFormProps {
-  mode: "create" | "update";
+  mode: 'create' | 'update';
   initialData?: GetArticleWithRelationsResponse;
 }
 
@@ -53,27 +47,24 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
 
   const { isAdmin } = useUserStore();
 
-  const form = useForm<
-    typeof mode extends "create" ? CreateArticleInputs : UpdateArticleInputs
-  >({
+  const form = useForm<typeof mode extends 'create' ? CreateArticleInputs : UpdateArticleInputs>({
     resolver: zodResolver(
-      mode === "create" ? createArticleSchema : updateArticleSchema,
-    ) as Resolver<any>,
+      mode === 'create' ? createArticleSchema : updateArticleSchema,
+    ) as Resolver<CreateArticleInputs | UpdateArticleInputs>,
     defaultValues: {
-      title: "",
-      content: "",
+      title: '',
+      content: '',
       imageUrl: null,
       excerpt: null,
       published: false,
       articleTags: [],
     },
-    mode: "onChange",
+    mode: 'onChange',
   });
 
   const {
     control,
     setValue,
-    watch,
     handleSubmit,
     formState: { isValid },
     reset,
@@ -81,18 +72,18 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
 
   React.useEffect(() => {
     if (initialData) {
-      setValue("title", initialData.title);
-      setValue("content", initialData.content);
-      setValue("imageUrl", initialData.imageUrl);
-      setValue("excerpt", initialData.excerpt);
+      setValue('title', initialData.title);
+      setValue('content', initialData.content);
+      setValue('imageUrl', initialData.imageUrl);
+      setValue('excerpt', initialData.excerpt);
       setValue(
-        "articleTags",
+        'articleTags',
         initialData.articleTags.map((tag) => ({
           id: tag.tagId,
           name: tag.tag.name,
         })),
       );
-      setValue("published", initialData.published);
+      setValue('published', initialData.published);
     }
   }, [initialData, setValue]);
 
@@ -109,10 +100,10 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
   const { files, handleFiles, clearFiles, removeFile } = useFileManager(5);
 
   const handleCreateArticleSubmit: SubmitHandler<
-    typeof mode extends "create" ? CreateArticleInputs : UpdateArticleInputs
+    typeof mode extends 'create' ? CreateArticleInputs : UpdateArticleInputs
   > = (data) => {
     handleAuthAction(async (user) => {
-      const article: Omit<CreateArticleDto, "authorId"> = {
+      const article: Omit<CreateArticleDto, 'authorId'> = {
         title: data.title,
         content: data.content,
         imageUrl: data.imageUrl || null,
@@ -121,7 +112,7 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
         published: data.published,
       };
 
-      if (mode === "create") {
+      if (mode === 'create') {
         try {
           let imageUrls: string[] = [];
 
@@ -138,7 +129,7 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
               onSuccess: () => {
                 clearFiles();
                 reset();
-                router.push("/blog");
+                router.push('/blog');
               },
             },
           );
@@ -148,9 +139,9 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
             await deleteFromS3(files.map((file) => file.name));
           }
           toast({
-            title: "Erreur",
+            title: 'Erreur',
             description: "Une erreur est survenue lors de l'upload des images",
-            variant: "destructive",
+            variant: 'destructive',
           });
         }
       } else {
@@ -163,7 +154,7 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
           {
             onSuccess: () => {
               reset();
-              router.push("/blog");
+              router.push('/blog');
             },
           },
         );
@@ -171,28 +162,15 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
     });
   };
 
-  const [titleSize, setTitleSize] = React.useState<number>(0);
-  const [excerptSize, setExcerptSize] = React.useState<number>(0);
-
-  const title = watch("title");
-  const excerpt = watch("excerpt");
-
-  React.useEffect(() => {
-    setTitleSize(title.length);
-  }, [title]);
-
-  React.useEffect(() => {
-    if (excerpt) {
-      setExcerptSize(excerpt.length);
-    }
-  }, [excerpt]);
+  const title = useWatch({ control, name: 'title' }) ?? '';
+  const excerpt = useWatch({ control, name: 'excerpt' });
+  const imageUrl = useWatch({ control, name: 'imageUrl' });
+  const titleSize = title.length;
+  const excerptSize = excerpt?.length ?? 0;
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={handleSubmit(handleCreateArticleSubmit)}
-        className="flex flex-col gap-6"
-      >
+      <form onSubmit={handleSubmit(handleCreateArticleSubmit)} className="flex flex-col gap-6">
         <FormField
           control={control}
           name="title"
@@ -225,7 +203,7 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
                 <Textarea
                   placeholder="Résumé"
                   {...field}
-                  value={field.value || ""}
+                  value={field.value || ''}
                   maxLength={TALK_EXCERPT_MAX_LENGTH}
                   className="shadow-none"
                 />
@@ -251,9 +229,9 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
                   control={control}
                   name="content"
                   placeholder={
-                    mode === "create"
-                      ? "Rédigez votre article ici..."
-                      : "Modifier votre article ici..."
+                    mode === 'create'
+                      ? 'Rédigez votre article ici...'
+                      : 'Modifier votre article ici...'
                   }
                   className="w-full"
                 />
@@ -270,9 +248,7 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
           onUpload={handleFiles}
           isLoading={isUploading}
           className="rounded-xl"
-          label={
-            watch("imageUrl") ? "Modifier l'image" : "Déposer votre image ici"
-          }
+          label={imageUrl ? "Modifier l'image" : 'Déposer votre image ici'}
         />
 
         <MultiSelectTags control={control} />
@@ -284,10 +260,7 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
             render={({ field }) => (
               <FormItem className="flex items-center space-x-2">
                 <FormControl>
-                  <Checkbox
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
+                  <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                 </FormControl>
                 <FormLabel>Publié l&apos;article</FormLabel>
               </FormItem>
@@ -295,12 +268,8 @@ const ArticleForm = ({ mode, initialData }: ArticleFormProps) => {
           />
         )}
 
-        <Button
-          type="submit"
-          disabled={!isValid}
-          className="rounded-full self-end"
-        >
-          {mode === "create" ? "Créer" : "Mettre à jour"}
+        <Button type="submit" disabled={!isValid} className="rounded-full self-end">
+          {mode === 'create' ? 'Créer' : 'Mettre à jour'}
         </Button>
       </form>
     </Form>

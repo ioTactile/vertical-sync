@@ -1,13 +1,12 @@
-import type { GetNotificationsResponse } from "@/modules/core/model/Notification";
-import { INotificationGateway } from "@/modules/core/gateway/notification.gateway";
-import { axiosInstance } from "@/lib/globals";
+import type { GetNotificationsResponse } from '@/modules/core/model/Notification';
+import { INotificationGateway } from '@/modules/core/gateway/notification.gateway';
+import { axiosInstance } from '@/lib/globals';
 
 export class ApiNotificationGateway implements INotificationGateway {
   async getNotifications(userId: string): Promise<GetNotificationsResponse> {
-    const response = await axiosInstance.get<GetNotificationsResponse>(
-      "/api/notifications",
-      { params: { userId } },
-    );
+    const response = await axiosInstance.get<GetNotificationsResponse>('/api/notifications', {
+      params: { userId },
+    });
     return response.data;
   }
 

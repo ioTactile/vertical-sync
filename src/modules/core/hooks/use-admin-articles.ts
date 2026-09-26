@@ -1,9 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
-import getAdminArticles from "@/modules/core/queries/get-admin-articles";
+import { useQuery } from '@tanstack/react-query';
+import getAdminArticles from '@/modules/core/queries/get-admin-articles';
 
 const useAdminArticles = () => {
   return useQuery({
-    queryKey: ["admin-articles"],
+    queryKey: ['admin-articles'],
     queryFn: () => getAdminArticles(),
   });
 };

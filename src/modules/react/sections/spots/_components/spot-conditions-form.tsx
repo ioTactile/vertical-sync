@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   Form,
@@ -7,46 +7,41 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/app/_components/ui/form";
+} from '@/app/_components/ui/form';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/app/_components/ui/select";
-import { Textarea } from "@/app/_components/ui/textarea";
-import { Button } from "@/app/_components/ui/button";
-import { useAuthAction } from "@/app/_hooks/use-auth-action";
-import { useToast } from "@/app/_hooks/use-toast";
-import { useCreateClimbingSpotConditionReport } from "@/modules/core/mutations/useCreateClimbingSpotConditionReport";
-import type { CrowdLevel, RockState } from "@/modules/core/model/ClimbingSpotConditions";
+} from '@/app/_components/ui/select';
+import { Textarea } from '@/app/_components/ui/textarea';
+import { Button } from '@/app/_components/ui/button';
+import { useAuthAction } from '@/app/_hooks/use-auth-action';
+import { useToast } from '@/app/_hooks/use-toast';
+import { useCreateClimbingSpotConditionReport } from '@/modules/core/mutations/useCreateClimbingSpotConditionReport';
+import type { CrowdLevel, RockState } from '@/modules/core/model/ClimbingSpotConditions';
 import {
   CreateClimbingSpotConditionInputs,
   createClimbingSpotConditionSchema,
-} from "@/modules/react/sections/spots/_schemas/create-climbing-spot-condition";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Resolver, SubmitHandler, useForm } from "react-hook-form";
+} from '@/modules/react/sections/spots/_schemas/create-climbing-spot-condition';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Resolver, SubmitHandler, useForm } from 'react-hook-form';
 
-const ROCK_STATE_OPTIONS: RockState[] = ["DRY", "DAMP", "WET"];
-const CROWD_LEVEL_OPTIONS: CrowdLevel[] = [
-  "EMPTY",
-  "FEW_PEOPLE",
-  "BUSY",
-  "PACKED",
-];
+const ROCK_STATE_OPTIONS: RockState[] = ['DRY', 'DAMP', 'WET'];
+const CROWD_LEVEL_OPTIONS: CrowdLevel[] = ['EMPTY', 'FEW_PEOPLE', 'BUSY', 'PACKED'];
 
 const ROCK_STATE_LABELS: Record<RockState, string> = {
-  DRY: "Sèche",
-  DAMP: "Humide",
-  WET: "Mouillée",
+  DRY: 'Sèche',
+  DAMP: 'Humide',
+  WET: 'Mouillée',
 };
 
 const CROWD_LEVEL_LABELS: Record<CrowdLevel, string> = {
-  EMPTY: "Vide",
-  FEW_PEOPLE: "Quelques personnes",
-  BUSY: "Fréquenté",
-  PACKED: "Comblé",
+  EMPTY: 'Vide',
+  FEW_PEOPLE: 'Quelques personnes',
+  BUSY: 'Fréquenté',
+  PACKED: 'Comblé',
 };
 
 interface SpotConditionsFormProps {
@@ -56,13 +51,15 @@ interface SpotConditionsFormProps {
 
 const SpotConditionsForm = ({ spotId, onSuccess }: SpotConditionsFormProps) => {
   const form = useForm<CreateClimbingSpotConditionInputs>({
-    resolver: zodResolver(createClimbingSpotConditionSchema) as Resolver<any>,
+    resolver: zodResolver(
+      createClimbingSpotConditionSchema,
+    ) as Resolver<CreateClimbingSpotConditionInputs>,
     defaultValues: {
       rockState: undefined,
       crowdLevel: undefined,
-      comment: "",
+      comment: '',
     },
-    mode: "onChange",
+    mode: 'onChange',
   });
 
   const createReport = useCreateClimbingSpotConditionReport();
@@ -82,18 +79,17 @@ const SpotConditionsForm = ({ spotId, onSuccess }: SpotConditionsFormProps) => {
         {
           onSuccess: () => {
             toast({
-              title: "Merci",
-              description: "Vos conditions ont été enregistrées",
+              title: 'Merci',
+              description: 'Vos conditions ont été enregistrées',
             });
             form.reset();
             onSuccess();
           },
           onError: () => {
             toast({
-              title: "Erreur",
-              description:
-                "Une erreur est survenue lors de l'envoi du signalement",
-              variant: "destructive",
+              title: 'Erreur',
+              description: "Une erreur est survenue lors de l'envoi du signalement",
+              variant: 'destructive',
             });
           },
         },
@@ -110,10 +106,7 @@ const SpotConditionsForm = ({ spotId, onSuccess }: SpotConditionsFormProps) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel>État de la roche</FormLabel>
-              <Select
-                onValueChange={field.onChange}
-                value={field.value}
-              >
+              <Select onValueChange={field.onChange} value={field.value}>
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder="Sélectionnez..." />
@@ -138,10 +131,7 @@ const SpotConditionsForm = ({ spotId, onSuccess }: SpotConditionsFormProps) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Affluence</FormLabel>
-              <Select
-                onValueChange={field.onChange}
-                value={field.value}
-              >
+              <Select onValueChange={field.onChange} value={field.value}>
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder="Sélectionnez..." />
@@ -170,7 +160,7 @@ const SpotConditionsForm = ({ spotId, onSuccess }: SpotConditionsFormProps) => {
                 <Textarea
                   placeholder="Détails éventuels..."
                   {...field}
-                  value={field.value ?? ""}
+                  value={field.value ?? ''}
                   className="min-h-[80px] shadow-none"
                 />
               </FormControl>

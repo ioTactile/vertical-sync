@@ -1,8 +1,8 @@
-import parse from "html-react-parser";
-import DOMPurify from "dompurify";
+import parse from 'html-react-parser';
+import DOMPurify from 'dompurify';
 
 export const sanitizeHtml = (data: string) => {
-  if (typeof window === "undefined") {
+  if (typeof window === 'undefined') {
     return parse(data);
   }
 

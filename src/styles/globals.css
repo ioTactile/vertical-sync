@@ -209,9 +209,13 @@
   background-color: transparent !important;
   border: none !important;
   box-shadow: none !important;
-  font-family: "Inter", sans-serif !important;
-  text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff,
-    1px 1px 0 #fff, 0px 0px 5px rgba(255, 255, 255, 0.7) !important; /* Effet de halo */
+  font-family: 'Inter', sans-serif !important;
+  text-shadow:
+    -1px -1px 0 #fff,
+    1px -1px 0 #fff,
+    -1px 1px 0 #fff,
+    1px 1px 0 #fff,
+    0px 0px 5px rgba(255, 255, 255, 0.7) !important; /* Effet de halo */
   font-weight: 600 !important;
   margin-left: 10px !important;
   &::before {

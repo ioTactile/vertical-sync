@@ -1,6 +1,6 @@
-import { useMap, useMapEvents } from "react-leaflet";
-import * as React from "react";
-import debounce from "lodash.debounce";
+import { useMap, useMapEvents } from 'react-leaflet';
+import * as React from 'react';
+import debounce from 'lodash.debounce';
 
 interface MapEventHandlerProps {
   onZoomChange: (zoom: number) => void;
@@ -27,7 +27,7 @@ const MapEventHandler = ({
           duration: 0.5,
         });
       }, 100),
-    [map]
+    [map],
   );
 
   React.useEffect(() => {
@@ -40,9 +40,7 @@ const MapEventHandler = ({
     zoomend: () => {
       onZoomChange(map.getZoom());
     },
-    moveend: () => {
-      // const bounds = map.getBounds();
-    },
+    moveend: () => {},
     click: () => {
       onMapClick();
     },

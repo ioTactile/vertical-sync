@@ -1,9 +1,8 @@
-import { useQueryState } from "nuqs";
-import { useDebounce } from "@/app/_hooks/use-debounce";
-import * as React from "react";
-import { ExtendedClimbingSpot } from "@/modules/core/model/ClimbingSpot";
-import useClimbingSpotsSearch from "@/modules/core/hooks/use-climbing-spots-search";
-import { extractCoords } from "@/lib/utils";
+import { useQueryState } from 'nuqs';
+import * as React from 'react';
+import { ExtendedClimbingSpot } from '@/modules/core/model/ClimbingSpot';
+import useClimbingSpotsSearch from '@/modules/core/hooks/use-climbing-spots-search';
+import { extractCoords } from '@/lib/utils';
 
 interface UseSpotSearchProps {
   isSpotSelected: boolean;
@@ -27,14 +26,12 @@ export const useSpotSearch = ({
   onSpotSelect,
   updateMapView,
 }: UseSpotSearchProps): UseSpotSearchReturn => {
-  const [searchQuery, setSearchQuery] = useQueryState("search", {
-    defaultValue: "",
+  const [searchQuery, setSearchQuery] = useQueryState('search', {
+    defaultValue: '',
   });
   const [isSearchOpen, setIsSearchOpen] = React.useState<boolean>(false);
-  const debouncedSearch = useDebounce(searchQuery, 300);
 
-  const { data: searchResults, isLoading } =
-    useClimbingSpotsSearch(searchQuery);
+  const { data: searchResults, isLoading } = useClimbingSpotsSearch(searchQuery);
 
   const extendedSearchResults = React.useMemo(() => {
     return (
@@ -43,7 +40,7 @@ export const useSpotSearch = ({
         return {
           ...rest,
           ...extractCoords(coords),
-          notation: rest.notation?.toString() ?? "0",
+          notation: rest.notation?.toString() ?? '0',
         };
       }) ?? []
     );
@@ -51,18 +48,14 @@ export const useSpotSearch = ({
 
   const handleSearch = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      setSearchQuery(e.target.value);
+      const value = e.target.value;
+      setSearchQuery(value);
+      if (value.length > 2 && !isSpotSelected) {
+        setIsSearchOpen(true);
+      }
     },
-    [setSearchQuery]
+    [setSearchQuery, isSpotSelected],
   );
-
-  React.useEffect(() => {
-    const shouldOpen = debouncedSearch.length > 2 && !isSpotSelected;
-
-    if (shouldOpen && debouncedSearch !== searchQuery) {
-      setIsSearchOpen(true);
-    }
-  }, [debouncedSearch, isSpotSelected, searchQuery]);
 
   const handleEnterPress = React.useCallback(() => {
     if (searchResults && searchResults.length > 0) {
@@ -76,7 +69,7 @@ export const useSpotSearch = ({
       updateMapView([spot.latitude, spot.longitude], 15);
       setSearchQuery(spot.name);
     },
-    [onSpotSelect, updateMapView, setSearchQuery]
+    [onSpotSelect, updateMapView, setSearchQuery],
   );
 
   return {

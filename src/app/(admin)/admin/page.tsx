@@ -1,4 +1,4 @@
-import AdminPage from "@/modules/react/pages/AdminPage";
+import AdminPage from '@/modules/react/pages/AdminPage';
 
 export default function Admin() {
   return <AdminPage />;

@@ -1,7 +1,7 @@
 export type NotifyPayload = {
   title: string;
   description?: string;
-  variant?: "default" | "destructive";
+  variant?: 'default' | 'destructive';
 };
 
 export type Notifier = {
@@ -14,12 +14,12 @@ const noopNotifier: Notifier = {
 
 let notifier: Notifier = noopNotifier;
 
-/** Injection du notificateur (adapter UI) au boot de l'app. */
+/** Inject the notifier (UI adapter) at app boot. */
 export function setNotifier(next: Notifier): void {
   notifier = next;
 }
 
-/** Port de notification utilisé par les mutations core. */
+/** Notification port used by core mutations. */
 export function notify(payload: NotifyPayload): void {
   notifier.notify(payload);
 }

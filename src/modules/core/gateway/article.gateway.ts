@@ -8,21 +8,17 @@ import {
   CreateArticleCommentDto,
   CreateArticleLikeDto,
   GetArticleResponse,
-} from "@/modules/core/model/Article";
+} from '@/modules/core/model/Article';
 
 export interface IArticleGateway {
   getPublicArticles: (
-    filters: Omit<ArticleFilters, "publishedOnly">
+    filters: Omit<ArticleFilters, 'publishedOnly'>,
   ) => Promise<GetArticlesResponse>;
   getAdminArticles: () => Promise<GetArticlesResponse>;
   getArticleBySlug: (slug: string) => Promise<GetArticleResponse>;
-  getArticleBySlugWithRelations: (
-    slug: string
-  ) => Promise<GetArticleWithRelationsResponse>;
+  getArticleBySlugWithRelations: (slug: string) => Promise<GetArticleWithRelationsResponse>;
   getArticleById: (id: string) => Promise<GetArticleResponse>;
-  getArticleByIdWithRelations: (
-    id: string
-  ) => Promise<GetArticleWithRelationsResponse>;
+  getArticleByIdWithRelations: (id: string) => Promise<GetArticleWithRelationsResponse>;
   createArticle: (article: CreateArticleDto) => Promise<{
     message: string;
   }>;
@@ -31,7 +27,7 @@ export interface IArticleGateway {
   }>;
   updateArticlePublishStatus: (
     id: string,
-    published: boolean
+    published: boolean,
   ) => Promise<{
     message: string;
   }>;
@@ -44,7 +40,7 @@ export interface IArticleGateway {
   }>;
   deleteArticleComment: (
     articleId: string,
-    articleCommentId: string
+    articleCommentId: string,
   ) => Promise<{
     message: string;
   }>;
@@ -53,7 +49,7 @@ export interface IArticleGateway {
   }>;
   deleteArticleLike: (
     articleId: string,
-    userId: string
+    userId: string,
   ) => Promise<{
     message: string;
   }>;

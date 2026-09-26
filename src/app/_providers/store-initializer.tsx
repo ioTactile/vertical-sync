@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useUserStore } from "@/modules/core/store/store";
-import { useUser } from "@clerk/nextjs";
-import * as React from "react";
+import { useUserStore } from '@/modules/core/store/store';
+import { useUser } from '@clerk/nextjs';
+import * as React from 'react';
 
 const StoreInitializer = () => {
   const { user, isLoaded } = useUser();

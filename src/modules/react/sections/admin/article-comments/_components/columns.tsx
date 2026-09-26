@@ -1,6 +1,6 @@
-import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-import { Button } from "@/app/_components/ui/button";
+import { ColumnDef } from '@tanstack/react-table';
+import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
+import { Button } from '@/app/_components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,10 +8,10 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/app/_components/ui/dropdown-menu";
-import Link from "next/link";
-import { useDeleteArticleComment } from "@/modules/core/mutations/useDeleteArticleComment";
-import { DataTableFeatures } from "@/modules/react/sections/_components/data-table";
+} from '@/app/_components/ui/dropdown-menu';
+import Link from 'next/link';
+import { useDeleteArticleComment } from '@/modules/core/mutations/useDeleteArticleComment';
+import { DataTableFeatures } from '@/modules/react/sections/_components/data-table';
 
 export type ArticleComment = {
   id: string;
@@ -22,25 +22,25 @@ export type ArticleComment = {
 
 export const columns: ColumnDef<DataTableFeatures, ArticleComment>[] = [
   {
-    accessorKey: "content",
-    header: "Contenu",
+    accessorKey: 'content',
+    header: 'Contenu',
     cell: ({ row }) => {
-      const content = row.getValue("content") as string;
+      const content = row.getValue('content') as string;
       return (
         <div title={content}>
           {content.slice(0, 20)}
-          {content.length > 20 && "..."}
+          {content.length > 20 && '...'}
         </div>
       );
     },
   },
   {
-    accessorKey: "updatedAt",
+    accessorKey: 'updatedAt',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Date de mise à jour
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -49,8 +49,8 @@ export const columns: ColumnDef<DataTableFeatures, ArticleComment>[] = [
     },
   },
   {
-    id: "actions",
-    header: "Actions",
+    id: 'actions',
+    header: 'Actions',
     cell: ({ row }) => {
       const articleComment = row.original;
       return <ActionCell articleComment={articleComment} />;
@@ -73,9 +73,7 @@ const ActionCell = ({ articleComment }: { articleComment: ArticleComment }) => {
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link href={`/admin/articles/update?id=${articleComment.id}`}>
-            Mettre à jour
-          </Link>
+          <Link href={`/admin/articles/update?id=${articleComment.id}`}>Mettre à jour</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem

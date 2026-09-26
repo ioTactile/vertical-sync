@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { Input } from "@/app/_components/ui/input";
-import { Button } from "@/app/_components/ui/button";
-import { Resolver, SubmitHandler, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { Input } from '@/app/_components/ui/input';
+import { Button } from '@/app/_components/ui/button';
+import { Resolver, SubmitHandler, useForm, useWatch } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Form,
   FormControl,
@@ -11,54 +11,49 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/app/_components/ui/form";
-import { useCreateClimbingSpot } from "@/modules/core/mutations/useCreateClimbingSpot";
-import { useUpdateClimbingSpot } from "@/modules/core/mutations/useUpdateClimbingSpot";
-import * as React from "react";
-import { useRouter } from "next/navigation";
-import { GetClimbingSpotResponse } from "@/modules/core/model/ClimbingSpot";
-import { useAuthAction } from "@/app/_hooks/use-auth-action";
-import { createClimbingSpotSchema } from "@/modules/react/sections/spots/_schemas/create-climbing-spot";
-import { CreateClimbingSpotInputs } from "@/modules/react/sections/spots/_schemas/create-climbing-spot";
-import { useS3Upload } from "@/app/_hooks/use-s3-upload";
-import { useFileManager } from "@/app/_hooks/use-file-manager";
-import { useToast } from "@/app/_hooks/use-toast";
-import MultiSelectClimbing from "@/modules/react/sections/spots/_components/multi-select-climbing";
+} from '@/app/_components/ui/form';
+import { useCreateClimbingSpot } from '@/modules/core/mutations/useCreateClimbingSpot';
+import { useUpdateClimbingSpot } from '@/modules/core/mutations/useUpdateClimbingSpot';
+import * as React from 'react';
+import { useRouter } from 'next/navigation';
+import { GetClimbingSpotResponse } from '@/modules/core/model/ClimbingSpot';
+import { useAuthAction } from '@/app/_hooks/use-auth-action';
+import { createClimbingSpotSchema } from '@/modules/react/sections/spots/_schemas/create-climbing-spot';
+import { CreateClimbingSpotInputs } from '@/modules/react/sections/spots/_schemas/create-climbing-spot';
+import { useS3Upload } from '@/app/_hooks/use-s3-upload';
+import { useFileManager } from '@/app/_hooks/use-file-manager';
+import { useToast } from '@/app/_hooks/use-toast';
+import MultiSelectClimbing from '@/modules/react/sections/spots/_components/multi-select-climbing';
 import {
   CLIMBING_SPOT_DIFFICULTY_LABELS,
   CLIMBING_SPOT_STATUS_LABELS,
   CLIMBING_SPOT_TYPE_LABELS,
-} from "@/types/enum";
+} from '@/types/enum';
 import {
   ClimbingSpotDifficulty,
   ClimbingSpotStatus,
   ClimbingSpotType,
-} from "@/modules/core/domain/enums";
-import FilePreview from "@/app/_components/core/file-preview";
-import { FileUpload } from "@/app/_components/ui/file-upload";
-import { Checkbox } from "@/app/_components/ui/checkbox";
-import { Textarea } from "@/app/_components/ui/textarea";
-import { extractCoords } from "@/lib/utils";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-} from "@/app/_components/ui/select";
-import { SelectValue } from "@radix-ui/react-select";
-import ImageUrlPreview from "@/app/_components/core/image-url-preview";
+} from '@/modules/core/domain/enums';
+import FilePreview from '@/app/_components/core/file-preview';
+import { FileUpload } from '@/app/_components/ui/file-upload';
+import { Checkbox } from '@/app/_components/ui/checkbox';
+import { Textarea } from '@/app/_components/ui/textarea';
+import { extractCoords } from '@/lib/utils';
+import { Select, SelectContent, SelectItem, SelectTrigger } from '@/app/_components/ui/select';
+import { SelectValue } from '@radix-ui/react-select';
+import ImageUrlPreview from '@/app/_components/core/image-url-preview';
 import {
   UpdateClimbingSpotInputs,
   updateClimbingSpotSchema,
-} from "@/modules/react/sections/admin/spots/_schemas/update-climbing-spot";
-import { ModalCoordinateMap } from "@/modules/react/sections/_components/modal-coordinate-map";
-import { useModalCoordinateMap } from "@/modules/react/sections/_hooks/use-modal-coordinate-map";
-import { useGoogleMaps } from "@/app/_hooks/use-google-maps";
-import type { AddressComponent } from "@/types/google-maps.types";
-import { PlaceSearch } from "@/modules/react/sections/_components/place-search-input";
+} from '@/modules/react/sections/admin/spots/_schemas/update-climbing-spot';
+import { ModalCoordinateMap } from '@/modules/react/sections/_components/modal-coordinate-map';
+import { useModalCoordinateMap } from '@/modules/react/sections/_hooks/use-modal-coordinate-map';
+import { useGoogleMaps } from '@/app/_hooks/use-google-maps';
+import type { AddressComponent } from '@/types/google-maps.types';
+import { PlaceSearch } from '@/modules/react/sections/_components/place-search-input';
 
 interface SpotFormProps {
-  mode: "create" | "update";
+  mode: 'create' | 'update';
   initialData?: GetClimbingSpotResponse;
 }
 
@@ -66,15 +61,13 @@ const SpotForm = ({ mode, initialData }: SpotFormProps) => {
   const { isLoaded } = useGoogleMaps();
 
   const form = useForm<
-    typeof mode extends "update"
-      ? UpdateClimbingSpotInputs
-      : CreateClimbingSpotInputs
+    typeof mode extends 'update' ? UpdateClimbingSpotInputs : CreateClimbingSpotInputs
   >({
     resolver: zodResolver(
-      mode === "update" ? updateClimbingSpotSchema : createClimbingSpotSchema
-    ) as Resolver<any>,
+      mode === 'update' ? updateClimbingSpotSchema : createClimbingSpotSchema,
+    ) as Resolver<CreateClimbingSpotInputs | UpdateClimbingSpotInputs>,
     defaultValues: {
-      name: "",
+      name: '',
       description: null,
       country: null,
       city: null,
@@ -92,7 +85,7 @@ const SpotForm = ({ mode, initialData }: SpotFormProps) => {
       toiletsAvailable: null,
       status: ClimbingSpotStatus.PENDING,
     },
-    mode: "onChange",
+    mode: 'onChange',
   });
 
   const {
@@ -101,30 +94,32 @@ const SpotForm = ({ mode, initialData }: SpotFormProps) => {
     formState: { isValid },
     reset,
     setValue,
-    watch,
+    getValues,
   } = form;
+
+  const imageUrls = useWatch({ control, name: 'imageUrls' }) ?? [];
 
   React.useEffect(() => {
     if (initialData) {
       const { coords, ...rest } = initialData;
-      setValue("name", rest.name);
-      setValue("description", rest.description);
-      setValue("country", rest.country);
-      setValue("city", rest.city);
-      setValue("latitude", extractCoords(coords).latitude);
-      setValue("longitude", extractCoords(coords).longitude);
-      setValue("imageUrls", rest.imageUrls);
-      setValue("types", rest.types);
-      setValue("difficulties", rest.difficulties);
-      setValue("bestPeriod", rest.bestPeriod);
-      setValue("address", rest.address);
-      setValue("websiteUrl", rest.websiteUrl);
-      setValue("phoneNumber", rest.phoneNumber);
-      setValue("email", rest.email);
-      setValue("parkingAvailable", rest.parkingAvailable);
-      setValue("toiletsAvailable", rest.toiletsAvailable);
-      if (mode === "update") {
-        setValue("status", rest.status);
+      setValue('name', rest.name);
+      setValue('description', rest.description);
+      setValue('country', rest.country);
+      setValue('city', rest.city);
+      setValue('latitude', extractCoords(coords).latitude);
+      setValue('longitude', extractCoords(coords).longitude);
+      setValue('imageUrls', rest.imageUrls);
+      setValue('types', rest.types);
+      setValue('difficulties', rest.difficulties);
+      setValue('bestPeriod', rest.bestPeriod);
+      setValue('address', rest.address);
+      setValue('websiteUrl', rest.websiteUrl);
+      setValue('phoneNumber', rest.phoneNumber);
+      setValue('email', rest.email);
+      setValue('parkingAvailable', rest.parkingAvailable);
+      setValue('toiletsAvailable', rest.toiletsAvailable);
+      if (mode === 'update') {
+        setValue('status', rest.status);
       }
     }
   }, [initialData, setValue, mode]);
@@ -144,9 +139,7 @@ const SpotForm = ({ mode, initialData }: SpotFormProps) => {
   const { files, handleFiles, clearFiles, removeFile } = useFileManager(5);
 
   const handleCreateOrUpdateClimbingSpotSubmit: SubmitHandler<
-    typeof mode extends "update"
-      ? UpdateClimbingSpotInputs
-      : CreateClimbingSpotInputs
+    typeof mode extends 'update' ? UpdateClimbingSpotInputs : CreateClimbingSpotInputs
   > = (data) => {
     handleAuthAction(async (user) => {
       const spot = {
@@ -155,7 +148,7 @@ const SpotForm = ({ mode, initialData }: SpotFormProps) => {
         country: data.country,
         city: data.city,
         coords: {
-          type: "Point" as const,
+          type: 'Point' as const,
           coordinates: [data.longitude, data.latitude] as [number, number],
         },
         imageUrls: data.imageUrls,
@@ -174,14 +167,12 @@ const SpotForm = ({ mode, initialData }: SpotFormProps) => {
       try {
         let imageUrls: string[] = [...(data.imageUrls || [])];
 
-        if (mode === "update") {
+        if (mode === 'update') {
           const imagesToDelete = initialData?.imageUrls.filter(
-            (url) => !data.imageUrls.includes(url)
+            (url) => !data.imageUrls.includes(url),
           );
           if (imagesToDelete && imagesToDelete.length > 0) {
-            await deleteFromS3(
-              imagesToDelete.map((url) => url.split("/").pop() || "")
-            );
+            await deleteFromS3(imagesToDelete.map((url) => url.split('/').pop() || ''));
           }
         }
 
@@ -190,7 +181,7 @@ const SpotForm = ({ mode, initialData }: SpotFormProps) => {
           imageUrls = [...imageUrls, ...newImageUrls];
         }
 
-        if (mode === "create") {
+        if (mode === 'create') {
           createClimbingSpotMutation.mutate(
             {
               ...spot,
@@ -201,9 +192,9 @@ const SpotForm = ({ mode, initialData }: SpotFormProps) => {
               onSuccess: () => {
                 clearFiles();
                 reset();
-                router.push("/admin/spots");
+                router.push('/admin/spots');
               },
-            }
+            },
           );
         } else {
           updateClimbingSpotMutation.mutate(
@@ -217,9 +208,9 @@ const SpotForm = ({ mode, initialData }: SpotFormProps) => {
               onSuccess: () => {
                 clearFiles();
                 reset();
-                router.push("/admin/spots");
+                router.push('/admin/spots');
               },
-            }
+            },
           );
         }
       } catch (error: unknown) {
@@ -228,19 +219,17 @@ const SpotForm = ({ mode, initialData }: SpotFormProps) => {
           await deleteFromS3(files.map((file) => file.name));
         }
         toast({
-          title: "Erreur",
+          title: 'Erreur',
           description: "Une erreur est survenue lors de l'upload des images",
-          variant: "destructive",
+          variant: 'destructive',
         });
       }
     });
   };
 
   const handleRemoveImageUrl = (url: string) => {
-    const newImageUrls = watch("imageUrls").filter(
-      (imageUrl) => imageUrl !== url
-    );
-    setValue("imageUrls", newImageUrls);
+    const newImageUrls = getValues('imageUrls').filter((imageUrl) => imageUrl !== url);
+    setValue('imageUrls', newImageUrls);
   };
 
   const {
@@ -251,8 +240,8 @@ const SpotForm = ({ mode, initialData }: SpotFormProps) => {
   } = useModalCoordinateMap();
 
   const handleCoordinateSelection = (coords: [number, number]) => {
-    setValue("latitude", coords[0]);
-    setValue("longitude", coords[1]);
+    setValue('latitude', coords[0]);
+    setValue('longitude', coords[1]);
     baseHandleCoordinateSelection(coords);
   };
 
@@ -264,27 +253,24 @@ const SpotForm = ({ mode, initialData }: SpotFormProps) => {
 
     const country =
       place.address_components?.find((component: AddressComponent) =>
-        component.types.includes("country")
-      )?.long_name || "";
+        component.types.includes('country'),
+      )?.long_name || '';
 
     const city =
       place.address_components?.find((component: AddressComponent) =>
-        component.types.includes("locality")
-      )?.long_name || "";
+        component.types.includes('locality'),
+      )?.long_name || '';
 
-    const address = place.formatted_address || "";
+    const address = place.formatted_address || '';
 
-    setValue("name", place.name || "");
-    setValue("latitude", lat);
-    setValue("longitude", lng);
-    setValue("country", country);
-    setValue("city", city);
-    setValue("address", address);
-    setValue("websiteUrl", place.website || "");
-    setValue(
-      "phoneNumber",
-      place.formatted_phone_number || place.international_phone_number || ""
-    );
+    setValue('name', place.name || '');
+    setValue('latitude', lat);
+    setValue('longitude', lng);
+    setValue('country', country);
+    setValue('city', city);
+    setValue('address', address);
+    setValue('websiteUrl', place.website || '');
+    setValue('phoneNumber', place.formatted_phone_number || place.international_phone_number || '');
   };
 
   return (
@@ -317,7 +303,7 @@ const SpotForm = ({ mode, initialData }: SpotFormProps) => {
                 <Textarea
                   placeholder="Description du spot"
                   {...field}
-                  value={field.value || ""}
+                  value={field.value || ''}
                   className="shadow-none"
                 />
               </FormControl>
@@ -333,11 +319,7 @@ const SpotForm = ({ mode, initialData }: SpotFormProps) => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input
-                    placeholder="Pays"
-                    {...field}
-                    value={field.value || ""}
-                  />
+                  <Input placeholder="Pays" {...field} value={field.value || ''} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -350,11 +332,7 @@ const SpotForm = ({ mode, initialData }: SpotFormProps) => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input
-                    placeholder="Ville"
-                    {...field}
-                    value={field.value || ""}
-                  />
+                  <Input placeholder="Ville" {...field} value={field.value || ''} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -429,10 +407,7 @@ const SpotForm = ({ mode, initialData }: SpotFormProps) => {
           }))}
         />
 
-        <ImageUrlPreview
-          imageUrls={watch("imageUrls")}
-          onRemove={handleRemoveImageUrl}
-        />
+        <ImageUrlPreview imageUrls={imageUrls} onRemove={handleRemoveImageUrl} />
 
         <FilePreview files={files} onRemove={removeFile} />
 
@@ -441,11 +416,7 @@ const SpotForm = ({ mode, initialData }: SpotFormProps) => {
           onUpload={handleFiles}
           isLoading={isUploading}
           className="rounded-xl"
-          label={
-            watch("imageUrls").length > 0
-              ? "Ajouter plus d'images"
-              : "Déposer vos images ici"
-          }
+          label={imageUrls.length > 0 ? "Ajouter plus d'images" : 'Déposer vos images ici'}
         />
 
         <FormField
@@ -455,11 +426,7 @@ const SpotForm = ({ mode, initialData }: SpotFormProps) => {
             <FormItem>
               <FormLabel>Adresse</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="Adresse"
-                  {...field}
-                  value={field.value || ""}
-                />
+                <Input placeholder="Adresse" {...field} value={field.value || ''} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -473,11 +440,7 @@ const SpotForm = ({ mode, initialData }: SpotFormProps) => {
             <FormItem>
               <FormLabel>Site web</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="Site web"
-                  {...field}
-                  value={field.value || ""}
-                />
+                <Input placeholder="Site web" {...field} value={field.value || ''} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -491,11 +454,7 @@ const SpotForm = ({ mode, initialData }: SpotFormProps) => {
             <FormItem>
               <FormLabel>Téléphone</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="Téléphone"
-                  {...field}
-                  value={field.value || ""}
-                />
+                <Input placeholder="Téléphone" {...field} value={field.value || ''} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -509,11 +468,7 @@ const SpotForm = ({ mode, initialData }: SpotFormProps) => {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="Email"
-                  {...field}
-                  value={field.value || ""}
-                />
+                <Input placeholder="Email" {...field} value={field.value || ''} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -527,11 +482,7 @@ const SpotForm = ({ mode, initialData }: SpotFormProps) => {
             <FormItem>
               <FormLabel>Meilleur moment</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="Meilleur moment"
-                  {...field}
-                  value={field.value || ""}
-                />
+                <Input placeholder="Meilleur moment" {...field} value={field.value || ''} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -545,10 +496,7 @@ const SpotForm = ({ mode, initialData }: SpotFormProps) => {
             render={({ field }) => (
               <FormItem className="flex items-center space-x-2">
                 <FormControl>
-                  <Checkbox
-                    checked={field.value || false}
-                    onCheckedChange={field.onChange}
-                  />
+                  <Checkbox checked={field.value || false} onCheckedChange={field.onChange} />
                 </FormControl>
                 <FormLabel>Parking disponible</FormLabel>
                 <FormMessage />
@@ -562,10 +510,7 @@ const SpotForm = ({ mode, initialData }: SpotFormProps) => {
             render={({ field }) => (
               <FormItem className="flex items-center space-x-2">
                 <FormControl>
-                  <Checkbox
-                    checked={field.value || false}
-                    onCheckedChange={field.onChange}
-                  />
+                  <Checkbox checked={field.value || false} onCheckedChange={field.onChange} />
                 </FormControl>
                 <FormLabel>Toilettes disponibles</FormLabel>
                 <FormMessage />
@@ -580,10 +525,7 @@ const SpotForm = ({ mode, initialData }: SpotFormProps) => {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Select
-                  value={field.value || initialData?.status}
-                  onValueChange={field.onChange}
-                >
+                <Select value={field.value || initialData?.status} onValueChange={field.onChange}>
                   <FormItem>
                     <FormControl>
                       <SelectTrigger>
@@ -608,12 +550,8 @@ const SpotForm = ({ mode, initialData }: SpotFormProps) => {
           )}
         />
 
-        <Button
-          type="submit"
-          disabled={!isValid || isUploading}
-          className="rounded-full self-end"
-        >
-          {mode === "create" ? "Créer" : "Mettre à jour"}
+        <Button type="submit" disabled={!isValid || isUploading} className="rounded-full self-end">
+          {mode === 'create' ? 'Créer' : 'Mettre à jour'}
         </Button>
       </form>
     </Form>

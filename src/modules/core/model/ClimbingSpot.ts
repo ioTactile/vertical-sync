@@ -1,13 +1,13 @@
-import { CreateClimbingSpotInputs } from "@/modules/core/schemas/climbing-spot/create-climbing-spot";
-import { Author } from "@/modules/core/model/User";
-import { UpdateClimbingSpotInputs } from "@/modules/core/schemas/climbing-spot/update-climbing-spot";
-import { CreateClimbingSpotCommentInputs } from "@/modules/core/schemas/climbing-spot/create-climbing-spot-comment";
-import { WeatherData } from "@/modules/core/model/Weather";
+import { CreateClimbingSpotInputs } from '@/modules/core/schemas/climbing-spot/create-climbing-spot';
+import { Author } from '@/modules/core/model/User';
+import { UpdateClimbingSpotInputs } from '@/modules/core/schemas/climbing-spot/update-climbing-spot';
+import { CreateClimbingSpotCommentInputs } from '@/modules/core/schemas/climbing-spot/create-climbing-spot-comment';
+import { WeatherData } from '@/modules/core/model/Weather';
 import type {
   ClimbingSpotDifficulty,
   ClimbingSpotStatus,
   ClimbingSpotType,
-} from "@/modules/core/domain/enums";
+} from '@/modules/core/domain/enums';
 
 export type ClimbingSpot = {
   id: string;
@@ -39,10 +39,7 @@ export type GetClimbingSpotResponse = ClimbingSpot & {
 
 export type GetClimbingSpotsResponse = GetClimbingSpotResponse[];
 
-export type ExtendedClimbingSpot = Omit<
-  GetClimbingSpotResponse,
-  "coords" | "notation"
-> & {
+export type ExtendedClimbingSpot = Omit<GetClimbingSpotResponse, 'coords' | 'notation'> & {
   latitude: number;
   longitude: number;
   notation: string;
@@ -67,19 +64,19 @@ export type GetClimbingSpotsSearchResponse = GetClimbingSpotSearchResponse[];
 export type CreateClimbingSpotDto = {
   authorId: string;
   coords: {
-    type: "Point";
+    type: 'Point';
     coordinates: [number, number];
   };
-} & Omit<CreateClimbingSpotInputs, "latitude" | "longitude">;
+} & Omit<CreateClimbingSpotInputs, 'latitude' | 'longitude'>;
 
 export type UpdateClimbingSpotDto = {
   id: string;
   updatedAt: Date;
   coords: {
-    type: "Point";
+    type: 'Point';
     coordinates: [number, number];
   };
-} & Omit<UpdateClimbingSpotInputs, "latitude" | "longitude">;
+} & Omit<UpdateClimbingSpotInputs, 'latitude' | 'longitude'>;
 
 export type ClimbingSpotComment = {
   content: string;

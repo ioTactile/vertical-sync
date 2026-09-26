@@ -1,6 +1,6 @@
-import { ExtendedClimbingSpot } from "@/modules/core/model/ClimbingSpot";
-import { Marker, Tooltip } from "react-leaflet";
-import L from "leaflet";
+import { ExtendedClimbingSpot } from '@/modules/core/model/ClimbingSpot';
+import { Marker, Tooltip } from 'react-leaflet';
+import L from 'leaflet';
 
 interface MapMarkerProps {
   spot: ExtendedClimbingSpot;
@@ -9,11 +9,11 @@ interface MapMarkerProps {
 }
 
 const icon = L.icon({
-  iconUrl: "/assets/marker.png",
+  iconUrl: '/assets/marker.png',
   iconSize: [40, 40], // taille en pixels [largeur, hauteur]
-  iconAnchor: [20, 20], // point d'ancrage de l'icône [x, y] par rapport au coin supérieur gauche
-  popupAnchor: [0, -40], // point d'ancrage du popup par rapport au coin supérieur gauche
-  tooltipAnchor: [10, 0], // point d'ancrage du tooltip par rapport au coin supérieur gauche
+  iconAnchor: [20, 20], // icon anchor [x, y] relative to the top-left corner
+  popupAnchor: [0, -40], // popup anchor relative to the top-left corner
+  tooltipAnchor: [10, 0], // tooltip anchor relative to the top-left corner
 });
 
 const MapMarker = ({ spot, onSelect, showTooltip }: MapMarkerProps) => {

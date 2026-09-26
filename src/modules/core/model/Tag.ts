@@ -1,5 +1,5 @@
-import { CreateTagInputs } from "@/modules/core/schemas/tag/create-tag";
-import { UpdateTagInputs } from "@/modules/core/schemas/tag/update-tag";
+import { CreateTagInputs } from '@/modules/core/schemas/tag/create-tag';
+import { UpdateTagInputs } from '@/modules/core/schemas/tag/update-tag';
 
 export type Tag = {
   id: string;

@@ -1,4 +1,4 @@
-import SpotForm from "@/modules/react/sections/admin/spots/_components/spot-form";
+import SpotForm from '@/modules/react/sections/admin/spots/_components/spot-form';
 
 const CreateSpot = () => {
   return (

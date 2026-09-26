@@ -1,6 +1,6 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { articleGateway } from "@/modules/core/gateway-infra/api.article-gateway";
-import { notify } from "@/modules/core/ports/notifier";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { articleGateway } from '@/modules/core/gateway-infra/api.article-gateway';
+import { notify } from '@/modules/core/ports/notifier';
 
 export function useUpdateArticlePublish() {
   const queryClient = useQueryClient();
@@ -14,11 +14,11 @@ export function useUpdateArticlePublish() {
         notify({
           title: "Erreur lors de la publication de l'article",
           description: error.message,
-          variant: "destructive",
+          variant: 'destructive',
         });
       } else {
         await queryClient.invalidateQueries({
-          queryKey: ["admin-articles", "articles"],
+          queryKey: ['admin-articles', 'articles'],
         });
       }
     },

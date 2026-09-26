@@ -1,21 +1,17 @@
-"use client";
+'use client';
 
-import { Button } from "@/app/_components/ui/button";
+import { Button } from '@/app/_components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/app/_components/ui/dropdown-menu";
-import { Computer, Moon, Sun } from "lucide-react";
-import { useTheme } from "next-themes";
+} from '@/app/_components/ui/dropdown-menu';
+import { Computer, Moon, Sun } from 'lucide-react';
+import { useTheme } from 'next-themes';
 
 export const ThemeSwitcherDropdown = () => {
   const { setTheme } = useTheme();
-
-  // function handleThemeChange(isLight: boolean) {
-  //   setTheme(isLight ? "light" : "dark");
-  // }
 
   return (
     <DropdownMenu>
@@ -27,13 +23,13 @@ export const ThemeSwitcherDropdown = () => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme("light")}>
+        <DropdownMenuItem onClick={() => setTheme('light')}>
           <Sun className="w-4 mr-2" /> Clair
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>
+        <DropdownMenuItem onClick={() => setTheme('dark')}>
           <Moon className="w-4 mr-2" /> Sombre
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("system")}>
+        <DropdownMenuItem onClick={() => setTheme('system')}>
           <Computer className="w-4 mr-2" /> Système
         </DropdownMenuItem>
       </DropdownMenuContent>

@@ -1,10 +1,7 @@
-import { NextResponse } from "next/server";
-import { tagService } from "@/modules/core/di/container";
+import { NextResponse } from 'next/server';
+import { tagService } from '@/modules/core/di/container';
 
-export async function GET(
-  _request: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(_request: Request, { params }: { params: Promise<{ id: string }> }) {
   const id = (await params).id;
 
   try {
@@ -12,10 +9,7 @@ export async function GET(
 
     return NextResponse.json(tag, { status: 200 });
   } catch (error) {
-    return NextResponse.json(
-      { error: "Erreur interne du serveur: " + error },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Erreur interne du serveur: ' + error }, { status: 500 });
   }
 }
 
@@ -26,15 +20,15 @@ export async function PATCH(request: Request) {
 
     return NextResponse.json(
       {
-        message: "Tag mis à jour",
+        message: 'Tag mis à jour',
       },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     return NextResponse.json(
-      { error: "Erreur interne du serveur: " + error },
+      { error: 'Erreur interne du serveur: ' + error },
 
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -47,14 +41,11 @@ export async function DELETE(request: Request) {
 
     return NextResponse.json(
       {
-        message: "Tag supprimé",
+        message: 'Tag supprimé',
       },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
-    return NextResponse.json(
-      { error: "Erreur interne du serveur: " + error },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Erreur interne du serveur: ' + error }, { status: 500 });
   }
 }

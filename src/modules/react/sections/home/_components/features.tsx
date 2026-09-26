@@ -1,23 +1,22 @@
-import { Library, MessageSquareText, Users } from "lucide-react";
+import { Library, MessageSquareText, Users } from 'lucide-react';
 
 const FeaturesSection = () => {
   const features = [
     {
-      title: "Discussions",
+      title: 'Discussions',
       description:
         "Échangez avec d'autres grimpeurs, partagez vos expériences et posez vos questions",
       icon: MessageSquareText,
     },
     {
-      title: "Blog Collaboratif",
+      title: 'Blog Collaboratif',
       description:
         "Découvrez des articles sur les techniques, l'équipement et les spots d'escalade",
       icon: Library,
     },
     {
-      title: "Communauté Active",
-      description:
-        "Rejoignez une communauté passionnée et enrichissez vos connaissances",
+      title: 'Communauté Active',
+      description: 'Rejoignez une communauté passionnée et enrichissez vos connaissances',
       icon: Users,
     },
   ];
@@ -35,9 +34,7 @@ const FeaturesSection = () => {
               className="flex flex-col items-center text-center p-6 rounded-xl bg-card"
             >
               <feature.icon className="w-10 md:w-12 h-10 md:h-12 text-primary mb-4" />
-              <h3 className="text-lg md:text-xl font-semibold mb-2">
-                {feature.title}
-              </h3>
+              <h3 className="text-lg md:text-xl font-semibold mb-2">{feature.title}</h3>
               <p className="text-muted-foreground">{feature.description}</p>
             </div>
           ))}

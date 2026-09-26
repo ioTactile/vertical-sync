@@ -1,10 +1,5 @@
-import {
-  CreateReportDto,
-  UpdateReportStatusDto,
-} from "@/modules/core/model/Report";
-import {
-  IReportRepository,
-} from "@/modules/core/repository/report.repository";
+import { CreateReportDto, UpdateReportStatusDto } from '@/modules/core/model/Report';
+import { IReportRepository } from '@/modules/core/repository/report.repository';
 
 export class ReportService {
   constructor(private readonly reportRepository: IReportRepository) {}
@@ -17,4 +12,3 @@ export class ReportService {
     return await this.reportRepository.updateReportStatus(data);
   }
 }
-

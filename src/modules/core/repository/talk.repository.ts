@@ -1,4 +1,4 @@
-import prisma from "@/prisma";
+import prisma from '@/prisma';
 import {
   GetTalkCommentsResponse,
   GetTalkResponse,
@@ -7,13 +7,13 @@ import {
   CreateTalkDto,
   CreateTalkCommentDto,
   GetTalkWithCommentsResponse,
-} from "@/modules/core/model/Talk";
+} from '@/modules/core/model/Talk';
 
 export interface ITalkRepository {
   findMany(): Promise<GetTalksResponse>;
   findById(
     id: string,
-    includeComments?: boolean
+    includeComments?: boolean,
   ): Promise<GetTalkResponse | GetTalkWithCommentsResponse | null>;
   create(data: CreateTalkDto): Promise<void>;
   update(data: UpdateTalkDto): Promise<void>;
@@ -42,14 +42,14 @@ export class PrismaTalkRepository implements ITalkRepository {
         },
       },
       orderBy: {
-        createdAt: "desc",
+        createdAt: 'desc',
       },
     });
   }
 
   async findById(
     id: string,
-    includeComments?: boolean
+    includeComments?: boolean,
   ): Promise<GetTalkResponse | GetTalkWithCommentsResponse | null> {
     if (includeComments) {
       return await prisma.talk.findUnique({
@@ -188,13 +188,9 @@ export class PrismaTalkRepository implements ITalkRepository {
     });
   }
 
-  async deleteTalkComment(
-    talkCommentId: string,
-    talkId: string
-  ): Promise<void> {
+  async deleteTalkComment(talkCommentId: string, talkId: string): Promise<void> {
     await prisma.talkComment.delete({
       where: { id: talkCommentId, talkId },
     });
   }
 }
-

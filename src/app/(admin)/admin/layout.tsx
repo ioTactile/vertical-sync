@@ -1,9 +1,5 @@
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/app/_components/ui/sidebar";
-import { AppSidebar } from "@/app/_components/core/app-sidebar";
+import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/app/_components/ui/sidebar';
+import { AppSidebar } from '@/app/_components/core/app-sidebar';
 
 export default function AdminLayout({
   children,

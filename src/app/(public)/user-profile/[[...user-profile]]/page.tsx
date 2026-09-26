@@ -1,10 +1,10 @@
-import { SITE_NAME } from "@/app/_constants/seo";
-import { UserProfile as ClerkUserProfile } from "@clerk/nextjs";
-import { Metadata } from "next";
+import { SITE_NAME } from '@/app/_constants/seo';
+import { UserProfile as ClerkUserProfile } from '@clerk/nextjs';
+import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: `${SITE_NAME} - Profil utilisateur`,
-  description: "Profil utilisateur et paramètres de compte",
+  description: 'Profil utilisateur et paramètres de compte',
 };
 
 export default function UserProfile() {
@@ -13,8 +13,8 @@ export default function UserProfile() {
       <ClerkUserProfile
         appearance={{
           elements: {
-            rootBox: "w-full",
-            cardBox: "w-full flex",
+            rootBox: 'w-full',
+            cardBox: 'w-full flex',
           },
         }}
       />

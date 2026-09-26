@@ -1,4 +1,4 @@
 export {
   deleteTalkCommentSchema,
   type DeleteTalkCommentInputs,
-} from "@/modules/core/schemas/talk/delete-talk-comment";
+} from '@/modules/core/schemas/talk/delete-talk-comment';

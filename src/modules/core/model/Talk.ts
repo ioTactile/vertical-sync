@@ -1,8 +1,8 @@
-import { CreateTalkInputs } from "@/modules/core/schemas/talk/create-talk";
-import { UpdateTalkInputs } from "@/modules/core/schemas/talk/update-talk";
-import { CreateTalkCommentInputs } from "@/modules/core/schemas/talk/create-talk-comment";
-import { DeleteTalkCommentInputs } from "@/modules/core/schemas/talk/delete-talk-comment";
-import { Author } from "@/modules/core/model/User";
+import { CreateTalkInputs } from '@/modules/core/schemas/talk/create-talk';
+import { UpdateTalkInputs } from '@/modules/core/schemas/talk/update-talk';
+import { CreateTalkCommentInputs } from '@/modules/core/schemas/talk/create-talk-comment';
+import { DeleteTalkCommentInputs } from '@/modules/core/schemas/talk/delete-talk-comment';
+import { Author } from '@/modules/core/model/User';
 
 export type Talk = {
   id: string;

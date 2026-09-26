@@ -3,13 +3,13 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/app/_components/ui/dialog";
-import { MapPin } from "lucide-react";
-import { Button } from "@/app/_components/ui/button";
-import { Dialog, DialogTrigger } from "@/app/_components/ui/dialog";
-import { DEFAULT_LOCATION } from "@/app/_constants/app";
-import { Skeleton } from "@/app/_components/ui/skeleton";
-import dynamic from "next/dynamic";
+} from '@/app/_components/ui/dialog';
+import { MapPin } from 'lucide-react';
+import { Button } from '@/app/_components/ui/button';
+import { Dialog, DialogTrigger } from '@/app/_components/ui/dialog';
+import { DEFAULT_LOCATION } from '@/app/_constants/app';
+import { Skeleton } from '@/app/_components/ui/skeleton';
+import dynamic from 'next/dynamic';
 
 interface ModalCoordinateMapProps {
   isMapOpen: boolean;
@@ -18,14 +18,11 @@ interface ModalCoordinateMapProps {
   handleCoordinateSelection: (coords: [number, number]) => void;
 }
 
-// Chargement dynamique de la carte pour éviter les erreurs de rendu côté serveur
-const CoordinateMap = dynamic(
-  () => import("@/modules/react/sections/_components/coordinate-map"),
-  {
-    ssr: false,
-    loading: () => <Skeleton className="h-100 w-full" />,
-  },
-);
+// Dynamic map import to avoid SSR render errors
+const CoordinateMap = dynamic(() => import('@/modules/react/sections/_components/coordinate-map'), {
+  ssr: false,
+  loading: () => <Skeleton className="h-100 w-full" />,
+});
 
 export const ModalCoordinateMap = ({
   isMapOpen,
@@ -54,11 +51,7 @@ export const ModalCoordinateMap = ({
           onSelectCoords={handleCoordinateSelection}
         />
         <DialogFooter className="mt-4">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => setIsMapOpen(false)}
-          >
+          <Button type="button" variant="outline" onClick={() => setIsMapOpen(false)}>
             Annuler
           </Button>
           <Button

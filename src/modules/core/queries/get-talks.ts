@@ -1,4 +1,4 @@
-import { talkGateway } from "@/modules/core/gateway-infra/api.talk-gateway";
+import { talkGateway } from '@/modules/core/gateway-infra/api.talk-gateway';
 
 const getTalks = async () => {
   return await talkGateway.getTalks();

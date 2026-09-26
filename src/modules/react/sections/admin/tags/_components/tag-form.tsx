@@ -1,47 +1,39 @@
-"use client";
+'use client';
 
-import { Input } from "@/app/_components/ui/input";
-import { Button } from "@/app/_components/ui/button";
-import { Resolver, SubmitHandler, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { Input } from '@/app/_components/ui/input';
+import { Button } from '@/app/_components/ui/button';
+import { Resolver, SubmitHandler, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import {
   CreateTagInputs,
   createTagSchema,
-} from "@/modules/react/sections/admin/tags/_schemas/create-tag";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/app/_components/ui/form";
-import { useCreateTag } from "@/modules/core/mutations/useCreateTag";
-import { useUpdateTag } from "@/modules/core/mutations/useUpdateTag";
-import * as React from "react";
-import { useRouter } from "next/navigation";
-import { GetTagResponse } from "@/modules/core/model/Tag";
-import { useAuthAction } from "@/app/_hooks/use-auth-action";
+} from '@/modules/react/sections/admin/tags/_schemas/create-tag';
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/app/_components/ui/form';
+import { useCreateTag } from '@/modules/core/mutations/useCreateTag';
+import { useUpdateTag } from '@/modules/core/mutations/useUpdateTag';
+import * as React from 'react';
+import { useRouter } from 'next/navigation';
+import { GetTagResponse } from '@/modules/core/model/Tag';
+import { useAuthAction } from '@/app/_hooks/use-auth-action';
 import {
   UpdateTagInputs,
   updateTagSchema,
-} from "@/modules/react/sections/admin/tags/_schemas/update-tag";
+} from '@/modules/react/sections/admin/tags/_schemas/update-tag';
 
 interface TagFormProps {
-  mode: "create" | "update";
+  mode: 'create' | 'update';
   initialData?: GetTagResponse;
 }
 
 const TagForm = ({ mode, initialData }: TagFormProps) => {
-  const form = useForm<
-    typeof mode extends "create" ? CreateTagInputs : UpdateTagInputs
-  >({
-    resolver: zodResolver(
-      mode === "create" ? createTagSchema : updateTagSchema
-    ) as Resolver<any>,
+  const form = useForm<typeof mode extends 'create' ? CreateTagInputs : UpdateTagInputs>({
+    resolver: zodResolver(mode === 'create' ? createTagSchema : updateTagSchema) as Resolver<
+      CreateTagInputs | UpdateTagInputs
+    >,
     defaultValues: {
-      name: "",
+      name: '',
     },
-    mode: "onChange",
+    mode: 'onChange',
   });
 
   const {
@@ -54,7 +46,7 @@ const TagForm = ({ mode, initialData }: TagFormProps) => {
 
   React.useEffect(() => {
     if (initialData) {
-      setValue("name", initialData.name);
+      setValue('name', initialData.name);
     }
   }, [initialData, setValue]);
 
@@ -66,18 +58,18 @@ const TagForm = ({ mode, initialData }: TagFormProps) => {
   const { handleAuthAction } = useAuthAction();
 
   const handleCreateOrUpdateTagSubmit: SubmitHandler<
-    typeof mode extends "create" ? CreateTagInputs : UpdateTagInputs
+    typeof mode extends 'create' ? CreateTagInputs : UpdateTagInputs
   > = (data) => {
     handleAuthAction(() => {
       const tag = {
         name: data.name,
       };
 
-      if (mode === "create") {
+      if (mode === 'create') {
         createTagMutation.mutate(tag, {
           onSuccess: () => {
             reset();
-            router.push("/admin/tags");
+            router.push('/admin/tags');
           },
         });
       } else {
@@ -91,7 +83,7 @@ const TagForm = ({ mode, initialData }: TagFormProps) => {
             onSuccess: () => {
               reset();
             },
-          }
+          },
         );
       }
     });
@@ -99,10 +91,7 @@ const TagForm = ({ mode, initialData }: TagFormProps) => {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={handleSubmit(handleCreateOrUpdateTagSubmit)}
-        className="flex flex-col gap-6"
-      >
+      <form onSubmit={handleSubmit(handleCreateOrUpdateTagSubmit)} className="flex flex-col gap-6">
         <FormField
           control={control}
           name="name"
@@ -116,12 +105,8 @@ const TagForm = ({ mode, initialData }: TagFormProps) => {
           )}
         />
 
-        <Button
-          type="submit"
-          disabled={!isValid}
-          className="rounded-full self-end"
-        >
-          {mode === "create" ? "Créer" : "Mettre à jour"}
+        <Button type="submit" disabled={!isValid} className="rounded-full self-end">
+          {mode === 'create' ? 'Créer' : 'Mettre à jour'}
         </Button>
       </form>
     </Form>

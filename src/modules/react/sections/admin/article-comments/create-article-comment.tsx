@@ -1,4 +1,4 @@
-import ArticleCommentForm from "@/modules/react/sections/admin/article-comments/_components/article-comment-form";
+import ArticleCommentForm from '@/modules/react/sections/admin/article-comments/_components/article-comment-form';
 
 const CreateArticleComment = () => {
   return (

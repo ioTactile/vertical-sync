@@ -1,27 +1,20 @@
-"use client";
+'use client';
 
-import { cn } from "@/lib/utils";
-import {
-  Bell,
-  Library,
-  Map,
-  Menu,
-  MessageSquareText,
-  Settings,
-} from "lucide-react";
-import AppLogo from "@/app/_components/core/app-logo";
-import NotificationDropdown from "@/app/_components/core/notification-dropdown";
-import { UserButton } from "@clerk/nextjs";
-import { ThemeSwitcherDropdown } from "@/app/_components/core/theme-switcher-dropdown";
-import Link from "next/link";
+import { cn } from '@/lib/utils';
+import { Bell, Library, Map, Menu, MessageSquareText, Settings } from 'lucide-react';
+import AppLogo from '@/app/_components/core/app-logo';
+import NotificationDropdown from '@/app/_components/core/notification-dropdown';
+import { UserButton } from '@clerk/nextjs';
+import { ThemeSwitcherDropdown } from '@/app/_components/core/theme-switcher-dropdown';
+import Link from 'next/link';
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
   navigationMenuTriggerStyle,
-} from "@/app/_components/ui/navigation-menu";
-import { Separator } from "@/app/_components/ui/separator";
+} from '@/app/_components/ui/navigation-menu';
+import { Separator } from '@/app/_components/ui/separator';
 import {
   Sheet,
   SheetClose,
@@ -30,15 +23,15 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/app/_components/ui/sheet";
-import { Button } from "@/app/_components/ui/button";
-import { NavigationItem } from "@/types/navigation-item";
-import { useUserStore } from "@/modules/core/store/store";
+} from '@/app/_components/ui/sheet';
+import { Button } from '@/app/_components/ui/button';
+import { NavigationItem } from '@/types/navigation-item';
+import { useUserStore } from '@/modules/core/store/store';
 
 const mainMenuItems: NavigationItem<string>[] = [
-  { title: "Discussions", url: "/talks", icon: MessageSquareText },
-  { title: "Blog", url: "/blog?page=1", icon: Library },
-  { title: "Spots", url: "/spots", icon: Map },
+  { title: 'Discussions', url: '/talks', icon: MessageSquareText },
+  { title: 'Blog', url: '/blog?page=1', icon: Library },
+  { title: 'Spots', url: '/spots', icon: Map },
 ];
 
 const Header = () => {
@@ -46,7 +39,7 @@ const Header = () => {
   const { user } = useUserStore();
 
   const menuItems = isAdmin
-    ? [...mainMenuItems, { title: "Admin", url: "/admin", icon: Settings }]
+    ? [...mainMenuItems, { title: 'Admin', url: '/admin', icon: Settings }]
     : mainMenuItems;
 
   return (
@@ -55,7 +48,6 @@ const Header = () => {
         <div className="flex items-center gap-8">
           <AppLogo />
 
-          {/* Main Navigation */}
           <NavigationMenu className="hidden md:block">
             <NavigationMenuList className="space-x-2">
               {menuItems.map((item, index) => (
@@ -63,10 +55,7 @@ const Header = () => {
                   <NavigationMenuLink asChild>
                     <Link
                       href={item.url}
-                      className={cn(
-                        navigationMenuTriggerStyle(),
-                        "rounded-full",
-                      )}
+                      className={cn(navigationMenuTriggerStyle(), 'rounded-full')}
                     >
                       {item.title}
                     </Link>
@@ -77,16 +66,12 @@ const Header = () => {
           </NavigationMenu>
         </div>
 
-        {/* User Navigation */}
         <div className="hidden items-center space-x-2 md:flex">
           <ThemeSwitcherDropdown />
           {user && <NotificationDropdown userId={user.id} />}
           <div className="flex">
             {user ? (
-              <UserButton
-                userProfileMode="navigation"
-                userProfileUrl="/user-profile"
-              />
+              <UserButton userProfileMode="navigation" userProfileUrl="/user-profile" />
             ) : (
               <Button variant="outline" asChild className="rounded-full">
                 <Link href="/auth/sign-in">Connexion</Link>
@@ -95,7 +80,6 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Mobile Menu */}
         <Sheet>
           <SheetTrigger asChild>
             <Button variant="ghost" size="icon" className="md:hidden">
@@ -106,15 +90,11 @@ const Header = () => {
           <SheetContent side="right" className="z-2000 w-75 sm:w-100">
             <SheetHeader>
               <SheetTitle className="text-left">Vertical Sync</SheetTitle>
-              <SheetDescription>
-                Le hub des escaladeurs de France
-              </SheetDescription>
+              <SheetDescription>Le hub des escaladeurs de France</SheetDescription>
             </SheetHeader>
             <nav className="mt-6 flex flex-col space-y-4">
               <div>
-                <h2 className="mb-2 text-sm font-semibold text-muted-foreground">
-                  Menu
-                </h2>
+                <h2 className="mb-2 text-sm font-semibold text-muted-foreground">Menu</h2>
                 {menuItems.map((item, index) => (
                   <SheetClose asChild key={index}>
                     <Link
@@ -131,9 +111,7 @@ const Header = () => {
 
               {user && (
                 <div>
-                  <h2 className="mb-2 text-sm font-semibold text-muted-foreground">
-                    Compte
-                  </h2>
+                  <h2 className="mb-2 text-sm font-semibold text-muted-foreground">Compte</h2>
                   <SheetClose asChild>
                     <Link
                       href="/spots"
@@ -157,9 +135,9 @@ const Header = () => {
                       showName={true}
                       appearance={{
                         elements: {
-                          userButtonBox: "flex-row-reverse",
-                          userButtonAvatarBox: "h-5 w-5",
-                          userButtonOuterIdentifier: "text-foreground",
+                          userButtonBox: 'flex-row-reverse',
+                          userButtonAvatarBox: 'h-5 w-5',
+                          userButtonOuterIdentifier: 'text-foreground',
                         },
                       }}
                     />

@@ -1,6 +1,6 @@
-import { SITE_NAME } from "@/app/_constants/seo";
-import TalksPage from "@/modules/react/pages/TalksPage";
-import { Metadata } from "next";
+import { SITE_NAME } from '@/app/_constants/seo';
+import TalksPage from '@/modules/react/pages/TalksPage';
+import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: `${SITE_NAME} - Discussions`,

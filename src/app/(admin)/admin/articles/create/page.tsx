@@ -1,5 +1,5 @@
-import CreateArticlePage from "@/modules/react/sections/admin/articles/create-article";
+import AdminCreateArticlePage from "@/modules/react/pages/AdminCreateArticlePage";
 
 export default function AdminCreateArticle() {
-  return <CreateArticlePage />;
+  return <AdminCreateArticlePage />;
 }

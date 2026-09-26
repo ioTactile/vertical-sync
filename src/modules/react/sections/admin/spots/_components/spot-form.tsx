@@ -33,7 +33,7 @@ import {
   ClimbingSpotDifficulty,
   ClimbingSpotStatus,
   ClimbingSpotType,
-} from "@/prisma/client";
+} from "@/modules/core/domain/enums";
 import FilePreview from "@/app/_components/core/file-preview";
 import { FileUpload } from "@/app/_components/ui/file-upload";
 import { Checkbox } from "@/app/_components/ui/checkbox";

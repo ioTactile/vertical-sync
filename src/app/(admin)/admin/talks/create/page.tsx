@@ -1,5 +1,5 @@
-import CreateTalkPage from "@/modules/react/sections/admin/talks/create-talk";
+import AdminCreateTalkPage from "@/modules/react/pages/AdminCreateTalkPage";
 
 export default function AdminCreateTalk() {
-  return <CreateTalkPage />;
+  return <AdminCreateTalkPage />;
 }

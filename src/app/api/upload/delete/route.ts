@@ -1,4 +1,4 @@
-import { uploadService } from "@/modules/core/service/upload.service";
+import { uploadService } from "@/modules/core/di/container";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {

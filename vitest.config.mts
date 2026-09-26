@@ -1,10 +1,18 @@
 import { defineConfig } from "vitest/config";
-import tsconfigPaths from "vite-tsconfig-paths";
 import react from "@vitejs/plugin-react";
 import path from "path";
+import { fileURLToPath } from "url";
+
+const rootDir = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
-  plugins: [tsconfigPaths(), react()],
+  plugins: [react()],
+  resolve: {
+    tsconfigPaths: true,
+    alias: {
+      "@": path.resolve(rootDir, "./src"),
+    },
+  },
   test: {
     environment: "jsdom",
     setupFiles: ["./src/__tests__/setup.ts"],
@@ -27,11 +35,6 @@ export default defineConfig({
         branches: 80,
         statements: 80,
       },
-    },
-  },
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
     },
   },
 });

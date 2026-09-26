@@ -1,17 +1,16 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { articleGateway } from "@/modules/core/gateway-infra/api.article-gateway";
-import { useToast } from "@/app/_hooks/use-toast";
+import { notify } from "@/modules/core/ports/notifier";
 
 export function useDeleteArticle() {
   const queryClient = useQueryClient();
-  const { toast } = useToast();
 
   return useMutation({
     mutationFn: (id: string) => articleGateway.deleteArticle(id),
     onSettled: async (_data, error) => {
       if (error) {
         console.error(error);
-        toast({
+        notify({
           title: "Erreur lors de la suppression de l'article",
           description: error.message,
           variant: "destructive",
@@ -25,7 +24,7 @@ export function useDeleteArticle() {
             queryKey: ["articles"],
           }),
         ]);
-        toast({
+        notify({
           title: "Article supprimé avec succès",
           description: "L'article a été supprimé avec succès",
         });

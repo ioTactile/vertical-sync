@@ -11,6 +11,7 @@ import {
 } from "@/app/_components/ui/dropdown-menu";
 import Link from "next/link";
 import { useDeleteArticleComment } from "@/modules/core/mutations/useDeleteArticleComment";
+import { DataTableFeatures } from "@/modules/react/sections/_components/data-table";
 
 export type ArticleComment = {
   id: string;
@@ -19,7 +20,7 @@ export type ArticleComment = {
   articleId: string;
 };
 
-export const columns: ColumnDef<ArticleComment>[] = [
+export const columns: ColumnDef<DataTableFeatures, ArticleComment>[] = [
   {
     accessorKey: "content",
     header: "Contenu",

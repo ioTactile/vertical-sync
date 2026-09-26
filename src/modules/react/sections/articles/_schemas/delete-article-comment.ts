@@ -1,10 +1,4 @@
-import { z } from "zod";
-
-export const deleteArticleCommentSchema = z.object({
-  articleId: z.string().cuid(),
-  articleCommentId: z.string().cuid(),
-});
-
-export type DeleteArticleCommentInputs = z.infer<
-  typeof deleteArticleCommentSchema
->;
+export {
+  deleteArticleCommentSchema,
+  type DeleteArticleCommentInputs,
+} from "@/modules/core/schemas/article/delete-article-comment";

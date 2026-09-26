@@ -1,9 +1,8 @@
 import {
-  ArticleFilters,
-  articleRepository,
   IArticleRepository,
 } from "@/modules/core/repository/article.repository";
 import {
+  ArticleFilters,
   CreateArticleCommentDto,
   CreateArticleDto,
   DeleteArticleCommentDto,
@@ -13,6 +12,14 @@ import {
   GetArticleWithRelationsResponse,
   UpdateArticleDto,
 } from "@/modules/core/model/Article";
+import { DomainError } from "@/modules/core/domain/errors";
+import { buildArticleSlug } from "@/modules/core/utils/string";
+
+const CUID_PATTERN = /^c[a-z0-9]{24,27}$/i;
+
+export function isArticleCuid(identifier: string): boolean {
+  return CUID_PATTERN.test(identifier);
+}
 
 export class ArticleService {
   constructor(private readonly articleRepository: IArticleRepository) {}
@@ -47,22 +54,59 @@ export class ArticleService {
     return await this.articleRepository.findBySlug(slug, withRelations);
   }
 
+  /** Résout un article par CUID ou slug (règle métier, pas HTTP). */
+  async getArticleByIdentifier(
+    identifier: string,
+    withRelations?: boolean
+  ): Promise<GetArticleResponse | GetArticleWithRelationsResponse | null> {
+    if (!identifier?.trim()) {
+      throw new DomainError("Identifiant article requis", "VALIDATION");
+    }
+    if (isArticleCuid(identifier)) {
+      return await this.getArticleById(identifier, withRelations);
+    }
+    return await this.getArticleBySlug(identifier, withRelations);
+  }
+
   async createArticle(data: CreateArticleDto): Promise<void> {
-    return await this.articleRepository.create(data);
+    if (!data.authorId?.trim()) {
+      throw new DomainError("Auteur requis", "VALIDATION");
+    }
+    if (!data.title?.trim()) {
+      throw new DomainError("Titre requis", "VALIDATION");
+    }
+    if ((data.articleTags?.length ?? 0) > 3) {
+      throw new DomainError("Maximum 3 tags autorisés", "VALIDATION");
+    }
+    const slug = buildArticleSlug(data.title);
+    return await this.articleRepository.create({ ...data, slug });
   }
 
   async updateArticle(data: UpdateArticleDto): Promise<void> {
-    return await this.articleRepository.update(data);
+    if (!data.id?.trim()) {
+      throw new DomainError("Id article requis", "VALIDATION");
+    }
+    if (!data.title?.trim()) {
+      throw new DomainError("Titre requis", "VALIDATION");
+    }
+    const slug = buildArticleSlug(data.title);
+    return await this.articleRepository.update({ ...data, slug });
   }
 
   async updateArticlePublishStatus(
     id: string,
     published: boolean
   ): Promise<void> {
+    if (!id?.trim()) {
+      throw new DomainError("Id article requis", "VALIDATION");
+    }
     return await this.articleRepository.updatePublishStatus(id, published);
   }
 
   async deleteArticle(id: string): Promise<void> {
+    if (!id?.trim()) {
+      throw new DomainError("Id article requis", "VALIDATION");
+    }
     await this.articleRepository.delete(id);
   }
 
@@ -73,6 +117,9 @@ export class ArticleService {
   }
 
   async createArticleComment(data: CreateArticleCommentDto): Promise<void> {
+    if (!data.content?.trim()) {
+      throw new DomainError("Contenu du commentaire requis", "VALIDATION");
+    }
     return await this.articleRepository.createArticleComment(data);
   }
 
@@ -81,12 +128,16 @@ export class ArticleService {
   }
 
   async likeArticle(articleId: string, userId: string): Promise<void> {
+    if (!articleId || !userId) {
+      throw new DomainError("articleId et userId requis", "VALIDATION");
+    }
     await this.articleRepository.like(articleId, userId);
   }
 
   async unlikeArticle(articleId: string, userId: string): Promise<void> {
+    if (!articleId || !userId) {
+      throw new DomainError("articleId et userId requis", "VALIDATION");
+    }
     await this.articleRepository.unlike(articleId, userId);
   }
 }
-
-export const articleService = new ArticleService(articleRepository);

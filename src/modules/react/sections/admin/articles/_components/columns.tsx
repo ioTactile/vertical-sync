@@ -12,6 +12,7 @@ import {
 import Link from "next/link";
 import { useDeleteArticle } from "@/modules/core/mutations/useDeleteArticle";
 import { useUpdateArticlePublish } from "@/modules/core/mutations/useUpdateArticlePublish";
+import { DataTableFeatures } from "@/modules/react/sections/_components/data-table";
 
 export type Article = {
   id: string;
@@ -21,7 +22,7 @@ export type Article = {
   updatedAt: string;
 };
 
-export const columns: ColumnDef<Article>[] = [
+export const columns: ColumnDef<DataTableFeatures, Article>[] = [
   {
     accessorKey: "title",
     header: "Titre",

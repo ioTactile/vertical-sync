@@ -53,6 +53,3 @@ export class PrismaClimbingSpotConditionRepository
     });
   }
 }
-
-export const climbingSpotConditionRepository =
-  new PrismaClimbingSpotConditionRepository();

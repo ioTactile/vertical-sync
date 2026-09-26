@@ -1,8 +1,4 @@
-import { z } from "zod";
-
-export const deleteTalkCommentSchema = z.object({
-  talkId: z.string().cuid(),
-  talkCommentId: z.string().cuid(),
-});
-
-export type DeleteTalkCommentInputs = z.infer<typeof deleteTalkCommentSchema>;
+export {
+  deleteTalkCommentSchema,
+  type DeleteTalkCommentInputs,
+} from "@/modules/core/schemas/talk/delete-talk-comment";

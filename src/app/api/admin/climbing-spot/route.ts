@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { climbingSpotService } from "@/modules/core/service/climbing-spot.service";
+import { climbingSpotService } from "@/modules/core/di/container";
 
 export async function GET() {
   try {

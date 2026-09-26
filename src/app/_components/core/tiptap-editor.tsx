@@ -143,12 +143,10 @@ export const TipTapEditor = <
     [placeholder],
   );
 
-  const initialContent = React.useRef(value ?? "");
-
   const editor = useEditor({
     immediatelyRender: false,
     extensions,
-    content: initialContent.current,
+    content: value ?? "",
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());
     },

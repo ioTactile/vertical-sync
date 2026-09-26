@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { tagService } from "@/modules/core/service/tag.service";
+import { tagService } from "@/modules/core/di/container";
 
 export async function GET(
   _request: Request,

@@ -1,4 +1,5 @@
 import {
+  ArticleFilters,
   CreateArticleDto,
   GetArticleCommentsResponse,
   GetArticleWithRelationsResponse,
@@ -8,7 +9,6 @@ import {
   CreateArticleLikeDto,
   GetArticleResponse,
 } from "@/modules/core/model/Article";
-import { ArticleFilters } from "@/modules/core/repository/article.repository";
 
 export interface IArticleGateway {
   getPublicArticles: (

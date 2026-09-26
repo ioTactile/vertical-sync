@@ -1,3 +1,7 @@
-import { User } from "@/prisma/client";
-
-export type Author = Omit<User, "email" | "createdAt" | "updatedAt">;
+/** Auteur public (sans email / timestamps). */
+export type Author = {
+  id: string;
+  clerkId: string;
+  name: string | null;
+  imageUrl: string | null;
+};

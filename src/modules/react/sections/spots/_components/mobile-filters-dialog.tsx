@@ -8,7 +8,7 @@ import {
 } from "@/app/_components/ui/dialog";
 import { Input } from "@/app/_components/ui/input";
 import { Search, SlidersHorizontal } from "lucide-react";
-import { ClimbingSpotType, ClimbingSpotDifficulty } from "@/prisma/client";
+import { ClimbingSpotType, ClimbingSpotDifficulty } from "@/modules/core/domain/enums";
 import {
   CLIMBING_SPOT_TYPE_LABELS,
   CLIMBING_SPOT_DIFFICULTY_LABELS,

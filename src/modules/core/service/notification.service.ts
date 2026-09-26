@@ -4,7 +4,6 @@ import type {
 } from "@/modules/core/model/Notification";
 import {
   INotificationRepository,
-  notificationRepository,
 } from "@/modules/core/repository/notification.repository";
 
 export class NotificationService {
@@ -37,6 +36,3 @@ export class NotificationService {
   }
 }
 
-export const notificationService = new NotificationService(
-  notificationRepository,
-);

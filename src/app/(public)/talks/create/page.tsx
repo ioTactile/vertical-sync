@@ -1,5 +1,5 @@
 import { SITE_NAME } from "@/app/_constants/seo";
-import CreateTalkPage from "@/modules/react/sections/talks/create-talk";
+import CreateTalkPage from "@/modules/react/pages/CreateTalkPage";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

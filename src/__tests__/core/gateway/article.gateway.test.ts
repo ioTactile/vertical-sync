@@ -12,7 +12,7 @@ import {
   mockDeleteArticleCommentDto,
 } from "@/__tests__/fixtures/article.fixture";
 import { mockUser } from "@/__tests__/fixtures/user.fixture";
-import { ArticleFilters } from "@/modules/core/repository/article.repository";
+import { ArticleFilters } from "@/modules/core/model/Article";
 
 vi.mock("@/lib/globals", () => ({
   axiosInstance: {

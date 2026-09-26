@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useDropzone } from "react-dropzone";
 import { cn } from "@/lib/utils";
-import { Loader2, UploadCloud } from "lucide-react";
+import { CloudUpload, Loader2 } from "lucide-react";
 
 interface FileUploadProps {
   onUpload: (files: File[]) => void;
@@ -45,7 +45,7 @@ export const FileUpload = ({
       ) : (
         <>
           <input {...getInputProps()} />
-          <UploadCloud className="h-10 w-10 text-muted-foreground" />
+          <CloudUpload className="h-10 w-10 text-muted-foreground" />
           <p className="text-sm text-muted-foreground text-center">{label}</p>
         </>
       )}

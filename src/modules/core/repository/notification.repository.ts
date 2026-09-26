@@ -77,4 +77,3 @@ export class PrismaNotificationRepository implements INotificationRepository {
   }
 }
 
-export const notificationRepository = new PrismaNotificationRepository();

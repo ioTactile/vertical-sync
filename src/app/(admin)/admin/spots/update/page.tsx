@@ -1,5 +1,5 @@
-import UpdateSpotPage from "@/modules/react/sections/admin/spots/update-spot";
+import AdminUpdateSpotPage from "@/modules/react/pages/AdminUpdateSpotPage";
 
 export default function AdminSpotsUpdate() {
-  return <UpdateSpotPage />;
+  return <AdminUpdateSpotPage />;
 }

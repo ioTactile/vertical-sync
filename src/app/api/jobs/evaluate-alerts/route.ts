@@ -1,4 +1,4 @@
-import { evaluateAlertsForAllUsers } from "@/modules/core/service/alert-evaluation.service";
+import { alertEvaluationService } from "@/modules/core/di/container";
 import { NextRequest, NextResponse } from "next/server";
 
 /**
@@ -15,14 +15,14 @@ function checkCronSecret(request: NextRequest): boolean {
 }
 
 async function runEvaluation() {
-  const result = await evaluateAlertsForAllUsers();
+  const result = await alertEvaluationService.evaluateAlertsForAllUsers();
   return NextResponse.json(
     {
       message: "Évaluation terminée",
       notificationsCreated: result.notificationsCreated,
       errors: result.errors,
     },
-    { status: 200 },
+    { status: 200 }
   );
 }
 

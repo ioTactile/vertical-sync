@@ -1,4 +1,4 @@
-import { climbingSpotService } from "@/modules/core/service/climbing-spot.service";
+import { climbingSpotService } from "@/modules/core/di/container";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(

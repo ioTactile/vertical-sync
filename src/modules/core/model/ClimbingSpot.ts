@@ -1,9 +1,37 @@
-import { CreateClimbingSpotInputs } from "@/modules/react/sections/spots/_schemas/create-climbing-spot";
-import { ClimbingSpot, ClimbingSpotComment } from "@/prisma/client";
+import { CreateClimbingSpotInputs } from "@/modules/core/schemas/climbing-spot/create-climbing-spot";
 import { Author } from "@/modules/core/model/User";
-import { UpdateClimbingSpotInputs } from "@/modules/react/sections/admin/spots/_schemas/update-climbing-spot";
-import { CreateClimbingSpotCommentInputs } from "@/modules/react/sections/spots/_schemas/create-climbing-spot-comment";
+import { UpdateClimbingSpotInputs } from "@/modules/core/schemas/climbing-spot/update-climbing-spot";
+import { CreateClimbingSpotCommentInputs } from "@/modules/core/schemas/climbing-spot/create-climbing-spot-comment";
 import { WeatherData } from "@/modules/core/model/Weather";
+import type {
+  ClimbingSpotDifficulty,
+  ClimbingSpotStatus,
+  ClimbingSpotType,
+} from "@/modules/core/domain/enums";
+
+export type ClimbingSpot = {
+  id: string;
+  name: string;
+  description: string | null;
+  country: string | null;
+  city: string | null;
+  imageUrls: string[];
+  types: ClimbingSpotType[];
+  difficulties: ClimbingSpotDifficulty[];
+  notation: number | null;
+  notationCount: number | null;
+  bestPeriod: string | null;
+  address: string | null;
+  websiteUrl: string | null;
+  phoneNumber: string | null;
+  email: string | null;
+  parkingAvailable: boolean | null;
+  toiletsAvailable: boolean | null;
+  status: ClimbingSpotStatus;
+  createdAt: Date;
+  updatedAt: Date;
+  authorId: string;
+};
 
 export type GetClimbingSpotResponse = ClimbingSpot & {
   coords: `POINT(${number} ${number})`;
@@ -34,7 +62,7 @@ export type GetClimbingSpotSearchResponse = {
   city: string;
 };
 
-export type GetClimbingSpotsSearchResponse = GetClimbingSpotsSearchResponse[];
+export type GetClimbingSpotsSearchResponse = GetClimbingSpotSearchResponse[];
 
 export type CreateClimbingSpotDto = {
   authorId: string;
@@ -53,6 +81,15 @@ export type UpdateClimbingSpotDto = {
   };
 } & Omit<UpdateClimbingSpotInputs, "latitude" | "longitude">;
 
+export type ClimbingSpotComment = {
+  content: string;
+  notation: number;
+  createdAt: Date;
+  updatedAt: Date;
+  climbingSpotId: string;
+  authorId: string;
+};
+
 export type GetClimbingSpotCommentResponse = ClimbingSpotComment & {
   author: Author & {
     _count: {
@@ -67,4 +104,3 @@ export type CreateClimbingSpotCommentDto = {
   authorId: string;
   climbingSpotId: string;
 } & CreateClimbingSpotCommentInputs;
-

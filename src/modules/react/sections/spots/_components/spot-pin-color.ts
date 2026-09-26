@@ -1,4 +1,4 @@
-import { ClimbingSpotType } from "@/prisma/client";
+import { ClimbingSpotType } from "@/modules/core/domain/enums";
 import { ExtendedClimbingSpot } from "@/modules/core/model/ClimbingSpot";
 
 export type SpotPinCategory =

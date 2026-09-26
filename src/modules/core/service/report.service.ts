@@ -4,7 +4,6 @@ import {
 } from "@/modules/core/model/Report";
 import {
   IReportRepository,
-  reportRepository,
 } from "@/modules/core/repository/report.repository";
 
 export class ReportService {
@@ -19,4 +18,3 @@ export class ReportService {
   }
 }
 
-export const reportService = new ReportService(reportRepository);

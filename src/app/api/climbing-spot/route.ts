@@ -1,5 +1,5 @@
 import { DEFAULT_LOCATION, DEFAULT_RADIUS } from "@/app/_constants/app";
-import { climbingSpotService } from "@/modules/core/service/climbing-spot.service";
+import { climbingSpotService } from "@/modules/core/di/container";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {

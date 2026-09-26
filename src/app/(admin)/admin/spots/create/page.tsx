@@ -1,5 +1,5 @@
-import CreateSpotPage from "@/modules/react/sections/admin/spots/create-spot";
+import AdminCreateSpotPage from "@/modules/react/pages/AdminCreateSpotPage";
 
 export default function AdminSpotsCreate() {
-  return <CreateSpotPage />;
+  return <AdminCreateSpotPage />;
 }

@@ -1,5 +1,6 @@
 import { IArticleGateway } from "@/modules/core/gateway/article.gateway";
 import {
+  ArticleFilters,
   CreateArticleDto,
   CreateArticleLikeDto,
   GetArticleCommentsResponse,
@@ -7,10 +8,9 @@ import {
   GetArticleWithRelationsResponse,
   GetArticlesResponse,
   UpdateArticleDto,
+  CreateArticleCommentDto,
 } from "@/modules/core/model/Article";
-import { CreateArticleCommentDto } from "@/modules/core/model/Article";
 import { axiosInstance } from "@/lib/globals";
-import { ArticleFilters } from "@/modules/core/repository/article.repository";
 
 export class ApiArticleGateway implements IArticleGateway {
   async getPublicArticles(

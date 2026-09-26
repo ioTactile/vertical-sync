@@ -1,4 +1,4 @@
-import { articleService } from "@/modules/core/service/article.service";
+import { articleService } from "@/modules/core/di/container";
 import { NextResponse } from "next/server";
 
 export async function PATCH(request: Request) {

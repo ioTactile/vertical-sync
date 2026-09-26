@@ -1,4 +1,4 @@
-import { notificationService } from "@/modules/core/service/notification.service";
+import { notificationService } from "@/modules/core/di/container";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {

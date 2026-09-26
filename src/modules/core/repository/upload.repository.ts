@@ -38,4 +38,3 @@ export class S3UploadRepository implements IUploadRepository {
   }
 }
 
-export const uploadRepository = new S3UploadRepository(s3Client);

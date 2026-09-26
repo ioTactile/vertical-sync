@@ -1,7 +1,6 @@
 import { WeatherData } from "@/modules/core/model/Weather";
 import {
   IWeatherRepository,
-  weatherRepository,
 } from "@/modules/core/repository/weather.repository";
 
 export class WeatherService {
@@ -12,5 +11,4 @@ export class WeatherService {
   }
 }
 
-export const weatherService = new WeatherService(weatherRepository);
 

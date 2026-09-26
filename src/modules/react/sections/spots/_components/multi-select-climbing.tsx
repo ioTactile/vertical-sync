@@ -25,7 +25,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Control } from "react-hook-form";
 import { CreateClimbingSpotInputs } from "@/modules/react/sections/spots/_schemas/create-climbing-spot";
-import { ClimbingSpotDifficulty, ClimbingSpotType } from "@/prisma/client";
+import { ClimbingSpotDifficulty, ClimbingSpotType } from "@/modules/core/domain/enums";
 
 interface MultiSelectClimbingProps {
   control: Control<CreateClimbingSpotInputs>;

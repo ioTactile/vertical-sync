@@ -4,7 +4,6 @@ import type {
 } from "@/modules/core/model/ClimbingSpotConditions";
 import {
   IClimbingSpotConditionRepository,
-  climbingSpotConditionRepository,
 } from "@/modules/core/repository/climbing-spot-condition.repository";
 
 export class ClimbingSpotConditionService {
@@ -25,6 +24,3 @@ export class ClimbingSpotConditionService {
   }
 }
 
-export const climbingSpotConditionService = new ClimbingSpotConditionService(
-  climbingSpotConditionRepository,
-);

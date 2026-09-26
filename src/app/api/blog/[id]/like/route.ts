@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { articleService } from "@/modules/core/service/article.service";
+import { articleService } from "@/modules/core/di/container";
 
 export async function POST(request: Request) {
   try {

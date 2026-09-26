@@ -1,18 +1,20 @@
-import { CreateTagInputs } from "@/modules/react/sections/admin/tags/_schemas/create-tag";
-import { UpdateTagInputs } from "@/modules/react/sections/admin/tags/_schemas/update-tag";
-import { Tag } from "@/prisma/client";
+import { CreateTagInputs } from "@/modules/core/schemas/tag/create-tag";
+import { UpdateTagInputs } from "@/modules/core/schemas/tag/update-tag";
 
-// Create Tag
+export type Tag = {
+  id: string;
+  name: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
 export type CreateTagDto = CreateTagInputs;
 
-// Update Tag
 export type UpdateTagDto = {
   id: string;
   updatedAt: Date;
 } & UpdateTagInputs;
 
-// Many Tags
 export type GetTagsResponse = Tag[];
 
-// One Tag
 export type GetTagResponse = Tag;

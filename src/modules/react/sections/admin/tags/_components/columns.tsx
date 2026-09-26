@@ -14,6 +14,7 @@ import {
 import Link from "next/link";
 import { useShare } from "@/app/_hooks/use-share";
 import { useDeleteTag } from "@/modules/core/mutations/useDeleteTag";
+import { DataTableFeatures } from "@/modules/react/sections/_components/data-table";
 
 export type Tag = {
   id: string;
@@ -21,7 +22,7 @@ export type Tag = {
   updatedAt: string;
 };
 
-export const columns: ColumnDef<Tag>[] = [
+export const columns: ColumnDef<DataTableFeatures, Tag>[] = [
   {
     accessorKey: "name",
     header: "Nom",

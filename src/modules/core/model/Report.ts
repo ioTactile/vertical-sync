@@ -1,6 +1,6 @@
-import { CreateReportInputs } from "@/modules/react/sections/_schemas/create-report";
-import { UpdateReportStatusInputs } from "@/modules/react/sections/admin/reports/_schemas/update-report-status";
-import { ReportEntityType } from "@/prisma/client";
+import { CreateReportInputs } from "@/modules/core/schemas/report/create-report";
+import { UpdateReportStatusInputs } from "@/modules/core/schemas/report/update-report-status";
+import type { ReportEntityType } from "@/modules/core/domain/enums";
 
 export type CreateReportDto = {
   reporterId: string;

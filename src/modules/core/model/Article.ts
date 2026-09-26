@@ -1,32 +1,61 @@
-import { Article, ArticleComment, ArticleTag } from "@/prisma/client";
-import { CreateArticleInputs } from "@/modules/react/sections/admin/articles/_schemas/create-article";
-import { UpdateArticleInputs } from "@/modules/react/sections/admin/articles/_schemas/update-article";
-import { CreateArticleCommentInputs } from "@/modules/react/sections/articles/_schemas/create-article-comment";
-import { CreateArticleLikeInputs } from "@/modules/react/sections/articles/_schemas/create-article-like";
-import { DeleteArticleCommentInputs } from "@/modules/react/sections/articles/_schemas/delete-article-comment";
+import { CreateArticleInputs } from "@/modules/core/schemas/article/create-article";
+import { UpdateArticleInputs } from "@/modules/core/schemas/article/update-article";
+import { CreateArticleCommentInputs } from "@/modules/core/schemas/article/create-article-comment";
+import { CreateArticleLikeInputs } from "@/modules/core/schemas/article/create-article-like";
+import { DeleteArticleCommentInputs } from "@/modules/core/schemas/article/delete-article-comment";
 import { Author } from "@/modules/core/model/User";
 
-// Create Article
+export type ArticleFilters = {
+  userId?: string;
+  page?: number;
+  publishedOnly?: boolean;
+};
+
+/** Entité Article (domaine). */
+export type Article = {
+  id: string;
+  title: string;
+  slug: string;
+  content: string;
+  imageUrl: string | null;
+  excerpt: string | null;
+  published: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  authorId: string;
+};
+
+export type ArticleTagLink = {
+  articleId: string;
+  tagId: string;
+  tag: {
+    name: string;
+  };
+};
+
+export type ArticleComment = {
+  id: string;
+  content: string;
+  createdAt: Date;
+  updatedAt: Date;
+  articleId: string;
+  authorId: string;
+  replyToId: string | null;
+  replyToUserId: string | null;
+};
+
 export type CreateArticleDto = {
   authorId: string;
 } & CreateArticleInputs;
-
-// Update Article
 
 export type UpdateArticleDto = {
   id: string;
   updatedAt: Date;
 } & UpdateArticleInputs;
 
-// Many Articles
-
 type ArticleWithRelations = {
   author: Author;
-  articleTags: (ArticleTag & {
-    tag: {
-      name: string;
-    };
-  })[];
+  articleTags: ArticleTagLink[];
   articleLikes?: {
     userId: string;
   }[];
@@ -41,15 +70,9 @@ export type GetArticlesResponse = {
   total?: number;
 };
 
-// One Article
-
 export type GetArticleResponse = Article;
 
-// One Article with relations
-
 export type GetArticleWithRelationsResponse = ArticleWithRelations;
-
-// Create Article Comment
 
 export type CreateArticleCommentDto = {
   articleId: string;
@@ -58,11 +81,9 @@ export type CreateArticleCommentDto = {
   replyToUserId: string | null;
 } & CreateArticleCommentInputs;
 
-// Article Comments
-
 type ArticleCommentWithRelations = {
   author: Author;
-  replies?: (Omit<ArticleComment, "replies"> & {
+  replies?: (ArticleComment & {
     author: Author;
     replyToUser: Author | null;
   })[];
@@ -71,20 +92,12 @@ type ArticleCommentWithRelations = {
 
 export type GetArticleCommentsResponse = ArticleCommentWithRelations[];
 
-// Article Comment
-
 export type GetArticleCommentResponse = ArticleCommentWithRelations;
 
-// Delete Article Comment
-
 export type DeleteArticleCommentDto = DeleteArticleCommentInputs;
-
-// Delete Article
 
 export type DeleteArticleDto = {
   id: string;
 };
-
-// Create/Delete Article Like
 
 export type CreateArticleLikeDto = CreateArticleLikeInputs;

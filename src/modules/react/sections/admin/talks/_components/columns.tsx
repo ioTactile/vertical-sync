@@ -11,6 +11,7 @@ import {
 } from "@/app/_components/ui/dropdown-menu";
 import Link from "next/link";
 import { useDeleteTalk } from "@/modules/core/mutations/useDeleteTalk";
+import { DataTableFeatures } from "@/modules/react/sections/_components/data-table";
 
 export type Talk = {
   id: string;
@@ -21,7 +22,7 @@ export type Talk = {
   updatedAt: string;
 };
 
-export const columns: ColumnDef<Talk>[] = [
+export const columns: ColumnDef<DataTableFeatures, Talk>[] = [
   {
     accessorKey: "title",
     header: "Titre",

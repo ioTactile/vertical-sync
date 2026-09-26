@@ -1,4 +1,4 @@
-import { reportService } from "@/modules/core/service/report.service";
+import { reportService } from "@/modules/core/di/container";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {

@@ -15,6 +15,7 @@ import {
 import { cn } from "@/lib/utils";
 import NextTopLoader from "nextjs-toploader";
 import StoreInitializer from "@/app/_providers/store-initializer";
+import NotifierProvider from "@/app/_providers/notifier-provider";
 import Footer from "@/app/_components/core/footer";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { frFR } from "@clerk/localizations";
@@ -119,14 +120,15 @@ export default async function RootLayout({
                 disableTransitionOnChange
               >
                 <StoreInitializer />
+                <NotifierProvider>
+                  <Header />
 
-                <Header />
+                  <main className="min-h-screen-minus-header">{children}</main>
 
-                <main className="min-h-screen-minus-header">{children}</main>
+                  <Footer />
 
-                <Footer />
-
-                <Toaster />
+                  <Toaster />
+                </NotifierProvider>
               </ThemeProvider>
             </NuqsAdapter>
           </ReactQueryClientProvider>

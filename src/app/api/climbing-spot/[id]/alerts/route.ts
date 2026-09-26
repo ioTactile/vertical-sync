@@ -1,4 +1,4 @@
-import { climbingSpotAlertService } from "@/modules/core/service/climbing-spot-alert.service";
+import { climbingSpotAlertService } from "@/modules/core/di/container";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(

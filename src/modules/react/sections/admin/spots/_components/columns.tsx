@@ -18,7 +18,8 @@ import {
   CLIMBING_SPOT_TYPE_LABELS,
 } from "@/types/enum";
 import { useDeleteClimbingSpot } from "@/modules/core/mutations/useDeleteClimbingSpot";
-import { ClimbingSpotStatus } from "@/prisma/client";
+import { ClimbingSpotStatus } from "@/modules/core/domain/enums";
+import { DataTableFeatures } from "@/modules/react/sections/_components/data-table";
 
 export type Spot = {
   id: string;
@@ -30,7 +31,7 @@ export type Spot = {
   status: string;
 };
 
-export const columns: ColumnDef<Spot>[] = [
+export const columns: ColumnDef<DataTableFeatures, Spot>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => {

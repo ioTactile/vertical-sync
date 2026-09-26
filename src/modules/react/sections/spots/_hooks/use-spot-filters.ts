@@ -4,7 +4,7 @@ import {
   ExtendedClimbingSpots,
   GetClimbingSpotsResponse,
 } from "@/modules/core/model/ClimbingSpot";
-import { ClimbingSpotDifficulty, ClimbingSpotType } from "@/prisma/client";
+import { ClimbingSpotDifficulty, ClimbingSpotType } from "@/modules/core/domain/enums";
 import * as React from "react";
 
 interface SpotFilters {

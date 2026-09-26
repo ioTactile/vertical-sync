@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { articleService } from "@/modules/core/service/article.service";
+import { articleService } from "@/modules/core/di/container";
+import { toErrorResponse } from "@/modules/core/http/to-error-response";
 
 export async function GET(request: Request) {
   try {
@@ -14,10 +15,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json(articles, { status: 200 });
   } catch (error) {
-    return NextResponse.json(
-      { error: "Erreur interne du serveur: " + error },
-      { status: 500 }
-    );
+    return toErrorResponse(error);
   }
 }
 
@@ -28,9 +26,6 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ message: "Article créé" }, { status: 201 });
   } catch (error) {
-    return NextResponse.json(
-      { error: "Erreur interne du serveur: " + error },
-      { status: 500 }
-    );
+    return toErrorResponse(error);
   }
 }

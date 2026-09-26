@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { talkService } from "@/modules/core/service/talk.service";
+import { talkService } from "@/modules/core/di/container";
 
 export async function DELETE(request: Request) {
   try {

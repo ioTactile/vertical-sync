@@ -1,22 +1,17 @@
 import prisma from "@/prisma";
 import {
+  ArticleFilters,
   DeleteArticleCommentDto,
   GetArticleCommentsResponse,
   GetArticleResponse,
   GetArticlesResponse,
   GetArticleWithRelationsResponse,
   UpdateArticleDto,
-} from "@/modules/core/model/Article";
-import {
   CreateArticleDto,
   CreateArticleCommentDto,
 } from "@/modules/core/model/Article";
 
-export interface ArticleFilters {
-  userId?: string;
-  page?: number;
-  publishedOnly?: boolean;
-}
+export type { ArticleFilters };
 
 export interface IArticleRepository {
   findMany(filters: ArticleFilters): Promise<GetArticlesResponse>;
@@ -28,8 +23,8 @@ export interface IArticleRepository {
     id: string,
     withRelations?: boolean
   ): Promise<GetArticleResponse | GetArticleWithRelationsResponse | null>;
-  create(data: CreateArticleDto): Promise<void>;
-  update(data: UpdateArticleDto): Promise<void>;
+  create(data: CreateArticleDto & { slug: string }): Promise<void>;
+  update(data: UpdateArticleDto & { slug: string }): Promise<void>;
   updatePublishStatus(id: string, published: boolean): Promise<void>;
   delete(id: string): Promise<void>;
   getArticleComments(articleId: string): Promise<GetArticleCommentsResponse>;
@@ -90,7 +85,11 @@ export class PrismaArticleRepository implements IArticleRepository {
     });
 
     if (page) {
-      const totalPromise = prisma.article.count();
+      const totalPromise = prisma.article.count({
+        where: {
+          ...(publishedOnly && { published: true }),
+        },
+      });
 
       const [articles, total] = await Promise.all([
         articlesPromise,
@@ -200,15 +199,12 @@ export class PrismaArticleRepository implements IArticleRepository {
     });
   }
 
-  async create(data: CreateArticleDto): Promise<void> {
-    const slug =
-      data.title.toLowerCase().replace(/ /g, "-") + "-" + Date.now().toString();
-
+  async create(data: CreateArticleDto & { slug: string }): Promise<void> {
     await prisma.article.create({
       data: {
         title: data.title,
         content: data.content,
-        slug,
+        slug: data.slug,
         excerpt: data.excerpt,
         imageUrl: data.imageUrl,
         authorId: data.authorId,
@@ -229,16 +225,13 @@ export class PrismaArticleRepository implements IArticleRepository {
     });
   }
 
-  async update(data: UpdateArticleDto): Promise<void> {
-    const slug =
-      data.title.toLowerCase().replace(/ /g, "-") + "-" + Date.now().toString();
-
+  async update(data: UpdateArticleDto & { slug: string }): Promise<void> {
     await prisma.article.update({
       where: { id: data.id },
       data: {
         title: data.title,
         content: data.content,
-        slug,
+        slug: data.slug,
         excerpt: data.excerpt,
         imageUrl: data.imageUrl,
         articleTags: {
@@ -344,4 +337,3 @@ export class PrismaArticleRepository implements IArticleRepository {
   }
 }
 
-export const articleRepository = new PrismaArticleRepository();

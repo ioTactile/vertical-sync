@@ -1,6 +1,5 @@
 import {
   IUploadRepository,
-  uploadRepository,
 } from "@/modules/core/repository/upload.repository";
 
 export class UploadService {
@@ -15,4 +14,3 @@ export class UploadService {
   }
 }
 
-export const uploadService = new UploadService(uploadRepository);

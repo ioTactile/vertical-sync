@@ -1,5 +1,8 @@
-export const TALK_TITLE_MAX_LENGTH = 300;
-export const TALK_EXCERPT_MAX_LENGTH = 500;
+export {
+  TALK_TITLE_MAX_LENGTH,
+  TALK_EXCERPT_MAX_LENGTH,
+} from "@/modules/core/constants/validation";
+
 export const GITHUB_URL = "https://github.com/ioTactile";
 export const EMAIL_CONTACT = "jbs.io@protonmail.com";
 

@@ -1,4 +1,4 @@
-import { climbingSpotConditionService } from "@/modules/core/service/climbing-spot-condition.service";
+import { climbingSpotConditionService } from "@/modules/core/di/container";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(

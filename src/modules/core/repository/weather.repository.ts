@@ -153,4 +153,3 @@ export class OpenMeteoRepository implements IWeatherRepository {
   }
 }
 
-export const weatherRepository = new OpenMeteoRepository();

@@ -1,5 +1,5 @@
 import NotFoundPage from "@/app/not-found";
-import AdminUpdateArticlePage from "@/modules/react/sections/admin/articles/update-article";
+import AdminUpdateArticlePage from "@/modules/react/pages/AdminUpdateArticlePage";
 import { PageProps } from "@/types/pages-props";
 
 export default async function AdminUpdateArticle({ searchParams }: PageProps) {

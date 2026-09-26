@@ -198,4 +198,3 @@ export class PrismaTalkRepository implements ITalkRepository {
   }
 }
 
-export const talkRepository = new PrismaTalkRepository();

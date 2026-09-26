@@ -12,7 +12,7 @@ import {
   ClimbingSpotDifficulty,
   ClimbingSpotStatus,
   ClimbingSpotType,
-} from "@/prisma/client";
+} from "@/modules/core/domain/enums";
 import { Prisma } from "@/prisma/generated/client/client";
 
 /** Neon/$queryRaw renvoie les tableaux d'enums Postgres sous forme `{INDOOR,OUTDOOR}`. */
@@ -36,7 +36,7 @@ function normalizeClimbingSpot(
 }
 
 export interface IClimbingSpotRepository {
-  findById(id: string): Promise<GetClimbingSpotResponse>;
+  findById(id: string): Promise<GetClimbingSpotResponse | null>;
   findMany(publishedOnly: boolean): Promise<GetClimbingSpotsResponse>;
   findByRadiusAndCoords(
     radius: number,
@@ -51,7 +51,7 @@ export interface IClimbingSpotRepository {
 }
 
 export class PrismaClimbingSpotRepository implements IClimbingSpotRepository {
-  async findById(id: string): Promise<GetClimbingSpotResponse> {
+  async findById(id: string): Promise<GetClimbingSpotResponse | null> {
     const [spot] = await prisma.$queryRaw<GetClimbingSpotResponse[]>`
       SELECT  
         id, name, description, country, city,
@@ -65,7 +65,7 @@ export class PrismaClimbingSpotRepository implements IClimbingSpotRepository {
       WHERE id = ${id}
       LIMIT 1
     `;
-    return spot ? normalizeClimbingSpot(spot) : spot;
+    return spot ? normalizeClimbingSpot(spot) : null;
   }
 
   async findMany(publishedOnly: boolean): Promise<GetClimbingSpotsResponse> {
@@ -268,4 +268,3 @@ export class PrismaClimbingSpotRepository implements IClimbingSpotRepository {
   }
 }
 
-export const climbingSpotRepository = new PrismaClimbingSpotRepository();

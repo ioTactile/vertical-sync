@@ -122,6 +122,3 @@ export class PrismaClimbingSpotAlertRepository
     return alert;
   }
 }
-
-export const climbingSpotAlertRepository =
-  new PrismaClimbingSpotAlertRepository();

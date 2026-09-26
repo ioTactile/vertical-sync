@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { weatherService } from "@/modules/core/service/weather.service";
+import { weatherService } from "@/modules/core/di/container";
 
 export async function GET(request: Request) {
   try {

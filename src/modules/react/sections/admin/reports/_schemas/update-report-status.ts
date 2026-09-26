@@ -1,8 +1,4 @@
-import { ReportStatus } from "@/prisma/client";
-import { z } from "zod";
-
-export const updateReportStatusSchema = z.object({
-  status: z.enum(ReportStatus),
-});
-
-export type UpdateReportStatusInputs = z.infer<typeof updateReportStatusSchema>;
+export {
+  updateReportStatusSchema,
+  type UpdateReportStatusInputs,
+} from "@/modules/core/schemas/report/update-report-status";

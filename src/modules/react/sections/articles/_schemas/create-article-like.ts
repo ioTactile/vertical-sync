@@ -1,8 +1,4 @@
-import { z } from "zod";
-
-export const createArticleLikeSchema = z.object({
-  articleId: z.string().cuid(),
-  userId: z.string().cuid(),
-});
-
-export type CreateArticleLikeInputs = z.infer<typeof createArticleLikeSchema>;
+export {
+  createArticleLikeSchema,
+  type CreateArticleLikeInputs,
+} from "@/modules/core/schemas/article/create-article-like";

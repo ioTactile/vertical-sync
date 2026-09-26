@@ -6,7 +6,7 @@ import {
   CLIMBING_SPOT_TYPE_LABELS,
   CLIMBING_SPOT_DIFFICULTY_LABELS,
 } from "@/types/enum";
-import { ClimbingSpotType, ClimbingSpotDifficulty } from "@/prisma/client";
+import { ClimbingSpotType, ClimbingSpotDifficulty } from "@/modules/core/domain/enums";
 import { Search } from "lucide-react";
 import * as React from "react";
 import {

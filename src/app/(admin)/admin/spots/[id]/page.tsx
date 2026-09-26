@@ -1,5 +1,5 @@
-import SpotPage from "@/modules/react/sections/admin/spots/spot";
+import AdminSpotPage from "@/modules/react/pages/AdminSpotPage";
 
 export default function AdminSpot() {
-  return <SpotPage />;
+  return <AdminSpotPage />;
 }

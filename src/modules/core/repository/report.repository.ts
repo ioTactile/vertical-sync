@@ -32,4 +32,3 @@ export class PrismaReportRepository implements IReportRepository {
   }
 }
 
-export const reportRepository = new PrismaReportRepository();

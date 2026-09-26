@@ -1,9 +1,6 @@
 import { NextResponse } from "next/server";
-import { articleService } from "@/modules/core/service/article.service";
-import {
-  GetArticleResponse,
-  GetArticleWithRelationsResponse,
-} from "@/modules/core/model/Article";
+import { articleService } from "@/modules/core/di/container";
+import { toErrorResponse } from "@/modules/core/http/to-error-response";
 
 export async function GET(
   request: Request,
@@ -13,21 +10,10 @@ export async function GET(
   const withRelations = request.url.includes("withRelations=true");
 
   try {
-    let article: GetArticleResponse | GetArticleWithRelationsResponse | null =
-      null;
-
-    // Vérifie si l'identifiant est un CUID
-    if (/^c[a-z0-9]{24,27}$/i.test(identifier)) {
-      article = await articleService.getArticleById(identifier, withRelations);
-    }
-
-    // Vérifie si l'identifiant est un slug (ex:article-sur-l'escalade-1739205155676)
-    if (!/^c[a-z0-9]{24,27}$/i.test(identifier)) {
-      article = await articleService.getArticleBySlug(
-        identifier,
-        withRelations
-      );
-    }
+    const article = await articleService.getArticleByIdentifier(
+      identifier,
+      withRelations
+    );
 
     if (!article) {
       return NextResponse.json(
@@ -38,10 +24,7 @@ export async function GET(
 
     return NextResponse.json(article, { status: 200 });
   } catch (error) {
-    return NextResponse.json(
-      { error: "Erreur interne du serveur: " + error },
-      { status: 500 }
-    );
+    return toErrorResponse(error);
   }
 }
 
@@ -57,10 +40,7 @@ export async function PATCH(request: Request) {
       { status: 200 }
     );
   } catch (error) {
-    return NextResponse.json(
-      { error: "Erreur interne du serveur: " + error },
-      { status: 500 }
-    );
+    return toErrorResponse(error);
   }
 }
 
@@ -71,9 +51,6 @@ export async function DELETE(request: Request) {
 
     return NextResponse.json({ message: "Article supprimé" }, { status: 200 });
   } catch (error) {
-    return NextResponse.json(
-      { error: "Erreur interne du serveur: " + error },
-      { status: 500 }
-    );
+    return toErrorResponse(error);
   }
 }

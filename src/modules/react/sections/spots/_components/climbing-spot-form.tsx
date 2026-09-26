@@ -6,7 +6,7 @@ import {
   createClimbingSpotSchema,
   CreateClimbingSpotInputs,
 } from "@/modules/react/sections/spots/_schemas/create-climbing-spot";
-import { ClimbingSpotDifficulty, ClimbingSpotType } from "@/prisma/client";
+import { ClimbingSpotDifficulty, ClimbingSpotType } from "@/modules/core/domain/enums";
 import { useAuthAction } from "@/app/_hooks/use-auth-action";
 import { useCreateClimbingSpot } from "@/modules/core/mutations/useCreateClimbingSpot";
 import { useToast } from "@/app/_hooks/use-toast";

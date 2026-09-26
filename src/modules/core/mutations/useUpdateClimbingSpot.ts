@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { UpdateClimbingSpotDto } from "@/modules/core/model/ClimbingSpot";
 import { climbingSpotGateway } from "@/modules/core/gateway-infra/api.climbing-spot-gateway";
-import { toast } from "@/app/_hooks/use-toast";
+import { notify } from "@/modules/core/ports/notifier";
 
 export function useUpdateClimbingSpot() {
   const queryClient = useQueryClient();
@@ -12,7 +12,7 @@ export function useUpdateClimbingSpot() {
     onSettled: async (_data, error) => {
       if (error) {
         console.error(error);
-        toast({
+        notify({
           title: "Erreur lors de la mise à jour du spot",
           description: error.message,
           variant: "destructive",

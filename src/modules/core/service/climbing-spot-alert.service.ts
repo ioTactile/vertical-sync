@@ -5,7 +5,6 @@ import type {
 } from "@/modules/core/model/ClimbingSpotAlert";
 import {
   IClimbingSpotAlertRepository,
-  climbingSpotAlertRepository,
 } from "@/modules/core/repository/climbing-spot-alert.repository";
 
 export class ClimbingSpotAlertService {
@@ -39,6 +38,3 @@ export class ClimbingSpotAlertService {
   }
 }
 
-export const climbingSpotAlertService = new ClimbingSpotAlertService(
-  climbingSpotAlertRepository,
-);
